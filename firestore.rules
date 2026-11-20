@@ -1,0 +1,158 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ================================================================
+    // REFUS PAR DÉFAUT — toute collection non listée est bloquée
+    // ================================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ================================================================
+    // Helpers partagés
+    // ================================================================
+
+    // Vérifie si l'utilisateur est authentifié
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Vérifie si l'utilisateur est admin via custom claim (jamais un champ Firestore)
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    // ================================================================
+    // users/{uid}
+    // ================================================================
+    match /users/{uid} {
+
+      // L'utilisateur lit son propre document ; admin lit tout
+      allow read: if (isAuthenticated() && request.auth.uid == uid)
+                  || isAdmin();
+
+      // Création : seulement si l'ID == son propre uid,
+      // et uniquement les champs autorisés (aucun champ "role")
+      allow create: if isAuthenticated()
+                    && request.auth.uid == uid
+                    && request.resource.data.keys().hasOnly([
+                         'displayName', 'email', 'photoURL',
+                         'createdAt', 'lastLoginAt'
+                       ])
+                    && request.resource.data.keys().hasAll([
+                         'displayName', 'email', 'createdAt', 'lastLoginAt'
+                       ]);
+
+      // Mise à jour : seulement les champs modifiables par le client
+      allow update: if isAuthenticated()
+                    && request.auth.uid == uid
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['displayName', 'photoURL', 'lastLoginAt']);
+
+      // Suppression : interdite côté client
+      allow delete: if false;
+    }
+
+    // ================================================================
+    // courses/{courseId}
+    // ================================================================
+    match /courses/{courseId} {
+
+      // Lecture publique si published ; admin lit tout (y compris draft)
+      allow read: if resource.data.status == 'published'
+                  || isAdmin();
+
+      // Écriture réservée aux admins
+      allow write: if isAdmin();
+    }
+
+    // ================================================================
+    // lessons/{lessonId}
+    // ================================================================
+    // ⚠️  IMPORTANT : Les règles Firestore ne filtrent PAS les requêtes.
+    // Côté client, toute requête sur la collection lessons DOIT être
+    // filtrée par courseId (where("courseId", "==", id)).
+    // Les leçons doivent être lues une par une ou par courseId
+    // pour un cours auquel l'élève a accès — jamais en lecture globale.
+    match /lessons/{lessonId} {
+
+      allow read: if
+        // Aperçu gratuit : accessible à tous
+        resource.data.isFreePreview == true
+        // Élève avec inscription active sur ce cours
+        || (isAuthenticated()
+            && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId))
+            && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId)).data.status == 'active')
+        // Admin
+        || isAdmin();
+
+      // Écriture réservée aux admins
+      allow write: if isAdmin();
+    }
+
+    // ================================================================
+    // enrollments/{enrollmentId}  (ID = uid_courseId)
+    // ================================================================
+    match /enrollments/{enrollmentId} {
+
+      // Élève lit ses propres inscriptions ; admin lit tout
+      allow read: if (isAuthenticated() && resource.data.uid == request.auth.uid)
+                  || isAdmin();
+
+      // L'élève peut UNIQUEMENT mettre à jour le champ progress
+      // de sa propre inscription active — avec validation stricte
+      allow update: if isAuthenticated()
+                    && resource.data.uid == request.auth.uid
+                    && resource.data.status == 'active'
+                    // Seul progress est modifié (et obligatoirement modifié)
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['progress'])
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                         .hasAny(['progress'])
+                    // Les champs immuables restent inchangés
+                    && request.resource.data.uid == resource.data.uid
+                    && request.resource.data.courseId == resource.data.courseId
+                    && request.resource.data.status == resource.data.status
+                    && request.resource.data.source == resource.data.source
+                    // progress ne contient que les champs autorisés
+                    && request.resource.data.progress.keys()
+                         .hasOnly(['completedLessonIds', 'lastLessonId'])
+                    // Taille bornée pour éviter les abus
+                    && request.resource.data.progress.completedLessonIds.size() <= 500
+                    && request.resource.data.progress.lastLessonId is string
+                    && request.resource.data.progress.lastLessonId.size() <= 128;
+
+      // Création, suppression, changement de status/source/paymentId/grantedAt :
+      // serveur uniquement → toujours refusé côté client
+      allow create, delete: if false;
+
+      // Admin peut lire mais pas écrire côté client (écriture via Admin SDK)
+      allow write: if false;
+    }
+
+    // ================================================================
+    // payments/{paymentId}
+    // ================================================================
+    match /payments/{paymentId} {
+
+      // Élève lit ses propres paiements ; admin lit tout
+      allow read: if (isAuthenticated() && resource.data.uid == request.auth.uid)
+                  || isAdmin();
+
+      // Aucune écriture côté client — toujours via Admin SDK (serveur)
+      allow write: if false;
+    }
+
+    // ================================================================
+    // adminLogs/{logId}
+    // Journal d'audit des actions admin — aucune lecture ni écriture client.
+    // Lecture et écriture exclusivement via Admin SDK (serveur).
+    // ================================================================
+    match /adminLogs/{logId} {
+      allow read, write: if false;
+    }
+
+  }
+}

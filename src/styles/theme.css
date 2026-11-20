@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --obsidian: #080B14;
+  --deep-navy: #14243B;
+  --ion-blue: #2864FF;
+  --aurora: #37D6D0;
+  --ice-white: #E8EDF5;
+}
+
+@theme {
+  --color-obsidian: #080B14;
+  --color-deep-navy: #14243B;
+  --color-ion-blue: #2864FF;
+  --color-aurora: #37D6D0;
+  --color-ice-white: #E8EDF5;
+
+  --font-display: var(--font-sora), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+}
+
+body {
+  background-color: var(--obsidian);
+  color: var(--ice-white);
+  font-family: var(--font-inter), sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Texture de grain subtile et légère (SVG data URI sans image externe) */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Animation lente de pulsation pour le symbole B-Portail */
+@keyframes portal-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 25px rgba(55, 214, 208, 0.3)) drop-shadow(0 0 50px rgba(40, 100, 255, 0.25));
+  }
+  50% {
+    transform: scale(1.025);
+    opacity: 1;
+    filter: drop-shadow(0 0 35px rgba(55, 214, 208, 0.5)) drop-shadow(0 0 70px rgba(40, 100, 255, 0.35));
+  }
+}
+
+.animate-portal-pulse {
+  animation: portal-pulse 6s ease-in-out infinite;
+}
+
+/* Respect strict des préférences de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

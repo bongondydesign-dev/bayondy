@@ -1,0 +1,391 @@
+{
+  "nav": {
+    "connexion": "Konekte",
+    "inscription": "Kreye kont",
+    "mesFormations": "Fòmasyon mwen yo",
+    "formations": "Fòmasyon yo",
+    "faq": "FAQ",
+    "kijan": "Kijan l mache",
+    "menu": "Meni",
+    "fermer": "Fèmen",
+    "profil": "Pwofil"
+  },
+  "paiement": {
+    "payer": "Peye",
+    "continuer": "Kontinye",
+    "enCours": "N ap verifye peman an",
+    "reussi": "Peman an pase",
+    "echoue": "Peman an pa pase"
+  },
+  "lecon": {
+    "terminee": "Leson fini"
+  },
+  "accueil": {
+    "titre": "BAYONDY",
+    "slogan": "Aprann. Kreye. Avanse.",
+    "description": "Platfòm fòmasyon videyo an kreyòl ayisyen pou devlope konpetans ou.",
+    "detail": "Vèsyon 0.1.0 • Aksè bonè",
+    "boutonPrincipal": "Kreye kont",
+    "boutonSecondaire": "Fòmasyon mwen yo"
+  },
+  "hero": {
+    "badge": "Fòmasyon an kreyòl",
+    "titre": "Aprann nan lang ou. Avanse pi vit.",
+    "titreLigne1": "Aprann nan lang ou.",
+    "titreLigne2Prefix": "Avanse pi ",
+    "titreLigne2Gradient": "vit.",
+    "sousTitre": "Fòmasyon videyo an kreyòl ayisyen. Swiv yo sou telefòn ou, nan ritm pa w.",
+    "cta": "Gade fòmasyon yo",
+    "ctaSecondaire": "Kijan l mache",
+    "apercu": {
+      "badge": "Lektè videyo",
+      "titre": "Leson 01 : Entwodiksyon ak baz yo",
+      "duree": "12:45",
+      "listeTitre": "Pwogram leson yo",
+      "lecon1": "01. Entwodiksyon ak baz yo",
+      "lecon1Duree": "12:45",
+      "lecon2": "02. Premye etap pratik",
+      "lecon2Duree": "18:20",
+      "lecon3": "03. Kreye premye pwojè w",
+      "lecon3Duree": "24:10",
+      "progression": "Pwogrè",
+      "progressionZero": "0%"
+    }
+  },
+  "affirmation": {
+    "badge": "Vizyon nou",
+    "texte": "Nou kwè chak moun dwe gen posiblite aprann konpetans modèn nan pwòp lang li, san baryè, dirèkteman sou telefòn li.",
+    "sousTexte": "Yon edikasyon pratik ki louvri pòt sou lavni."
+  },
+  "bento": {
+    "badge": "Tout sa w bezwen",
+    "titreSection": "Tout sa w bezwen pou w reyisi",
+    "sousTitreSection": "Yon platfòm senp, rapid e pratik, adapte ak reyalite w.",
+    "badgeCreole": "100% Kreyòl",
+    "badgeMobile": "Fèt pou mobil",
+    "badgePaiement": "Peman lokal",
+    "badgeAcces": "Otomatik",
+    "badgeProgression": "Swivi",
+    "badgeRevoir": "San limit",
+    "progressionCent": "100%"
+  },
+  "etapes": {
+    "titreSection": "Kijan l mache",
+    "sousTitreSection": "Twa etap senp pou w kòmanse aprann san traka.",
+    "aprann": {
+      "numero": "01",
+      "titre": "Aprann",
+      "description": "Chwazi yon fòmasyon epi gade leson yo nan kreyòl."
+    },
+    "kreye": {
+      "numero": "02",
+      "titre": "Kreye",
+      "description": "Pratike epi kreye pwojè pa w ak sa w aprann."
+    },
+    "avanse": {
+      "numero": "03",
+      "titre": "Avanse",
+      "description": "Swiv pwogrè w epi kontinye kote w te rete a."
+    }
+  },
+  "fonctionnalites": {
+    "titreSection": "Poukisa chwazi BAYONDY",
+    "sousTitreSection": "Yon eksperyans aprantisaj ki fèt espesyalman pou ou.",
+    "creole": {
+      "titre": "Leson an kreyòl",
+      "description": "Tout eksplikasyon yo klè, nan lang manman w, pou w konprann chak detay fasilman."
+    },
+    "mobile": {
+      "titre": "Fèt pou telefòn",
+      "description": "Swiv tout videyo yo sou nenpòt telefòn, menm lè koneksyon entènèt la pa twò rapid."
+    },
+    "paiement": {
+      "titre": "Peman lokal fasil",
+      "description": "Peye ak MonCash, NatCash oswa kat labank san difikilte."
+    },
+    "acces": {
+      "titre": "Aksè otomatik",
+      "description": "Kou peman an konfime, ou jwenn aksè nan leson yo imedyatman."
+    },
+    "progression": {
+      "titre": "Swiv pwogrè w",
+      "description": "Platfòm nan kenbe kote w te rive a pou w ka reprann nenpòt lè."
+    },
+    "revoir": {
+      "titre": "Gade yo tout tan",
+      "description": "Revi leson yo jan w vle, lè w vle, toutotan w bezwen pratike."
+    }
+  },
+  "une": {
+    "badge": "Fòmasyon k ap vini",
+    "titre": "Premye fòmasyon an ap vini talè",
+    "description": "N ap prepare premye kou a avèk anpil swen. Rete konekte pou w ka pami premye moun ki pral kòmanse.",
+    "cta": "Gade fòmasyon yo"
+  },
+  "tarifs": {
+    "titreSection": "Tarif klè e senp",
+    "badge": "Transparans",
+    "titre": "Pri yo ap anonse avan lansman",
+    "description": "Nou vle fè fòmasyon yo aksesib pou tout moun. Pri chak fòmasyon ap afiche klèman san okenn frè kache.",
+    "moyensTitre": "Mwayen peman aksepte :",
+    "moyens": "MonCash, NatCash, Kat labank"
+  },
+  "faq": {
+    "titreSection": "Kesyon moun poze souvan",
+    "sousTitreSection": "Tout sa w bezwen konnen anvan w kòmanse.",
+    "q1": "Kijan pou m peye yon fòmasyon ?",
+    "r1": "Ou ka peye dirèkteman sou platfòm nan ak MonCash, NatCash oswa kat labank ou.",
+    "q2": "Kijan m ap jwenn aksè apre peman an ?",
+    "r2": "Kou peman an fin valide, aksè a louvri otomatikman sou kont ou pou tout leson fòmasyon an.",
+    "q3": "Èske m ka swiv kou yo sou telefòn mwen ?",
+    "r3": "Wi, platfòm nan fèt espesyalman pou mache byen sou nenpòt kalite smartphone.",
+    "q4": "Nan ki lang fòmasyon yo ye ?",
+    "r4": "Tout fòmasyon yo fèt nan lang kreyòl ayisyen pou tout moun ka byen konprann.",
+    "q5": "Kijan m ka jwenn èd si m gen yon pwoblèm ?",
+    "r5": "Ou ka kontakte sipò a nenpòt ki lè atravè paj kontak la oswa adrès sipò nou an."
+  },
+  "final": {
+    "badge": "Kòmanse jodi a",
+    "titre": "Pare pou w kòmanse aprann ?",
+    "sousTitre": "Antre nan kominote BAYONDY jodi a epi kòmanse devlope nouvo konpetans.",
+    "cta": "Kreye kont"
+  },
+  "footer": {
+    "description": "Platfòm fòmasyon videyo an kreyòl ayisyen.",
+    "droits": "Tout dwa rezève.",
+    "navigationTitre": "Navigasyon",
+    "legalTitre": "Legal",
+    "liens": {
+      "faq": "FAQ",
+      "conditions": "Kondisyon itilizasyon",
+      "confidentialite": "Politik konfidansyalite",
+      "formations": "Fòmasyon yo"
+    }
+  },
+  "auth": {
+    "connexion": "Konekte",
+    "inscription": "Kreye kont",
+    "deconnexion": "Dekonekte",
+    "titreConnexion": "Konekte sou kont ou",
+    "sousTitreConnexion": "Kontinye aprann kote w te rete a.",
+    "titreInscription": "Kreye kont pa w",
+    "sousTitreInscription": "Antre nan kominote BAYONDY pou w kòmanse.",
+    "titreMotDePasseOublie": "Bliye motpas ou ?",
+    "sousTitreMotDePasseOublie": "Mete imèl ou pou n voye yon lyen pou w chanje motpas ou.",
+    "nom": "Non konplè",
+    "nomPlaceholder": "Egzanp: Jean Baptiste",
+    "email": "Adrès imèl",
+    "emailPlaceholder": "oumenm@egzanp.com",
+    "motDePasse": "Motpas",
+    "motDePassePlaceholder": "Omwen 8 karaktè",
+    "afficherMotDePasse": "Afiche motpas la",
+    "cacherMotDePasse": "Kache motpas la",
+    "motDePasseTropCourt": "Motpas la dwe gen omwen 8 karaktè.",
+    "ou": "Oswa",
+    "continuerAvecGoogle": "Kontinye ak Google",
+    "dejaCompte": "Ou gen yon kont deja ?",
+    "pasDeCompte": "Ou poko gen kont ?",
+    "lienInscription": "Kreye kont",
+    "lienConnexion": "Konekte",
+    "lienMotDePasseOublie": "Ou bliye motpas ou ?",
+    "boutonReinitialiser": "Voye lyen an",
+    "retourConnexion": "Retounen nan koneksyon",
+    "succesReinitialisation": "Si yon kont asosye ak imèl sa a, nou voye yon lyen pou chanje motpas la. Tanpri tcheke bwat mesaj ou.",
+    "chargement": "N ap trete sa...",
+    "erreurs": {
+      "emailDejaUtilise": "Gen yon kont ki deja anrejistre ak imèl sa a.",
+      "identifiantsInvalides": "Imèl oswa motpas la pa kòrèk.",
+      "motDePasseFaible": "Motpas la twò fèb. Tanpri chwazi yon motpas pi solid.",
+      "emailInvalide": "Fòma adrès imèl la pa kòrèk.",
+      "tropDeTentatives": "Gen twòp tantativ ki fèt. Tanpri tann yon ti moman anvan w reye.",
+      "popupFermee": "Fenèt koneksyon an fèmen anvan operasyon an te fini.",
+      "erreurReseau": "Gen yon pwoblèm koneksyon entènèt. Tanpri verifye rezo w la.",
+      "generique": "Gen yon erè ki pase. Tanpri reye ankò."
+    }
+  },
+  "profil": {
+    "titre": "Pwofil mwen",
+    "sousTitre": "Enfòmasyon sou kont ou",
+    "nom": "Non",
+    "email": "Imèl",
+    "nonDefini": "Pa defini",
+    "boutonDeconnexion": "Dekonekte",
+    "mesFormations": "Fòmasyon mwen yo",
+    "chargement": "N ap chaje enfòmasyon yo..."
+  },
+  "catalogue": {
+    "badge": "Katalòg",
+    "titre": "Tout fòmasyon yo",
+    "sousTitre": "Aprann konpetans modèn nan lang kreyòl, dirèkteman sou telefòn ou.",
+    "vide": "Fòmasyon yo ap vini talè",
+    "videDescription": "N ap prepare premye fòmasyon yo avèk anpil swen. Rete konekte pou w ka pami premye moun k ap kòmanse.",
+    "prixBientot": "Pri a ap anonse",
+    "peyemanBientot": "Peman an ap disponib talè",
+    "boutonInscrireConnexion": "Konekte pou w enskri",
+    "gadeFormasyon": "Gade fòmasyon an",
+    "lecons": "leson",
+    "leconSingulier": "leson",
+    "duree": "Dire",
+    "niveau": "Nivo",
+    "langue": "Lang",
+    "programme": "Pwogram fòmasyon an",
+    "aPropos": "Konsènan fòmasyon sa a",
+    "modules": "modil",
+    "moduleSingulier": "modil",
+    "retourCatalogue": "Retounen nan tout fòmasyon yo",
+    "niveaux": {
+      "debutant": "Debitan",
+      "intermediaire": "Entèmedyè",
+      "avance": "Avanse"
+    },
+    "langues": {
+      "ht": "Kreyòl ayisyen",
+      "fr": "Fransè",
+      "en": "Angle"
+    }
+  },
+  "erreur404": {
+    "badge": "Erè 404",
+    "titre": "Paj sa a pa egziste",
+    "description": "Paj w ap chèche a pa disponib, li ka deplase oswa efase.",
+    "retourAccueil": "Retounen nan akèy",
+    "voirFormations": "Gade fòmasyon yo"
+  },
+  "mesFormations": {
+    "titre": "Fòmasyon mwen yo",
+    "sousTitre": "Kontinye aprann kote w te rete a.",
+    "vide": "Ou poko gen okenn fòmasyon.",
+    "videDescription": "Eksplore tout fòmasyon ki disponib nan katalòg la pou w ka kòmanse aprann jodi a.",
+    "boutonDecouvrir": "Dekouvri fòmasyon yo",
+    "chargement": "N ap chaje fòmasyon w yo...",
+    "erreur": "Gen yon erè ki pase pandan n ap chaje fòmasyon w yo.",
+    "continuer": "Kontinye",
+    "progression": "Pwogrè",
+    "leconCourante": "Dènye leson gade",
+    "aucuneLecon": "Poko kòmanse",
+    "terminee": "Fini"
+  },
+  "admin": {
+    "akseRefize": "Aksè refize",
+    "akseRefizeDescription": "Ou dwe konekte ak yon kont admin pou w ka antre nan espas sa a.",
+    "navigation": "Navigasyon admin",
+    "nav": {
+      "tableau": "Tableau de bò",
+      "formations": "Fòmasyon yo",
+      "eleves": "Elèv yo",
+      "paiements": "Peman yo"
+    },
+    "tableau": {
+      "titre": "Tableau de bò",
+      "sousTitre": "Rezime aktivite BAYONDY.",
+      "formationsPubliees": "Fòmasyon pibliye",
+      "formationsDraft": "Brouyon",
+      "inscriptionsActives": "Enskripsyon aktif",
+      "elevesUniques": "Elèv inik"
+    },
+    "formations": {
+      "titre": "Fòmasyon yo",
+      "sousTitre": "Jere tout fòmasyon yo.",
+      "nouvelle": "Nouvo fòmasyon",
+      "vide": "Pa gen okenn fòmasyon yo.",
+      "infoGenerales": "Enfòmasyon jeneral",
+      "champSlug": "Slug (URL)",
+      "champTitre": "Tit",
+      "champTitrePlaceholder": "Ti Tit Fòmasyon an",
+      "champCourteDescription": "Deskripsyon kout",
+      "champCourteDescriptionPlaceholder": "Yon fraz kout ki dekri fòmasyon an",
+      "champDescription": "Deskripsyon konplè",
+      "champDescriptionPlaceholder": "Dekri fòmasyon an an detay...",
+      "champNiveau": "Nivo",
+      "champLangue": "Lang",
+      "champDuree": "Dire (minit)",
+      "champPrixUSD": "Pri USD",
+      "champPrixHTG": "Pri HTG",
+      "champPrixPlaceholder": "Kite vid si pa deside",
+      "champCoverUrl": "URL imaj kouverti",
+      "publier": "Pibliye",
+      "depublier": "Depibliyen",
+      "succesEnregistrement": "Fòmasyon anrejistre ak siksè.",
+      "statut": {
+        "publie": "Pibliye",
+        "brouillon": "Brouyon"
+      }
+    },
+    "lecons": {
+      "titre": "Leson yo",
+      "ajouter": "Ajoute leson",
+      "vide": "Pa gen leson yo."
+    },
+    "lecon": {
+      "ajouter": "Ajoute leson",
+      "modifier": "Modifye",
+      "archiver": "Achive",
+      "apercu": "Apèsi gratis",
+      "champModuleId": "ID Modil",
+      "champModuleTitre": "Tit Modil",
+      "champModuleTitrePlaceholder": "Modil 1 : Entwodiksyon",
+      "champTitre": "Tit Leson",
+      "champTitrePlaceholder": "Leson 1 : Prezantasyon",
+      "champVideoId": "YouTube Video ID (11 karaktè)",
+      "champOrdre": "Lòd",
+      "champDuree": "Dire (minit)",
+      "champApercu": "Apèsi gratis (tout moun ka wè)"
+    },
+    "eleves": {
+      "titre": "Elèv yo",
+      "sousTitre": "Jere aksè elèv yo nan fòmasyon yo.",
+      "accesManuel": "Bay / Retire aksè",
+      "liste": "Lis elèv yo",
+      "vide": "Pa gen elèv yo.",
+      "aucuneInscription": "Pa gen enskripsyon",
+      "formation": "Fòmasyon",
+      "action": "Aksyon",
+      "donner": "Bay aksè",
+      "retirer": "Retire aksè",
+      "appliquer": "Aplikye",
+      "accesBay": "Aksè bay ak siksè.",
+      "accesRetire": "Aksè retire ak siksè.",
+      "voirPlus": "Wè plis"
+    },
+    "paiements": {
+      "titre": "Peman yo",
+      "sousTitre": "Istwa tout peman yo.",
+      "vide": "Pa gen peman yo pou kounye a. Sistèm peman an ap vini nan etap 8.",
+      "colStatut": "Estati",
+      "colMontant": "Montan",
+      "colMethode": "Metòd",
+      "colCours": "Fòmasyon",
+      "colDate": "Dat",
+      "voirPlus": "Wè plis"
+    },
+    "statut": {
+      "publie": "Pibliye",
+      "brouillon": "Brouyon"
+    },
+    "enregistrer": "Anrejistre",
+    "enregistrement": "Anrejistreman...",
+    "modifier": "Modifye",
+    "archiver": "Achive",
+    "annuler": "Anile",
+    "chargement": "Chajman...",
+    "erreurChargement": "Gen yon erè pandan chajman. Tanpri reye.",
+    "erreurServeur": "Erè sèvè. Tanpri reye."
+  },
+  "lecteur": {
+    "nonInscrit": "Ou pa enskri nan fòmasyon sa a",
+    "nonInscritDescription": "Pou w ka gade tout leson yo, ou dwe enskri nan fòmasyon an anvan.",
+    "boutonVoirFormation": "Gade detay fòmasyon an",
+    "chargement": "N ap chaje leson yo...",
+    "erreur": "Gen yon pwoblèm ki pase pandan n ap chaje leson yo.",
+    "videoIndisponible": "Videyo sa a pa disponib kounye a.",
+    "lancerVideo": "Klike pou w gade videyo a",
+    "lesonTerminee": "Leson fini",
+    "dejaTerminee": "Fini ✓",
+    "enregistrement": "N ap anrejistre...",
+    "erreurEnregistrement": "Nou pa t ka anrejistre pwogrè w la. Tanpri reye.",
+    "listeLecons": "Lis leson yo",
+    "progressionGlobale": "Pwogrè jeneral",
+    "retourMesFormations": "Fòmasyon mwen yo",
+    "ressources": "Dokiman ak lyen util"
+  }
+}

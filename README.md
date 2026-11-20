@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BAYONDY
 
-## Getting Started
+Plateforme de formations vidéo en créole haïtien, optimisée pour le mobile et les connexions à faible bande passante.
 
-First, run the development server:
+## Installation
+
+```bash
+npm install
+```
+
+## Lancer en développement
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+L'application est accessible sur [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tester et valider
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Vérification du typage et du linting
+npm run lint
 
-## Learn More
+# Vérification du build de production
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Règles de sécurité
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Aucune clé secrète dans le code** : les clés et secrets d'API ne doivent jamais être commités ni écrits en dur. Utilisez exclusivement des variables d'environnement locales (`.env.local`), ignorées par Git.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Relecture linguistique
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Les textes en créole haïtien constituent une proposition initiale et doivent faire l'objet d'une validation par un locuteur natif avant mise en production finale.

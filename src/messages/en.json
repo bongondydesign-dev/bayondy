@@ -1,0 +1,391 @@
+{
+  "nav": {
+    "connexion": "Log in",
+    "inscription": "Sign up",
+    "mesFormations": "My courses",
+    "formations": "Courses",
+    "faq": "FAQ",
+    "kijan": "How it works",
+    "menu": "Menu",
+    "fermer": "Close",
+    "profil": "Profile"
+  },
+  "paiement": {
+    "payer": "Pay",
+    "continuer": "Continue",
+    "enCours": "Verifying payment",
+    "reussi": "Payment successful",
+    "echoue": "Payment failed"
+  },
+  "lecon": {
+    "terminee": "Lesson completed"
+  },
+  "accueil": {
+    "titre": "BAYONDY",
+    "slogan": "Learn. Create. Advance.",
+    "description": "Video training platform in Haitian Creole to develop your skills.",
+    "detail": "Version 0.1.0 • Early access",
+    "boutonPrincipal": "Sign up",
+    "boutonSecondaire": "My courses"
+  },
+  "hero": {
+    "badge": "Creole video training",
+    "titre": "Learn in your language. Advance faster.",
+    "titreLigne1": "Learn in your language.",
+    "titreLigne2Prefix": "Advance ",
+    "titreLigne2Gradient": "faster.",
+    "sousTitre": "Video training in Haitian Creole. Watch on your phone, at your own pace.",
+    "cta": "Browse courses",
+    "ctaSecondaire": "How it works",
+    "apercu": {
+      "badge": "Video player",
+      "titre": "Lesson 01: Introduction & fundamentals",
+      "duree": "12:45",
+      "listeTitre": "Course syllabus",
+      "lecon1": "01. Introduction and core concepts",
+      "lecon1Duree": "12:45",
+      "lecon2": "02. First practical steps",
+      "lecon2Duree": "18:20",
+      "lecon3": "03. Building your first project",
+      "lecon3Duree": "24:10",
+      "progression": "Progress",
+      "progressionZero": "0%"
+    }
+  },
+  "affirmation": {
+    "badge": "Our vision",
+    "texte": "We believe everyone should have the opportunity to learn modern skills in their own language, without barriers, directly on their phone.",
+    "sousTexte": "Practical education opening doors to the future."
+  },
+  "bento": {
+    "badge": "Everything you need",
+    "titreSection": "Everything you need to succeed",
+    "sousTitreSection": "A simple, fast, and practical platform tailored to your reality.",
+    "badgeCreole": "100% Creole",
+    "badgeMobile": "Mobile First",
+    "badgePaiement": "Local payments",
+    "badgeAcces": "Automatic",
+    "badgeProgression": "Tracking",
+    "badgeRevoir": "Unlimited",
+    "progressionCent": "100%"
+  },
+  "etapes": {
+    "titreSection": "How it works",
+    "sousTitreSection": "Three simple steps to start learning without hassle.",
+    "aprann": {
+      "numero": "01",
+      "titre": "Learn",
+      "description": "Choose a course and follow video lessons in Haitian Creole."
+    },
+    "kreye": {
+      "numero": "02",
+      "titre": "Create",
+      "description": "Practice and build your own projects with what you learn."
+    },
+    "avanse": {
+      "numero": "03",
+      "titre": "Advance",
+      "description": "Track your progress and resume right where you left off."
+    }
+  },
+  "fonctionnalites": {
+    "titreSection": "Why choose BAYONDY",
+    "sousTitreSection": "A learning experience built specifically for you.",
+    "creole": {
+      "titre": "Lessons in Creole",
+      "description": "Clear explanations in your native language so you understand every concept easily."
+    },
+    "mobile": {
+      "titre": "Built for mobile",
+      "description": "Watch every video on any phone, even with slow internet connectivity."
+    },
+    "paiement": {
+      "titre": "Easy local payment",
+      "description": "Pay securely using MonCash, NatCash, or debit/credit card."
+    },
+    "acces": {
+      "titre": "Instant access",
+      "description": "As soon as payment is confirmed, access to all lessons is automatically unlocked."
+    },
+    "progression": {
+      "titre": "Progress tracking",
+      "description": "The platform remembers your spot so you can jump back in whenever you want."
+    },
+    "revoir": {
+      "titre": "Unlimited replay",
+      "description": "Revisit lessons as many times as you need to reinforce your practice."
+    }
+  },
+  "une": {
+    "badge": "Upcoming course",
+    "titre": "First course coming soon",
+    "description": "We are preparing our first course with high quality. Register now to be among the first to start.",
+    "cta": "Browse courses"
+  },
+  "tarifs": {
+    "titreSection": "Clear & simple pricing",
+    "badge": "Transparency",
+    "titre": "Prices will be announced before launch",
+    "description": "We believe education should be accessible to everyone. Course prices will be displayed clearly with no hidden fees.",
+    "moyensTitre": "Accepted payment methods:",
+    "moyens": "MonCash, NatCash, Card"
+  },
+  "faq": {
+    "titreSection": "Frequently asked questions",
+    "sousTitreSection": "Everything you need to know before getting started.",
+    "q1": "How do I pay for a course?",
+    "r1": "You can pay directly on the platform using MonCash, NatCash, or your bank card."
+    ,"q2": "How do I get access after payment?",
+    "r2": "Once payment is validated, access to all course lessons is unlocked instantly on your account."
+    ,"q3": "Can I watch courses on my mobile phone?",
+    "r3": "Yes, the platform is specially designed to run smoothly on any smartphone."
+    ,"q4": "What language are the courses taught in?",
+    "r4": "All courses are entirely taught in Haitian Creole for clear and complete comprehension."
+    ,"q5": "How can I get help if I run into an issue?",
+    "r5": "You can reach support anytime through our contact page or support email."
+  },
+  "final": {
+    "badge": "Start today",
+    "titre": "Ready to start learning?",
+    "sousTitre": "Join the BAYONDY community today and start building new skills.",
+    "cta": "Sign up"
+  },
+  "footer": {
+    "description": "Video training platform in Haitian Creole.",
+    "droits": "All rights reserved.",
+    "navigationTitre": "Navigation",
+    "legalTitre": "Legal",
+    "liens": {
+      "faq": "FAQ",
+      "conditions": "Terms of service",
+      "confidentialite": "Privacy policy",
+      "formations": "Courses"
+    }
+  },
+  "auth": {
+    "connexion": "Log in",
+    "inscription": "Sign up",
+    "deconnexion": "Log out",
+    "titreConnexion": "Log in to your account",
+    "sousTitreConnexion": "Resume your learning where you left off.",
+    "titreInscription": "Create your account",
+    "sousTitreInscription": "Join the BAYONDY community to get started.",
+    "titreMotDePasseOublie": "Forgot password?",
+    "sousTitreMotDePasseOublie": "Enter your email to receive a password reset link.",
+    "nom": "Full name",
+    "nomPlaceholder": "e.g. John Doe",
+    "email": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "motDePasse": "Password",
+    "motDePassePlaceholder": "At least 8 characters",
+    "afficherMotDePasse": "Show password",
+    "cacherMotDePasse": "Hide password",
+    "motDePasseTropCourt": "Password must be at least 8 characters.",
+    "ou": "Or",
+    "continuerAvecGoogle": "Continue with Google",
+    "dejaCompte": "Already have an account?",
+    "pasDeCompte": "Don't have an account yet?",
+    "lienInscription": "Sign up",
+    "lienConnexion": "Log in",
+    "lienMotDePasseOublie": "Forgot password?",
+    "boutonReinitialiser": "Send reset link",
+    "retourConnexion": "Back to login",
+    "succesReinitialisation": "If an account is associated with this email, a reset link has been sent. Please check your inbox.",
+    "chargement": "Processing...",
+    "erreurs": {
+      "emailDejaUtilise": "An account already exists with this email address.",
+      "identifiantsInvalides": "Incorrect email or password.",
+      "motDePasseFaible": "The password is too weak. Please choose a stronger password.",
+      "emailInvalide": "The email address format is invalid.",
+      "tropDeTentatives": "Too many attempts. Please wait a moment before trying again.",
+      "popupFermee": "The sign-in window was closed before completion.",
+      "erreurReseau": "Network connection error. Please check your internet connection.",
+      "generique": "An error occurred. Please try again."
+    }
+  },
+  "profil": {
+    "titre": "My profile",
+    "sousTitre": "Your account information",
+    "nom": "Name",
+    "email": "Email",
+    "nonDefini": "Not defined",
+    "boutonDeconnexion": "Log out",
+    "mesFormations": "My courses",
+    "chargement": "Loading information..."
+  },
+  "catalogue": {
+    "badge": "Catalog",
+    "titre": "All courses",
+    "sousTitre": "Learn modern skills in Haitian Creole, directly on your phone.",
+    "vide": "Courses are coming soon",
+    "videDescription": "We are crafting the first courses with great care. Stay tuned to be among the first learners.",
+    "prixBientot": "Price announced soon",
+    "peyemanBientot": "Payment coming soon",
+    "boutonInscrireConnexion": "Sign in to enroll",
+    "gadeFormasyon": "View course",
+    "lecons": "lessons",
+    "leconSingulier": "lesson",
+    "duree": "Duration",
+    "niveau": "Level",
+    "langue": "Language",
+    "programme": "Course syllabus",
+    "aPropos": "About this course",
+    "modules": "modules",
+    "moduleSingulier": "module",
+    "retourCatalogue": "Back to all courses",
+    "niveaux": {
+      "debutant": "Beginner",
+      "intermediaire": "Intermediate",
+      "avance": "Advanced"
+    },
+    "langues": {
+      "ht": "Haitian Creole",
+      "fr": "French",
+      "en": "English"
+    }
+  },
+  "erreur404": {
+    "badge": "404 Error",
+    "titre": "Page not found",
+    "description": "The page you are looking for does not exist, has been moved or removed.",
+    "retourAccueil": "Back to home",
+    "voirFormations": "Browse courses"
+  },
+  "mesFormations": {
+    "titre": "My courses",
+    "sousTitre": "Pick up right where you left off.",
+    "vide": "You do not have any courses yet.",
+    "videDescription": "Explore all available courses in the catalog to start learning today.",
+    "boutonDecouvrir": "Discover courses",
+    "chargement": "Loading your courses...",
+    "erreur": "An error occurred while loading your courses.",
+    "continuer": "Continue",
+    "progression": "Progress",
+    "leconCourante": "Last lesson viewed",
+    "aucuneLecon": "Not started yet",
+    "terminee": "Completed"
+  },
+  "admin": {
+    "akseRefize": "Access denied",
+    "akseRefizeDescription": "You must be signed in with an admin account to access this area.",
+    "navigation": "Admin navigation",
+    "nav": {
+      "tableau": "Dashboard",
+      "formations": "Courses",
+      "eleves": "Students",
+      "paiements": "Payments"
+    },
+    "tableau": {
+      "titre": "Dashboard",
+      "sousTitre": "BAYONDY activity summary.",
+      "formationsPubliees": "Published courses",
+      "formationsDraft": "Drafts",
+      "inscriptionsActives": "Active enrollments",
+      "elevesUniques": "Unique students"
+    },
+    "formations": {
+      "titre": "Courses",
+      "sousTitre": "Manage all courses.",
+      "nouvelle": "New course",
+      "vide": "No courses yet.",
+      "infoGenerales": "General information",
+      "champSlug": "Slug (URL)",
+      "champTitre": "Title",
+      "champTitrePlaceholder": "Course Title",
+      "champCourteDescription": "Short description",
+      "champCourteDescriptionPlaceholder": "A short sentence describing the course",
+      "champDescription": "Full description",
+      "champDescriptionPlaceholder": "Describe the course in detail...",
+      "champNiveau": "Level",
+      "champLangue": "Language",
+      "champDuree": "Duration (minutes)",
+      "champPrixUSD": "Price USD",
+      "champPrixHTG": "Price HTG",
+      "champPrixPlaceholder": "Leave empty if not decided",
+      "champCoverUrl": "Cover image URL",
+      "publier": "Publish",
+      "depublier": "Unpublish",
+      "succesEnregistrement": "Course saved successfully.",
+      "statut": {
+        "publie": "Published",
+        "brouillon": "Draft"
+      }
+    },
+    "lecons": {
+      "titre": "Lessons",
+      "ajouter": "Add lesson",
+      "vide": "No lessons yet."
+    },
+    "lecon": {
+      "ajouter": "Add lesson",
+      "modifier": "Edit",
+      "archiver": "Archive",
+      "apercu": "Free preview",
+      "champModuleId": "Module ID",
+      "champModuleTitre": "Module title",
+      "champModuleTitrePlaceholder": "Module 1: Introduction",
+      "champTitre": "Lesson title",
+      "champTitrePlaceholder": "Lesson 1: Overview",
+      "champVideoId": "YouTube Video ID (11 characters)",
+      "champOrdre": "Order",
+      "champDuree": "Duration (minutes)",
+      "champApercu": "Free preview (visible to everyone)"
+    },
+    "eleves": {
+      "titre": "Students",
+      "sousTitre": "Manage student access to courses.",
+      "accesManuel": "Grant / Revoke access",
+      "liste": "Student list",
+      "vide": "No students yet.",
+      "aucuneInscription": "No enrollments",
+      "formation": "Course",
+      "action": "Action",
+      "donner": "Grant access",
+      "retirer": "Revoke access",
+      "appliquer": "Apply",
+      "accesBay": "Access granted successfully.",
+      "accesRetire": "Access revoked successfully.",
+      "voirPlus": "Load more"
+    },
+    "paiements": {
+      "titre": "Payments",
+      "sousTitre": "Full payment history.",
+      "vide": "No payments yet. Payment system coming in step 8.",
+      "colStatut": "Status",
+      "colMontant": "Amount",
+      "colMethode": "Method",
+      "colCours": "Course",
+      "colDate": "Date",
+      "voirPlus": "Load more"
+    },
+    "statut": {
+      "publie": "Published",
+      "brouillon": "Draft"
+    },
+    "enregistrer": "Save",
+    "enregistrement": "Saving...",
+    "modifier": "Edit",
+    "archiver": "Archive",
+    "annuler": "Cancel",
+    "chargement": "Loading...",
+    "erreurChargement": "Error loading data. Please try again.",
+    "erreurServeur": "Server error. Please try again."
+  },
+  "lecteur": {
+    "nonInscrit": "You are not enrolled in this course",
+    "nonInscritDescription": "To watch all lessons, you must first enroll in this course.",
+    "boutonVoirFormation": "View course details",
+    "chargement": "Loading lessons...",
+    "erreur": "An error occurred while loading lessons.",
+    "videoIndisponible": "This video is currently unavailable.",
+    "lancerVideo": "Click to watch video",
+    "lesonTerminee": "Mark as completed",
+    "dejaTerminee": "Completed ✓",
+    "enregistrement": "Saving...",
+    "erreurEnregistrement": "Could not save your progress. Please try again.",
+    "listeLecons": "Lesson list",
+    "progressionGlobale": "Overall progress",
+    "retourMesFormations": "My courses",
+    "ressources": "Documents and useful links"
+  }
+}

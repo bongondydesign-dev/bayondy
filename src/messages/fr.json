@@ -1,0 +1,391 @@
+{
+  "nav": {
+    "connexion": "Se connecter",
+    "inscription": "S'inscrire",
+    "mesFormations": "Mes formations",
+    "formations": "Formations",
+    "faq": "FAQ",
+    "kijan": "Comment ça marche",
+    "menu": "Menu",
+    "fermer": "Fermer",
+    "profil": "Profil"
+  },
+  "paiement": {
+    "payer": "Payer",
+    "continuer": "Continuer",
+    "enCours": "Paiement en cours de vérification",
+    "reussi": "Paiement réussi",
+    "echoue": "Paiement échoué"
+  },
+  "lecon": {
+    "terminee": "Leçon terminée"
+  },
+  "accueil": {
+    "titre": "BAYONDY",
+    "slogan": "Apprendre. Créer. Avancer.",
+    "description": "Plateforme de formations vidéo en créole haïtien pour développer vos compétences.",
+    "detail": "Version 0.1.0 • Accès anticipé",
+    "boutonPrincipal": "S'inscrire",
+    "boutonSecondaire": "Mes formations"
+  },
+  "hero": {
+    "badge": "Formations en créole",
+    "titre": "Apprenez dans votre langue. Progressez plus vite.",
+    "titreLigne1": "Apprenez dans votre langue.",
+    "titreLigne2Prefix": "Progressez plus ",
+    "titreLigne2Gradient": "vite.",
+    "sousTitre": "Formations vidéo en créole haïtien. Suivez-les sur votre téléphone, à votre propre rythme.",
+    "cta": "Voir les formations",
+    "ctaSecondaire": "Comment ça marche",
+    "apercu": {
+      "badge": "Lecteur vidéo",
+      "titre": "Leçon 01 : Introduction et bases",
+      "duree": "12:45",
+      "listeTitre": "Programme des leçons",
+      "lecon1": "01. Introduction et bases fondamentales",
+      "lecon1Duree": "12:45",
+      "lecon2": "02. Première étape pratique",
+      "lecon2Duree": "18:20",
+      "lecon3": "03. Créer votre premier projet",
+      "lecon3Duree": "24:10",
+      "progression": "Progression",
+      "progressionZero": "0%"
+    }
+  },
+  "affirmation": {
+    "badge": "Notre vision",
+    "texte": "Nous croyons que chacun doit pouvoir acquérir des compétences modernes dans sa propre langue, sans barrière, directement sur son téléphone.",
+    "sousTexte": "Une éducation pratique qui ouvre les portes de l'avenir."
+  },
+  "bento": {
+    "badge": "Tout ce dont vous avez besoin",
+    "titreSection": "Tout ce dont vous avez besoin pour réussir",
+    "sousTitreSection": "Une plateforme simple, rapide et pratique, adaptée à votre réalité.",
+    "badgeCreole": "100% Créole",
+    "badgeMobile": "Pensé pour mobile",
+    "badgePaiement": "Paiement local",
+    "badgeAcces": "Automatique",
+    "badgeProgression": "Suivi",
+    "badgeRevoir": "Illimité",
+    "progressionCent": "100%"
+  },
+  "etapes": {
+    "titreSection": "Comment ça marche",
+    "sousTitreSection": "Trois étapes simples pour débuter votre apprentissage sans friction.",
+    "aprann": {
+      "numero": "01",
+      "titre": "Apprendre",
+      "description": "Choisissez une formation et suivez les leçons en créole."
+    },
+    "kreye": {
+      "numero": "02",
+      "titre": "Créer",
+      "description": "Pratiquez et réalisez vos propres projets grâce à ce que vous apprenez."
+    },
+    "avanse": {
+      "numero": "03",
+      "titre": "Avancer",
+      "description": "Suivez vos progrès et reprenez exactement là où vous vous étiez arrêté."
+    }
+  },
+  "fonctionnalites": {
+    "titreSection": "Pourquoi choisir BAYONDY",
+    "sousTitreSection": "Une expérience d'apprentissage conçue spécifiquement pour vous.",
+    "creole": {
+      "titre": "Leçons en créole",
+      "description": "Des explications claires dans votre langue maternelle pour comprendre chaque notion facilement."
+    },
+    "mobile": {
+      "titre": "Pensé pour mobile",
+      "description": "Visionnez toutes les vidéos sur n'importe quel smartphone, même avec une connexion ralentie."
+    },
+    "paiement": {
+      "titre": "Paiement local simple",
+      "description": "Payez facilement avec MonCash, NatCash ou par carte bancaire en toute sécurité."
+    },
+    "acces": {
+      "titre": "Accès automatique",
+      "description": "Dès que le paiement est confirmé, vous accédez instantanément à l'ensemble des leçons."
+    },
+    "progression": {
+      "titre": "Suivi de progression",
+      "description": "La plateforme mémorise votre progression pour reprendre votre cours quand vous le souhaitez."
+    },
+    "revoir": {
+      "titre": "Visionnage illimité",
+      "description": "Revisitez les cours à tout moment et à volonté pour consolider votre pratique."
+    }
+  },
+  "une": {
+    "badge": "Formation à venir",
+    "titre": "La première formation arrive très bientôt",
+    "description": "Nous préparons le premier cours avec grand soin. Inscrivez-vous dès maintenant pour ne pas manquer le lancement.",
+    "cta": "Voir les formations"
+  },
+  "tarifs": {
+    "titreSection": "Tarifs clairs et accessibles",
+    "badge": "Transparence",
+    "titre": "Les prix seront annoncés avant le lancement",
+    "description": "Notre volonté est de rendre l'apprentissage accessible à tous. Les tarifs seront transparents, sans frais cachés.",
+    "moyensTitre": "Moyens de paiement acceptés :",
+    "moyens": "MonCash, NatCash, Carte bancaire"
+  },
+  "faq": {
+    "titreSection": "Foire aux questions",
+    "sousTitreSection": "Tout ce que vous devez savoir avant de commencer.",
+    "q1": "Comment payer une formation ?",
+    "r1": "Vous pouvez payer directement sur la plateforme avec MonCash, NatCash ou votre carte bancaire.",
+    "q2": "Comment obtenir l'accès après paiement ?",
+    "r2": "Dès validation du paiement, l'accès à l'ensemble des leçons est débloqué automatiquement sur votre compte.",
+    "q3": "Puis-je suivre les cours sur téléphone ?",
+    "r3": "Oui, la plateforme est spécialement optimisée pour fonctionner de manière fluide sur smartphone.",
+    "q4": "En quelle langue sont dispensés les cours ?",
+    "r4": "Toutes les formations sont entièrement dispensées en créole haïtien pour une assimilation parfaite.",
+    "q5": "Comment obtenir de l'aide en cas de problème ?",
+    "r5": "Vous pouvez contacter l'assistance à tout moment via la page de contact ou notre adresse de support."
+  },
+  "final": {
+    "badge": "Commencez aujourd'hui",
+    "titre": "Prêt à commencer votre apprentissage ?",
+    "sousTitre": "Rejoignez la communauté BAYONDY dès aujourd'hui et commencez à développer de nouvelles compétences.",
+    "cta": "Créer un compte"
+  },
+  "footer": {
+    "description": "Plateforme de formations vidéo en créole haïtien.",
+    "droits": "Tous droits réservés.",
+    "navigationTitre": "Navigation",
+    "legalTitre": "Légal",
+    "liens": {
+      "faq": "FAQ",
+      "conditions": "Conditions d'utilisation",
+      "confidentialite": "Politique de confidentialité",
+      "formations": "Formations"
+    }
+  },
+  "auth": {
+    "connexion": "Se connecter",
+    "inscription": "S'inscrire",
+    "deconnexion": "Se déconnecter",
+    "titreConnexion": "Connexion à votre compte",
+    "sousTitreConnexion": "Reprenez vos cours là où vous vous étiez arrêté.",
+    "titreInscription": "Créer votre compte",
+    "sousTitreInscription": "Rejoignez la communauté BAYONDY pour commencer.",
+    "titreMotDePasseOublie": "Mot de passe oublié ?",
+    "sousTitreMotDePasseOublie": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
+    "nom": "Nom complet",
+    "nomPlaceholder": "Exemple : Jean Dupont",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "vous@exemple.com",
+    "motDePasse": "Mot de passe",
+    "motDePassePlaceholder": "Au moins 8 caractères",
+    "afficherMotDePasse": "Afficher le mot de passe",
+    "cacherMotDePasse": "Masquer le mot de passe",
+    "motDePasseTropCourt": "Le mot de passe doit comporter au moins 8 caractères.",
+    "ou": "Ou",
+    "continuerAvecGoogle": "Continuer avec Google",
+    "dejaCompte": "Vous avez déjà un compte ?",
+    "pasDeCompte": "Vous n'avez pas encore de compte ?",
+    "lienInscription": "S'inscrire",
+    "lienConnexion": "Se connecter",
+    "lienMotDePasseOublie": "Mot de passe oublié ?",
+    "boutonReinitialiser": "Envoyer le lien",
+    "retourConnexion": "Retour à la connexion",
+    "succesReinitialisation": "Si un compte est associé à cet e-mail, un lien de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception.",
+    "chargement": "Traitement en cours...",
+    "erreurs": {
+      "emailDejaUtilise": "Un compte existe déjà avec cette adresse e-mail.",
+      "identifiantsInvalides": "Adresse e-mail ou mot de passe incorrect.",
+      "motDePasseFaible": "Le mot de passe est trop faible. Veuillez choisir un mot de passe plus robuste.",
+      "emailInvalide": "Le format de l'adresse e-mail est invalide.",
+      "tropDeTentatives": "Trop de tentatives infructueuses. Veuillez patienter un instant avant de réessayer.",
+      "popupFermee": "La fenêtre de connexion a été fermée avant la finalisation.",
+      "erreurReseau": "Problème de connexion réseau. Veuillez vérifier votre accès à Internet.",
+      "generique": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "profil": {
+    "titre": "Mon profil",
+    "sousTitre": "Informations de votre compte",
+    "nom": "Nom",
+    "email": "E-mail",
+    "nonDefini": "Non défini",
+    "boutonDeconnexion": "Se déconnecter",
+    "mesFormations": "Mes formations",
+    "chargement": "Chargement des informations..."
+  },
+  "catalogue": {
+    "badge": "Catalogue",
+    "titre": "Toutes les formations",
+    "sousTitre": "Développez des compétences modernes en créole, directement sur votre téléphone.",
+    "vide": "Les formations arrivent bientôt",
+    "videDescription": "Nous préparons les premières formations avec le plus grand soin. Restez connecté pour faire partie des premiers inscrits.",
+    "prixBientot": "Prix bientôt annoncé",
+    "peyemanBientot": "Paiement bientôt disponible",
+    "boutonInscrireConnexion": "Connectez-vous pour vous inscrire",
+    "gadeFormasyon": "Voir la formation",
+    "lecons": "leçons",
+    "leconSingulier": "leçon",
+    "duree": "Durée",
+    "niveau": "Niveau",
+    "langue": "Langue",
+    "programme": "Programme de la formation",
+    "aPropos": "À propos de cette formation",
+    "modules": "modules",
+    "moduleSingulier": "module",
+    "retourCatalogue": "Retour à toutes les formations",
+    "niveaux": {
+      "debutant": "Débutant",
+      "intermediaire": "Intermédiaire",
+      "avance": "Avancé"
+    },
+    "langues": {
+      "ht": "Créole haïtien",
+      "fr": "Français",
+      "en": "Anglais"
+    }
+  },
+  "erreur404": {
+    "badge": "Erreur 404",
+    "titre": "Cette page n'existe pas",
+    "description": "La page demandée est introuvable. Elle a peut-être été déplacée ou supprimée.",
+    "retourAccueil": "Retour à l'accueil",
+    "voirFormations": "Voir les formations"
+  },
+  "mesFormations": {
+    "titre": "Mes formations",
+    "sousTitre": "Reprenez votre apprentissage là où vous vous étiez arrêté.",
+    "vide": "Vous n'avez pas encore de formation.",
+    "videDescription": "Explorez toutes les formations disponibles au catalogue pour commencer à apprendre dès aujourd'hui.",
+    "boutonDecouvrir": "Découvrir les formations",
+    "chargement": "Chargement de vos formations...",
+    "erreur": "Une erreur est survenue lors du chargement de vos formations.",
+    "continuer": "Continuer",
+    "progression": "Progression",
+    "leconCourante": "Dernière leçon visionnée",
+    "aucuneLecon": "Pas encore commencé",
+    "terminee": "Terminé"
+  },
+  "admin": {
+    "akseRefize": "Accès refusé",
+    "akseRefizeDescription": "Vous devez être connecté avec un compte administrateur pour accéder à cet espace.",
+    "navigation": "Navigation admin",
+    "nav": {
+      "tableau": "Tableau de bord",
+      "formations": "Formations",
+      "eleves": "Élèves",
+      "paiements": "Paiements"
+    },
+    "tableau": {
+      "titre": "Tableau de bord",
+      "sousTitre": "Résumé de l'activité BAYONDY.",
+      "formationsPubliees": "Formations publiées",
+      "formationsDraft": "Brouillons",
+      "inscriptionsActives": "Inscriptions actives",
+      "elevesUniques": "Élèves uniques"
+    },
+    "formations": {
+      "titre": "Formations",
+      "sousTitre": "Gérez toutes vos formations.",
+      "nouvelle": "Nouvelle formation",
+      "vide": "Aucune formation pour le moment.",
+      "infoGenerales": "Informations générales",
+      "champSlug": "Slug (URL)",
+      "champTitre": "Titre",
+      "champTitrePlaceholder": "Titre de la formation",
+      "champCourteDescription": "Description courte",
+      "champCourteDescriptionPlaceholder": "Une phrase décrivant la formation",
+      "champDescription": "Description complète",
+      "champDescriptionPlaceholder": "Décrivez la formation en détail...",
+      "champNiveau": "Niveau",
+      "champLangue": "Langue",
+      "champDuree": "Durée (minutes)",
+      "champPrixUSD": "Prix USD",
+      "champPrixHTG": "Prix HTG",
+      "champPrixPlaceholder": "Laisser vide si non décidé",
+      "champCoverUrl": "URL image de couverture",
+      "publier": "Publier",
+      "depublier": "Dépublier",
+      "succesEnregistrement": "Formation enregistrée avec succès.",
+      "statut": {
+        "publie": "Publié",
+        "brouillon": "Brouillon"
+      }
+    },
+    "lecons": {
+      "titre": "Leçons",
+      "ajouter": "Ajouter une leçon",
+      "vide": "Aucune leçon pour le moment."
+    },
+    "lecon": {
+      "ajouter": "Ajouter une leçon",
+      "modifier": "Modifier",
+      "archiver": "Archiver",
+      "apercu": "Aperçu gratuit",
+      "champModuleId": "ID Module",
+      "champModuleTitre": "Titre du module",
+      "champModuleTitrePlaceholder": "Module 1 : Introduction",
+      "champTitre": "Titre de la leçon",
+      "champTitrePlaceholder": "Leçon 1 : Présentation",
+      "champVideoId": "YouTube Video ID (11 caractères)",
+      "champOrdre": "Ordre",
+      "champDuree": "Durée (minutes)",
+      "champApercu": "Aperçu gratuit (visible par tous)"
+    },
+    "eleves": {
+      "titre": "Élèves",
+      "sousTitre": "Gérez l'accès des élèves aux formations.",
+      "accesManuel": "Donner / Retirer l'accès",
+      "liste": "Liste des élèves",
+      "vide": "Aucun élève pour le moment.",
+      "aucuneInscription": "Aucune inscription",
+      "formation": "Formation",
+      "action": "Action",
+      "donner": "Donner l'accès",
+      "retirer": "Retirer l'accès",
+      "appliquer": "Appliquer",
+      "accesBay": "Accès accordé avec succès.",
+      "accesRetire": "Accès retiré avec succès.",
+      "voirPlus": "Voir plus"
+    },
+    "paiements": {
+      "titre": "Paiements",
+      "sousTitre": "Historique de tous les paiements.",
+      "vide": "Aucun paiement pour le moment. Le système de paiement arrive à l'étape 8.",
+      "colStatut": "Statut",
+      "colMontant": "Montant",
+      "colMethode": "Méthode",
+      "colCours": "Formation",
+      "colDate": "Date",
+      "voirPlus": "Voir plus"
+    },
+    "statut": {
+      "publie": "Publié",
+      "brouillon": "Brouillon"
+    },
+    "enregistrer": "Enregistrer",
+    "enregistrement": "Enregistrement...",
+    "modifier": "Modifier",
+    "archiver": "Archiver",
+    "annuler": "Annuler",
+    "chargement": "Chargement...",
+    "erreurChargement": "Erreur lors du chargement. Veuillez réessayer.",
+    "erreurServeur": "Erreur serveur. Veuillez réessayer."
+  },
+  "lecteur": {
+    "nonInscrit": "Vous n'êtes pas inscrit à cette formation",
+    "nonInscritDescription": "Pour visionner toutes les leçons, vous devez d'abord vous inscrire à cette formation.",
+    "boutonVoirFormation": "Voir les détails de la formation",
+    "chargement": "Chargement des leçons...",
+    "erreur": "Un problème est survenue lors du chargement des leçons.",
+    "videoIndisponible": "Cette vidéo n'est pas disponible actuellement.",
+    "lancerVideo": "Cliquer pour regarder la vidéo",
+    "lesonTerminee": "Leçon terminée",
+    "dejaTerminee": "Terminée ✓",
+    "enregistrement": "Enregistrement en cours...",
+    "erreurEnregistrement": "Impossible d'enregistrer votre progression. Veuillez réessayer.",
+    "listeLecons": "Liste des leçons",
+    "progressionGlobale": "Progression globale",
+    "retourMesFormations": "Mes formations",
+    "ressources": "Documents et liens utiles"
+  }
+}
