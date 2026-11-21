@@ -10,11 +10,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getFirebaseDb } from "@/lib/firebase/client";
-import type {
-  CourseDoc,
-  LessonDoc,
-  EnrollmentDoc,
-  EnrollmentProgress,
+import { t } from "@/lib/i18n";
+import {
+  MAX_COMPLETED_LESSONS,
+  type CourseDoc,
+  type LessonDoc,
+  type EnrollmentDoc,
+  type EnrollmentProgress,
 } from "@/types/firestore";
 
 export interface EnrollmentWithId extends EnrollmentDoc {
@@ -137,7 +139,8 @@ export async function getCourseLessons(
 
 /**
  * Met à jour UNIQUEMENT le champ progress d'une inscription active.
- * - completedLessonIds est borné à 200 éléments (limite des règles <= 500)
+ * - completedLessonIds est borné à 500 éléments (MAX_COMPLETED_LESSONS, imposé par firestore.rules)
+ * - si completedLessonIds dépasse la borne, bloque l'écriture avec une erreur via t()
  * - lastLessonId est tronqué à 128 caractères maximum
  * - AUCUN autre champ n'est modifié, sous peine de refus par firestore.rules
  */
@@ -150,11 +153,11 @@ export async function saveProgress(
     throw new Error("uid ak courseId obligatwa pou anrejistre pwogrè a.");
   }
 
-  // Dédoublonnage et conservation de l'ordre, borné à 200 éléments
-  const uniqueIds = Array.from(new Set(progress.completedLessonIds || [])).slice(
-    0,
-    200
-  );
+  // Dédoublonnage et vérification de la borne stricte (500)
+  const uniqueIds = Array.from(new Set(progress.completedLessonIds || []));
+  if (uniqueIds.length > MAX_COMPLETED_LESSONS) {
+    throw new Error(t("lecteur.limiteLeconsDepassee"));
+  }
   const sanitizedLastLessonId = (progress.lastLessonId || "").slice(0, 128);
 
   const db = getFirebaseDb();

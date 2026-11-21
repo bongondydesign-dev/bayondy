@@ -40,8 +40,8 @@ export interface CourseDoc {
   title: string;
   shortDescription: string;
   description: string;
-  priceUSD: number; // valeur [À DÉCIDER] par l'admin, jamais inventée ici
-  priceHTG: number; // valeur [À DÉCIDER] par l'admin, jamais inventée ici
+  priceUSD?: number | null; // optionnel, sans valeur par défaut
+  priceHTG?: number | null; // optionnel, sans valeur par défaut
   coverUrl: string;
   level: CourseLevel;
   language: CourseLanguage;
@@ -106,8 +106,11 @@ export interface LessonDoc {
 export type EnrollmentStatus = "active" | "revoked";
 export type EnrollmentSource = "payment" | "manual";
 
+/** Borne maximale d'éléments dans progress.completedLessonIds (imposée par firestore.rules) */
+export const MAX_COMPLETED_LESSONS = 500;
+
 export interface EnrollmentProgress {
-  completedLessonIds: string[]; // max 500 éléments (règle)
+  completedLessonIds: string[]; // max 500 éléments (règle MAX_COMPLETED_LESSONS)
   lastLessonId: string;
 }
 

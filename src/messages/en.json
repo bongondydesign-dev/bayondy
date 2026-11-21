@@ -134,14 +134,14 @@
     "titreSection": "Frequently asked questions",
     "sousTitreSection": "Everything you need to know before getting started.",
     "q1": "How do I pay for a course?",
-    "r1": "You can pay directly on the platform using MonCash, NatCash, or your bank card."
-    ,"q2": "How do I get access after payment?",
-    "r2": "Once payment is validated, access to all course lessons is unlocked instantly on your account."
-    ,"q3": "Can I watch courses on my mobile phone?",
-    "r3": "Yes, the platform is specially designed to run smoothly on any smartphone."
-    ,"q4": "What language are the courses taught in?",
-    "r4": "All courses are entirely taught in Haitian Creole for clear and complete comprehension."
-    ,"q5": "How can I get help if I run into an issue?",
+    "r1": "You can pay directly on the platform using MonCash, NatCash, or your bank card.",
+    "q2": "How do I get access after payment?",
+    "r2": "Once payment is validated, access to all course lessons is unlocked instantly on your account.",
+    "q3": "Can I watch courses on my mobile phone?",
+    "r3": "Yes, the platform is specially designed to run smoothly on any smartphone.",
+    "q4": "What language are the courses taught in?",
+    "r4": "All courses are entirely taught in Haitian Creole for clear and complete comprehension.",
+    "q5": "How can I get help if I run into an issue?",
     "r5": "You can reach support anytime through our contact page or support email."
   },
   "final": {
@@ -242,7 +242,10 @@
       "ht": "Haitian Creole",
       "fr": "French",
       "en": "English"
-    }
+    },
+    "atoutLangue": "100% in",
+    "atoutMobile": "Access on any mobile phone",
+    "atoutRythme": "Follow the lessons at your own pace"
   },
   "erreur404": {
     "badge": "404 Error",
@@ -309,7 +312,9 @@
       "statut": {
         "publie": "Published",
         "brouillon": "Draft"
-      }
+      },
+      "champSlugPlaceholder": "my-course-01",
+      "champCoverUrlPlaceholder": "https://..."
     },
     "lecons": {
       "titre": "Lessons",
@@ -329,7 +334,8 @@
       "champVideoId": "YouTube Video ID (11 characters)",
       "champOrdre": "Order",
       "champDuree": "Duration (minutes)",
-      "champApercu": "Free preview (visible to everyone)"
+      "champApercu": "Free preview (visible to everyone)",
+      "champModuleIdPlaceholder": "module-01"
     },
     "eleves": {
       "titre": "Students",
@@ -345,7 +351,8 @@
       "appliquer": "Apply",
       "accesBay": "Access granted successfully.",
       "accesRetire": "Access revoked successfully.",
-      "voirPlus": "Load more"
+      "voirPlus": "Load more",
+      "placeholderEmail": "student@example.com"
     },
     "paiements": {
       "titre": "Payments",
@@ -386,6 +393,7 @@
     "listeLecons": "Lesson list",
     "progressionGlobale": "Overall progress",
     "retourMesFormations": "My courses",
-    "ressources": "Documents and useful links"
+    "ressources": "Documents and useful links",
+    "limiteLeconsDepassee": "The number of completed lessons cannot exceed 500."
   }
 }

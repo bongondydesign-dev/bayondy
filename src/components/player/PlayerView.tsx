@@ -17,6 +17,7 @@ import {
   type CourseWithId,
   type LessonWithId,
 } from "@/lib/learning/queries";
+import { MAX_COMPLETED_LESSONS } from "@/types/firestore";
 import { t } from "@/lib/i18n";
 
 interface PlayerViewProps {
@@ -159,7 +160,11 @@ export function PlayerView({ slug }: PlayerViewProps) {
     const previousCompleted = [...completedLessonIds];
     const newCompleted = Array.from(
       new Set([...completedLessonIds, currentLesson.id])
-    ).slice(0, 200);
+    );
+    if (newCompleted.length > MAX_COMPLETED_LESSONS) {
+      setSaveError(t("lecteur.limiteLeconsDepassee"));
+      return;
+    }
 
     // Mise à jour optimiste
     setCompletedLessonIds(newCompleted);
@@ -171,10 +176,11 @@ export function PlayerView({ slug }: PlayerViewProps) {
         completedLessonIds: newCompleted,
         lastLessonId: currentLesson.id,
       });
-    } catch {
-      // Rollback optimiste en cas d'erreur Firestore
+    } catch (err: unknown) {
+      // Rollback optimiste en cas d'erreur Firestore ou validation
       setCompletedLessonIds(previousCompleted);
-      setSaveError(t("lecteur.erreurEnregistrement"));
+      const msg = err instanceof Error ? err.message : t("lecteur.erreurEnregistrement");
+      setSaveError(msg);
     } finally {
       setSavingProgress(false);
     }

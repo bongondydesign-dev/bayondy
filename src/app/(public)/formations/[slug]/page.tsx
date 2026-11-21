@@ -177,19 +177,19 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
-                  <span>100% an kreyòl ayisyen</span>
+                  <span>{t("catalogue.atoutLangue")} {t(languageKey)}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
                   <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
-                  <span>Aksè sou nenpòt telefòn</span>
+                  <span>{t("catalogue.atoutMobile")}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
                   <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
-                  <span>Swiv leson yo nan ritm pa w</span>
+                  <span>{t("catalogue.atoutRythme")}</span>
                 </div>
               </div>
             </div>

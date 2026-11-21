@@ -147,7 +147,7 @@ function LessonForm({
             className={inputClass()}
             value={form.moduleId}
             onChange={(e) => setForm((p) => ({ ...p, moduleId: e.target.value }))}
-            placeholder="module-01"
+            placeholder={t("admin.lecon.champModuleIdPlaceholder")}
           />
         </FieldGroup>
         <FieldGroup label={t("admin.lecon.champModuleTitre")}>
@@ -171,7 +171,6 @@ function LessonForm({
             className={inputClass()}
             value={form.youtubeVideoId}
             onChange={(e) => setForm((p) => ({ ...p, youtubeVideoId: e.target.value }))}
-            placeholder="dQw4w9WgXcQ"
             maxLength={11}
           />
         </FieldGroup>
@@ -511,7 +510,7 @@ export default function AdminFormationDetailPage() {
                 className={inputClass()}
                 value={form.slug}
                 onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-") }))}
-                placeholder="ma-formation-01"
+                placeholder={t("admin.formations.champSlugPlaceholder")}
               />
             </FieldGroup>
           )}
@@ -581,7 +580,7 @@ export default function AdminFormationDetailPage() {
               className={inputClass()}
               value={form.coverUrl}
               onChange={(e) => setForm((p) => ({ ...p, coverUrl: e.target.value }))}
-              placeholder="https://..."
+              placeholder={t("admin.formations.champCoverUrlPlaceholder")}
             />
           </FieldGroup>
         </div>

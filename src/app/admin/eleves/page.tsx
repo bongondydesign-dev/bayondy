@@ -147,7 +147,7 @@ export default function AdminElevesPage() {
                 required
                 value={accessEmail}
                 onChange={(e) => setAccessEmail(e.target.value)}
-                placeholder="eleve@exemple.com"
+                placeholder={t("admin.eleves.placeholderEmail")}
                 className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/10 text-ice-white placeholder:text-ice-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-aurora min-h-[48px]"
               />
             </div>

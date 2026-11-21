@@ -242,7 +242,10 @@
       "ht": "Créole haïtien",
       "fr": "Français",
       "en": "Anglais"
-    }
+    },
+    "atoutLangue": "100% en",
+    "atoutMobile": "Accès sur n'importe quel téléphone",
+    "atoutRythme": "Suivez les leçons à votre propre rythme"
   },
   "erreur404": {
     "badge": "Erreur 404",
@@ -309,7 +312,9 @@
       "statut": {
         "publie": "Publié",
         "brouillon": "Brouillon"
-      }
+      },
+      "champSlugPlaceholder": "ma-formation-01",
+      "champCoverUrlPlaceholder": "https://..."
     },
     "lecons": {
       "titre": "Leçons",
@@ -329,7 +334,8 @@
       "champVideoId": "YouTube Video ID (11 caractères)",
       "champOrdre": "Ordre",
       "champDuree": "Durée (minutes)",
-      "champApercu": "Aperçu gratuit (visible par tous)"
+      "champApercu": "Aperçu gratuit (visible par tous)",
+      "champModuleIdPlaceholder": "module-01"
     },
     "eleves": {
       "titre": "Élèves",
@@ -345,7 +351,8 @@
       "appliquer": "Appliquer",
       "accesBay": "Accès accordé avec succès.",
       "accesRetire": "Accès retiré avec succès.",
-      "voirPlus": "Voir plus"
+      "voirPlus": "Voir plus",
+      "placeholderEmail": "eleve@exemple.com"
     },
     "paiements": {
       "titre": "Paiements",
@@ -386,6 +393,7 @@
     "listeLecons": "Liste des leçons",
     "progressionGlobale": "Progression globale",
     "retourMesFormations": "Mes formations",
-    "ressources": "Documents et liens utiles"
+    "ressources": "Documents et liens utiles",
+    "limiteLeconsDepassee": "Le nombre de leçons complétées ne peut pas dépasser 500."
   }
 }

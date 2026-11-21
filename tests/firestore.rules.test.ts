@@ -31,6 +31,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { MAX_COMPLETED_LESSONS } from "../src/types/firestore";
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 const PROJECT_ID = "bayondy-rules-test";
@@ -222,6 +223,18 @@ describe("4. Élève avec inscription révoquée", () => {
     const db = userCtx(USER_A).firestore();
     await assertFails(getDoc(doc(db, "lessons", LESSON_PAID_ID)));
   });
+
+  it("ne peut pas modifier son progress si inscription révoquée", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(
+      updateDoc(doc(db, "enrollments", `${USER_A}_${PUBLISHED_COURSE_ID}`), {
+        progress: {
+          completedLessonIds: [LESSON_FREE_ID],
+          lastLessonId: LESSON_FREE_ID,
+        },
+      })
+    );
+  });
 });
 
 // ─── 5. Mutations interdites côté client ─────────────────────────────────────
@@ -310,6 +323,22 @@ describe("5. Mutations interdites côté client", () => {
           completedLessonIds: [],
           lastLessonId: "",
           maliciousField: true, // non autorisé
+        },
+      })
+    );
+  });
+
+  it("ne peut pas modifier progress.completedLessonIds avec plus d'éléments que la borne autorisée (500)", async () => {
+    const db = userCtx(USER_A).firestore();
+    const tooManyLessons = Array.from(
+      { length: MAX_COMPLETED_LESSONS + 1 },
+      (_, i) => `lesson-${i}`
+    );
+    await assertFails(
+      updateDoc(doc(db, "enrollments", `${USER_A}_${PUBLISHED_COURSE_ID}`), {
+        progress: {
+          completedLessonIds: tooManyLessons,
+          lastLessonId: "lesson-0",
         },
       })
     );

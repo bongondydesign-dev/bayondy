@@ -242,7 +242,10 @@
       "ht": "Kreyòl ayisyen",
       "fr": "Fransè",
       "en": "Angle"
-    }
+    },
+    "atoutLangue": "100% an",
+    "atoutMobile": "Aksè sou nenpòt telefòn",
+    "atoutRythme": "Swiv leson yo nan ritm pa w"
   },
   "erreur404": {
     "badge": "Erè 404",
@@ -309,7 +312,9 @@
       "statut": {
         "publie": "Pibliye",
         "brouillon": "Brouyon"
-      }
+      },
+      "champSlugPlaceholder": "fomasyon-mwen-01",
+      "champCoverUrlPlaceholder": "https://..."
     },
     "lecons": {
       "titre": "Leson yo",
@@ -329,7 +334,8 @@
       "champVideoId": "YouTube Video ID (11 karaktè)",
       "champOrdre": "Lòd",
       "champDuree": "Dire (minit)",
-      "champApercu": "Apèsi gratis (tout moun ka wè)"
+      "champApercu": "Apèsi gratis (tout moun ka wè)",
+      "champModuleIdPlaceholder": "modil-01"
     },
     "eleves": {
       "titre": "Elèv yo",
@@ -345,7 +351,8 @@
       "appliquer": "Aplikye",
       "accesBay": "Aksè bay ak siksè.",
       "accesRetire": "Aksè retire ak siksè.",
-      "voirPlus": "Wè plis"
+      "voirPlus": "Wè plis",
+      "placeholderEmail": "eleve@exemple.com"
     },
     "paiements": {
       "titre": "Peman yo",
@@ -386,6 +393,7 @@
     "listeLecons": "Lis leson yo",
     "progressionGlobale": "Pwogrè jeneral",
     "retourMesFormations": "Fòmasyon mwen yo",
-    "ressources": "Dokiman ak lyen util"
+    "ressources": "Dokiman ak lyen util",
+    "limiteLeconsDepassee": "Kantite leson konplete pa ka depase 500."
   }
 }
