@@ -201,7 +201,11 @@
       "popupFermee": "The sign-in window was closed before completion.",
       "erreurReseau": "Network connection error. Please check your internet connection.",
       "generique": "An error occurred. Please try again."
-    }
+    },
+    "acceptationTexte": "By creating an account, you accept our",
+    "lienConditions": "terms of service",
+    "et": "and our",
+    "lienConfidentialite": "privacy policy"
   },
   "profil": {
     "titre": "My profile",
@@ -401,5 +405,75 @@
     "retourMesFormations": "My courses",
     "ressources": "Documents and useful links",
     "limiteLeconsDepassee": "The number of completed lessons cannot exceed 500."
+  },
+  "legal": {
+    "banniereProvisoire": "This text is a draft. It will be reviewed and finalized before launch.",
+    "banniereDetail": "Marked items must be validated by a qualified professional before official launch.",
+    "aDecider": "TO BE DECIDED",
+    "aConfirmer": "TO BE CONFIRMED"
+  },
+  "aide": {
+    "titre": "Need help?",
+    "sousTitre": "If you have a question not listed here, we are here to help.",
+    "contactBientot": "Contact method coming soon"
+  },
+  "faqPage": {
+    "titre": "Frequently Asked Questions (FAQ)",
+    "sousTitre": "All answers about how BAYONDY works, our courses, and payments."
+  },
+  "confidentialite": {
+    "badge": "Legal & security",
+    "titre": "Privacy Policy",
+    "sousTitre": "How we process, protect, and use your data on the BAYONDY platform.",
+    "s1_titre": "1. Who we are",
+    "s1_texte": "The BAYONDY platform offers online video courses in Haitian Creole. The legal entity and address are:",
+    "s2_titre": "2. Data we collect",
+    "s2_compte": "Account data: When registering, we use your name, email, profile picture (if Google login), and timestamps.",
+    "s2_progression": "Learning data: We record your active course enrollments, completed lessons, and last viewed lesson.",
+    "s2_paiement": "Payment data: We only retain the transaction reference, amount, currency, selected payment method, and timestamp.",
+    "s3_titre": "3. Why we use this data",
+    "s3_texte": "This data is strictly used to: create and manage your account, grant access to purchased courses, track your learning progress, and verify payments.",
+    "s4_titre": "4. Third-party services",
+    "s4_firebase": "Firebase / Google Cloud: For secure authentication and database storage.",
+    "s4_tranzak": "Tranzak: For payment processing (MonCash, NatCash, Card).",
+    "s4_youtube": "YouTube (youtube-nocookie.com): For video streaming. The player loads only after your explicit click.",
+    "s4_vercel": "Vercel: For hosting the web application.",
+    "s5_titre": "5. Payment security",
+    "s5_texte": "BAYONDY never sees or stores your secret PIN for MonCash/NatCash or full credit card numbers. Payments are processed directly by Tranzak. Retention details at Tranzak:",
+    "s6_titre": "6. Data retention period",
+    "s6_texte": "Your account and course data are stored as long as your account remains active. Exact retention timeframe:",
+    "s7_titre": "7. Your rights",
+    "s7_texte": "You have the right to access, rectify, or request deletion of your personal data. Procedure to exercise your rights:",
+    "s8_titre": "8. Cookies and local storage",
+    "s8_texte": "We do not use any advertising cookies or trackers. Only your Firebase Auth sign-in session is stored locally in your browser.",
+    "s9_titre": "9. Children's privacy",
+    "s9_texte": "The platform is intended for users of legal age to contract and use online services. Policy regarding minors:",
+    "s10_titre": "10. Policy updates",
+    "s10_texte": "This policy may be updated periodically. Last updated date:"
+  },
+  "conditions": {
+    "badge": "Legal & terms",
+    "titre": "Terms of Service",
+    "sousTitre": "Rules and commitments governing the use of the BAYONDY platform.",
+    "s1_titre": "1. Purpose of the service",
+    "s1_texte": "BAYONDY provides online video training in Haitian Creole. Access is reserved for registered users who have completed their payment.",
+    "s2_titre": "2. User account",
+    "s2_texte": "Each account is strictly personal. You agree to provide accurate information and keep your credentials confidential.",
+    "s3_titre": "3. Purchase, pricing and access",
+    "s3_texte": "Prices are displayed in gourdes (HTG) or dollars (USD). Access is granted once payment is confirmed by the server. Course access duration:",
+    "s4_titre": "4. Refund policy",
+    "s4_texte": "Conditions and terms for refund requests:",
+    "s5_titre": "5. Acceptable use and restrictions",
+    "s5_texte": "It is strictly forbidden to copy, download, resell, or share video links with third parties. Content is for your personal use only.",
+    "s6_titre": "6. Intellectual property",
+    "s6_texte": "All content, videos, texts, logos, and materials remain the exclusive property of BAYONDY or their respective authors.",
+    "s7_titre": "7. Suspension or termination of access",
+    "s7_texte": "In the event of a breach of these rules (such as link sharing or hacking attempts), access may be suspended or revoked without notice.",
+    "s8_titre": "8. Availability and disclaimer",
+    "s8_texte": "The service is provided 'as is'. We strive to maintain high availability but do not guarantee uninterrupted access. Courses do not guarantee employment or financial outcomes.",
+    "s9_titre": "9. Governing law and dispute resolution",
+    "s9_texte": "Applicable legislation and jurisdiction in case of dispute:",
+    "s10_titre": "10. Contact and update date",
+    "s10_texte": "For any questions regarding these terms, official contact and last revision date:"
   }
 }

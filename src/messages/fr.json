@@ -201,7 +201,11 @@
       "popupFermee": "La fenêtre de connexion a été fermée avant la finalisation.",
       "erreurReseau": "Problème de connexion réseau. Veuillez vérifier votre accès à Internet.",
       "generique": "Une erreur est survenue. Veuillez réessayer."
-    }
+    },
+    "acceptationTexte": "En créant votre compte, vous acceptez nos",
+    "lienConditions": "conditions d'utilisation",
+    "et": "et notre",
+    "lienConfidentialite": "politique de confidentialité"
   },
   "profil": {
     "titre": "Mon profil",
@@ -401,5 +405,75 @@
     "retourMesFormations": "Mes formations",
     "ressources": "Documents et liens utiles",
     "limiteLeconsDepassee": "Le nombre de leçons complétées ne peut pas dépasser 500."
+  },
+  "legal": {
+    "banniereProvisoire": "Ce texte est provisoire. Il sera relu et validé avant le lancement officiel.",
+    "banniereDetail": "Les éléments marqués doivent être validés par une personne qualifiée avant ouverture.",
+    "aDecider": "À DÉCIDER",
+    "aConfirmer": "À CONFIRMER"
+  },
+  "aide": {
+    "titre": "Besoin d'aide ?",
+    "sousTitre": "Si vous avez une question qui n'est pas dans cette liste, nous sommes là pour vous aider.",
+    "contactBientot": "Le moyen de contact arrive bientôt"
+  },
+  "faqPage": {
+    "titre": "Foire aux questions (FAQ)",
+    "sousTitre": "Toutes les réponses sur le fonctionnement de BAYONDY, les formations et les paiements."
+  },
+  "confidentialite": {
+    "badge": "Légal et sécurité",
+    "titre": "Politique de Confidentialité",
+    "sousTitre": "Comment nous traitons, protégeons et utilisons vos données sur BAYONDY.",
+    "s1_titre": "1. Qui sommes-nous",
+    "s1_texte": "La plateforme BAYONDY propose des formations vidéo en créole haïtien. L'entité légale responsable et son adresse sont :",
+    "s2_titre": "2. Données que nous collectons",
+    "s2_compte": "Données de compte : Lors de votre inscription, nous utilisons votre nom, votre e-mail, votre photo de profil (si connexion Google) et les dates de connexion.",
+    "s2_progression": "Données d'apprentissage : Nous enregistrons vos inscriptions actives, les leçons complétées et la dernière leçon consultée.",
+    "s2_paiement": "Données de paiement : Nous conservons uniquement la référence de transaction, le montant, la devise, la méthode choisie et la date.",
+    "s3_titre": "3. Pourquoi nous les utilisons",
+    "s3_texte": "Ces données sont strictement utilisées pour : créer et gérer votre compte, vous donner accès aux cours achetés, suivre votre progression pédagogique et vérifier vos paiements.",
+    "s4_titre": "4. Services tiers sous-traitants",
+    "s4_firebase": "Firebase / Google Cloud : Pour l'authentification sécurisée et le stockage de la base de données.",
+    "s4_tranzak": "Tranzak : Pour le traitement des paiements (MonCash, NatCash, Carte).",
+    "s4_youtube": "YouTube (youtube-nocookie.com) : Pour la diffusion des vidéos de cours. L'iframe ne se charge qu'après votre clic explicite.",
+    "s4_vercel": "Vercel : Pour l'hébergement de l'application web.",
+    "s5_titre": "5. Sécurité des paiements",
+    "s5_texte": "BAYONDY ne reçoit ni ne stocke jamais vos codes secrets PIN MonCash/NatCash ni vos numéros complets de carte bancaire. Les paiements sont traités directement par Tranzak. Conditions de conservation chez Tranzak :",
+    "s6_titre": "6. Durée de conservation",
+    "s6_texte": "Les données de votre compte et de vos cours sont conservées tant que votre compte reste actif. Durée légale exacte :",
+    "s7_titre": "7. Vos droits",
+    "s7_texte": "Vous avez le droit de consulter, rectifier ou demander la suppression de vos données personnelles. Procédure pour exercer vos droits :",
+    "s8_titre": "8. Cookies et stockage local",
+    "s8_texte": "Nous n'utilisons aucun cookie publicitaire ni traceur commercial. Seule la session de connexion Firebase Auth est conservée localement dans votre navigateur.",
+    "s9_titre": "9. Protection des mineurs",
+    "s9_texte": "La plateforme est destinée aux personnes en âge de contracter et d'utiliser des services en ligne. Politique concernant les mineurs :",
+    "s10_titre": "10. Mises à jour de la politique",
+    "s10_texte": "Cette politique peut être mise à jour occasionnellement. Date de dernière mise à jour :"
+  },
+  "conditions": {
+    "badge": "Légal et service",
+    "titre": "Conditions Générales d'Utilisation",
+    "sousTitre": "Règles et engagements régissant l'utilisation de la plateforme BAYONDY.",
+    "s1_titre": "1. Objet du service",
+    "s1_texte": "BAYONDY propose des formations vidéo en ligne en créole haïtien. L'accès est réservé aux utilisateurs inscrits ayant validé leur paiement.",
+    "s2_titre": "2. Compte utilisateur",
+    "s2_texte": "Chaque compte est strictement personnel. Vous vous engagez à fournir des informations exactes et à préserver la confidentialité de vos identifiants.",
+    "s3_titre": "3. Achat, tarifs et accès",
+    "s3_texte": "Les prix sont affichés en gourdes (HTG) ou dollars (USD). L'accès est activé dès confirmation du paiement par le serveur. Durée d'accès aux cours :",
+    "s4_titre": "4. Politique de remboursement",
+    "s4_texte": "Conditions et modalités de remboursement éventuel :",
+    "s5_titre": "5. Utilisation acceptable et interdictions",
+    "s5_texte": "Il est strictement interdit de copier, télécharger, revendre ou partager les liens vidéo avec des tiers. Le contenu est destiné à votre usage privé.",
+    "s6_titre": "6. Propriété intellectuelle",
+    "s6_texte": "Tous les contenus, vidéos, textes, logos et supports pédagogiques demeurent la propriété exclusive de BAYONDY ou de leurs auteurs respectifs.",
+    "s7_titre": "7. Suspension ou retrait d'accès",
+    "s7_texte": "En cas de non-respect de ces règles (notamment partage abusif ou tentative de piratage), l'accès à la plateforme pourra être suspendu ou révoqué sans préavis.",
+    "s8_titre": "8. Disponibilité et absence de garantie",
+    "s8_texte": "Le service est fourni « tel quel ». Nous mettons tout en œuvre pour assurer la disponibilité du service sans garantir l'absence totale d'interruption. Les formations ne constituent pas une promesse de résultat professionnel.",
+    "s9_titre": "9. Droit applicable et litiges",
+    "s9_texte": "Législation applicable et juridiction compétente en cas de litige :",
+    "s10_titre": "10. Contact et date de mise à jour",
+    "s10_texte": "Pour toute question relative aux présentes conditions, contact officiel et date de dernière révision :"
   }
 }
