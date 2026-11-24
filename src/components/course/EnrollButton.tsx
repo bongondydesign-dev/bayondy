@@ -96,7 +96,7 @@ export function EnrollButton({
   if (enrolled) {
     return (
       <Link
-        href={`/formations/${courseSlug}`}
+        href={`/mes-formations/${courseSlug}`}
         className={`w-full min-h-[48px] px-6 py-3.5 rounded-2xl bg-aurora hover:bg-aurora/90 text-obsidian font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-aurora/25 transition-all duration-200 active:scale-[0.99] ${className}`}
       >
         <span className="w-5 h-5 rounded-full bg-obsidian/20 flex items-center justify-center text-xs">

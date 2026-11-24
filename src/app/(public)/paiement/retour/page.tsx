@@ -132,7 +132,7 @@ function ReturnContent() {
           <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
             {courseSlug ? (
               <Link
-                href={`/formations/${courseSlug}`}
+                href={`/mes-formations/${courseSlug}`}
                 className="min-h-[48px] px-6 py-3 rounded-2xl bg-aurora hover:bg-aurora/90 text-obsidian font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-aurora/25"
               >
                 <span>Aksede nan fòmasyon an</span>

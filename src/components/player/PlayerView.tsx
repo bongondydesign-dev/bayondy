@@ -89,13 +89,19 @@ export function PlayerView({ slug }: PlayerViewProps) {
           }
         } catch (lessonErr: unknown) {
           if (cancelled) return;
-          const isPermissionDenied =
+          const errorCode =
             lessonErr &&
             typeof lessonErr === "object" &&
             "code" in lessonErr &&
-            lessonErr.code === "permission-denied";
+            typeof (lessonErr as { code?: unknown }).code === "string"
+              ? (lessonErr as { code: string }).code
+              : "unknown";
 
-          if (isPermissionDenied) {
+          if (process.env.NODE_ENV === "development") {
+            console.warn("[PlayerView] Erreur chargement leçons (code):", errorCode);
+          }
+
+          if (errorCode === "permission-denied") {
             setNotEnrolled(true);
           } else {
             setSaveError(t("lecteur.erreur"));

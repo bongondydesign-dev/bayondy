@@ -95,6 +95,7 @@ export interface LessonDoc {
   youtubeVideoId: string;
   durationMinutes: number;
   isFreePreview: boolean;
+  archived?: boolean;
   resources: LessonResource[];
 }
 

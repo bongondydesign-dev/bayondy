@@ -5,16 +5,23 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { getAuthErrorMessageKey } from "@/lib/auth/errors";
+import { getSafeRedirectPath } from "@/lib/auth/redirect";
 import { GoogleButton } from "./GoogleButton";
 import { t } from "@/lib/i18n";
 
 interface AuthFormProps {
   mode: "connexion" | "inscription";
+  redirectTo?: string;
 }
 
-export function AuthForm({ mode }: AuthFormProps) {
+export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   const router = useRouter();
   const { signInWithEmail, signUpWithEmail } = useAuth();
+  const safeRedirect = getSafeRedirectPath(redirectTo);
+  const redirectQuery =
+    safeRedirect !== "/profil"
+      ? `?redirect=${encodeURIComponent(safeRedirect)}`
+      : "";
 
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -41,7 +48,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       } else {
         await signInWithEmail(email, motDePasse);
       }
-      router.push("/profil");
+      router.push(safeRedirect);
     } catch (err: unknown) {
       if (process.env.NODE_ENV === "development") {
         console.error("[AuthForm error]", err);
@@ -54,7 +61,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   };
 
   const handleGoogleSuccess = () => {
-    router.push("/profil");
+    router.push(safeRedirect);
   };
 
   return (
@@ -257,6 +264,27 @@ export function AuthForm({ mode }: AuthFormProps) {
             ? t("auth.inscription")
             : t("auth.connexion")}
         </button>
+
+        {/* Liens vers les conditions et la politique de confidentialité sous le formulaire d'inscription */}
+        {mode === "inscription" && (
+          <p className="pt-2 text-xs text-center text-ice-white/60 font-sans leading-relaxed">
+            {t("auth.acceptationTexte")}{" "}
+            <Link
+              href="/conditions"
+              className="text-aurora hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora rounded"
+            >
+              {t("auth.lienConditions")}
+            </Link>{" "}
+            {t("auth.et")}{" "}
+            <Link
+              href="/confidentialite"
+              className="text-aurora hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora rounded"
+            >
+              {t("auth.lienConfidentialite")}
+            </Link>
+            .
+          </p>
+        )}
       </form>
 
       {/* Liens d'orientation en bas */}
@@ -265,7 +293,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <p>
             {t("auth.dejaCompte")}{" "}
             <Link
-              href="/connexion"
+              href={`/connexion${redirectQuery}`}
               className="text-aurora font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienConnexion")}
@@ -275,7 +303,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <p>
             {t("auth.pasDeCompte")}{" "}
             <Link
-              href="/inscription"
+              href={`/inscription${redirectQuery}`}
               className="text-aurora font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienInscription")}

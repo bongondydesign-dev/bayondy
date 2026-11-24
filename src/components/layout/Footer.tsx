@@ -39,7 +39,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#kijan"
+                  href="/#kijan"
                   className="hover:text-aurora transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("nav.kijan")}
@@ -47,7 +47,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#faq"
+                  href="/faq"
                   className="hover:text-aurora transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.faq")}

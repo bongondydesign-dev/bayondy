@@ -6,6 +6,15 @@ let _app: FirebaseApp | null = null;
 let _auth: Auth | null = null;
 let _db: Firestore | null = null;
 
+export function hasFirebaseConfig(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
+      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
+      process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  );
+}
+
 function getFirebaseApp(): FirebaseApp {
   if (_app) return _app;
 
@@ -28,8 +37,8 @@ function getFirebaseApp(): FirebaseApp {
     ]
       .filter(Boolean)
       .join(", ");
-    throw new Error(
-      `[Firebase Config Error] Variab anviwònman sa yo manke nan .env.local : ${missing}`
+    console.warn(
+      `[Firebase Config Warning] Variab anviwònman sa yo manke nan .env.local : ${missing}`
     );
   }
 

@@ -12,9 +12,8 @@ import {
   sendPasswordResetEmail,
   signOut as firebaseSignOut,
 } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { getFirebaseAuth } from "@/lib/firebase/client";
-import { getFirebaseDb } from "@/lib/firebase/client";
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { getFirebaseAuth, getFirebaseDb, hasFirebaseConfig } from "@/lib/firebase/client";
 
 export interface AuthContextType {
   user: User | null;
@@ -31,16 +30,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
  * Crée ou met à jour le document users/{uid} dans Firestore.
- * Seuls les champs autorisés par les règles de sécurité sont écrits :
- * displayName, email, photoURL, createdAt, lastLoginAt — jamais de champ "role".
+ * - Création (document inexistant) : setDoc avec UNIQUEMENT displayName, email, photoURL, createdAt, lastLoginAt.
+ * - Mise à jour (document existant) : updateDoc avec UNIQUEMENT displayName, photoURL, lastLoginAt.
+ * Jamais de champ "role", jamais de réécriture de createdAt ou email.
  */
-async function upsertUserDoc(user: User, isNewUser: boolean): Promise<void> {
+async function upsertUserDoc(user: User): Promise<void> {
   try {
     const db = getFirebaseDb();
     const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
 
-    if (isNewUser) {
-      // Création : tous les champs obligatoires
+    if (!snap.exists()) {
       await setDoc(ref, {
         displayName: user.displayName ?? "",
         email: user.email ?? "",
@@ -49,16 +49,12 @@ async function upsertUserDoc(user: User, isNewUser: boolean): Promise<void> {
         lastLoginAt: serverTimestamp(),
       });
     } else {
-      // Mise à jour : seulement lastLoginAt (et photoURL/displayName si présents)
-      await setDoc(
-        ref,
-        {
-          lastLoginAt: serverTimestamp(),
-          ...(user.displayName !== null && { displayName: user.displayName }),
-          ...(user.photoURL !== null && { photoURL: user.photoURL }),
-        },
-        { merge: true }
-      );
+      const existingData = snap.data();
+      await updateDoc(ref, {
+        displayName: user.displayName ?? (typeof existingData?.displayName === "string" ? existingData.displayName : ""),
+        photoURL: user.photoURL ?? (typeof existingData?.photoURL === "string" ? existingData.photoURL : null),
+        lastLoginAt: serverTimestamp(),
+      });
     }
   } catch (err) {
     // On ne bloque pas l'authentification si Firestore échoue
@@ -70,33 +66,38 @@ async function upsertUserDoc(user: User, isNewUser: boolean): Promise<void> {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => hasFirebaseConfig());
   const [isAdmin, setIsAdmin] = useState(false);
-  // Suivi des UIDs dont le document a déjà été créé lors de cette session
-  const [seenUids] = useState(() => new Set<string>());
 
   useEffect(() => {
-    const auth = getFirebaseAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        // Force le rafraîchissement du token pour récupérer les custom claims récents (admin: true)
-        const tokenResult = await currentUser.getIdTokenResult(true);
-        setIsAdmin(tokenResult.claims.admin === true);
+    if (!hasFirebaseConfig()) {
+      return;
+    }
 
-        // Première connexion de cet uid dans cette session
-        const isNewUser = !seenUids.has(currentUser.uid);
-        seenUids.add(currentUser.uid);
-        await upsertUserDoc(currentUser, isNewUser);
-      } else {
-        setIsAdmin(false);
-      }
-      setUser(currentUser);
-      setLoading(false);
-    });
+    let unsubscribe: (() => void) | undefined;
+    try {
+      const auth = getFirebaseAuth();
+      unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          // Force le rafraîchissement du token pour récupérer les custom claims récents (admin: true)
+          const tokenResult = await currentUser.getIdTokenResult(true);
+          setIsAdmin(tokenResult.claims.admin === true);
 
-    return () => unsubscribe();
-    // seenUids est stable (useState avec Set), pas besoin dans les deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+          await upsertUserDoc(currentUser);
+        } else {
+          setIsAdmin(false);
+        }
+        setUser(currentUser);
+        setLoading(false);
+      });
+    } catch (err) {
+      console.warn("[AuthProvider] Firebase Auth initialization skipped:", err);
+      queueMicrotask(() => setLoading(false));
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const signInWithGoogle = async () => {

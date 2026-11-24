@@ -49,8 +49,8 @@ export async function getPublishedCourses(): Promise<PublicCourse[]> {
 
   if (!hasAdminCredentials()) {
     if (process.env.NODE_ENV === "development") {
-      throw new Error(
-        "[Firebase Admin Config Error] Variab anviwònman sèvè sa yo manke nan .env.local : " +
+      console.warn(
+        "[Firebase Admin Config Warning] Variab anviwònman sèvè sa yo manke nan .env.local : " +
           "FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_ADMIN_PRIVATE_KEY"
       );
     }
@@ -99,8 +99,8 @@ export async function getPublishedCourseBySlug(
 
   if (!hasAdminCredentials()) {
     if (process.env.NODE_ENV === "development") {
-      throw new Error(
-        "[Firebase Admin Config Error] Variab anviwònman sèvè sa yo manke nan .env.local : " +
+      console.warn(
+        "[Firebase Admin Config Warning] Variab anviwònman sèvè sa yo manke nan .env.local : " +
           "FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_ADMIN_PRIVATE_KEY"
       );
     }

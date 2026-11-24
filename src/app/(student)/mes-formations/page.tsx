@@ -38,9 +38,13 @@ export default function MesFormationsPage() {
         const loaded: EnrolledCourseItem[] = [];
 
         for (const enr of enrollments) {
-          const course = await getCourseByIdForStudent(enr.courseId);
-          if (course) {
-            loaded.push({ enrollment: enr, course });
+          try {
+            const course = await getCourseByIdForStudent(enr.courseId);
+            if (course) {
+              loaded.push({ enrollment: enr, course });
+            }
+          } catch {
+            // Cours inaccessible (ex: permission-denied sur un cours en brouillon) ou supprimé — on l'ignore
           }
         }
 
@@ -71,8 +75,12 @@ export default function MesFormationsPage() {
       .then(async (enrollments) => {
         const loaded: EnrolledCourseItem[] = [];
         for (const enr of enrollments) {
-          const course = await getCourseByIdForStudent(enr.courseId);
-          if (course) loaded.push({ enrollment: enr, course });
+          try {
+            const course = await getCourseByIdForStudent(enr.courseId);
+            if (course) loaded.push({ enrollment: enr, course });
+          } catch {
+            // Cours inaccessible ou supprimé — on l'ignore
+          }
         }
         setItems(loaded);
         setDataLoading(false);

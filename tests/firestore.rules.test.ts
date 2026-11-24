@@ -266,6 +266,20 @@ describe("5. Mutations interdites côté client", () => {
     );
   });
 
+  it("utilisateur existant peut mettre à jour lastLoginAt", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertSucceeds(
+      updateDoc(doc(db, "users", USER_A), { lastLoginAt: serverTimestamp() })
+    );
+  });
+
+  it("utilisateur existant ne peut pas modifier createdAt", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(
+      updateDoc(doc(db, "users", USER_A), { createdAt: serverTimestamp() })
+    );
+  });
+
   it("ne peut pas modifier le status de son inscription", async () => {
     const db = userCtx(USER_A).firestore();
     await assertFails(

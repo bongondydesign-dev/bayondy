@@ -146,10 +146,12 @@ export async function getCourseLessons(
     orderBy("order", "asc")
   );
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => ({
-    id: d.id,
-    ...(d.data() as LessonDoc),
-  }));
+  return snapshot.docs
+    .map((d) => ({
+      id: d.id,
+      ...(d.data() as LessonDoc),
+    }))
+    .filter((lesson) => lesson.archived !== true);
 }
 
 /**
