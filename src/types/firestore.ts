@@ -145,6 +145,8 @@ export interface PaymentDoc {
   merchantReference: string;
   tranzakReference: string;
   status: PaymentStatus;
+  paymentUrl?: string | null;
+  failureReason?: string | null;
   createdAt: Timestamp;
   paidAt: Timestamp | null;
 }

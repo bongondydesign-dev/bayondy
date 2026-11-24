@@ -168,7 +168,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
               {/* Bouton d'inscription (Client component) */}
               <div>
-                <EnrollButton />
+                <EnrollButton
+                  courseId={course.id}
+                  courseSlug={course.slug}
+                  priceUSD={course.priceUSD}
+                  priceHTG={course.priceHTG}
+                />
               </div>
 
               {/* Récapitulatif des atouts de la formation */}

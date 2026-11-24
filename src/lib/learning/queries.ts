@@ -51,6 +51,21 @@ export async function getMyEnrollments(uid: string): Promise<EnrollmentWithId[]>
 }
 
 /**
+ * Récupère l'inscription de l'élève pour un cours spécifique.
+ */
+export async function getEnrollmentForCourse(
+  uid: string,
+  courseId: string
+): Promise<EnrollmentDoc | null> {
+  if (!uid || !courseId) return null;
+  const db = getFirebaseDb();
+  const enrollmentDocRef = doc(db, "enrollments", `${uid}_${courseId}`);
+  const snap = await getDoc(enrollmentDocRef);
+  if (!snap.exists()) return null;
+  return snap.data() as EnrollmentDoc;
+}
+
+/**
  * Récupère un cours par son ID (pour le tableau de bord de l'élève).
  * Le client ne peut lire que les cours avec status == 'published' (ou si admin).
  */
