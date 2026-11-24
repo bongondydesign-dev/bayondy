@@ -55,8 +55,8 @@ function FieldGroup({ label, children }: { label: string; children: React.ReactN
 
 function inputClass(error?: boolean) {
   return `w-full px-4 py-3 rounded-xl bg-obsidian border ${
-    error ? "border-red-400" : "border-white/10"
-  } text-ice-white placeholder:text-ice-white/30 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-aurora focus:border-transparent transition-colors min-h-[48px]`;
+    error ? "border-red-400" : "border-white/[0.1]"
+  } text-ice-white placeholder:text-ice-white/30 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
 }
 
 function StatusBadge({ status }: { status: "draft" | "published" }) {
@@ -64,8 +64,8 @@ function StatusBadge({ status }: { status: "draft" | "published" }) {
     <span
       className={`inline-block px-2.5 py-1 rounded-full text-xs font-mono font-medium ${
         status === "published"
-          ? "bg-aurora/15 text-aurora border border-aurora/30"
-          : "bg-white/5 text-ice-white/50 border border-white/10"
+          ? "bg-brand/15 text-brand-light border border-brand/30"
+          : "bg-white/5 text-ice-white/55 border border-white/10"
       }`}
     >
       {status === "published" ? t("admin.statut.publie") : t("admin.statut.brouillon")}
@@ -200,7 +200,7 @@ function LessonForm({
           type="checkbox"
           checked={form.isFreePreview}
           onChange={(e) => setForm((p) => ({ ...p, isFreePreview: e.target.checked }))}
-          className="w-5 h-5 rounded border-white/20 bg-obsidian accent-aurora"
+          className="w-5 h-5 rounded border-white/20 bg-obsidian accent-brand"
         />
         <span className="font-sans text-sm text-ice-white/80">{t("admin.lecon.champApercu")}</span>
       </label>
@@ -210,7 +210,7 @@ function LessonForm({
           type="button"
           onClick={save}
           disabled={saving}
-          className="min-h-[48px] px-5 py-2.5 rounded-2xl bg-aurora text-obsidian font-sans font-semibold text-sm hover:bg-aurora/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+          className="min-h-[48px] px-5 py-2.5 rounded-full bg-brand text-[#07080A] font-sans font-semibold text-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {saving ? t("admin.enregistrement") : t("admin.enregistrer")}
         </button>
@@ -218,7 +218,7 @@ function LessonForm({
           type="button"
           onClick={onCancel}
           disabled={saving}
-          className="min-h-[48px] px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-ice-white/70 font-sans text-sm hover:text-white hover:bg-white/10 disabled:opacity-50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+          className="min-h-[48px] px-5 py-2.5 rounded-full bg-[#13151B] border border-white/[0.1] text-ice-white/80 font-sans text-sm hover:text-white hover:border-white/[0.2] disabled:opacity-50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {t("admin.annuler")}
         </button>
@@ -446,7 +446,7 @@ export default function AdminFormationDetailPage() {
     return (
       <div className="space-y-6 animate-pulse">
         <div className="h-8 bg-white/10 rounded-xl w-64" />
-        <div className="h-48 bg-deep-navy/60 rounded-2xl border border-white/5" />
+        <div className="h-48 bg-[#0D0E11] rounded-2xl border border-white/[0.06]" />
       </div>
     );
   }
@@ -471,10 +471,10 @@ export default function AdminFormationDetailPage() {
             type="button"
             onClick={toggleStatus}
             disabled={saving}
-            className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-2xl font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora ${
+            className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-full font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
               course.status === "published"
-                ? "bg-white/5 border border-white/10 text-ice-white/80 hover:bg-white/10"
-                : "bg-aurora text-obsidian hover:bg-aurora/90 shadow-lg shadow-aurora/20"
+                ? "bg-[#13151B] border border-white/[0.1] text-ice-white/85 hover:text-white hover:border-white/[0.2]"
+                : "bg-brand text-[#07080A] hover:bg-brand-light"
             }`}
           >
             {saving
@@ -487,7 +487,7 @@ export default function AdminFormationDetailPage() {
       </div>
 
       {/* Formulaire cours */}
-      <div className="p-6 rounded-2xl bg-deep-navy border border-white/10 space-y-5">
+      <div className="p-6 rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-5">
         <h2 className="font-display font-semibold text-white text-base">
           {t("admin.formations.infoGenerales")}
         </h2>
@@ -498,7 +498,7 @@ export default function AdminFormationDetailPage() {
           </div>
         )}
         {courseSuccess && (
-          <div className="p-3 rounded-xl bg-aurora/10 border border-aurora/30 text-aurora text-xs">
+          <div className="p-3 rounded-xl bg-brand/15 border border-brand/30 text-brand-light text-xs">
             {t("admin.formations.succesEnregistrement")}
           </div>
         )}
@@ -607,7 +607,7 @@ export default function AdminFormationDetailPage() {
           type="button"
           onClick={saveCourse}
           disabled={saving}
-          className="min-h-[48px] px-6 py-3 rounded-2xl bg-ion-blue text-white font-sans font-semibold text-sm hover:bg-ion-blue/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+          className="min-h-[48px] px-6 py-3 rounded-full bg-brand text-[#07080A] font-sans font-semibold text-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {saving ? t("admin.enregistrement") : t("admin.enregistrer")}
         </button>
@@ -615,7 +615,7 @@ export default function AdminFormationDetailPage() {
 
       {/* Gestion des leçons (seulement si la formation existe) */}
       {!isNew && (
-        <div className="p-6 rounded-2xl bg-deep-navy border border-white/10 space-y-5">
+        <div className="p-6 rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-5">
           <div className="flex items-center justify-between gap-4">
             <h2 className="font-display font-semibold text-white text-base">
               {t("admin.lecons.titre")} ({lessons.length})
@@ -624,7 +624,7 @@ export default function AdminFormationDetailPage() {
               <button
                 type="button"
                 onClick={() => { setAddingLesson(true); setEditingLessonId(null); }}
-                className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-xl bg-aurora/10 border border-aurora/30 text-aurora font-sans font-medium text-sm hover:bg-aurora/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-brand/15 border border-brand/30 text-brand-light font-sans font-medium text-sm hover:bg-brand/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -668,7 +668,7 @@ export default function AdminFormationDetailPage() {
                           onClick={() => moveLesson(lesson.id, "up")}
                           disabled={idx === 0}
                           aria-label={t("admin.lecons.monter")}
-                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
@@ -679,7 +679,7 @@ export default function AdminFormationDetailPage() {
                           onClick={() => moveLesson(lesson.id, "down")}
                           disabled={idx === lessons.length - 1}
                           aria-label={t("admin.lecons.descendre")}
-                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -690,19 +690,19 @@ export default function AdminFormationDetailPage() {
                       {/* Infos leçon */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs text-aurora shrink-0">
+                          <span className="font-mono text-xs text-brand-light shrink-0">
                             {String(lesson.order).padStart(2, "0")}
                           </span>
                           <span className="font-sans font-medium text-white text-sm truncate">
                             {lesson.title}
                           </span>
                           {lesson.isFreePreview && (
-                            <span className="shrink-0 text-xs font-mono px-1.5 py-0.5 rounded-md bg-ion-blue/15 text-ion-blue border border-ion-blue/20">
+                            <span className="shrink-0 text-xs font-mono px-1.5 py-0.5 rounded-md bg-brand/15 text-brand-light border border-brand/30">
                               {t("admin.lecon.apercu")}
                             </span>
                           )}
                         </div>
-                        <span className="font-mono text-xs text-ice-white/40 mt-0.5 block">
+                        <span className="font-mono text-xs text-ice-white/45 mt-0.5 block">
                           {lesson.moduleTitle} · {lesson.durationMinutes} min
                         </span>
                       </div>
@@ -713,7 +713,7 @@ export default function AdminFormationDetailPage() {
                           type="button"
                           onClick={() => { setEditingLessonId(lesson.id); setAddingLesson(false); }}
                           aria-label={t("admin.lecon.modifier")}
-                          className="min-h-[44px] px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-ice-white/70 hover:text-white hover:bg-white/10 font-sans text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                          className="min-h-[44px] px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-ice-white/75 hover:text-white hover:bg-white/10 font-sans text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           {t("admin.modifier")}
                         </button>

@@ -46,22 +46,22 @@ export default function ProfilPage() {
     <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center">
-        <div className="w-full max-w-2xl rounded-3xl bg-deep-navy border border-white/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        <div className="w-full max-w-2xl rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
           {/* Lueur d'ambiance */}
           <div
-            className="absolute top-0 right-0 w-64 h-64 bg-ion-blue/10 rounded-full blur-3xl pointer-events-none -z-0"
+            className="absolute top-0 right-0 w-64 h-64 bg-brand/10 rounded-full blur-3xl pointer-events-none -z-0"
             aria-hidden="true"
           />
 
           {/* En-tête du profil */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 border-b border-white/10 relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 border-b border-white/[0.08] relative z-10">
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="font-display font-bold text-2xl sm:text-4xl text-ice-white tracking-tight">
                   {t("profil.titre")}
                 </h1>
                 {isAdmin && (
-                  <span className="px-2.5 py-0.5 rounded-full bg-aurora/15 border border-aurora/40 text-aurora font-mono text-xs font-semibold uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 rounded-full bg-brand/15 border border-brand/40 text-brand-light font-mono text-xs font-semibold uppercase tracking-wider">
                     Admin
                   </span>
                 )}
@@ -70,7 +70,7 @@ export default function ProfilPage() {
                 {t("profil.sousTitre")}
               </p>
             </div>
-            <div className="w-14 h-14 rounded-2xl bg-obsidian border border-aurora/30 flex items-center justify-center font-display font-bold text-xl text-aurora shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-obsidian border border-brand/35 flex items-center justify-center font-display font-bold text-xl text-brand-light shadow-inner">
               {(user.displayName || user.email || "B").charAt(0).toUpperCase()}
             </div>
           </div>
@@ -101,7 +101,7 @@ export default function ProfilPage() {
             <div className="pt-2">
               <Link
                 href="/mes-formations"
-                className="w-full min-h-[44px] px-6 py-3 rounded-xl bg-obsidian border border-white/10 text-aurora hover:bg-white/5 font-medium text-sm sm:text-base flex items-center justify-center gap-2 transition-all"
+                className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <svg
                   className="w-5 h-5"

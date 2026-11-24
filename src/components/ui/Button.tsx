@@ -3,6 +3,7 @@ import React from "react";
 
 export interface ButtonProps {
   variant?: "principal" | "secondaire";
+  accent?: "brand" | "orange";
   href?: string;
   children: React.ReactNode;
   className?: string;
@@ -21,12 +22,12 @@ export function Button({
   ariaLabel,
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium text-sm sm:text-base px-6 py-2.5 rounded-lg min-h-[44px] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.98] select-none";
+    "group inline-flex items-center justify-center gap-2.5 font-medium text-sm px-5 py-2.5 rounded-full min-h-[44px] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.98] select-none whitespace-nowrap";
 
   const variantStyles =
     variant === "principal"
-      ? "bg-ion-blue text-ice-white hover:opacity-90 shadow-md shadow-ion-blue/25"
-      : "border border-aurora text-aurora hover:bg-aurora/10 bg-transparent";
+      ? "bg-brand text-[#07080A] font-semibold hover:bg-brand-light hover:-translate-y-0.5 shadow-lg shadow-[var(--brand-glow)]"
+      : "border border-white/[0.12] bg-[#13151B] text-ice-white hover:border-brand/50 hover:bg-[#191C24] hover:-translate-y-0.5";
 
   const combinedClasses = `${baseStyles} ${variantStyles} ${className}`.trim();
 

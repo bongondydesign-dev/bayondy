@@ -19,7 +19,7 @@ interface PaymentRow {
 
 function statusColor(status: string) {
   switch (status) {
-    case "paid": return "bg-aurora/15 text-aurora border-aurora/30";
+    case "paid": return "bg-brand/15 text-brand-light border-brand/30";
     case "pending": return "bg-yellow-500/15 text-yellow-300 border-yellow-500/30";
     case "failed":
     case "expired": return "bg-red-500/15 text-red-300 border-red-500/30";
@@ -99,22 +99,22 @@ export default function AdminPaiementsPage() {
       {loading && payments.length === 0 ? (
         <div className="space-y-3 animate-pulse">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-14 rounded-2xl bg-deep-navy/60 border border-white/5" />
+            <div key={i} className="h-14 rounded-2xl bg-[#0D0E11] border border-white/[0.06]" />
           ))}
         </div>
       ) : payments.length === 0 ? (
-        <div className="p-10 text-center rounded-2xl bg-deep-navy border border-white/10 space-y-3">
+        <div className="p-10 text-center rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-3">
           <svg className="w-12 h-12 text-ice-white/20 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
-          <p className="font-sans text-ice-white/50 text-sm">
+          <p className="font-sans text-ice-white/55 text-sm">
             {t("admin.paiements.vide")}
           </p>
         </div>
       ) : (
         <>
           {/* Tableau avec défilement horizontal interne — jamais sur la page */}
-          <div className="rounded-2xl bg-deep-navy border border-white/10 overflow-hidden">
+          <div className="rounded-2xl bg-[#0D0E11] border border-white/[0.08] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm font-sans min-w-[640px]">
                 <thead>
@@ -171,7 +171,7 @@ export default function AdminPaiementsPage() {
               type="button"
               onClick={() => loadMore(nextCursor)}
               disabled={loading}
-              className="w-full min-h-[48px] py-3 rounded-2xl bg-white/5 border border-white/10 text-ice-white/70 hover:text-white hover:bg-white/10 font-sans text-sm transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+              className="w-full min-h-[48px] py-3 rounded-full bg-[#13151B] border border-white/[0.1] text-ice-white/80 hover:text-white hover:border-white/[0.2] font-sans text-sm transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               {loading ? t("admin.chargement") : t("admin.paiements.voirPlus")}
             </button>

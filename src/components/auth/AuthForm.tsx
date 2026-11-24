@@ -65,7 +65,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto rounded-3xl bg-deep-navy border border-white/10 p-6 sm:p-8 shadow-2xl">
+    <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-8 shadow-2xl">
       {/* En-tête du formulaire */}
       <div className="text-center mb-8">
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white tracking-tight">
@@ -139,7 +139,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               placeholder={t("auth.nomPlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-obsidian border border-white/10 text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
           </div>
         )}
@@ -161,7 +161,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("auth.emailPlaceholder")}
-            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-obsidian border border-white/10 text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:border-transparent transition-all"
+            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
           />
         </div>
 
@@ -177,7 +177,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             {mode === "connexion" && (
               <Link
                 href="/mot-de-passe-oublie"
-                className="text-xs text-aurora hover:underline min-h-[44px] inline-flex items-center"
+                className="text-xs text-brand-light hover:underline min-h-[44px] inline-flex items-center"
               >
                 {t("auth.lienMotDePasseOublie")}
               </Link>
@@ -196,7 +196,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={motDePasse}
               onChange={(e) => setMotDePasse(e.target.value)}
               placeholder={t("auth.motDePassePlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-obsidian border border-white/10 text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
             {/* Bouton d'affichage du mot de passe accessible */}
             <button
@@ -207,7 +207,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
                   ? t("auth.cacherMotDePasse")
                   : t("auth.afficherMotDePasse")
               }
-              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora rounded-lg"
+              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
             >
               {showPassword ? (
                 /* Icône Oeil barré */
@@ -256,7 +256,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full min-h-[44px] px-6 py-3 rounded-xl bg-ion-blue text-ice-white font-medium text-sm sm:text-base mt-2 hover:opacity-90 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora shadow-md shadow-ion-blue/20"
+          className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[#07080A] font-semibold text-sm sm:text-base mt-2 hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-lg shadow-[var(--brand-glow)]"
         >
           {submitting
             ? t("auth.chargement")
@@ -271,14 +271,14 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             {t("auth.acceptationTexte")}{" "}
             <Link
               href="/conditions"
-              className="text-aurora hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora rounded"
+              className="text-brand-light hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
             >
               {t("auth.lienConditions")}
             </Link>{" "}
             {t("auth.et")}{" "}
             <Link
               href="/confidentialite"
-              className="text-aurora hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora rounded"
+              className="text-brand-light hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
             >
               {t("auth.lienConfidentialite")}
             </Link>
@@ -288,13 +288,13 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       </form>
 
       {/* Liens d'orientation en bas */}
-      <div className="mt-8 pt-6 border-t border-white/10 text-center text-sm text-ice-white/70">
+      <div className="mt-8 pt-6 border-t border-white/[0.08] text-center text-sm text-ice-white/70">
         {mode === "inscription" ? (
           <p>
             {t("auth.dejaCompte")}{" "}
             <Link
               href={`/connexion${redirectQuery}`}
-              className="text-aurora font-medium hover:underline min-h-[44px] inline-flex items-center"
+              className="text-brand-light font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienConnexion")}
             </Link>
@@ -304,7 +304,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             {t("auth.pasDeCompte")}{" "}
             <Link
               href={`/inscription${redirectQuery}`}
-              className="text-aurora font-medium hover:underline min-h-[44px] inline-flex items-center"
+              className="text-brand-light font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienInscription")}
             </Link>

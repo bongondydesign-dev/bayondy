@@ -61,7 +61,7 @@ export function LessonList({
           <div key={`mod-${modIdx}`} className="space-y-2">
             {/* Titre du module */}
             <div className="flex items-center gap-2 px-1">
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-aurora">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-light">
                 Modil {modIdx + 1}
               </span>
               <span className="text-white/20">•</span>
@@ -83,10 +83,10 @@ export function LessonList({
                       type="button"
                       onClick={() => onSelectLesson(lesson.id)}
                       aria-current={isCurrent ? "true" : undefined}
-                      className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 text-left transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora ${
+                      className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 text-left transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         isCurrent
-                          ? "bg-ion-blue/20 border border-ion-blue/60 text-white shadow-md shadow-ion-blue/10"
-                          : "bg-deep-navy/60 hover:bg-white/5 border border-white/5 hover:border-white/10 text-ice-white/80"
+                          ? "bg-brand/15 border border-brand/50 text-ice-white shadow-md shadow-[var(--brand-glow-soft)]"
+                          : "bg-[#07080A] hover:bg-[#13151B] border border-white/[0.06] hover:border-white/[0.14] text-ice-white/80"
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -94,10 +94,10 @@ export function LessonList({
                         <span
                           className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-mono transition-colors ${
                             isCompleted
-                              ? "bg-aurora/20 text-aurora border border-aurora/40"
+                              ? "bg-brand/15 text-brand-light border border-brand/35"
                               : isCurrent
-                              ? "bg-ion-blue text-white"
-                              : "bg-obsidian border border-white/10 text-ice-white/50"
+                              ? "bg-brand text-[#07080A] font-bold"
+                              : "bg-deep-navy border border-white/[0.1] text-ice-white/50"
                           }`}
                         >
                           {isCompleted ? (
@@ -116,7 +116,7 @@ export function LessonList({
                               />
                             </svg>
                           ) : isCurrent ? (
-                            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                            <span className="w-2 h-2 rounded-full bg-[#07080A]" />
                           ) : (
                             lesson.order || modIdx + 1
                           )}

@@ -12,11 +12,11 @@ import { FinalCta } from "@/components/home/FinalCta";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-ion-blue/30 selection:text-aurora overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       {/* 1. Navbar fine */}
       <Navbar />
 
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col home-orange selection:bg-[var(--home-orange)]/30 selection:text-[var(--home-orange-light)]">
         {/* 2. Hero centré avec symbole B-Portail & mockup vidéo */}
         <Hero />
 

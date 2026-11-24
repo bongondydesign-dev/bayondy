@@ -32,14 +32,14 @@ export function Syllabus({ syllabus }: SyllabusProps) {
             <details
               key={`mod-${modIdx}`}
               open={modIdx === 0}
-              className="group rounded-2xl bg-deep-navy border border-white/10 overflow-hidden transition-colors duration-200 open:border-aurora/30"
+              className="group rounded-2xl bg-deep-navy border border-white/[0.08] overflow-hidden transition-colors duration-200 open:border-brand/35"
             >
-              <summary className="flex items-center justify-between p-4 sm:p-5 cursor-pointer select-none list-none min-h-[44px] hover:bg-white/[0.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora transition-colors">
+              <summary className="flex items-center justify-between p-4 sm:p-5 cursor-pointer select-none list-none min-h-[44px] hover:bg-white/[0.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light transition-colors">
                 <div className="flex items-center gap-3 pr-2">
-                  <span className="flex-shrink-0 w-7 h-7 rounded-lg bg-obsidian border border-white/10 flex items-center justify-center font-mono text-xs font-semibold text-aurora">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-lg bg-obsidian border border-white/[0.08] flex items-center justify-center font-mono text-xs font-semibold text-brand-light">
                     {String(modIdx + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-sans font-medium text-base text-ice-white group-hover:text-aurora transition-colors">
+                  <span className="font-sans font-medium text-base text-ice-white group-hover:text-brand-light transition-colors">
                     {mod.title}
                   </span>
                 </div>

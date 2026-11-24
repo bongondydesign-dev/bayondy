@@ -48,7 +48,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
   const languageKey = `catalogue.langues.${course.language}`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-ion-blue/30 selection:text-aurora overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -56,7 +56,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         <div className="mb-6">
           <Link
             href="/formations"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-ice-white/70 hover:text-aurora transition-colors min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-ice-white/70 hover:text-brand-light transition-colors min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <svg
               className="w-4 h-4"
@@ -78,10 +78,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
           <div className="lg:col-span-8 space-y-8">
             {/* Badges de métadonnées */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/10 text-aurora">
+              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/[0.1] text-brand-light">
                 {t(levelKey)}
               </span>
-              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/10 text-ice-white/80">
+              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/[0.1] text-ice-white/80">
                 {t(languageKey)}
               </span>
               {durationText && (
@@ -112,7 +112,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
             )}
 
             {/* Visuel principal ou Repli CSS stylisé */}
-            <div className="relative aspect-video w-full rounded-3xl overflow-hidden bg-obsidian border border-white/10 shadow-2xl">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-obsidian border border-white/[0.08] shadow-2xl">
               {course.coverUrl ? (
                 <Image
                   src={course.coverUrl}
@@ -123,9 +123,9 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   className="object-cover"
                 />
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-ion-blue/20 via-deep-navy to-aurora/10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-brand/15 via-deep-navy to-brand-dark/10">
                   <div className="absolute inset-0 bg-noise opacity-50" aria-hidden="true" />
-                  <PortalSymbol size={80} className="opacity-80 drop-shadow-lg" />
+                  <PortalSymbol size={80} className="opacity-85 drop-shadow-lg" />
                   <span className="mt-4 font-mono text-xs tracking-wider uppercase text-ice-white/50">
                     BAYONDY
                   </span>
@@ -153,7 +153,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
           {/* Colonne latérale (Carte d'inscription & Prix) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
-            <div className="rounded-3xl bg-deep-navy border border-white/10 p-6 sm:p-7 shadow-xl shadow-black/40 space-y-6">
+            <div className="rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-7 shadow-xl shadow-black/40 space-y-6">
               {/* Prix */}
               <div>
                 <span className="block font-mono text-xs text-ice-white/50 uppercase tracking-wider mb-2">
@@ -177,21 +177,21 @@ export default async function CourseDetailPage({ params }: PageProps) {
               </div>
 
               {/* Récapitulatif des atouts de la formation */}
-              <div className="pt-6 border-t border-white/10 space-y-3.5">
+              <div className="pt-6 border-t border-white/[0.08] space-y-3.5">
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
                   <span>{t("catalogue.atoutLangue")} {t(languageKey)}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
                   <span>{t("catalogue.atoutMobile")}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-aurora/10 text-aurora flex items-center justify-center flex-shrink-0 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center flex-shrink-0 text-xs">
                     ✓
                   </span>
                   <span>{t("catalogue.atoutRythme")}</span>

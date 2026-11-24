@@ -20,7 +20,7 @@ export function PriceTag({
   if (!hasPrice) {
     return (
       <span
-        className={`inline-flex items-center font-mono font-medium rounded-lg text-aurora bg-aurora/10 border border-aurora/25 ${
+        className={`inline-flex items-center font-mono font-medium rounded-lg text-brand-light bg-brand/10 border border-brand/25 ${
           size === "lg" ? "text-sm sm:text-base px-3.5 py-1.5" : "text-xs px-2.5 py-1"
         } ${className}`}
       >

@@ -71,7 +71,7 @@ export function EnrollButton({
     return (
       <Link
         href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-2xl bg-ion-blue hover:bg-ion-blue/90 text-white font-sans font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-ion-blue/25 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
       >
         <svg
           className="w-4 h-4"
@@ -97,9 +97,9 @@ export function EnrollButton({
     return (
       <Link
         href={`/mes-formations/${courseSlug}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-2xl bg-aurora hover:bg-aurora/90 text-obsidian font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-aurora/25 transition-all duration-200 active:scale-[0.99] ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${className}`}
       >
-        <span className="w-5 h-5 rounded-full bg-obsidian/20 flex items-center justify-center text-xs">
+        <span className="w-5 h-5 rounded-full bg-[#07080A]/15 flex items-center justify-center text-xs">
           ✓
         </span>
         <span>{t("catalogue.boutonAcceder")}</span>
@@ -153,10 +153,10 @@ export function EnrollButton({
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-2xl bg-ion-blue hover:bg-ion-blue/90 text-white font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-ion-blue/25 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
       >
         <svg
-          className="w-5 h-5 text-aurora"
+          className="w-5 h-5 text-[#07080A]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -178,15 +178,15 @@ export function EnrollButton({
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md rounded-3xl bg-deep-navy border border-white/10 p-6 sm:p-7 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-display font-bold text-lg sm:text-xl text-white">
+          <div className="w-full max-w-md rounded-2xl bg-deep-navy border border-white/[0.1] p-6 sm:p-7 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+              <h3 className="font-display font-bold text-lg sm:text-xl text-ice-white">
                 {t("catalogue.modalTitre")}
               </h3>
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
-                className="text-ice-white/50 hover:text-white transition-colors p-1"
+                className="text-ice-white/50 hover:text-ice-white transition-colors p-1"
                 aria-label={t("catalogue.fermer")}
               >
                 ✕
@@ -194,11 +194,11 @@ export function EnrollButton({
             </div>
 
             {/* Affichage des montants */}
-            <div className="rounded-2xl bg-white/5 p-4 flex items-center justify-between">
+            <div className="rounded-xl bg-[#07080A] border border-white/[0.07] p-4 flex items-center justify-between">
               <span className="font-sans text-sm text-ice-white/70">Pri total :</span>
               <div className="text-right">
                 {priceHTG && priceHTG > 0 && (
-                  <span className="block font-mono font-bold text-lg text-aurora">
+                  <span className="block font-mono font-bold text-lg text-brand-light">
                     {priceHTG.toLocaleString()} HTG
                   </span>
                 )}
@@ -214,10 +214,10 @@ export function EnrollButton({
             <div className="space-y-3">
               {/* MonCash */}
               <label
-                className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
+                className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "moncash"
-                    ? "bg-aurora/10 border-aurora text-white"
-                    : "bg-white/5 border-white/10 text-ice-white/80 hover:bg-white/10"
+                    ? "bg-brand/10 border-brand text-ice-white"
+                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -227,24 +227,24 @@ export function EnrollButton({
                     value="moncash"
                     checked={selectedMethod === "moncash"}
                     onChange={() => setSelectedMethod("moncash")}
-                    className="accent-aurora w-4 h-4"
+                    className="accent-brand w-4 h-4"
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">MonCash</span>
                     <span className="font-mono text-xs text-ice-white/50">Digicel Haiti</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-red-600/30 text-red-200 border border-red-500/30">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
                   HTG
                 </span>
               </label>
 
               {/* NatCash */}
               <label
-                className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
+                className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "natcash"
-                    ? "bg-aurora/10 border-aurora text-white"
-                    : "bg-white/5 border-white/10 text-ice-white/80 hover:bg-white/10"
+                    ? "bg-brand/10 border-brand text-ice-white"
+                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -254,24 +254,24 @@ export function EnrollButton({
                     value="natcash"
                     checked={selectedMethod === "natcash"}
                     onChange={() => setSelectedMethod("natcash")}
-                    className="accent-aurora w-4 h-4"
+                    className="accent-brand w-4 h-4"
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">NatCash</span>
                     <span className="font-mono text-xs text-ice-white/50">Natcom Haiti</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-600/30 text-emerald-200 border border-emerald-500/30">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
                   HTG
                 </span>
               </label>
 
               {/* Carte Bancaire */}
               <label
-                className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
+                className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "card"
-                    ? "bg-aurora/10 border-aurora text-white"
-                    : "bg-white/5 border-white/10 text-ice-white/80 hover:bg-white/10"
+                    ? "bg-brand/10 border-brand text-ice-white"
+                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -281,14 +281,14 @@ export function EnrollButton({
                     value="card"
                     checked={selectedMethod === "card"}
                     onChange={() => setSelectedMethod("card")}
-                    className="accent-aurora w-4 h-4"
+                    className="accent-brand w-4 h-4"
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">Kat labank</span>
                     <span className="font-mono text-xs text-ice-white/50">Visa / Mastercard</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-blue-600/30 text-blue-200 border border-blue-500/30">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
                   USD/HTG
                 </span>
               </label>
@@ -306,7 +306,7 @@ export function EnrollButton({
                 type="button"
                 onClick={() => setModalOpen(false)}
                 disabled={submitting}
-                className="flex-1 py-3 px-4 rounded-2xl border border-white/10 hover:bg-white/5 text-ice-white/70 font-sans text-sm transition-colors"
+                className="flex-1 py-3 px-4 rounded-full border border-white/[0.12] bg-[#13151B] hover:border-white/25 text-ice-white/80 font-sans text-sm transition-colors"
               >
                 {t("catalogue.fermer")}
               </button>
@@ -315,11 +315,11 @@ export function EnrollButton({
                 type="button"
                 onClick={handlePayment}
                 disabled={submitting}
-                className="flex-1 py-3 px-4 rounded-2xl bg-aurora hover:bg-aurora/90 disabled:opacity-50 text-obsidian font-sans font-bold text-sm transition-all shadow-lg shadow-aurora/25 flex items-center justify-center gap-2"
+                className="flex-1 py-3 px-4 rounded-full bg-brand hover:bg-brand-light disabled:opacity-50 text-[#07080A] font-sans font-semibold text-sm transition-all shadow-lg shadow-[var(--brand-glow)] flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-obsidian/30 border-t-obsidian rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-[#07080A]/30 border-t-[#07080A] rounded-full animate-spin" />
                     <span>{t("catalogue.traitementEnCours")}</span>
                   </>
                 ) : (

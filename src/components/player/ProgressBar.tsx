@@ -28,14 +28,14 @@ export function ProgressBar({
       {showText && (
         <div className="flex items-center justify-between text-xs font-mono text-ice-white/70">
           <span>{t("mesFormations.progression")}</span>
-          <span className="font-semibold text-aurora">
+          <span className="font-semibold text-brand-light tabular-nums">
             {safeCompleted}/{safeTotal} ({percentage}%)
           </span>
         </div>
       )}
 
       <div
-        className={`w-full ${barHeight} rounded-full bg-obsidian border border-white/10 overflow-hidden`}
+        className={`w-full ${barHeight} rounded-full bg-obsidian border border-white/[0.1] overflow-hidden`}
         role="progressbar"
         aria-valuenow={percentage}
         aria-valuemin={0}
@@ -43,7 +43,7 @@ export function ProgressBar({
         aria-label={`${t("mesFormations.progression")}: ${percentage}%`}
       >
         <div
-          className="h-full bg-gradient-to-r from-ion-blue to-aurora transition-all duration-300 rounded-full"
+          className="h-full bg-gradient-to-r from-brand-dark to-brand transition-all duration-300 rounded-full"
           style={{ width: `${percentage}%` }}
         />
       </div>

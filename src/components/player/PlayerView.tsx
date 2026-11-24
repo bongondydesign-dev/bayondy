@@ -193,7 +193,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-ion-blue/30 selection:text-aurora overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
@@ -203,28 +203,28 @@ export function PlayerView({ slug }: PlayerViewProps) {
             <div className="h-4 bg-white/10 rounded w-48" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-8 space-y-4">
-                <div className="aspect-video w-full rounded-3xl bg-deep-navy/80 border border-white/5" />
+                <div className="aspect-video w-full rounded-2xl bg-deep-navy border border-white/[0.06]" />
                 <div className="h-8 bg-white/10 rounded-xl w-3/4" />
-                <div className="h-10 bg-white/5 rounded-2xl w-40" />
+                <div className="h-10 bg-white/5 rounded-full w-40" />
               </div>
-              <div className="lg:col-span-4 h-96 rounded-3xl bg-deep-navy/40 border border-white/5" />
+              <div className="lg:col-span-4 h-96 rounded-2xl bg-deep-navy border border-white/[0.06]" />
             </div>
           </div>
         ) : notEnrolled ? (
           // État non inscrit ou accès révoqué
-          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-3xl bg-deep-navy/40 border border-white/10 my-10 max-w-xl mx-auto">
-            <div className="w-16 h-16 rounded-2xl bg-deep-navy border border-white/10 flex items-center justify-center mb-6 text-aurora shadow-lg shadow-aurora/5">
-              <PortalSymbol size={36} className="opacity-80" />
+          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl bg-deep-navy border border-white/[0.08] my-10 max-w-xl mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-[#07080A] border border-white/[0.08] flex items-center justify-center mb-6 text-brand-light shadow-lg shadow-[var(--brand-glow-soft)]">
+              <PortalSymbol size={36} className="opacity-85" />
             </div>
-            <h1 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
+            <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white mb-3">
               {t("lecteur.nonInscrit")}
             </h1>
-            <p className="font-sans text-sm sm:text-base text-ice-white/60 mb-8 max-w-md leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-ice-white/65 mb-8 max-w-md leading-relaxed">
               {t("lecteur.nonInscritDescription")}
             </p>
             <Link
               href={`/formations/${slug}`}
-              className="min-h-[48px] px-6 py-3 rounded-2xl bg-ion-blue hover:bg-ion-blue/90 text-white font-sans font-medium text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-ion-blue/25 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+              className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <span>{t("lecteur.boutonVoirFormation")}</span>
               <svg
@@ -255,7 +255,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
             <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-ice-white/70">
               <Link
                 href="/mes-formations"
-                className="hover:text-aurora transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <svg
                   className="w-4 h-4"
@@ -291,16 +291,16 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 />
 
                 {/* En-tête de la leçon et action "Leson fini" */}
-                <div className="p-6 sm:p-7 rounded-3xl bg-deep-navy border border-white/10 space-y-5">
+                <div className="p-6 sm:p-7 rounded-2xl bg-deep-navy border border-white/[0.08] space-y-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       {currentLesson.moduleTitle && (
-                        <span className="font-mono text-xs uppercase tracking-wider text-aurora block mb-1.5">
+                        <span className="font-mono text-xs uppercase tracking-wider text-brand-light block mb-1.5">
                           {currentLesson.moduleTitle}
                         </span>
                       )}
                       {/* Titre unique H1 de la leçon active */}
-                      <h1 className="font-display font-bold text-xl sm:text-2xl lg:text-3xl text-white leading-tight">
+                      <h1 className="font-display font-bold text-xl sm:text-2xl lg:text-3xl text-ice-white leading-tight">
                         {currentLesson.title}
                       </h1>
                     </div>
@@ -308,7 +308,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     {/* Bouton "Leson fini" */}
                     <div className="flex-shrink-0">
                       {isCurrentCompleted ? (
-                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-aurora/15 border border-aurora/40 text-aurora font-sans font-medium text-sm select-none">
+                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand/15 border border-brand/40 text-brand-light font-sans font-medium text-sm select-none">
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -331,7 +331,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                           onClick={handleMarkCompleted}
                           disabled={savingProgress}
                           aria-disabled={savingProgress}
-                          className="min-h-[48px] px-6 py-3 rounded-2xl bg-ion-blue hover:bg-ion-blue/90 disabled:bg-ion-blue/50 text-white font-sans font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-ion-blue/25 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora select-none cursor-pointer disabled:cursor-not-allowed"
+                          className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light disabled:opacity-50 text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light select-none cursor-pointer disabled:cursor-not-allowed"
                         >
                           {savingProgress ? (
                             <>
@@ -391,7 +391,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   {/* Ressources de la leçon si existantes */}
                   {currentLesson.resources &&
                     currentLesson.resources.length > 0 && (
-                      <div className="pt-4 border-t border-white/5 space-y-2">
+                      <div className="pt-4 border-t border-white/[0.06] space-y-2">
                         <span className="font-mono text-xs text-ice-white/60 block">
                           {t("lecteur.ressources")} :
                         </span>
@@ -402,7 +402,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                               href={res.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-obsidian border border-white/10 text-xs text-aurora hover:underline min-h-[44px]"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-obsidian border border-white/[0.1] text-xs text-brand-light hover:underline min-h-[44px]"
                             >
                               <span>{res.label}</span>
                               <svg
@@ -430,7 +430,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
               {/* Colonne Latérale (Progression + Liste des leçons) */}
               <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                 {/* Carte de progression globale */}
-                <div className="p-5 sm:p-6 rounded-3xl bg-deep-navy border border-white/10 space-y-3">
+                <div className="p-5 sm:p-6 rounded-2xl bg-deep-navy border border-white/[0.08] space-y-3">
                   <span className="font-mono text-xs uppercase tracking-wider text-ice-white/50 block">
                     {t("lecteur.progressionGlobale")}
                   </span>
@@ -442,7 +442,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 </div>
 
                 {/* Liste des leçons */}
-                <div className="p-5 sm:p-6 rounded-3xl bg-deep-navy border border-white/10 max-h-[600px] overflow-y-auto">
+                <div className="p-5 sm:p-6 rounded-2xl bg-deep-navy border border-white/[0.08] max-h-[600px] overflow-y-auto">
                   <LessonList
                     lessons={lessons}
                     currentLessonId={currentLesson.id}

@@ -17,18 +17,17 @@ export const metadata: Metadata = {
 
 export default function ConditionsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-ion-blue/30 selection:text-aurora overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <LegalDraftNotice />
 
         <header className="mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-deep-navy border border-white/10 text-aurora font-mono text-xs uppercase tracking-wider mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-aurora" aria-hidden="true" />
-            <span>{t("conditions.badge")}</span>
-          </div>
-          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white leading-tight">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand-light mb-4">
+            {t("conditions.badge")}
+          </p>
+          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
             {t("conditions.titre")}
           </h1>
           <p className="mt-4 font-sans text-base sm:text-lg text-ice-white/75 leading-relaxed">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Sora, Inter, IBM_Plex_Mono, Playfair_Display } from "next/font/google";
 import "@/styles/theme.css";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 
@@ -12,15 +12,23 @@ const sora = Sora({
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   variable: "--font-inter",
   display: "swap",
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
   variable: "--font-ibm-plex-mono",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["italic"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -38,7 +46,7 @@ export default function RootLayout({
     <html
       lang="ht"
       suppressHydrationWarning
-      className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable}`}
+      className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} ${playfair.variable}`}
     >
       <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col">
         <AuthProvider>

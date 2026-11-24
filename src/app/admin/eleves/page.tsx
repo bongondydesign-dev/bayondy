@@ -131,7 +131,7 @@ export default function AdminElevesPage() {
       </div>
 
       {/* Formulaire accès manuel */}
-      <div className="p-6 rounded-2xl bg-deep-navy border border-white/10 space-y-5">
+      <div className="p-6 rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-5">
         <h2 className="font-display font-semibold text-white text-base">
           {t("admin.eleves.accesManuel")}
         </h2>
@@ -148,7 +148,7 @@ export default function AdminElevesPage() {
                 value={accessEmail}
                 onChange={(e) => setAccessEmail(e.target.value)}
                 placeholder={t("admin.eleves.placeholderEmail")}
-                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/10 text-ice-white placeholder:text-ice-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-aurora min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white placeholder:text-ice-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               />
             </div>
             <div className="space-y-1.5">
@@ -158,7 +158,7 @@ export default function AdminElevesPage() {
               <select
                 value={accessCourseId}
                 onChange={(e) => setAccessCourseId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/10 text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-aurora min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 {courses.map((c) => (
                   <option key={c.id} value={c.id}>{c.title}</option>
@@ -172,7 +172,7 @@ export default function AdminElevesPage() {
               <select
                 value={accessAction}
                 onChange={(e) => setAccessAction(e.target.value as "grant" | "revoke")}
-                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/10 text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-aurora min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 <option value="grant">{t("admin.eleves.donner")}</option>
                 <option value="revoke">{t("admin.eleves.retirer")}</option>
@@ -184,7 +184,7 @@ export default function AdminElevesPage() {
             <div
               className={`p-3 rounded-xl border text-sm ${
                 accessResult.ok
-                  ? "bg-aurora/10 border-aurora/30 text-aurora"
+                  ? "bg-brand/15 border-brand/30 text-brand-light"
                   : "bg-red-500/10 border-red-500/20 text-red-300"
               }`}
             >
@@ -195,7 +195,7 @@ export default function AdminElevesPage() {
           <button
             type="submit"
             disabled={accessLoading || !accessCourseId}
-            className="min-h-[48px] px-6 py-3 rounded-2xl bg-ion-blue text-white font-sans font-semibold text-sm hover:bg-ion-blue/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+            className="min-h-[48px] px-6 py-3 rounded-full bg-brand text-[#07080A] font-sans font-semibold text-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {accessLoading ? t("admin.enregistrement") : t("admin.eleves.appliquer")}
           </button>
@@ -217,11 +217,11 @@ export default function AdminElevesPage() {
         {loading && students.length === 0 ? (
           <div className="space-y-3 animate-pulse">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-16 rounded-2xl bg-deep-navy/60 border border-white/5" />
+              <div key={i} className="h-16 rounded-2xl bg-[#0D0E11] border border-white/[0.06]" />
             ))}
           </div>
         ) : students.length === 0 ? (
-          <p className="text-ice-white/40 text-sm text-center py-8">
+          <p className="text-ice-white/45 text-sm text-center py-8">
             {t("admin.eleves.vide")}
           </p>
         ) : (
@@ -229,19 +229,19 @@ export default function AdminElevesPage() {
             {students.map((s) => (
               <div
                 key={s.uid}
-                className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 sm:p-5 rounded-2xl bg-deep-navy border border-white/10"
+                className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 sm:p-5 rounded-2xl bg-[#0D0E11] border border-white/[0.08]"
               >
                 <div className="flex-1 min-w-0">
                   <span className="font-sans font-medium text-white text-sm block truncate">
                     {s.displayName || s.email}
                   </span>
-                  <span className="font-mono text-xs text-ice-white/40 block truncate">
+                  <span className="font-mono text-xs text-ice-white/45 block truncate">
                     {s.email}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 shrink-0">
                   {s.enrollments.length === 0 ? (
-                    <span className="text-xs text-ice-white/30 font-mono">
+                    <span className="text-xs text-ice-white/35 font-mono">
                       {t("admin.eleves.aucuneInscription")}
                     </span>
                   ) : (
@@ -250,8 +250,8 @@ export default function AdminElevesPage() {
                         key={i}
                         className={`inline-block px-2 py-0.5 rounded-full text-xs font-mono border ${
                           e.status === "active"
-                            ? "bg-aurora/10 text-aurora border-aurora/20"
-                            : "bg-white/5 text-ice-white/40 border-white/10"
+                            ? "bg-brand/15 text-brand-light border-brand/30"
+                            : "bg-white/5 text-ice-white/45 border-white/10"
                         }`}
                       >
                         {e.status}
@@ -269,7 +269,7 @@ export default function AdminElevesPage() {
             type="button"
             onClick={() => loadStudents(nextCursor)}
             disabled={loading}
-            className="w-full min-h-[48px] py-3 rounded-2xl bg-white/5 border border-white/10 text-ice-white/70 hover:text-white hover:bg-white/10 font-sans text-sm transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+            className="w-full min-h-[48px] py-3 rounded-full bg-[#13151B] border border-white/[0.1] text-ice-white/80 hover:text-white hover:border-white/[0.2] font-sans text-sm transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {loading ? t("admin.chargement") : t("admin.eleves.voirPlus")}
           </button>

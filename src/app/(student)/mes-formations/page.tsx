@@ -92,17 +92,16 @@ export default function MesFormationsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-ion-blue/30 selection:text-aurora overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-16">
         {/* En-tête */}
         <div className="max-w-2xl mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-deep-navy border border-white/10 text-aurora font-mono text-xs uppercase tracking-wider mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-aurora animate-pulse" />
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand-light mb-4">
             {t("nav.mesFormations")}
-          </div>
-          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white mb-3">
+          </p>
+          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white mb-3">
             {t("mesFormations.titre")}
           </h1>
           <p className="font-sans text-base sm:text-lg text-ice-white/70 leading-relaxed">
@@ -116,7 +115,7 @@ export default function MesFormationsPage() {
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
-                className="rounded-3xl bg-deep-navy/60 border border-white/5 p-5 sm:p-6 space-y-4 animate-pulse"
+                className="rounded-2xl bg-[#0D0E11] border border-white/[0.06] p-5 sm:p-6 space-y-4 animate-pulse"
                 aria-hidden="true"
               >
                 <div className="aspect-video w-full rounded-2xl bg-white/5" />
@@ -129,7 +128,7 @@ export default function MesFormationsPage() {
           </div>
         ) : error ? (
           // État d'erreur
-          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-3xl bg-deep-navy/40 border border-red-500/20 my-8 max-w-lg mx-auto">
+          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-2xl bg-[#0D0E11] border border-red-500/20 my-8 max-w-lg mx-auto">
             <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4">
               <svg
                 className="w-6 h-6"
@@ -151,7 +150,7 @@ export default function MesFormationsPage() {
               <button
                 type="button"
                 onClick={handleRetry}
-                className="min-h-[44px] px-6 py-2.5 rounded-xl bg-deep-navy hover:bg-white/5 border border-white/10 text-white font-sans text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora cursor-pointer"
+                className="min-h-[44px] px-6 py-2.5 rounded-full bg-[#13151B] hover:border-brand/50 border border-white/[0.12] text-ice-white font-sans text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light cursor-pointer"
               >
                 {t("accueil.boutonPrincipal")}
               </button>
@@ -159,19 +158,19 @@ export default function MesFormationsPage() {
           </div>
         ) : items.length === 0 ? (
           // État vide
-          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-3xl bg-deep-navy/40 border border-white/10 my-8 max-w-xl mx-auto">
-            <div className="w-16 h-16 rounded-2xl bg-deep-navy border border-white/10 flex items-center justify-center mb-6 text-aurora shadow-lg shadow-aurora/5">
-              <PortalSymbol size={36} className="opacity-80" />
+          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl bg-deep-navy border border-white/[0.08] my-8 max-w-xl mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-[#07080A] border border-white/[0.08] flex items-center justify-center mb-6 text-brand-light shadow-lg shadow-[var(--brand-glow-soft)]">
+              <PortalSymbol size={36} className="opacity-85" />
             </div>
-            <h2 className="font-sans font-semibold text-xl sm:text-2xl text-white mb-2">
+            <h2 className="font-sans font-semibold text-xl sm:text-2xl text-ice-white mb-2">
               {t("mesFormations.vide")}
             </h2>
-            <p className="font-sans text-sm sm:text-base text-ice-white/60 mb-8 max-w-md leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-ice-white/65 mb-8 max-w-md leading-relaxed">
               {t("mesFormations.videDescription")}
             </p>
             <Link
               href="/formations"
-              className="min-h-[48px] px-6 py-3 rounded-2xl bg-ion-blue hover:bg-ion-blue/90 text-white font-sans font-medium text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-ion-blue/25 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+              className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <span>{t("mesFormations.boutonDecouvrir")}</span>
               <svg
@@ -203,10 +202,10 @@ export default function MesFormationsPage() {
               return (
                 <article
                   key={enrollment.id}
-                  className="group relative flex flex-col rounded-3xl bg-deep-navy border border-white/10 hover:border-aurora/40 transition-all duration-300 hover:shadow-2xl hover:shadow-ion-blue/10 overflow-hidden"
+                  className="group relative flex flex-col rounded-2xl bg-deep-navy border border-white/[0.08] hover:border-brand/45 transition-all duration-300 hover:shadow-2xl hover:shadow-[var(--brand-glow-soft)] overflow-hidden"
                 >
                   {/* Image ou visuel de repli */}
-                  <div className="relative aspect-video w-full overflow-hidden bg-obsidian border-b border-white/5">
+                  <div className="relative aspect-video w-full overflow-hidden bg-obsidian border-b border-white/[0.06]">
                     {course.coverUrl ? (
                       <Image
                         src={course.coverUrl}
@@ -216,20 +215,20 @@ export default function MesFormationsPage() {
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-ion-blue/20 via-obsidian to-aurora/10">
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand/15 via-obsidian to-brand-dark/10">
                         <div
                           className="absolute inset-0 bg-noise opacity-50"
                           aria-hidden="true"
                         />
                         <PortalSymbol
                           size={54}
-                          className="opacity-75 transition-transform duration-500 group-hover:scale-110"
+                          className="opacity-80 transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
                     )}
 
                     <div className="absolute top-3 left-3">
-                      <span className="font-mono text-xs uppercase tracking-wider px-2.5 py-1 rounded-full bg-obsidian/80 backdrop-blur-md border border-white/10 text-ice-white/90">
+                      <span className="font-mono text-xs uppercase tracking-wider px-2.5 py-1 rounded-full bg-obsidian/85 backdrop-blur-md border border-white/[0.1] text-ice-white/90">
                         {t(levelKey)}
                       </span>
                     </div>
@@ -243,12 +242,12 @@ export default function MesFormationsPage() {
                           ⏱ {duration}
                         </span>
                       )}
-                      <h2 className="font-display font-semibold text-lg sm:text-xl text-white group-hover:text-aurora transition-colors line-clamp-2 leading-snug">
+                      <h2 className="font-display font-semibold text-lg sm:text-xl text-ice-white group-hover:text-brand-light transition-colors line-clamp-2 leading-snug">
                         {course.title}
                       </h2>
                     </div>
 
-                    <div className="space-y-4 pt-2 border-t border-white/5">
+                    <div className="space-y-4 pt-2 border-t border-white/[0.06]">
                       {/* Barre de progression */}
                       <ProgressBar
                         completedCount={completedCount}
@@ -259,7 +258,7 @@ export default function MesFormationsPage() {
                       {/* Bouton Continuer */}
                       <Link
                         href={`/mes-formations/${course.slug}`}
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-ion-blue hover:bg-ion-blue/90 text-white font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-md shadow-ion-blue/20 transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                       >
                         <span>{t("mesFormations.continuer")}</span>
                         <svg
