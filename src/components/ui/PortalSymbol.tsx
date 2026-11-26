@@ -3,16 +3,21 @@ import React from "react";
 interface PortalSymbolProps {
   className?: string;
   size?: number;
-  accent?: "brand" | "orange";
+  accent?: "brand" | "orange" | "ion";
 }
 
 export function PortalSymbol({
   className = "",
   size = 120,
+  accent = "brand",
 }: PortalSymbolProps) {
-  const primaryGradId = "portal-grad-brand-primary";
-  const innerGradId = "portal-grad-brand-inner";
-  const glowFilterId = "soft-glow-brand";
+  const isIon = accent === "ion";
+  const primaryGradId = isIon ? "portal-grad-ion-primary" : "portal-grad-brand-primary";
+  const innerGradId = isIon ? "portal-grad-ion-inner" : "portal-grad-brand-inner";
+  const glowFilterId = isIon ? "soft-glow-ion" : "soft-glow-brand";
+  const stopLight = isIon ? "#37D6D0" : "var(--brand-light, #FF885C)";
+  const stopMid = isIon ? "#2864FF" : "var(--brand, #FF5B22)";
+  const stopDark = isIon ? "#1947C6" : "var(--brand-dark, #C93E0E)";
 
   return (
     <div
@@ -36,9 +41,9 @@ export function PortalSymbol({
             y2="110"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="var(--brand-light, #FF885C)" />
-            <stop offset="55%" stopColor="var(--brand, #FF5B22)" />
-            <stop offset="100%" stopColor="var(--brand-dark, #C93E0E)" />
+            <stop offset="0%" stopColor={stopLight} />
+            <stop offset="55%" stopColor={stopMid} />
+            <stop offset="100%" stopColor={stopDark} />
           </linearGradient>
 
           <linearGradient
@@ -51,12 +56,12 @@ export function PortalSymbol({
           >
             <stop
               offset="0%"
-              stopColor="var(--brand-light, #FF885C)"
+              stopColor={stopLight}
               stopOpacity="0.85"
             />
             <stop
               offset="100%"
-              stopColor="var(--brand-dark, #C93E0E)"
+              stopColor={stopDark}
               stopOpacity="0.25"
             />
           </linearGradient>
@@ -125,7 +130,7 @@ export function PortalSymbol({
         {/* Rayon de passage du portail */}
         <path
           d="M62 42 L65 78"
-          stroke="var(--brand-light, #FF885C)"
+          stroke={stopLight}
           strokeWidth="2"
           strokeDasharray="3 3"
           opacity="0.6"
