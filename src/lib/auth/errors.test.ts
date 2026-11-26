@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   extractAuthErrorCode,
+  extractSafeAuthErrorDetail,
   getAuthErrorMessageKey,
   shouldIgnoreAuthError,
 } from "./errors";
@@ -29,6 +30,21 @@ test("shouldIgnoreAuthError ignores user-cancelled popup actions only", () => {
   assert.equal(shouldIgnoreAuthError("auth/popup-blocked"), false);
 });
 
+test("extractSafeAuthErrorDetail includes only safe auth code and env var names", () => {
+  assert.equal(
+    extractSafeAuthErrorDetail({
+      code: "auth/missing-config",
+      missingVars: ["NEXT_PUBLIC_FIREBASE_API_KEY", "SECRET_SHOULD_NOT_SHOW"],
+    }),
+    "auth/missing-config (NEXT_PUBLIC_FIREBASE_API_KEY)"
+  );
+  assert.equal(
+    extractSafeAuthErrorDetail({ code: "auth/invalid-api-key" }),
+    "auth/invalid-api-key"
+  );
+  assert.equal(extractSafeAuthErrorDetail({ message: "raw error" }), null);
+});
+
 test("getAuthErrorMessageKey maps Google and email auth errors to localized keys", () => {
   const cases: Array<[string, string]> = [
     ["auth/unauthorized-domain", "auth.erreurs.domaineNonAutorise"],
@@ -40,8 +56,13 @@ test("getAuthErrorMessageKey maps Google and email auth errors to localized keys
       "auth/account-exists-with-different-credential",
       "auth.erreurs.compteAutreMethode",
     ],
-    ["auth/invalid-api-key", "auth.erreurs.configurationInvalide"],
-    ["auth/missing-config", "auth.erreurs.configurationInvalide"],
+    ["auth/missing-config", "auth.erreurs.configManquante"],
+    ["auth/invalid-api-key", "auth.erreurs.cleApiInvalide"],
+    ["auth/app-not-authorized", "auth.erreurs.appNonAutorisee"],
+    [
+      "auth/requests-from-referer-https://example.com-are-blocked",
+      "auth.erreurs.appNonAutorisee",
+    ],
     ["auth/network-request-failed", "auth.erreurs.erreurReseau"],
     ["auth/unknown-code", "auth.erreurs.generique"],
   ];

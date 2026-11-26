@@ -203,6 +203,9 @@
       "domaineNonAutorise": "This domain is not authorized for Google sign-in in the Firebase configuration.",
       "methodeNonAutorisee": "Google sign-in is not enabled in the Firebase configuration.",
       "compteAutreMethode": "An account already exists with this email using a different sign-in method. Please sign in with your email and password.",
+      "configManquante": "Firebase environment variables are missing in this deployment.",
+      "cleApiInvalide": "The Firebase API key is invalid or missing.",
+      "appNonAutorisee": "This domain or app is not authorized to use the Firebase API key.",
       "configurationInvalide": "Firebase configuration is incomplete or invalid. Please contact the administrator.",
       "erreurReseau": "Network connection error. Please check your internet connection.",
       "generique": "An error occurred. Please try again."

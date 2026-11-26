@@ -13,7 +13,12 @@ import {
   signOut as firebaseSignOut,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { getFirebaseAuth, getFirebaseDb, hasFirebaseConfig } from "@/lib/firebase/client";
+import {
+  getFirebaseAuth,
+  getFirebaseDb,
+  getMissingFirebaseEnvVars,
+  hasFirebaseConfig,
+} from "@/lib/firebase/client";
 
 export interface AuthContextType {
   user: User | null;
@@ -79,9 +84,14 @@ async function resolveIsAdmin(user: User): Promise<boolean> {
 }
 
 function assertFirebaseConfigured(): void {
-  if (!hasFirebaseConfig()) {
-    const err = new Error("Firebase configuration is missing.") as Error & { code?: string };
+  const missingVars = getMissingFirebaseEnvVars();
+  if (missingVars.length > 0) {
+    const err = new Error("Firebase configuration is missing.") as Error & {
+      code?: string;
+      missingVars?: string[];
+    };
     err.code = "auth/missing-config";
+    err.missingVars = missingVars;
     throw err;
   }
 }

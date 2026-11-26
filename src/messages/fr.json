@@ -203,6 +203,9 @@
       "domaineNonAutorise": "Ce domaine n'est pas autorisé pour la connexion Google dans la configuration Firebase.",
       "methodeNonAutorisee": "La connexion avec Google n'est pas activée dans la configuration Firebase.",
       "compteAutreMethode": "Un compte existe déjà avec cette adresse e-mail via une autre méthode de connexion. Connectez-vous avec votre e-mail et mot de passe.",
+      "configManquante": "Les variables d'environnement Firebase sont manquantes dans ce déploiement.",
+      "cleApiInvalide": "La clé API Firebase est invalide ou manquante.",
+      "appNonAutorisee": "Ce domaine ou cette application n'est pas autorisé à utiliser la clé Firebase.",
       "configurationInvalide": "La configuration Firebase est incomplète ou invalide. Contactez l'administrateur.",
       "erreurReseau": "Problème de connexion réseau. Veuillez vérifier votre accès à Internet.",
       "generique": "Une erreur est survenue. Veuillez réessayer."

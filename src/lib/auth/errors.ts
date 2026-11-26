@@ -25,7 +25,39 @@ export function shouldIgnoreAuthError(errorCode: string): boolean {
   );
 }
 
+export function extractSafeAuthErrorDetail(err: unknown): string | null {
+  const code = extractAuthErrorCode(err);
+  if (!code) {
+    return null;
+  }
+
+  if (
+    code === "auth/missing-config" &&
+    err &&
+    typeof err === "object" &&
+    "missingVars" in err &&
+    Array.isArray((err as { missingVars?: unknown }).missingVars)
+  ) {
+    const vars = (err as { missingVars: unknown[] }).missingVars.filter(
+      (v): v is string => typeof v === "string" && v.startsWith("NEXT_PUBLIC_FIREBASE_")
+    );
+    if (vars.length > 0) {
+      return `${code} (${vars.join(", ")})`;
+    }
+  }
+
+  if (/^auth\/[a-z0-9-]+$/i.test(code)) {
+    return code;
+  }
+
+  return null;
+}
+
 export function getAuthErrorMessageKey(errorCode: string): string {
+  if (errorCode.startsWith("auth/requests-from-referer-")) {
+    return "auth.erreurs.appNonAutorisee";
+  }
+
   switch (errorCode) {
     case "auth/email-already-in-use":
       return "auth.erreurs.emailDejaUtilise";
@@ -50,10 +82,12 @@ export function getAuthErrorMessageKey(errorCode: string): string {
       return "auth.erreurs.methodeNonAutorisee";
     case "auth/account-exists-with-different-credential":
       return "auth.erreurs.compteAutreMethode";
-    case "auth/invalid-api-key":
-    case "auth/app-not-authorized":
     case "auth/missing-config":
-      return "auth.erreurs.configurationInvalide";
+      return "auth.erreurs.configManquante";
+    case "auth/invalid-api-key":
+      return "auth.erreurs.cleApiInvalide";
+    case "auth/app-not-authorized":
+      return "auth.erreurs.appNonAutorisee";
     case "auth/network-request-failed":
       return "auth.erreurs.erreurReseau";
     default:

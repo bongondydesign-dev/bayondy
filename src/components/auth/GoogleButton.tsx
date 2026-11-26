@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import {
   extractAuthErrorCode,
+  extractSafeAuthErrorDetail,
   getAuthErrorMessageKey,
   shouldIgnoreAuthError,
 } from "@/lib/auth/errors";
 import { t } from "@/lib/i18n";
 
 interface GoogleButtonProps {
-  onError?: (errorMessageKey: string | null) => void;
+  onError?: (errorMessageKey: string | null, errorDetail?: string | null) => void;
   onSuccess?: () => void;
 }
 
@@ -20,7 +21,7 @@ export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
 
   const handleClick = async () => {
     setSubmitting(true);
-    if (onError) onError(null);
+    if (onError) onError(null, null);
 
     try {
       await signInWithGoogle();
@@ -35,7 +36,8 @@ export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
         return;
       }
       const messageKey = getAuthErrorMessageKey(errorCode);
-      if (onError) onError(messageKey);
+      const detail = extractSafeAuthErrorDetail(err);
+      if (onError) onError(messageKey, detail);
     } finally {
       setSubmitting(false);
     }

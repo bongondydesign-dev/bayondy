@@ -6,47 +6,49 @@ let _app: FirebaseApp | null = null;
 let _auth: Auth | null = null;
 let _db: Firestore | null = null;
 
+export function getMissingFirebaseEnvVars(): string[] {
+  const missing: string[] = [];
+  if (!(process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? "").trim()) {
+    missing.push("NEXT_PUBLIC_FIREBASE_API_KEY");
+  }
+  if (!(process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ?? "").trim()) {
+    missing.push("NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN");
+  }
+  if (!(process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "").trim()) {
+    missing.push("NEXT_PUBLIC_FIREBASE_PROJECT_ID");
+  }
+  return missing;
+}
+
 export function hasFirebaseConfig(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
-      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
-      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
-      process.env.NEXT_PUBLIC_FIREBASE_APP_ID
-  );
+  return getMissingFirebaseEnvVars().length === 0;
 }
 
 function getFirebaseApp(): FirebaseApp {
   if (_app) return _app;
 
-  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID;
+  const apiKey = (process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? "").trim();
+  const authDomain = (process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ?? "").trim();
+  const projectId = (process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "").trim();
+  const appId = (process.env.NEXT_PUBLIC_FIREBASE_APP_ID ?? "").trim();
 
   // Vérification des variables manquantes (uniquement côté client et en développement)
   if (
     typeof window !== "undefined" &&
     process.env.NODE_ENV === "development" &&
-    (!apiKey || !authDomain || !projectId || !appId)
+    (!apiKey || !authDomain || !projectId)
   ) {
-    const missing = [
-      !apiKey && "NEXT_PUBLIC_FIREBASE_API_KEY",
-      !authDomain && "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-      !projectId && "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-      !appId && "NEXT_PUBLIC_FIREBASE_APP_ID",
-    ]
-      .filter(Boolean)
-      .join(", ");
+    const missing = getMissingFirebaseEnvVars().join(", ");
     console.warn(
       `[Firebase Config Warning] Variab anviwònman sa yo manke nan .env.local : ${missing}`
     );
   }
 
   const firebaseConfig = {
-    apiKey: apiKey ?? "",
-    authDomain: authDomain ?? "",
-    projectId: projectId ?? "",
-    appId: appId ?? "",
+    apiKey,
+    authDomain,
+    projectId,
+    ...(appId ? { appId } : {}),
   };
 
   _app = getApps().length ? getApp() : initializeApp(firebaseConfig);

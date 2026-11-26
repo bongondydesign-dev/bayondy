@@ -203,6 +203,9 @@
       "domaineNonAutorise": "Domèn sit sa a pa otorize nan konfigirasyon koneksyon Google la (Firebase Authorized Domains).",
       "methodeNonAutorisee": "Koneksyon ak Google pa aktive sou sèvè a pou kounye a.",
       "compteAutreMethode": "Gen yon kont ki deja egziste ak imèl sa a atravè yon lòt metòd koneksyon. Konekte ak imèl ak motpas ou.",
+      "configManquante": "Variab anviwònman Firebase yo manke nan deplwaman an.",
+      "cleApiInvalide": "Kle API Firebase la pa valid oswa li manke.",
+      "appNonAutorisee": "Domèn oswa aplikasyon sa a pa otorize pou itilize kle Firebase la.",
       "configurationInvalide": "Konfigirasyon Firebase la enkonplè oswa li pa valid. Kontakte administratè a.",
       "erreurReseau": "Gen yon pwoblèm koneksyon entènèt. Tanpri verifye rezo w la.",
       "generique": "Gen yon erè ki pase. Tanpri reye ankò."

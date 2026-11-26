@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { extractAuthErrorCode, getAuthErrorMessageKey } from "@/lib/auth/errors";
+import {
+  extractAuthErrorCode,
+  extractSafeAuthErrorDetail,
+  getAuthErrorMessageKey,
+} from "@/lib/auth/errors";
 import { getSafeRedirectPath } from "@/lib/auth/redirect";
 import { GoogleButton } from "./GoogleButton";
 import { t } from "@/lib/i18n";
@@ -29,10 +33,12 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorKey(null);
+    setErrorDetail(null);
 
     // Validation locale du mot de passe (minimum 8 caractères)
     if (motDePasse.length < 8) {
@@ -56,6 +62,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       const errorCode = extractAuthErrorCode(err);
       const messageKey = getAuthErrorMessageKey(errorCode);
       setErrorKey(messageKey);
+      setErrorDetail(extractSafeAuthErrorDetail(err));
       setSubmitting(false);
     }
   };
@@ -100,13 +107,23 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="font-sans leading-relaxed">{t(errorKey)}</span>
+          <div className="font-sans leading-relaxed">
+            <span>{t(errorKey)}</span>
+            {errorDetail && (
+              <p className="mt-1 font-mono text-xs text-red-300/80">
+                {errorDetail}
+              </p>
+            )}
+          </div>
         </div>
       )}
 
       {/* Bouton Google */}
       <GoogleButton
-        onError={(key) => setErrorKey(key)}
+        onError={(key, detail) => {
+          setErrorKey(key);
+          setErrorDetail(detail ?? null);
+        }}
         onSuccess={handleGoogleSuccess}
       />
 
