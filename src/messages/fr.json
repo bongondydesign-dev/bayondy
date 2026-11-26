@@ -199,6 +199,11 @@
       "emailInvalide": "Le format de l'adresse e-mail est invalide.",
       "tropDeTentatives": "Trop de tentatives infructueuses. Veuillez patienter un instant avant de réessayer.",
       "popupFermee": "La fenêtre de connexion a été fermée avant la finalisation.",
+      "popupBloquee": "La fenêtre de connexion Google a été bloquée par votre navigateur. Veuillez autoriser les fenêtres contextuelles et réessayer.",
+      "domaineNonAutorise": "Ce domaine n'est pas autorisé pour la connexion Google dans la configuration Firebase.",
+      "methodeNonAutorisee": "La connexion avec Google n'est pas activée dans la configuration Firebase.",
+      "compteAutreMethode": "Un compte existe déjà avec cette adresse e-mail via une autre méthode de connexion. Connectez-vous avec votre e-mail et mot de passe.",
+      "configurationInvalide": "La configuration Firebase est incomplète ou invalide. Contactez l'administrateur.",
       "erreurReseau": "Problème de connexion réseau. Veuillez vérifier votre accès à Internet.",
       "generique": "Une erreur est survenue. Veuillez réessayer."
     },

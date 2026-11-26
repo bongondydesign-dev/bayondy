@@ -64,6 +64,28 @@ async function upsertUserDoc(user: User): Promise<void> {
   }
 }
 
+async function resolveIsAdmin(user: User): Promise<boolean> {
+  try {
+    const tokenResult = await user.getIdTokenResult(true);
+    return tokenResult.claims.admin === true;
+  } catch {
+    try {
+      const cachedResult = await user.getIdTokenResult(false);
+      return cachedResult.claims.admin === true;
+    } catch {
+      return false;
+    }
+  }
+}
+
+function assertFirebaseConfigured(): void {
+  if (!hasFirebaseConfig()) {
+    const err = new Error("Firebase configuration is missing.") as Error & { code?: string };
+    err.code = "auth/missing-config";
+    throw err;
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(() => hasFirebaseConfig());
@@ -78,17 +100,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const auth = getFirebaseAuth();
       unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        if (currentUser) {
-          // Force le rafraîchissement du token pour récupérer les custom claims récents (admin: true)
-          const tokenResult = await currentUser.getIdTokenResult(true);
-          setIsAdmin(tokenResult.claims.admin === true);
-
-          await upsertUserDoc(currentUser);
-        } else {
-          setIsAdmin(false);
+        try {
+          if (currentUser) {
+            const adminClaim = await resolveIsAdmin(currentUser);
+            setIsAdmin(adminClaim);
+            await upsertUserDoc(currentUser);
+          } else {
+            setIsAdmin(false);
+          }
+        } finally {
+          setUser(currentUser);
+          setLoading(false);
         }
-        setUser(currentUser);
-        setLoading(false);
       });
     } catch (err) {
       console.warn("[AuthProvider] Firebase Auth initialization skipped:", err);
@@ -101,12 +124,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
+    assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    provider.setCustomParameters({ prompt: "select_account" });
+    const credential = await signInWithPopup(auth, provider);
+    if (credential.user) {
+      const adminClaim = await resolveIsAdmin(credential.user);
+      setIsAdmin(adminClaim);
+      await upsertUserDoc(credential.user);
+      setUser(credential.user);
+      setLoading(false);
+    }
   };
 
   const signUpWithEmail = async (nom: string, email: string, motDePasse: string) => {
+    assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     const userCredential = await createUserWithEmailAndPassword(auth, email, motDePasse);
     if (nom.trim() && userCredential.user) {
@@ -119,16 +152,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithEmail = async (email: string, motDePasse: string) => {
+    assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     await signInWithEmailAndPassword(auth, email, motDePasse);
   };
 
   const resetPassword = async (email: string) => {
+    assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     await sendPasswordResetEmail(auth, email);
   };
 
   const signOut = async () => {
+    assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     await firebaseSignOut(auth);
   };

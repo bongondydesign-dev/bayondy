@@ -199,6 +199,11 @@
       "emailInvalide": "Fòma adrès imèl la pa kòrèk.",
       "tropDeTentatives": "Gen twòp tantativ ki fèt. Tanpri tann yon ti moman anvan w reye.",
       "popupFermee": "Fenèt koneksyon an fèmen anvan operasyon an te fini.",
+      "popupBloquee": "Navigatè a bloke fenèt koneksyon Google la. Tanpri otorize popup yo epi reye ankò.",
+      "domaineNonAutorise": "Domèn sit sa a pa otorize nan konfigirasyon koneksyon Google la (Firebase Authorized Domains).",
+      "methodeNonAutorisee": "Koneksyon ak Google pa aktive sou sèvè a pou kounye a.",
+      "compteAutreMethode": "Gen yon kont ki deja egziste ak imèl sa a atravè yon lòt metòd koneksyon. Konekte ak imèl ak motpas ou.",
+      "configurationInvalide": "Konfigirasyon Firebase la enkonplè oswa li pa valid. Kontakte administratè a.",
       "erreurReseau": "Gen yon pwoblèm koneksyon entènèt. Tanpri verifye rezo w la.",
       "generique": "Gen yon erè ki pase. Tanpri reye ankò."
     },

@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { getAuthErrorMessageKey } from "@/lib/auth/errors";
+import {
+  extractAuthErrorCode,
+  getAuthErrorMessageKey,
+  shouldIgnoreAuthError,
+} from "@/lib/auth/errors";
 import { t } from "@/lib/i18n";
 
 interface GoogleButtonProps {
@@ -22,13 +26,15 @@ export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
       await signInWithGoogle();
       if (onSuccess) onSuccess();
     } catch (err: unknown) {
-      const error = err as { code?: string };
-      // Si l'utilisateur a simplement fermé la popup sans se connecter, ne pas afficher d'erreur agressive
-      if (error?.code === "auth/popup-closed-by-user") {
-        setSubmitting(false);
+      const errorCode = extractAuthErrorCode(err);
+      if (process.env.NODE_ENV === "development") {
+        console.warn("[GoogleButton] Auth error code:", errorCode || "unknown");
+      }
+      // Si l'utilisateur a fermé ou annulé la popup sans se connecter, ne pas afficher d'erreur agressive
+      if (shouldIgnoreAuthError(errorCode)) {
         return;
       }
-      const messageKey = getAuthErrorMessageKey(error?.code || "");
+      const messageKey = getAuthErrorMessageKey(errorCode);
       if (onError) onError(messageKey);
     } finally {
       setSubmitting(false);

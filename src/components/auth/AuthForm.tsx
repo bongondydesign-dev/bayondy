@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { getAuthErrorMessageKey } from "@/lib/auth/errors";
+import { extractAuthErrorCode, getAuthErrorMessageKey } from "@/lib/auth/errors";
 import { getSafeRedirectPath } from "@/lib/auth/redirect";
 import { GoogleButton } from "./GoogleButton";
 import { t } from "@/lib/i18n";
@@ -53,8 +53,8 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       if (process.env.NODE_ENV === "development") {
         console.error("[AuthForm error]", err);
       }
-      const error = err as { code?: string };
-      const messageKey = getAuthErrorMessageKey(error?.code || "");
+      const errorCode = extractAuthErrorCode(err);
+      const messageKey = getAuthErrorMessageKey(errorCode);
       setErrorKey(messageKey);
       setSubmitting(false);
     }
