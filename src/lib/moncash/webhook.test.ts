@@ -103,6 +103,21 @@ test("parseMonCashWebhookEvent parses payment.completed and payment.failed event
     assert.equal(parsedFailed.data.reference, "order_abc_02");
   }
 
+  const cancelledRaw = JSON.stringify({
+    event: "payment.cancelled",
+    reference: "order_abc_03",
+    amount: 5000,
+    status: "cancelled",
+    completedAt: null,
+  });
+  const parsedCancelled = parseMonCashWebhookEvent(cancelledRaw);
+  assert.equal(parsedCancelled.ok, true);
+  if (parsedCancelled.ok) {
+    assert.equal(parsedCancelled.data.event, "payment.cancelled");
+    assert.equal(parsedCancelled.data.reference, "order_abc_03");
+    assert.equal(parsedCancelled.data.status, "cancelled");
+  }
+
   const badJson = parseMonCashWebhookEvent("{broken");
   assert.equal(badJson.ok, false);
 });

@@ -88,7 +88,11 @@ export async function POST(req: NextRequest) {
   }
 
   // Ignorer proprement en 200 les événements non gérés (retries MCC idempotents)
-  if (event !== "payment.completed" && event !== "payment.failed") {
+  if (
+    event !== "payment.completed" &&
+    event !== "payment.failed" &&
+    event !== "payment.cancelled"
+  ) {
     return NextResponse.json({ ok: true, ignored: true, event }, { status: 200 });
   }
 
@@ -198,7 +202,7 @@ export async function POST(req: NextRequest) {
         return { outcome: alreadyPaid ? ("already_paid" as const) : ("paid" as const) };
       }
 
-      // event === "payment.failed"
+      // event === "payment.failed" | "payment.cancelled"
       // Ne jamais rétrograder une commande déjà payée
       if (data.status === "paid") {
         return { outcome: "already_paid" as const };
@@ -209,7 +213,7 @@ export async function POST(req: NextRequest) {
 
       tx.update(paymentRef, {
         status: "failed",
-        failureReason: status || "payment.failed",
+        failureReason: status || event,
       });
 
       return { outcome: "failed" as const };

@@ -4,7 +4,10 @@ export const MAX_WEBHOOK_TIMESTAMP_SKEW_SECONDS = 300;
 const SIGNATURE_HEADER_REGEX = /^sha256=([0-9a-fA-F]{64})$/;
 const TIMESTAMP_HEADER_REGEX = /^\d{1,13}$/;
 
-export type MonCashWebhookEventType = "payment.completed" | "payment.failed";
+export type MonCashWebhookEventType =
+  | "payment.completed"
+  | "payment.failed"
+  | "payment.cancelled";
 
 export interface ParsedMonCashWebhookPayload {
   event: string;

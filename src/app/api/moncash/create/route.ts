@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAdminAuth, getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import {
+  buildMonCashCreateHeaders,
+  isMonCashSuccessStatus,
   isSafePaymentRedirectUrl,
   mapMonCashUpstreamError,
   validateMonCashCreateInput,
@@ -52,9 +54,19 @@ export async function POST(req: NextRequest) {
   }
 
   let uid: string;
+  let customerName: string | undefined;
+  let customerEmail: string | undefined;
   try {
     const decoded = await getAdminAuth().verifyIdToken(idToken, true);
     uid = decoded.uid;
+    customerName =
+      typeof decoded.name === "string" && decoded.name.trim()
+        ? decoded.name.trim()
+        : undefined;
+    customerEmail =
+      typeof decoded.email === "string" && decoded.email.trim()
+        ? decoded.email.trim()
+        : undefined;
   } catch {
     return NextResponse.json(
       { error: "Sesyon ou a ekspire oswa li pa valid.", code: "INVALID_AUTH_TOKEN" },
@@ -164,18 +176,18 @@ export async function POST(req: NextRequest) {
   }
 
   // 6. Appel serveur vers MonCashConnect (/v1/pay-create)
+  const requestOrigin = new URL(returnUrl).origin;
   let mccResponse: Response;
   try {
     mccResponse = await fetch(MONCASH_PAY_CREATE_URL, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${mccSecretKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: buildMonCashCreateHeaders(mccSecretKey, requestOrigin, orderId),
       body: JSON.stringify({
         amount,
         referenceId: orderId,
         returnUrl,
+        ...(customerName ? { customerName } : {}),
+        ...(customerEmail ? { customerEmail } : {}),
       }),
       signal: AbortSignal.timeout(15000),
     });
@@ -198,7 +210,7 @@ export async function POST(req: NextRequest) {
 
   const mccPayload = await mccResponse.json().catch(() => null);
 
-  if (mccResponse.status === 201) {
+  if (isMonCashSuccessStatus(mccResponse.status)) {
     const paymentUrl =
       mccPayload && typeof mccPayload === "object"
         ? (mccPayload as Record<string, unknown>).paymentUrl

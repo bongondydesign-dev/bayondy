@@ -1,5 +1,6 @@
-export const MAX_MONCASH_AMOUNT_HTG = 10_000_000;
-export const ORDER_ID_REGEX = /^[A-Za-z0-9_-]{3,128}$/;
+export const MAX_MONCASH_AMOUNT_HTG = 1_000_000;
+export const MAX_MONCASH_ORDER_ID_LENGTH = 100;
+export const ORDER_ID_REGEX = /^[A-Za-z0-9_-]{3,100}$/;
 const COURSE_ID_REGEX = /^[A-Za-z0-9_-]{1,128}$/;
 
 export interface ValidatedMonCashCreateInput {
@@ -12,6 +13,37 @@ export interface ValidatedMonCashCreateInput {
 export type MonCashValidationResult =
   | { ok: true; data: ValidatedMonCashCreateInput }
   | { ok: false; status: number; code: string; error: string };
+
+/**
+ * Vérifie si le statut HTTP retourné par MonCashConnect /v1/pay-create
+ * correspond à une création réussie (200 OK selon la doc officielle, ou 201).
+ */
+export function isMonCashSuccessStatus(status: number): boolean {
+  return status === 200 || status === 201;
+}
+
+/**
+ * Construit les en-têtes requis pour l'appel serveur POST /v1/pay-create,
+ * incluant Origin (requis si des domaines autorisés sont configurés dans MCC)
+ * et Idempotency-Key (recommandé pour éviter les doublons).
+ */
+export function buildMonCashCreateHeaders(
+  secretKey: string,
+  origin: string,
+  idempotencyKey: string
+): Record<string, string> {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${secretKey}`,
+    "Content-Type": "application/json",
+    "Idempotency-Key": idempotencyKey.slice(0, 200),
+  };
+
+  if (origin && /^https?:\/\/[^/\s]+$/i.test(origin)) {
+    headers.Origin = origin;
+  }
+
+  return headers;
+}
 
 /**
  * Vérifie qu'une URL de redirection est une URL HTTP(S) sûre.
@@ -42,7 +74,7 @@ export function isSafePaymentRedirectUrl(rawUrl: unknown): rawUrl is string {
 }
 
 /**
- * Génère un identifiant de commande unique compatible MonCashConnect.
+ * Génère un identifiant de commande unique compatible MonCashConnect (<= 100 caractères).
  */
 export function createMonCashOrderId(courseId?: string): string {
   const safePrefix = (courseId || "cmd")
@@ -54,7 +86,7 @@ export function createMonCashOrderId(courseId?: string): string {
       ? globalThis.crypto.randomUUID().replace(/-/g, "").slice(0, 8)
       : Math.random().toString(36).slice(2, 10);
 
-  return `byd_${safePrefix || "cmd"}_${ts}_${rand}`.slice(0, 128);
+  return `byd_${safePrefix || "cmd"}_${ts}_${rand}`.slice(0, MAX_MONCASH_ORDER_ID_LENGTH);
 }
 
 /**

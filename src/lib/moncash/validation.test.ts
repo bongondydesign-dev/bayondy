@@ -1,7 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildMonCashCreateHeaders,
   createMonCashOrderId,
+  isMonCashSuccessStatus,
   isSafePaymentRedirectUrl,
   mapMonCashUpstreamError,
   ORDER_ID_REGEX,
@@ -96,4 +98,43 @@ test("mapMonCashUpstreamError returns structured error and code", () => {
   const fallback = mapMonCashUpstreamError(502, null);
   assert.equal(fallback.code, "MONCASH_HTTP_502");
   assert.ok(fallback.error.length > 0);
+});
+
+test("isMonCashSuccessStatus accepts both HTTP 200 and 201", () => {
+  assert.equal(isMonCashSuccessStatus(200), true);
+  assert.equal(isMonCashSuccessStatus(201), true);
+  assert.equal(isMonCashSuccessStatus(400), false);
+  assert.equal(isMonCashSuccessStatus(403), false);
+  assert.equal(isMonCashSuccessStatus(500), false);
+});
+
+test("buildMonCashCreateHeaders sets Authorization, Content-Type, Idempotency-Key, and valid Origin", () => {
+  const headers = buildMonCashCreateHeaders(
+    "sk_test_proj_123",
+    "https://bayondy.com",
+    "byd_course_1"
+  );
+  assert.equal(headers.Authorization, "Bearer sk_test_proj_123");
+  assert.equal(headers["Content-Type"], "application/json");
+  assert.equal(headers["Idempotency-Key"], "byd_course_1");
+  assert.equal(headers.Origin, "https://bayondy.com");
+
+  const withoutInvalidOrigin = buildMonCashCreateHeaders(
+    "sk_test_proj_123",
+    "https://bayondy.com/evil path",
+    "byd_course_2"
+  );
+  assert.equal(withoutInvalidOrigin.Origin, undefined);
+});
+
+test("validateMonCashCreateInput rejects orderId longer than 100 characters", () => {
+  const res = validateMonCashCreateInput({
+    amount: 500,
+    orderId: "a".repeat(101),
+    returnUrl: "https://bayondy.com/merci",
+  });
+  assert.equal(res.ok, false);
+  if (!res.ok) {
+    assert.equal(res.code, "INVALID_ORDER_ID");
+  }
 });
