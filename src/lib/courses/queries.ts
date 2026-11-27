@@ -1,5 +1,5 @@
 import "server-only";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import type { CourseDoc, PublicCourse } from "@/types/firestore";
@@ -42,9 +42,11 @@ function mapDocToPublicCourse(id: string, data: Partial<CourseDoc>): PublicCours
  */
 export async function getPublishedCourses(): Promise<PublicCourse[]> {
   "use cache";
+  cacheTag("courses");
   cacheLife({
-    stale: 300,
+    stale: 60,
     revalidate: 300,
+    expire: 3600,
   });
 
   if (!hasAdminCredentials()) {
@@ -88,9 +90,11 @@ export async function getPublishedCourseBySlug(
   slug: string
 ): Promise<PublicCourse | null> {
   "use cache";
+  cacheTag("courses", `course-${slug}`);
   cacheLife({
-    stale: 300,
+    stale: 60,
     revalidate: 300,
+    expire: 3600,
   });
 
   if (!slug || typeof slug !== "string") {

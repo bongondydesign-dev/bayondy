@@ -4,6 +4,7 @@ import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -71,6 +72,10 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
       `Champs modifiés: ${changed}`
     );
 
+    const courseDoc = await db.collection("courses").doc(courseId).get();
+    const courseSlug = courseDoc.data()?.slug;
+    revalidateCoursesCache(typeof courseSlug === "string" ? courseSlug : null);
+
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
@@ -107,6 +112,10 @@ export async function DELETE(req: NextRequest, ctx: RouteContext) {
       { type: "lesson", id: lessonId },
       `Leson archivée: "${title}", cours: ${courseId}`
     );
+
+    const courseDoc = await db.collection("courses").doc(courseId).get();
+    const courseSlug = courseDoc.data()?.slug;
+    revalidateCoursesCache(typeof courseSlug === "string" ? courseSlug : null);
 
     return NextResponse.json({ ok: true });
   } catch {

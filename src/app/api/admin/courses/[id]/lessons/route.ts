@@ -4,6 +4,7 @@ import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -82,6 +83,9 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
       { type: "lesson", id: lessonRef.id },
       `Cours: ${courseId}, Module: "${data.moduleTitle}", Titre: "${data.title}"`
     );
+
+    const courseSlug = courseDoc.data()?.slug;
+    revalidateCoursesCache(typeof courseSlug === "string" ? courseSlug : null);
 
     return NextResponse.json({ id: lessonRef.id }, { status: 201 });
   } catch {

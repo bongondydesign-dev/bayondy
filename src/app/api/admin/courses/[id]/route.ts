@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateCourseInput } from "@/lib/admin/validation";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -172,6 +173,11 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
         : "course.update";
 
     await writeAdminLog(auth.user.uid, action, { type: "course", id }, `Champs modifiés: ${changed}`);
+
+    revalidateCoursesCache([
+      typeof existing.slug === "string" ? existing.slug : null,
+      typeof data.slug === "string" ? data.slug : null,
+    ]);
 
     return NextResponse.json({ ok: true });
   } catch {

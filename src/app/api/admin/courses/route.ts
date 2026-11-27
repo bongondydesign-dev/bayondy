@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateCourseInput } from "@/lib/admin/validation";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
 
 // GET /api/admin/courses — liste toutes les formations (published + draft)
@@ -99,6 +100,10 @@ export async function POST(req: NextRequest) {
     });
 
     await writeAdminLog(auth.user.uid, "course.create", { type: "course", id: docRef.id }, `Titre: "${data.title}", slug: "${data.slug}"`);
+
+    if ((data.status ?? "draft") === "published") {
+      revalidateCoursesCache(data.slug);
+    }
 
     return NextResponse.json({ id: docRef.id }, { status: 201 });
   } catch {
