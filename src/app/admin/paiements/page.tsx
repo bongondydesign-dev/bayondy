@@ -25,6 +25,7 @@ function statusColor(status: string) {
     case "paid":
       return "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25";
     case "pending":
+    case "awaiting_payment":
       return "bg-amber-50 dark:bg-yellow-500/15 text-amber-800 dark:text-yellow-300 border-amber-300 dark:border-yellow-500/30";
     case "failed":
     case "expired":

@@ -17,6 +17,9 @@
   },
   "paiement": {
     "payer": "Payer",
+    "payerMonCash": "Payer avec MonCash",
+    "redirection": "Redirection vers MonCash...",
+    "erreurCreation": "Impossible d'initialiser le paiement MonCash. Veuillez réessayer.",
     "continuer": "Continuer",
     "enCours": "Paiement en cours de vérification",
     "reussi": "Paiement réussi",
@@ -341,6 +344,7 @@
     "sectionPaiementsTitre": "Historique des transactions",
     "aucunPaiement": "Aucune transaction pour le moment.",
     "paiementStatut": {
+      "awaiting_payment": "En attente de paiement",
       "paid": "Confirmé",
       "pending": "En attente",
       "failed": "Échoué",
@@ -537,11 +541,11 @@
     "s3_texte": "Ces données sont strictement utilisées pour : créer et gérer votre compte, vous donner accès aux cours achetés, suivre votre progression pédagogique et vérifier vos paiements.",
     "s4_titre": "4. Services tiers sous-traitants",
     "s4_firebase": "Firebase / Google Cloud : Pour l'authentification sécurisée et le stockage de la base de données.",
-    "s4_tranzak": "Tranzak : Pour le traitement des paiements (MonCash, NatCash, Carte).",
+    "s4_paiement": "Prestataire de paiement : Pour le traitement sécurisé des paiements (à confirmer selon la plateforme retenue).",
     "s4_youtube": "YouTube (youtube-nocookie.com) : Pour la diffusion des vidéos de cours. L'iframe ne se charge qu'après votre clic explicite.",
     "s4_vercel": "Vercel : Pour l'hébergement de l'application web.",
     "s5_titre": "5. Sécurité des paiements",
-    "s5_texte": "BAYONDY ne reçoit ni ne stocke jamais vos codes secrets PIN MonCash/NatCash ni vos numéros complets de carte bancaire. Les paiements sont traités directement par Tranzak. Conditions de conservation chez Tranzak :",
+    "s5_texte": "BAYONDY ne reçoit ni ne stocke jamais vos codes secrets PIN ni vos numéros complets de carte bancaire. Les paiements sont traités directement par notre prestataire de paiement sécurisé. Détails et conditions de conservation du prestataire retenu :",
     "s6_titre": "6. Durée de conservation",
     "s6_texte": "Les données de votre compte et de vos cours sont conservées tant que votre compte reste actif. Durée légale exacte :",
     "s7_titre": "7. Vos droits",
@@ -577,5 +581,13 @@
     "s9_texte": "Législation applicable et juridiction compétente en cas de litige :",
     "s10_titre": "10. Contact et date de mise à jour",
     "s10_texte": "Pour toute question relative aux présentes conditions, contact officiel et date de dernière révision :"
+  },
+  "merci": {
+    "badge": "Paiement MonCash",
+    "titre": "Merci pour votre commande",
+    "sousTitre": "Votre retour depuis MonCash a bien été enregistré. Nous attendons la confirmation finale de l'opérateur.",
+    "noteWebhook": "Dès réception de la confirmation finale, l'accès à votre formation sera activé automatiquement sur votre compte.",
+    "boutonMesFormations": "Aller à mes formations",
+    "boutonCatalogue": "Voir les formations"
   }
 }

@@ -63,6 +63,8 @@ export function filterAdminPayments<T extends AdminPaymentFilterable>(
   return payments.filter((p) => {
     if (statusFilter === "failed") {
       if (p.status !== "failed" && p.status !== "expired") return false;
+    } else if (statusFilter === "pending") {
+      if (p.status !== "pending" && p.status !== "awaiting_payment") return false;
     } else if (statusFilter !== "all" && p.status !== statusFilter) {
       return false;
     }
@@ -86,7 +88,7 @@ export function computePaymentSummary(payments: AdminPaymentFilterable[]) {
       paidCount++;
       if (p.currency === "HTG") totalHTG += Number(p.amount) || 0;
       if (p.currency === "USD") totalUSD += Number(p.amount) || 0;
-    } else if (p.status === "pending") {
+    } else if (p.status === "pending" || p.status === "awaiting_payment") {
       pendingCount++;
     }
   }

@@ -17,6 +17,9 @@
   },
   "paiement": {
     "payer": "Pay",
+    "payerMonCash": "Pay with MonCash",
+    "redirection": "Redirecting to MonCash...",
+    "erreurCreation": "Unable to initialize MonCash payment. Please try again.",
     "continuer": "Continue",
     "enCours": "Verifying payment",
     "reussi": "Payment successful",
@@ -341,6 +344,7 @@
     "sectionPaiementsTitre": "Transaction history",
     "aucunPaiement": "No transactions yet.",
     "paiementStatut": {
+      "awaiting_payment": "Awaiting payment",
       "paid": "Confirmed",
       "pending": "Pending",
       "failed": "Failed",
@@ -537,11 +541,11 @@
     "s3_texte": "This data is strictly used to: create and manage your account, grant access to purchased courses, track your learning progress, and verify payments.",
     "s4_titre": "4. Third-party services",
     "s4_firebase": "Firebase / Google Cloud: For secure authentication and database storage.",
-    "s4_tranzak": "Tranzak: For payment processing (MonCash, NatCash, Card).",
+    "s4_paiement": "Payment processor: For secure payment processing (to be confirmed based on the selected platform).",
     "s4_youtube": "YouTube (youtube-nocookie.com): For video streaming. The player loads only after your explicit click.",
     "s4_vercel": "Vercel: For hosting the web application.",
     "s5_titre": "5. Payment security",
-    "s5_texte": "BAYONDY never sees or stores your secret PIN for MonCash/NatCash or full credit card numbers. Payments are processed directly by Tranzak. Retention details at Tranzak:",
+    "s5_texte": "BAYONDY never sees or stores your secret PIN codes or full credit card numbers. Payments are processed directly by our third-party payment processor. Retention details for the selected processor:",
     "s6_titre": "6. Data retention period",
     "s6_texte": "Your account and course data are stored as long as your account remains active. Exact retention timeframe:",
     "s7_titre": "7. Your rights",
@@ -577,5 +581,13 @@
     "s9_texte": "Applicable legislation and jurisdiction in case of dispute:",
     "s10_titre": "10. Contact and update date",
     "s10_texte": "For any questions regarding these terms, official contact and last revision date:"
+  },
+  "merci": {
+    "badge": "MonCash Payment",
+    "titre": "Thank you for your order",
+    "sousTitre": "Your return from MonCash has been recorded. We are awaiting final confirmation from the payment provider.",
+    "noteWebhook": "As soon as final confirmation is received, access to your course will be activated automatically on your account.",
+    "boutonMesFormations": "Go to my courses",
+    "boutonCatalogue": "Browse courses"
   }
 }

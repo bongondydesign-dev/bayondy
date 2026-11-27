@@ -129,8 +129,9 @@ export interface EnrollmentDoc {
 // payments/{paymentId}
 // Lecture élève (propres paiements) — aucune écriture côté client.
 // ------------------------------------------------------------------
-export type PaymentMethod = "moncash" | "natcash" | "card";
+export type PaymentMethod = "moncash" | "natcash" | "card" | (string & {});
 export type PaymentStatus =
+  | "awaiting_payment"
   | "pending"
   | "paid"
   | "failed"
@@ -143,8 +144,10 @@ export interface PaymentDoc {
   amount: number;
   currency: string; // "USD" | "HTG"
   method: PaymentMethod;
+  orderId?: string;
   merchantReference: string;
-  tranzakReference: string;
+  providerReference?: string;
+  returnUrl?: string;
   status: PaymentStatus;
   paymentUrl?: string | null;
   failureReason?: string | null;

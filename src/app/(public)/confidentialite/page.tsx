@@ -73,7 +73,10 @@ export default function ConfidentialitePage() {
             </h2>
             <ul className="list-disc pl-5 space-y-2.5 text-ice-white/80">
               <li>{t("confidentialite.s4_firebase")}</li>
-              <li>{t("confidentialite.s4_tranzak")}</li>
+              <li>
+                {t("confidentialite.s4_paiement")}{" "}
+                <TodoMark label={t("legal.aConfirmer")} />
+              </li>
               <li>{t("confidentialite.s4_youtube")}</li>
               <li>
                 {t("confidentialite.s4_vercel")}{" "}

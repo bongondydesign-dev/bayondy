@@ -29,6 +29,7 @@ function paymentStatusBadge(status: string): string {
     case "paid":
       return "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25";
     case "pending":
+    case "awaiting_payment":
       return "bg-amber-500/12 text-amber-800 dark:text-amber-300 border-amber-500/25";
     case "failed":
     case "expired":

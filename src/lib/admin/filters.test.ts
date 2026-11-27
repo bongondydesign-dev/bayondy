@@ -34,14 +34,16 @@ test("filterAdminPayments and computePaymentSummary calculate real totals", () =
     { id: "p2", uid: "u2", courseId: "c2", amount: 25, currency: "USD", method: "card", status: "paid", merchantReference: "REF-2" },
     { id: "p3", uid: "u3", courseId: "c1", amount: 2500, currency: "HTG", method: "natcash", status: "pending", merchantReference: "REF-3" },
     { id: "p4", uid: "u4", courseId: "c1", amount: 2500, currency: "HTG", method: "moncash", status: "expired", merchantReference: "REF-4" },
+    { id: "p5", uid: "u5", courseId: "c1", amount: 1500, currency: "HTG", method: "moncash", status: "awaiting_payment", merchantReference: "REF-5" },
   ];
   assert.equal(filterAdminPayments(rows, "", "failed").length, 1);
+  assert.equal(filterAdminPayments(rows, "", "pending").length, 2);
   assert.equal(filterAdminPayments(rows, "REF-2", "all").length, 1);
 
   const summary = computePaymentSummary(rows);
-  assert.equal(summary.totalCount, 4);
+  assert.equal(summary.totalCount, 5);
   assert.equal(summary.paidCount, 2);
-  assert.equal(summary.pendingCount, 1);
+  assert.equal(summary.pendingCount, 2);
   assert.equal(summary.totalHTG, 2500);
   assert.equal(summary.totalUSD, 25);
 });

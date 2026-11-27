@@ -17,6 +17,9 @@
   },
   "paiement": {
     "payer": "Peye",
+    "payerMonCash": "Peye ak MonCash",
+    "redirection": "Redireksyon nan MonCash...",
+    "erreurCreation": "Nou pa t kapab lanse peman MonCash la. Tanpri reye.",
     "continuer": "Kontinye",
     "enCours": "N ap verifye peman an",
     "reussi": "Peman an pase",
@@ -341,6 +344,7 @@
     "sectionPaiementsTitre": "Istorik tranzaksyon yo",
     "aucunPaiement": "Pa gen okenn tranzaksyon pou kounye a.",
     "paiementStatut": {
+      "awaiting_payment": "An atant peman",
       "paid": "Konfime",
       "pending": "An atant",
       "failed": "Echwe",
@@ -537,11 +541,11 @@
     "s3_texte": "Done sa yo sèvi sèlman pou : kreye ak jere kont ou, ba w aksè nan fòmasyon ou peye yo, swiv pwogrè w nan leson yo, epi valide tranzaksyon yo ak operatè peman an.",
     "s4_titre": "4. Sèvis ak patnè ekstèn",
     "s4_firebase": "Firebase / Google Cloud : Pou otantifikasyon sekirize ak baz done a.",
-    "s4_tranzak": "Tranzak : Pou trete peman yo (MonCash, NatCash, Kat).",
+    "s4_paiement": "Operatè peman ekstèn : Pou trete peman yo sou platfòm nan (pou konfime selon mwayen yo chwazi a).",
     "s4_youtube": "YouTube (youtube-nocookie.com) : Pou difize videyo leson yo. Videyo a pa chaje toutotan ou pa klike sou bouton gade a.",
     "s4_vercel": "Vercel : Pou ebèjman platfòm entènèt la.",
     "s5_titre": "5. Sekirite peman ak kat labank",
-    "s5_texte": "BAYONDY pa janm wè ni konsève kòd sekrè PIN MonCash/NatCash ou, ni nimewo kat labank ou. Tout tranzaksyon fèt dirèkteman sou paj sekirize Tranzak la oswa modil TranzakCard la. Règleman detaye sou konsèvasyon bò kote Tranzak :",
+    "s5_texte": "BAYONDY pa janm wè ni konsève kòd sekrè PIN ou yo ni nimewo kat labank ou. Tout tranzaksyon fèt dirèkteman sou paj sekirize operatè peman nou an. Detay sou operatè peman an ak règleman konsèvasyon li yo :",
     "s6_titre": "6. Konbyen tan nou kenbe done yo",
     "s6_texte": "Done kont ou ak fòmasyon ou yo konsève toutotan kont ou aktif. Règleman espesifik sou dire egzak konsèvasyon :",
     "s7_titre": "7. Dwa ou genyen sou done ou",
@@ -577,5 +581,13 @@
     "s9_texte": "Lwa ak tribinal konpetan an ka de kontestasyon :",
     "s10_titre": "10. Kontak ak dat mizajou",
     "s10_texte": "Pou nenpòt kesyon sou kondisyon sa yo, kontak ofisyèl ak dat dènye mizajou :"
+  },
+  "merci": {
+    "badge": "Peman MonCash",
+    "titre": "Mèsi pou kòmand ou a",
+    "sousTitre": "Ou tounen soti sou paj peman MonCash la. N ap tann konfimasyon final operatè a sou sèvè nou an.",
+    "noteWebhook": "Kou sistèm nan resevwa konfimasyon final la, aksè w nan fòmasyon an ap aktive otomatikman sou kont ou.",
+    "boutonMesFormations": "Ale nan fòmasyon mwen yo",
+    "boutonCatalogue": "Gade tout fòmasyon yo"
   }
 }
