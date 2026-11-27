@@ -44,11 +44,11 @@ export function LessonList({
 
   return (
     <div className={`space-y-6 ${className}`}>
-      <div className="flex items-center justify-between pb-3 border-b border-white/10">
+      <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
         <h3 className="font-sans font-semibold text-base sm:text-lg text-ice-white">
           {t("lecteur.listeLecons")}
         </h3>
-        <span className="font-mono text-xs text-ice-white/50">
+        <span className="font-mono text-xs text-ice-white/60">
           {lessons.length}{" "}
           {lessons.length > 1
             ? t("catalogue.lecons")
@@ -64,7 +64,7 @@ export function LessonList({
               <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-light">
                 Modil {modIdx + 1}
               </span>
-              <span className="text-white/20">•</span>
+              <span className="text-ice-white/30">•</span>
               <h4 className="font-sans font-medium text-xs sm:text-sm text-ice-white/80 truncate">
                 {mod.title}
               </h4>
@@ -85,8 +85,8 @@ export function LessonList({
                       aria-current={isCurrent ? "true" : undefined}
                       className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 text-left transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         isCurrent
-                          ? "bg-brand/15 border border-brand/50 text-ice-white shadow-md shadow-[var(--brand-glow-soft)]"
-                          : "bg-[#07080A] hover:bg-[#13151B] border border-white/[0.06] hover:border-white/[0.14] text-ice-white/80"
+                          ? "bg-[var(--surface-active)] border border-brand/50 text-ice-white shadow-md shadow-[var(--brand-glow-soft)]"
+                          : "bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-faint)] hover:border-[var(--border-strong)] text-ice-white/80"
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -96,8 +96,8 @@ export function LessonList({
                             isCompleted
                               ? "bg-brand/15 text-brand-light border border-brand/35"
                               : isCurrent
-                              ? "bg-brand text-[#07080A] font-bold"
-                              : "bg-deep-navy border border-white/[0.1] text-ice-white/50"
+                              ? "bg-brand text-[var(--brand-fg)] font-bold"
+                              : "bg-deep-navy border border-[var(--border-subtle)] text-ice-white/60"
                           }`}
                         >
                           {isCompleted ? (
@@ -116,7 +116,7 @@ export function LessonList({
                               />
                             </svg>
                           ) : isCurrent ? (
-                            <span className="w-2 h-2 rounded-full bg-[#07080A]" />
+                            <span className="w-2 h-2 rounded-full bg-[var(--brand-fg)]" />
                           ) : (
                             lesson.order || modIdx + 1
                           )}
@@ -125,10 +125,10 @@ export function LessonList({
                         <span
                           className={`font-sans text-xs sm:text-sm truncate leading-snug ${
                             isCurrent
-                              ? "font-semibold text-white"
+                              ? "font-semibold text-ice-white"
                               : isCompleted
                               ? "text-ice-white/90"
-                              : "text-ice-white/70"
+                              : "text-ice-white/75"
                           }`}
                         >
                           {lesson.title}
@@ -137,7 +137,7 @@ export function LessonList({
 
                       {/* Durée de la leçon */}
                       {duration && (
-                        <span className="font-mono text-[11px] text-ice-white/40 flex-shrink-0">
+                        <span className="font-mono text-[11px] text-ice-white/55 flex-shrink-0">
                           {duration}
                         </span>
                       )}

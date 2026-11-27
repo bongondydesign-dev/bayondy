@@ -8,7 +8,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="w-full py-24 sm:py-32 border-t border-white/[0.06] bg-[#07080A] scroll-mt-20 relative"
+      className="w-full py-24 sm:py-32 border-t border-[var(--border-faint)] bg-obsidian scroll-mt-20 relative transition-colors duration-200"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal>
@@ -32,7 +32,7 @@ export function Faq() {
               >
                 <span>{t("nav.faq")}</span>
                 <span
-                  className="w-6 h-6 rounded-full bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+                  className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                   aria-hidden="true"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

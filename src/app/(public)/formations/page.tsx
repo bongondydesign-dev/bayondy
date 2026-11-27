@@ -19,39 +19,39 @@ export default async function FormationsPage() {
   const { totalCourses, totalLessons } = computeCatalogStats(courses);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#080B14] bg-noise text-[#E8EDF5] selection:bg-[#2864FF]/30 selection:text-[#37D6D0] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[var(--catalog-bg)] bg-noise text-[var(--catalog-ink)] selection:bg-[var(--catalog-blue)]/25 selection:text-[var(--catalog-blue)] dark:selection:text-[var(--catalog-aurora)] overflow-x-clip">
       <Navbar />
 
       <main className="relative flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12 sm:space-y-16">
         {/* Lueur d'ambiance Ion Blue / Aurora en haut de page */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_at_top_left,rgba(40,100,255,0.16),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_at_top_left,var(--catalog-glow),transparent_60%)]"
           aria-hidden="true"
         />
 
         {/* 1. En-tête du catalogue */}
         <header className="relative max-w-3xl space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#14243B]/80 border border-[#2864FF]/35 px-3.5 py-1.5">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/30 px-3.5 py-1.5 shadow-sm dark:shadow-none">
             <span
-              className="w-2 h-2 rounded-full bg-[#37D6D0]"
+              className="w-2 h-2 rounded-full bg-[var(--catalog-aurora)]"
               aria-hidden="true"
             />
-            <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#37D6D0]">
+            <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--catalog-aurora)]">
               {t("catalogue.badge")}
             </span>
           </div>
 
-          <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-[#E8EDF5] leading-[1.08]">
+          <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-[var(--catalog-ink)] leading-[1.08]">
             <span className="block">{t("catalogue.titreLigne1")}</span>
             <span className="block">
               {t("catalogue.titreLigne2Prefix")}
-              <span className="bg-gradient-to-r from-[#2864FF] to-[#37D6D0] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--catalog-blue)] to-[var(--catalog-aurora)] bg-clip-text text-transparent">
                 {t("catalogue.titreLigne2Accent")}
               </span>
             </span>
           </h1>
 
-          <p className="font-sans text-base sm:text-lg text-[#E8EDF5]/75 leading-relaxed max-w-2xl">
+          <p className="font-sans text-base sm:text-lg text-[var(--catalog-ink)]/75 leading-relaxed max-w-2xl">
             {t("catalogue.sousTitre")}
           </p>
 
@@ -59,7 +59,7 @@ export default async function FormationsPage() {
             {totalCourses > 0 ? (
               <a
                 href="#disponibles"
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[#2864FF] hover:bg-[#3B74FF] text-white text-sm sm:text-base font-semibold transition-colors shadow-lg shadow-[#2864FF]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#37D6D0]"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-blue)] hover:bg-[var(--catalog-blue-hover)] text-white text-sm sm:text-base font-semibold transition-colors shadow-lg shadow-[var(--catalog-glow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)]"
               >
                 <span>{t("catalogue.boutonExplorer")}</span>
                 <svg
@@ -80,7 +80,7 @@ export default async function FormationsPage() {
             ) : (
               <Link
                 href="/faq"
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[#14243B] border border-[#2864FF]/40 hover:border-[#37D6D0]/60 text-[#E8EDF5] text-sm sm:text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#37D6D0]"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/35 hover:border-[var(--catalog-aurora)] text-[var(--catalog-ink)] text-sm sm:text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)] shadow-sm dark:shadow-none"
               >
                 {t("catalogue.aideBouton")}
               </Link>
@@ -91,11 +91,11 @@ export default async function FormationsPage() {
           {(totalCourses > 0 || totalLessons > 0) && (
             <div className="flex flex-wrap items-center gap-3 pt-2">
               {totalCourses > 0 && (
-                <div className="inline-flex items-center gap-2.5 rounded-full bg-[#14243B]/80 border border-white/[0.1] px-4 py-2">
-                  <span className="font-mono text-sm font-semibold text-[#37D6D0]">
+                <div className="inline-flex items-center gap-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--border-subtle)] px-4 py-2 shadow-sm dark:shadow-none">
+                  <span className="font-mono text-sm font-semibold text-[var(--catalog-aurora)]">
                     {totalCourses}
                   </span>
-                  <span className="font-sans text-xs sm:text-sm text-[#E8EDF5]/80">
+                  <span className="font-sans text-xs sm:text-sm text-[var(--catalog-ink)]/80">
                     {totalCourses > 1
                       ? t("catalogue.statFormations")
                       : t("catalogue.statFormationsSingulier")}
@@ -104,11 +104,11 @@ export default async function FormationsPage() {
               )}
 
               {totalLessons > 0 && (
-                <div className="inline-flex items-center gap-2.5 rounded-full bg-[#14243B]/80 border border-white/[0.1] px-4 py-2">
-                  <span className="font-mono text-sm font-semibold text-[#37D6D0]">
+                <div className="inline-flex items-center gap-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--border-subtle)] px-4 py-2 shadow-sm dark:shadow-none">
+                  <span className="font-mono text-sm font-semibold text-[var(--catalog-aurora)]">
                     {totalLessons}
                   </span>
-                  <span className="font-sans text-xs sm:text-sm text-[#E8EDF5]/80">
+                  <span className="font-sans text-xs sm:text-sm text-[var(--catalog-ink)]/80">
                     {totalLessons > 1
                       ? t("catalogue.statLecons")
                       : t("catalogue.statLeconsSingulier")}
@@ -121,14 +121,14 @@ export default async function FormationsPage() {
 
         {/* 3. Filtres et grille des formations publiées ou état vide */}
         {courses.length === 0 ? (
-          <section className="flex-1 flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-2xl bg-[#14243B]/60 border border-white/[0.08]">
-            <div className="w-16 h-16 rounded-2xl bg-[#080B14] border border-[#2864FF]/30 flex items-center justify-center mb-6 shadow-lg shadow-[#2864FF]/15">
+          <section className="flex-1 flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-2xl bg-[var(--catalog-card)] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <div className="w-16 h-16 rounded-2xl bg-[var(--catalog-well)] border border-[var(--catalog-blue)]/30 flex items-center justify-center mb-6 shadow-lg shadow-[var(--catalog-glow)]">
               <PortalSymbol accent="ion" size={36} className="opacity-90" />
             </div>
-            <h2 className="font-sans font-semibold text-xl sm:text-2xl text-[#E8EDF5] mb-2">
+            <h2 className="font-sans font-semibold text-xl sm:text-2xl text-[var(--catalog-ink)] mb-2">
               {t("catalogue.vide")}
             </h2>
-            <p className="font-sans text-sm sm:text-base text-[#E8EDF5]/70 max-w-md mx-auto leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-[var(--catalog-ink)]/70 max-w-md mx-auto leading-relaxed">
               {t("catalogue.videDescription")}
             </p>
           </section>
@@ -137,19 +137,19 @@ export default async function FormationsPage() {
         )}
 
         {/* 4. Bandeau d'aide en bas de page */}
-        <section className="rounded-2xl bg-[#14243B]/80 border border-[#2864FF]/30 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <section className="rounded-2xl bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/30 shadow-[var(--card-shadow)] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="space-y-1.5">
-            <h2 className="font-display font-bold text-xl sm:text-2xl text-[#E8EDF5] tracking-tight">
+            <h2 className="font-display font-bold text-xl sm:text-2xl text-[var(--catalog-ink)] tracking-tight">
               {t("catalogue.aideTitre")}
             </h2>
-            <p className="font-sans text-sm sm:text-base text-[#E8EDF5]/75">
+            <p className="font-sans text-sm sm:text-base text-[var(--catalog-ink)]/75">
               {t("aide.contactBientot")}
             </p>
           </div>
 
           <Link
             href="/faq"
-            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[#080B14] border border-[#37D6D0]/45 hover:border-[#37D6D0] text-[#E8EDF5] hover:text-[#37D6D0] text-sm font-semibold transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#37D6D0]"
+            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-well)] border border-[var(--catalog-aurora)]/45 hover:border-[var(--catalog-aurora)] text-[var(--catalog-ink)] hover:text-[var(--catalog-aurora)] text-sm font-semibold transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)]"
           >
             <span>{t("catalogue.aideBouton")}</span>
             <svg

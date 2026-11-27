@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { adminFetch } from "@/lib/admin/apiClient";
+import { computePaymentSummary, filterAdminPayments } from "@/lib/admin/filters";
 import { t } from "@/lib/i18n";
 
 interface PaymentRow {
@@ -17,14 +18,21 @@ interface PaymentRow {
   paidAt: string | null;
 }
 
+type PaymentFilter = "all" | "paid" | "pending" | "failed" | "refunded";
+
 function statusColor(status: string) {
   switch (status) {
-    case "paid": return "bg-brand/15 text-brand-light border-brand/30";
-    case "pending": return "bg-yellow-500/15 text-yellow-300 border-yellow-500/30";
+    case "paid":
+      return "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25";
+    case "pending":
+      return "bg-amber-50 dark:bg-yellow-500/15 text-amber-800 dark:text-yellow-300 border-amber-300 dark:border-yellow-500/30";
     case "failed":
-    case "expired": return "bg-red-500/15 text-red-300 border-red-500/30";
-    case "refunded": return "bg-white/10 text-ice-white/50 border-white/10";
-    default: return "bg-white/5 text-ice-white/40 border-white/5";
+    case "expired":
+      return "bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-300 border-red-200 dark:border-red-500/30";
+    case "refunded":
+      return "bg-[var(--surface-well)] text-ice-white/65 border-[var(--border-subtle)]";
+    default:
+      return "bg-[var(--surface-well)] text-ice-white/60 border-[var(--border-faint)]";
   }
 }
 
@@ -33,6 +41,9 @@ export default function AdminPaiementsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
+
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<PaymentFilter>("all");
 
   useEffect(() => {
     let cancelled = false;
@@ -43,7 +54,10 @@ export default function AdminPaiementsPage() {
           if (!cancelled) setError(t("admin.erreurChargement"));
           return;
         }
-        const data = (await res.json()) as { payments: PaymentRow[]; nextCursor: string | null };
+        const data = (await res.json()) as {
+          payments: PaymentRow[];
+          nextCursor: string | null;
+        };
         if (!cancelled) {
           setPayments(data.payments);
           setNextCursor(data.nextCursor);
@@ -69,7 +83,10 @@ export default function AdminPaiementsPage() {
         setError(t("admin.erreurChargement"));
         return;
       }
-      const data = (await res.json()) as { payments: PaymentRow[]; nextCursor: string | null };
+      const data = (await res.json()) as {
+        payments: PaymentRow[];
+        nextCursor: string | null;
+      };
       setPayments((prev) => [...prev, ...data.payments]);
       setNextCursor(data.nextCursor);
     } catch {
@@ -79,19 +96,122 @@ export default function AdminPaiementsPage() {
     }
   }
 
+  const summary = useMemo(() => computePaymentSummary(payments), [payments]);
+  const filteredPayments = useMemo(
+    () => filterAdminPayments(payments, search, statusFilter),
+    [payments, search, statusFilter]
+  );
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display font-bold text-2xl sm:text-3xl text-white">
+        <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white">
           {t("admin.paiements.titre")}
         </h1>
-        <p className="font-sans text-ice-white/60 text-sm mt-1">
+        <p className="font-sans text-ice-white/65 text-sm mt-1">
           {t("admin.paiements.sousTitre")}
         </p>
       </div>
 
+      {/* Real Payment Summary Strip */}
+      {!loading && payments.length > 0 && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
+              {t("admin.paiements.totalHTG")}
+            </span>
+            <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
+              {summary.totalHTG.toLocaleString("fr-FR")} HTG
+            </span>
+          </div>
+          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
+              {t("admin.paiements.totalUSD")}
+            </span>
+            <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
+              {summary.totalUSD.toLocaleString("fr-FR")} USD
+            </span>
+          </div>
+          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
+              {t("admin.paiements.payes")}
+            </span>
+            <span className="font-display font-bold text-xl sm:text-2xl text-emerald-600 dark:text-emerald-400 tabular-nums mt-1 block">
+              {summary.paidCount}
+            </span>
+          </div>
+          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
+              {t("admin.paiements.enAttente")}
+            </span>
+            <span className="font-display font-bold text-xl sm:text-2xl text-amber-600 dark:text-amber-300 tabular-nums mt-1 block">
+              {summary.pendingCount}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Search & Status Filters */}
+      {!loading && payments.length > 0 && (
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-md">
+            <svg
+              className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t("admin.paiements.rechercher")}
+              aria-label={t("admin.paiements.rechercher")}
+              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-deep-navy border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+            />
+          </div>
+
+          <div
+            className="inline-flex flex-wrap items-center gap-1 p-1 rounded-2xl sm:rounded-full bg-deep-navy border border-[var(--border-subtle)] self-start lg:self-auto"
+            role="group"
+            aria-label={t("admin.paiements.titre")}
+          >
+            {(
+              [
+                { key: "all", label: t("admin.paiements.filtreTout") },
+                { key: "paid", label: t("mesFormations.paiementStatut.paid") },
+                { key: "pending", label: t("mesFormations.paiementStatut.pending") },
+                { key: "failed", label: t("mesFormations.paiementStatut.failed") },
+                { key: "refunded", label: t("mesFormations.paiementStatut.refunded") },
+              ] as Array<{ key: PaymentFilter; label: string }>
+            ).map((tab) => {
+              const active = statusFilter === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setStatusFilter(tab.key)}
+                  aria-pressed={active}
+                  className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                    active
+                      ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
+                      : "text-ice-white/70 hover:text-ice-white"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {error && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+        <div className="p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-300 text-sm">
           {error}
         </div>
       )}
@@ -99,64 +219,73 @@ export default function AdminPaiementsPage() {
       {loading && payments.length === 0 ? (
         <div className="space-y-3 animate-pulse">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-14 rounded-2xl bg-[#0D0E11] border border-white/[0.06]" />
+            <div key={i} className="h-14 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
           ))}
         </div>
-      ) : payments.length === 0 ? (
-        <div className="p-10 text-center rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-3">
-          <svg className="w-12 h-12 text-ice-white/20 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+      ) : filteredPayments.length === 0 ? (
+        <div className="p-10 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-3">
+          <svg className="w-12 h-12 text-ice-white/25 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
-          <p className="font-sans text-ice-white/55 text-sm">
+          <p className="font-sans text-ice-white/60 text-sm">
             {t("admin.paiements.vide")}
           </p>
         </div>
       ) : (
         <>
-          {/* Tableau avec défilement horizontal interne — jamais sur la page */}
-          <div className="rounded-2xl bg-[#0D0E11] border border-white/[0.08] overflow-hidden">
+          <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm font-sans min-w-[640px]">
+              <table className="w-full text-sm font-sans min-w-[700px]">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left px-4 py-3 font-mono text-xs uppercase tracking-wider text-ice-white/50">
+                  <tr className="border-b border-[var(--border-subtle)]">
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
                       {t("admin.paiements.colStatut")}
                     </th>
-                    <th className="text-left px-4 py-3 font-mono text-xs uppercase tracking-wider text-ice-white/50">
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
                       {t("admin.paiements.colMontant")}
                     </th>
-                    <th className="text-left px-4 py-3 font-mono text-xs uppercase tracking-wider text-ice-white/50">
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
                       {t("admin.paiements.colMethode")}
                     </th>
-                    <th className="text-left px-4 py-3 font-mono text-xs uppercase tracking-wider text-ice-white/50">
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
                       {t("admin.paiements.colCours")}
                     </th>
-                    <th className="text-left px-4 py-3 font-mono text-xs uppercase tracking-wider text-ice-white/50">
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
+                      {t("admin.paiements.colReference")}
+                    </th>
+                    <th className="text-left px-4 py-3.5 font-mono text-xs uppercase tracking-wider text-ice-white/60">
                       {t("admin.paiements.colDate")}
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {payments.map((p) => (
+                <tbody className="divide-y divide-[var(--border-faint)]">
+                  {filteredPayments.map((p) => (
                     <tr
                       key={p.id}
-                      className="border-b border-white/5 hover:bg-white/2 transition-colors"
+                      className="hover:bg-[var(--surface-subtle)] transition-colors"
                     >
-                      <td className="px-4 py-3">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-mono border ${statusColor(p.status)}`}>
+                      <td className="px-4 py-3.5">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-mono border ${statusColor(
+                            p.status
+                          )}`}
+                        >
                           {p.status}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-white font-medium">
+                      <td className="px-4 py-3.5 text-ice-white font-mono font-semibold tabular-nums whitespace-nowrap">
                         {p.amount} {p.currency}
                       </td>
-                      <td className="px-4 py-3 text-ice-white/70 font-mono text-xs">
+                      <td className="px-4 py-3.5 text-ice-white/75 font-mono text-xs uppercase">
                         {p.method}
                       </td>
-                      <td className="px-4 py-3 text-ice-white/70 font-mono text-xs truncate max-w-[140px]">
+                      <td className="px-4 py-3.5 text-ice-white/75 font-mono text-xs truncate max-w-[140px]">
                         {p.courseId}
                       </td>
-                      <td className="px-4 py-3 text-ice-white/50 font-mono text-xs whitespace-nowrap">
+                      <td className="px-4 py-3.5 text-ice-white/65 font-mono text-xs truncate max-w-[150px]">
+                        {p.merchantReference || "—"}
+                      </td>
+                      <td className="px-4 py-3.5 text-ice-white/60 font-mono text-xs whitespace-nowrap tabular-nums">
                         {p.createdAt ? new Date(p.createdAt).toLocaleDateString("fr-FR") : "—"}
                       </td>
                     </tr>
@@ -171,7 +300,7 @@ export default function AdminPaiementsPage() {
               type="button"
               onClick={() => loadMore(nextCursor)}
               disabled={loading}
-              className="w-full min-h-[48px] py-3 rounded-full bg-[#13151B] border border-white/[0.1] text-ice-white/80 hover:text-white hover:border-white/[0.2] font-sans text-sm transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="w-full min-h-[46px] py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/80 hover:text-ice-white hover:border-brand/40 font-sans text-sm transition-colors disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               {loading ? t("admin.chargement") : t("admin.paiements.voirPlus")}
             </button>

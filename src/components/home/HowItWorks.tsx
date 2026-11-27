@@ -10,13 +10,13 @@ export function HowItWorks() {
       desc: t("etapes.aprann.description"),
       preview: (
         <div className="space-y-2">
-          <div className="px-3 py-2 rounded-lg bg-[#111216] border border-[var(--home-orange)]/30 text-xs text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--home-orange)]/30 text-xs text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200">
             {t("hero.apercu.lecon1")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-[#111216] border border-white/[0.07] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
             {t("hero.apercu.lecon2")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-[#111216] border border-white/[0.07] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
             {t("hero.apercu.lecon3")}
           </div>
         </div>
@@ -33,7 +33,7 @@ export function HowItWorks() {
               <span>{t("bento.badgeCreole")}</span>
               <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/[0.08] overflow-hidden">
+            <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div className="h-full w-full rounded-full bg-[var(--home-orange)] animate-bar-fill" />
             </div>
           </div>
@@ -42,7 +42,7 @@ export function HowItWorks() {
               <span>{t("bento.badgeMobile")}</span>
               <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/[0.08] overflow-hidden">
+            <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div
                 style={{ animationDelay: "140ms" }}
                 className="h-full w-full rounded-full bg-gradient-to-r from-[var(--home-orange-dark)] to-[var(--home-orange)] animate-bar-fill"
@@ -54,7 +54,7 @@ export function HowItWorks() {
               <span>{t("bento.badgeRevoir")}</span>
               <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/[0.08] overflow-hidden">
+            <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div
                 style={{ animationDelay: "280ms" }}
                 className="h-full w-full rounded-full bg-gradient-to-r from-[var(--home-orange-dark)] to-[var(--home-orange-light)] animate-bar-fill"
@@ -78,7 +78,7 @@ export function HowItWorks() {
             <div
               key={item}
               style={{ transitionDelay: `${idx * 50}ms` }}
-              className="px-3 py-2 rounded-lg bg-[#111216] border border-white/[0.07] group-hover:border-[var(--home-orange)]/25 transition-colors duration-200 flex items-center gap-2.5 text-xs text-ice-white/85"
+              className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/25 transition-colors duration-200 flex items-center gap-2.5 text-xs text-ice-white/85"
             >
               <svg
                 className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
@@ -100,7 +100,7 @@ export function HowItWorks() {
   return (
     <section
       id="kijan"
-      className="w-full py-24 sm:py-32 border-t border-white/[0.06] bg-[#07080A] scroll-mt-20 relative overflow-hidden"
+      className="w-full py-24 sm:py-32 border-t border-[var(--border-faint)] bg-obsidian scroll-mt-20 relative overflow-hidden transition-colors duration-200"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal>
@@ -120,10 +120,10 @@ export function HowItWorks() {
             {steps.map((step) => (
               <div
                 key={step.num}
-                className="group rounded-2xl bg-[#0D0E11] border border-white/[0.08] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 p-6 flex flex-col justify-between transition-all duration-300 min-w-0"
+                className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 shadow-[var(--card-shadow)] p-6 flex flex-col justify-between transition-all duration-300 min-w-0"
               >
                 {/* Aperçu visuel supérieur */}
-                <div className="rounded-xl bg-[#07080A] border border-white/[0.06] p-4 mb-6">
+                <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] p-4 mb-6">
                   {step.preview}
                 </div>
 

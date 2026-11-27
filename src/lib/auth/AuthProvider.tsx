@@ -28,6 +28,7 @@ export interface AuthContextType {
   signUpWithEmail: (nom: string, email: string, motDePasse: string) => Promise<void>;
   signInWithEmail: (email: string, motDePasse: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  updateDisplayName: (nom: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -173,6 +174,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await sendPasswordResetEmail(auth, email);
   };
 
+  const updateDisplayName = async (nom: string) => {
+    assertFirebaseConfigured();
+    const auth = getFirebaseAuth();
+    const currentUser = auth.currentUser;
+    const trimmed = nom.trim();
+    if (!currentUser || !trimmed) return;
+
+    await updateProfile(currentUser, { displayName: trimmed });
+    try {
+      const db = getFirebaseDb();
+      const ref = doc(db, "users", currentUser.uid);
+      await updateDoc(ref, { displayName: trimmed });
+    } catch {
+      // Ne pas bloquer la mise à jour du profil Auth si Firestore échoue
+    }
+    setUser({ ...currentUser, displayName: trimmed } as User);
+  };
+
   const signOut = async () => {
     assertFirebaseConfigured();
     const auth = getFirebaseAuth();
@@ -189,6 +208,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUpWithEmail,
         signInWithEmail,
         resetPassword,
+        updateDisplayName,
         signOut,
       }}
     >

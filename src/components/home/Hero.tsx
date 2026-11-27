@@ -12,13 +12,13 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-[#07080A]">
+    <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-obsidian transition-colors duration-200">
       {/* Lueur d'ambiance orange douce par dégradé radial */}
       <div
-        className="absolute inset-x-0 top-0 h-[520px] pointer-events-none"
+        className="absolute inset-x-0 top-0 h-[520px] pointer-events-none opacity-80 dark:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 65% 55% at 50% 10%, rgba(255, 91, 34, 0.16) 0%, rgba(255, 91, 34, 0.05) 48%, transparent 78%)",
+            "radial-gradient(ellipse 65% 55% at 50% 10%, var(--home-orange-glow) 0%, var(--home-orange-glow-soft) 48%, transparent 78%)",
         }}
         aria-hidden="true"
       />
@@ -27,9 +27,9 @@ export function Hero() {
         {/* Bandeau d'annonce cliquable */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-1.5 pr-3.5 py-1.5 min-h-[44px] sm:min-h-[40px] rounded-full bg-[#111216] border border-white/[0.08] hover:border-[var(--home-orange)]/45 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-2.5 pl-1.5 pr-3.5 py-1.5 min-h-[44px] sm:min-h-[40px] rounded-full bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-xs dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[var(--home-orange)] text-[#07080A] font-mono text-[11px] font-bold uppercase tracking-wider">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[var(--home-orange)] text-[var(--home-orange-fg)] font-mono text-[11px] font-bold uppercase tracking-wider">
             {t("bento.badgeCreole")}
           </span>
           <span className="font-sans text-xs sm:text-sm text-ice-white/80 group-hover:text-ice-white transition-colors">
@@ -69,7 +69,7 @@ export function Hero() {
           >
             <span>{t("hero.cta")}</span>
             <span
-              className="w-7 h-7 rounded-full bg-[#07080A] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@ export function Hero() {
           >
             <span>{t("hero.ctaSecondaire")}</span>
             <span
-              className="w-6 h-6 rounded-full bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

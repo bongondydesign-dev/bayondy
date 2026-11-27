@@ -9,7 +9,7 @@ export function Pricing() {
     .map((m) => m.trim());
 
   return (
-    <section className="w-full py-24 sm:py-32 border-t border-white/[0.06] bg-[#07080A] relative">
+    <section className="w-full py-24 sm:py-32 border-t border-[var(--border-faint)] bg-obsidian relative transition-colors duration-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
@@ -21,12 +21,12 @@ export function Pricing() {
             </h2>
           </div>
 
-          <div className="rounded-2xl bg-[#0D0E11] border border-[var(--home-orange)]/40 hover:border-[var(--home-orange)]/65 transition-colors duration-300 p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
+          <div className="rounded-2xl bg-deep-navy border border-[var(--home-orange)]/35 hover:border-[var(--home-orange)]/60 transition-colors duration-300 p-8 sm:p-12 text-center shadow-[var(--card-shadow)] relative overflow-hidden">
             <div
-              className="absolute inset-x-0 top-0 h-56 pointer-events-none"
+              className="absolute inset-x-0 top-0 h-56 pointer-events-none opacity-80 dark:opacity-100"
               style={{
                 background:
-                  "radial-gradient(ellipse 65% 80% at 50% 0%, rgba(255, 91, 34, 0.15) 0%, transparent 75%)",
+                  "radial-gradient(ellipse 65% 80% at 50% 0%, var(--home-orange-glow-soft) 0%, transparent 75%)",
               }}
               aria-hidden="true"
             />
@@ -49,7 +49,7 @@ export function Pricing() {
                 >
                   <span>{t("final.cta")}</span>
                   <span
-                    className="w-7 h-7 rounded-full bg-[#07080A] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+                    className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                     aria-hidden="true"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ export function Pricing() {
                 </Button>
               </div>
 
-              <div className="pt-7 border-t border-white/[0.08] max-w-lg mx-auto">
+              <div className="pt-7 border-t border-[var(--border-subtle)] max-w-lg mx-auto">
                 <p className="font-mono text-xs uppercase tracking-wider text-ice-white/65 mb-4">
                   {t("tarifs.moyensTitre")}
                 </p>
@@ -67,7 +67,7 @@ export function Pricing() {
                   {methods.map((method) => (
                     <div
                       key={method}
-                      className="px-4 py-2.5 rounded-xl bg-[#07080A] border border-white/[0.08] hover:border-[var(--home-orange)]/35 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
+                      className="px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/35 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
                     >
                       <svg
                         className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"

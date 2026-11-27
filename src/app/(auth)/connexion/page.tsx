@@ -30,7 +30,7 @@ export default function ConnexionPage() {
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
         <Suspense
           fallback={
-            <div className="w-full max-w-md mx-auto h-96 rounded-2xl bg-[#0D0E11] border border-white/[0.08] animate-pulse" />
+            <div className="w-full max-w-md mx-auto h-96 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] animate-pulse" />
           }
         >
           <ConnexionContent />

@@ -48,7 +48,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
   const languageKey = `catalogue.langues.${course.language}`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -78,19 +78,19 @@ export default async function CourseDetailPage({ params }: PageProps) {
           <div className="lg:col-span-8 space-y-8">
             {/* Badges de métadonnées */}
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/[0.1] text-brand-light">
+              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] text-brand-light shadow-sm dark:shadow-none">
                 {t(levelKey)}
               </span>
-              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-white/[0.1] text-ice-white/80">
+              <span className="font-mono text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] text-ice-white/80 shadow-sm dark:shadow-none">
                 {t(languageKey)}
               </span>
               {durationText && (
-                <span className="font-mono text-xs text-ice-white/60 px-2.5 py-1">
+                <span className="font-mono text-xs text-ice-white/65 px-2.5 py-1">
                   ⏱ {durationText}
                 </span>
               )}
               {course.lessonsCount > 0 && (
-                <span className="font-mono text-xs text-ice-white/60 px-2.5 py-1">
+                <span className="font-mono text-xs text-ice-white/65 px-2.5 py-1">
                   ▶ {course.lessonsCount}{" "}
                   {course.lessonsCount > 1
                     ? t("catalogue.lecons")
@@ -100,7 +100,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
             </div>
 
             {/* Titre unique H1 */}
-            <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white leading-tight">
+            <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
               {course.title}
             </h1>
 
@@ -112,7 +112,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
             )}
 
             {/* Visuel principal ou Repli CSS stylisé */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-obsidian border border-white/[0.08] shadow-2xl">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0B0E17] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
               {course.coverUrl ? (
                 <Image
                   src={course.coverUrl}
@@ -123,10 +123,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   className="object-cover"
                 />
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-brand/15 via-deep-navy to-brand-dark/10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#FF5B22]/18 via-[#0D0E11] to-[#C93E0E]/12">
                   <div className="absolute inset-0 bg-noise opacity-50" aria-hidden="true" />
                   <PortalSymbol size={80} className="opacity-85 drop-shadow-lg" />
-                  <span className="mt-4 font-mono text-xs tracking-wider uppercase text-ice-white/50">
+                  <span className="mt-4 font-mono text-xs tracking-wider uppercase text-slate-300/60">
                     BAYONDY
                   </span>
                 </div>
@@ -135,28 +135,28 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
             {/* Description détaillée */}
             {course.description && (
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <h2 className="font-sans font-semibold text-xl sm:text-2xl text-white">
+              <div className="space-y-4 pt-4 border-t border-[var(--border-subtle)]">
+                <h2 className="font-sans font-semibold text-xl sm:text-2xl text-ice-white">
                   {t("catalogue.aPropos")}
                 </h2>
-                <div className="font-sans text-base text-ice-white/70 leading-relaxed whitespace-pre-line">
+                <div className="font-sans text-base text-ice-white/75 leading-relaxed whitespace-pre-line">
                   {course.description}
                 </div>
               </div>
             )}
 
             {/* Programme / Syllabus (sans JS, <details>/<summary>, titres uniquement) */}
-            <div className="pt-4 border-t border-white/10">
+            <div className="pt-4 border-t border-[var(--border-subtle)]">
               <Syllabus syllabus={course.syllabus} />
             </div>
           </div>
 
           {/* Colonne latérale (Carte d'inscription & Prix) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
-            <div className="rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-7 shadow-xl shadow-black/40 space-y-6">
+            <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-7 shadow-[var(--card-shadow)] space-y-6">
               {/* Prix */}
               <div>
-                <span className="block font-mono text-xs text-ice-white/50 uppercase tracking-wider mb-2">
+                <span className="block font-mono text-xs text-ice-white/60 uppercase tracking-wider mb-2">
                   {t("catalogue.prixBientot") === "Pri a ap anonse" ? "Pri" : "Pri"}
                 </span>
                 <PriceTag
@@ -177,7 +177,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
               </div>
 
               {/* Récapitulatif des atouts de la formation */}
-              <div className="pt-6 border-t border-white/[0.08] space-y-3.5">
+              <div className="pt-6 border-t border-[var(--border-subtle)] space-y-3.5">
                 <div className="flex items-center gap-3 text-sm text-ice-white/80">
                   <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center flex-shrink-0 text-xs">
                     ✓

@@ -48,7 +48,7 @@ export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
       type="button"
       onClick={handleClick}
       disabled={submitting}
-      className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-obsidian border border-white/[0.12] text-ice-white font-medium text-sm sm:text-base flex items-center justify-center gap-3 hover:border-brand/50 hover:bg-[#13151B] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-deep-navy"
+      className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white font-medium text-sm sm:text-base flex items-center justify-center gap-3 hover:border-brand/50 hover:bg-[var(--surface-subtle)] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-deep-navy"
     >
       {/* Logo Google (SVG inline) */}
       <svg

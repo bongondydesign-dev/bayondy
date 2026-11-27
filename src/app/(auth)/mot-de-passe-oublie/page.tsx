@@ -31,7 +31,7 @@ export default function MotDePasseOubliePage() {
     <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
-        <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-8 shadow-2xl">
+        <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)]">
           {/* En-tête */}
           <div className="text-center mb-8">
             <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white tracking-tight">
@@ -94,14 +94,14 @@ export default function MotDePasseOubliePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("auth.emailPlaceholder")}
-                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-obsidian border border-white/[0.1] text-ice-white text-sm placeholder:text-ice-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[#07080A] font-semibold text-sm sm:text-base hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-lg shadow-[var(--brand-glow)]"
+                className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base hover:bg-brand-dark dark:hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-lg shadow-[var(--brand-glow)]"
               >
                 {submitting
                   ? t("auth.chargement")

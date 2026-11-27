@@ -100,7 +100,7 @@ function ReturnContent() {
   }, [transactionId, reference, isMissingParams]);
 
   return (
-    <div className="max-w-xl w-full mx-auto p-6 sm:p-8 rounded-2xl bg-deep-navy border border-white/[0.08] shadow-2xl text-center space-y-6">
+    <div className="max-w-xl w-full mx-auto p-6 sm:p-8 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] text-center space-y-6">
       {/* État de chargement initial / En cours de vérification */}
       {loading && (
         <div className="space-y-5 py-8">
@@ -133,7 +133,7 @@ function ReturnContent() {
             {courseSlug ? (
               <Link
                 href={`/mes-formations/${courseSlug}`}
-                className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-[var(--brand-glow)]"
+                className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-[var(--brand-glow)]"
               >
                 <span>Aksede nan fòmasyon an</span>
                 <span>→</span>
@@ -141,7 +141,7 @@ function ReturnContent() {
             ) : (
               <Link
                 href="/mes-formations"
-                className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-[var(--brand-glow)]"
+                className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-[var(--brand-glow)]"
               >
                 <span>Ale nan fòmasyon m yo</span>
                 <span>→</span>
@@ -169,13 +169,13 @@ function ReturnContent() {
           <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => window.location.reload()}
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#13151B] border border-white/[0.12] hover:border-brand/50 text-ice-white font-sans text-sm font-medium transition-colors"
+              className="min-h-[44px] px-5 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans text-sm font-medium transition-colors"
             >
               Re-tcheke kounye a
             </button>
             <Link
               href="/mes-formations"
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans text-sm font-semibold transition-colors flex items-center justify-center"
+              className="min-h-[44px] px-5 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans text-sm font-semibold transition-colors flex items-center justify-center"
             >
               Ale nan fòmasyon m yo
             </Link>
@@ -186,11 +186,11 @@ function ReturnContent() {
       {/* État Échec */}
       {!loading && paymentStatus === "failed" && (
         <div className="space-y-6 py-4">
-          <div className="w-20 h-20 mx-auto rounded-full bg-red-500/10 border-2 border-red-500/30 flex items-center justify-center text-red-400 text-3xl">
+          <div className="w-20 h-20 mx-auto rounded-full bg-red-50 dark:bg-red-500/10 border-2 border-red-200 dark:border-red-500/30 flex items-center justify-center text-red-600 dark:text-red-400 text-3xl">
             ✕
           </div>
           <div className="space-y-2">
-            <h1 className="font-display font-bold text-2xl sm:text-3xl text-white">
+            <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white">
               Peman an pa t kapab fèt
             </h1>
             <p className="font-sans text-sm sm:text-base text-ice-white/70">
@@ -201,7 +201,7 @@ function ReturnContent() {
           <div className="pt-4 flex justify-center">
             <Link
               href="/formations"
-              className="min-h-[48px] px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-sans font-medium text-sm sm:text-base transition-colors"
+              className="min-h-[48px] px-6 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/40 text-ice-white font-sans font-medium text-sm sm:text-base transition-colors inline-flex items-center justify-center"
             >
               Retounen nan fòmasyon yo
             </Link>

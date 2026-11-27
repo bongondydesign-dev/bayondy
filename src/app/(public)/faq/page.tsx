@@ -42,11 +42,11 @@ export default function FaqPage() {
         {/* Bloc « Besoin d'aide ? » */}
         <section
           aria-labelledby="aide-titre"
-          className="mt-12 sm:mt-16 rounded-2xl bg-deep-navy border border-white/[0.08] p-6 sm:p-8 shadow-xl space-y-4"
+          className="mt-12 sm:mt-16 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)] space-y-4"
         >
           <h2
             id="aide-titre"
-            className="font-display font-semibold text-xl sm:text-2xl text-white"
+            className="font-display font-semibold text-xl sm:text-2xl text-ice-white"
           >
             {t("aide.titre")}
           </h2>

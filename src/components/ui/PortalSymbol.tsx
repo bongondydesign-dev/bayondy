@@ -15,8 +15,8 @@ export function PortalSymbol({
   const primaryGradId = isIon ? "portal-grad-ion-primary" : "portal-grad-brand-primary";
   const innerGradId = isIon ? "portal-grad-ion-inner" : "portal-grad-brand-inner";
   const glowFilterId = isIon ? "soft-glow-ion" : "soft-glow-brand";
-  const stopLight = isIon ? "#37D6D0" : "var(--brand-light, #FF885C)";
-  const stopMid = isIon ? "#2864FF" : "var(--brand, #FF5B22)";
+  const stopLight = isIon ? "var(--catalog-aurora, #37D6D0)" : "var(--brand-light, #FF885C)";
+  const stopMid = isIon ? "var(--catalog-blue, #2864FF)" : "var(--brand, #FF5B22)";
   const stopDark = isIon ? "#1947C6" : "var(--brand-dark, #C93E0E)";
 
   return (

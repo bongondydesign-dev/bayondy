@@ -60,7 +60,7 @@ export function EnrollButton({
   if (authLoading || (user && checkingEnrollment)) {
     return (
       <div
-        className={`w-full h-12 rounded-2xl bg-white/5 animate-pulse border border-white/10 ${className}`}
+        className={`w-full h-12 rounded-2xl bg-[var(--surface-well)] animate-pulse border border-[var(--border-subtle)] ${className}`}
         aria-hidden="true"
       />
     );
@@ -71,7 +71,7 @@ export function EnrollButton({
     return (
       <Link
         href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
       >
         <svg
           className="w-4 h-4"
@@ -97,9 +97,9 @@ export function EnrollButton({
     return (
       <Link
         href={`/mes-formations/${courseSlug}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${className}`}
       >
-        <span className="w-5 h-5 rounded-full bg-[#07080A]/15 flex items-center justify-center text-xs">
+        <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center text-xs">
           ✓
         </span>
         <span>{t("catalogue.boutonAcceder")}</span>
@@ -153,10 +153,10 @@ export function EnrollButton({
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
+        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
       >
         <svg
-          className="w-5 h-5 text-[#07080A]"
+          className="w-5 h-5 text-[var(--brand-fg)]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -174,19 +174,19 @@ export function EnrollButton({
       {/* Modal de sélection du moyen de paiement Tranzak */}
       {modalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian/80 backdrop-blur-sm animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 dark:bg-obsidian/80 backdrop-blur-sm animate-fadeIn"
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md rounded-2xl bg-deep-navy border border-white/[0.1] p-6 sm:p-7 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+          <div className="w-full max-w-md rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-7 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
               <h3 className="font-display font-bold text-lg sm:text-xl text-ice-white">
                 {t("catalogue.modalTitre")}
               </h3>
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
-                className="text-ice-white/50 hover:text-ice-white transition-colors p-1"
+                className="text-ice-white/60 hover:text-ice-white transition-colors p-1 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg"
                 aria-label={t("catalogue.fermer")}
               >
                 ✕
@@ -194,8 +194,8 @@ export function EnrollButton({
             </div>
 
             {/* Affichage des montants */}
-            <div className="rounded-xl bg-[#07080A] border border-white/[0.07] p-4 flex items-center justify-between">
-              <span className="font-sans text-sm text-ice-white/70">Pri total :</span>
+            <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-4 flex items-center justify-between">
+              <span className="font-sans text-sm text-ice-white/75">Pri total :</span>
               <div className="text-right">
                 {priceHTG && priceHTG > 0 && (
                   <span className="block font-mono font-bold text-lg text-brand-light">
@@ -203,7 +203,7 @@ export function EnrollButton({
                   </span>
                 )}
                 {priceUSD && priceUSD > 0 && (
-                  <span className="block font-mono text-xs text-ice-white/60">
+                  <span className="block font-mono text-xs text-ice-white/65">
                     (${priceUSD.toFixed(2)} USD)
                   </span>
                 )}
@@ -217,7 +217,7 @@ export function EnrollButton({
                 className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "moncash"
                     ? "bg-brand/10 border-brand text-ice-white"
-                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
+                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/80 hover:border-[var(--border-strong)]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -231,10 +231,10 @@ export function EnrollButton({
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">MonCash</span>
-                    <span className="font-mono text-xs text-ice-white/50">Digicel Haiti</span>
+                    <span className="font-mono text-xs text-ice-white/60">Digicel Haiti</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-[var(--surface-subtle)] text-ice-white/80 border border-[var(--border-subtle)]">
                   HTG
                 </span>
               </label>
@@ -244,7 +244,7 @@ export function EnrollButton({
                 className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "natcash"
                     ? "bg-brand/10 border-brand text-ice-white"
-                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
+                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/80 hover:border-[var(--border-strong)]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -258,10 +258,10 @@ export function EnrollButton({
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">NatCash</span>
-                    <span className="font-mono text-xs text-ice-white/50">Natcom Haiti</span>
+                    <span className="font-mono text-xs text-ice-white/60">Natcom Haiti</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-[var(--surface-subtle)] text-ice-white/80 border border-[var(--border-subtle)]">
                   HTG
                 </span>
               </label>
@@ -271,7 +271,7 @@ export function EnrollButton({
                 className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMethod === "card"
                     ? "bg-brand/10 border-brand text-ice-white"
-                    : "bg-[#07080A] border-white/[0.08] text-ice-white/80 hover:border-white/20"
+                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/80 hover:border-[var(--border-strong)]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -285,17 +285,17 @@ export function EnrollButton({
                   />
                   <div>
                     <span className="font-sans font-semibold block text-sm">Kat labank</span>
-                    <span className="font-mono text-xs text-ice-white/50">Visa / Mastercard</span>
+                    <span className="font-mono text-xs text-ice-white/60">Visa / Mastercard</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.06] text-ice-white/80 border border-white/[0.1]">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-[var(--surface-subtle)] text-ice-white/80 border border-[var(--border-subtle)]">
                   USD/HTG
                 </span>
               </label>
             </div>
 
             {errorMessage && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs text-left">
+              <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 text-xs text-left">
                 {errorMessage}
               </div>
             )}
@@ -306,7 +306,7 @@ export function EnrollButton({
                 type="button"
                 onClick={() => setModalOpen(false)}
                 disabled={submitting}
-                className="flex-1 py-3 px-4 rounded-full border border-white/[0.12] bg-[#13151B] hover:border-white/25 text-ice-white/80 font-sans text-sm transition-colors"
+                className="flex-1 py-3 px-4 rounded-full border border-[var(--border-strong)] bg-[var(--surface-elevated)] hover:border-brand/40 text-ice-white/85 font-sans text-sm transition-colors"
               >
                 {t("catalogue.fermer")}
               </button>
@@ -315,11 +315,11 @@ export function EnrollButton({
                 type="button"
                 onClick={handlePayment}
                 disabled={submitting}
-                className="flex-1 py-3 px-4 rounded-full bg-brand hover:bg-brand-light disabled:opacity-50 text-[#07080A] font-sans font-semibold text-sm transition-all shadow-lg shadow-[var(--brand-glow)] flex items-center justify-center gap-2"
+                className="flex-1 py-3 px-4 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 text-[var(--brand-fg)] font-sans font-semibold text-sm transition-all shadow-lg shadow-[var(--brand-glow)] flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-[#07080A]/30 border-t-[#07080A] rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-[var(--brand-fg)]/30 border-t-[var(--brand-fg)] rounded-full animate-spin" />
                     <span>{t("catalogue.traitementEnCours")}</span>
                   </>
                 ) : (

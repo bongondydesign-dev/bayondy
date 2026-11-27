@@ -17,8 +17,8 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
     if (mobile) {
       return (
         <div className="flex flex-col gap-2 animate-pulse" aria-hidden="true">
-          <div className="h-11 rounded-full bg-white/5 w-full" />
-          <div className="h-11 rounded-full bg-white/10 w-full" />
+          <div className="h-11 rounded-full bg-slate-200 dark:bg-white/5 w-full" />
+          <div className="h-11 rounded-full bg-slate-200/80 dark:bg-white/10 w-full" />
         </div>
       );
     }
@@ -27,8 +27,8 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
         className="hidden md:flex items-center gap-3 animate-pulse shrink-0"
         aria-hidden="true"
       >
-        <div className="h-10 w-20 rounded-full bg-white/5" />
-        <div className="h-10 w-32 rounded-full bg-white/10" />
+        <div className="h-10 w-20 rounded-full bg-slate-200 dark:bg-white/5" />
+        <div className="h-10 w-32 rounded-full bg-slate-200/80 dark:bg-white/10" />
       </div>
     );
   }
@@ -44,13 +44,13 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
           )}
           <Link
             href="/mes-formations"
-            className="min-h-[44px] flex items-center px-3 rounded-lg text-ice-white hover:bg-white/5 transition-colors font-medium text-sm"
+            className="min-h-[44px] flex items-center px-3 rounded-lg text-ice-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors font-medium text-sm"
           >
             {t("nav.mesFormations")}
           </Link>
           <Link
             href="/profil"
-            className="min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-full bg-[#13151B] border border-white/[0.12] text-ice-white hover:border-[var(--home-orange)]/50 transition-colors font-medium text-sm"
+            className="min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white hover:border-[var(--home-orange)]/50 transition-colors font-medium text-sm"
           >
             {t("nav.profil")}
           </Link>
@@ -83,7 +83,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
       <div className="flex flex-col gap-2">
         <Link
           href="/connexion"
-          className="min-h-[44px] flex items-center justify-center px-3 rounded-full border border-white/[0.12] text-ice-white hover:bg-white/5 transition-colors font-medium text-sm"
+          className="min-h-[44px] flex items-center justify-center px-3 rounded-full border border-[var(--border-strong)] text-ice-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors font-medium text-sm"
         >
           {t("nav.connexion")}
         </Link>
@@ -95,7 +95,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
         >
           <span>{t("nav.inscription")}</span>
           <span
-            className="w-6 h-6 rounded-full bg-[#07080A] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
+            className="w-6 h-6 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
             aria-hidden="true"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
       >
         <span>{t("nav.inscription")}</span>
         <span
-          className="w-6 h-6 rounded-full bg-[#07080A] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
+          className="w-6 h-6 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
           aria-hidden="true"
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

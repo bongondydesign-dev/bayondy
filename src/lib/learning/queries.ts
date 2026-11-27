@@ -17,6 +17,7 @@ import {
   type LessonDoc,
   type EnrollmentDoc,
   type EnrollmentProgress,
+  type PaymentDoc,
 } from "@/types/firestore";
 
 export interface EnrollmentWithId extends EnrollmentDoc {
@@ -28,6 +29,10 @@ export interface CourseWithId extends CourseDoc {
 }
 
 export interface LessonWithId extends LessonDoc {
+  id: string;
+}
+
+export interface PaymentWithId extends PaymentDoc {
   id: string;
 }
 
@@ -188,3 +193,31 @@ export async function saveProgress(
     },
   });
 }
+
+/**
+ * Récupère les paiements de l'élève connecté.
+ * Filtre strictement where("uid", "==", uid) conformément aux règles Firestore.
+ */
+export async function getMyPayments(uid: string): Promise<PaymentWithId[]> {
+  if (!uid) return [];
+  const db = getFirebaseDb();
+  const q = query(
+    collection(db, "payments"),
+    where("uid", "==", uid),
+    limit(25)
+  );
+  const snapshot = await getDocs(q);
+  const rows = snapshot.docs.map((d) => ({
+    id: d.id,
+    ...(d.data() as PaymentDoc),
+  }));
+
+  rows.sort((a, b) => {
+    const msA = a.createdAt?.toMillis?.() ?? 0;
+    const msB = b.createdAt?.toMillis?.() ?? 0;
+    return msB - msA;
+  });
+
+  return rows;
+}
+

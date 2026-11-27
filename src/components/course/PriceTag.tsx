@@ -25,7 +25,7 @@ export function PriceTag({
       <span
         className={`inline-flex items-center font-mono font-medium rounded-lg border ${
           isCatalog
-            ? "text-[#37D6D0] bg-[#2864FF]/15 border-[#2864FF]/35"
+            ? "text-[var(--catalog-aurora)] bg-[var(--catalog-blue)]/10 border-[var(--catalog-blue)]/30"
             : "text-brand-light bg-brand/10 border-brand/25"
         } ${
           size === "lg" ? "text-sm sm:text-base px-3.5 py-1.5" : "text-xs px-2.5 py-1"
@@ -41,7 +41,7 @@ export function PriceTag({
       {formattedHTG && (
         <span
           className={`font-display font-bold tracking-tight ${
-            isCatalog ? "text-[#E8EDF5]" : "text-ice-white"
+            isCatalog ? "text-[var(--catalog-ink)]" : "text-ice-white"
           } ${
             size === "lg" ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
           }`}
@@ -52,7 +52,7 @@ export function PriceTag({
       {formattedUSD && (
         <span
           className={`font-mono ${
-            isCatalog ? "text-[#E8EDF5]/70" : "text-ice-white/60"
+            isCatalog ? "text-[var(--catalog-ink)]/70" : "text-ice-white/65"
           } ${
             size === "lg" ? "text-sm sm:text-base" : "text-xs"
           }`}

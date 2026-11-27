@@ -11,16 +11,16 @@ export function LegalDraftNotice() {
   return (
     <div
       role="alert"
-      className="w-full mb-8 p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs sm:text-sm flex items-start gap-3 shadow-lg"
+      className="w-full mb-8 p-4 sm:p-5 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs sm:text-sm flex items-start gap-3 shadow-sm dark:shadow-lg"
     >
-      <span className="text-lg leading-none select-none text-amber-400" aria-hidden="true">
+      <span className="text-lg leading-none select-none text-amber-600 dark:text-amber-400" aria-hidden="true">
         ⚠
       </span>
       <div className="space-y-1">
-        <p className="font-semibold text-amber-300">
+        <p className="font-semibold text-amber-950 dark:text-amber-300">
           {t("legal.banniereProvisoire")}
         </p>
-        <p className="text-amber-200/80 text-xs leading-relaxed">
+        <p className="text-amber-800 dark:text-amber-200/80 text-xs leading-relaxed">
           {t("legal.banniereDetail")}
         </p>
       </div>

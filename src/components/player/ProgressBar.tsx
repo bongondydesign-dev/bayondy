@@ -35,7 +35,7 @@ export function ProgressBar({
       )}
 
       <div
-        className={`w-full ${barHeight} rounded-full bg-obsidian border border-white/[0.1] overflow-hidden`}
+        className={`w-full ${barHeight} rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] overflow-hidden`}
         role="progressbar"
         aria-valuenow={percentage}
         aria-valuemin={0}

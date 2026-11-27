@@ -37,24 +37,24 @@ export default function ConditionsPage() {
 
         <article className="space-y-8 font-sans text-sm sm:text-base text-ice-white/80 leading-relaxed">
           {/* 1. Objet du service */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s1_titre")}
             </h2>
             <p>{t("conditions.s1_texte")}</p>
           </section>
 
           {/* 2. Compte */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s2_titre")}
             </h2>
             <p>{t("conditions.s2_texte")}</p>
           </section>
 
           {/* 3. Achat et accès */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s3_titre")}
             </h2>
             <p>
@@ -63,8 +63,8 @@ export default function ConditionsPage() {
           </section>
 
           {/* 4. Remboursements */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s4_titre")}
             </h2>
             <p>
@@ -73,40 +73,40 @@ export default function ConditionsPage() {
           </section>
 
           {/* 5. Utilisation acceptable */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s5_titre")}
             </h2>
             <p>{t("conditions.s5_texte")}</p>
           </section>
 
           {/* 6. Propriété intellectuelle */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s6_titre")}
             </h2>
             <p>{t("conditions.s6_texte")}</p>
           </section>
 
           {/* 7. Suspension de l'accès */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s7_titre")}
             </h2>
             <p>{t("conditions.s7_texte")}</p>
           </section>
 
           {/* 8. Disponibilité */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s8_titre")}
             </h2>
             <p>{t("conditions.s8_texte")}</p>
           </section>
 
           {/* 9. Droit applicable et litiges */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s9_titre")}
             </h2>
             <p>
@@ -115,8 +115,8 @@ export default function ConditionsPage() {
           </section>
 
           {/* 10. Contact et date de mise à jour */}
-          <section className="space-y-3 pt-6 border-t border-white/10">
-            <h2 className="font-display font-semibold text-xl sm:text-2xl text-white">
+          <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("conditions.s10_titre")}
             </h2>
             <p>

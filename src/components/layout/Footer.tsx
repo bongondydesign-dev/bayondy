@@ -6,10 +6,10 @@ export function Footer() {
   const currentYear = 2026;
 
   return (
-    <footer className="w-full bg-[#07080A] border-t border-white/[0.07] relative overflow-hidden pt-16 pb-0">
+    <footer className="w-full bg-obsidian border-t border-[var(--border-subtle)] relative overflow-hidden pt-16 pb-0 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Grille des colonnes de liens */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/[0.07]">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[var(--border-subtle)]">
           {/* Colonne 1 : Marque et mission */}
           <div className="md:col-span-2">
             <Link
@@ -17,7 +17,7 @@ export function Footer() {
               className="inline-flex items-center gap-2.5 font-display font-bold text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1"
             >
               <span
-                className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[#07080A] inline-flex items-center justify-center font-display font-bold text-sm shrink-0"
+                className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-sm shrink-0"
                 aria-hidden="true"
               >
                 B
@@ -94,12 +94,12 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Mot BAYONDY GÉANT coupé proprement en bas de page comme dans la référence */}
+      {/* Mot BAYONDY GÉANT coupé proprement en bas de page */}
       <div
         className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-end leading-none -mb-3 sm:-mb-6 md:-mb-10"
         aria-hidden="true"
       >
-        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-white/[0.04] uppercase whitespace-nowrap block select-none">
+        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-slate-900/[0.045] dark:text-white/[0.04] uppercase whitespace-nowrap block select-none">
           {t("accueil.titre")}
         </span>
       </div>

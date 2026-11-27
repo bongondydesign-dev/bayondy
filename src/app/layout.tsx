@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Sora, Inter, IBM_Plex_Mono, Playfair_Display } from "next/font/google";
 import "@/styles/theme.css";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
+import { ThemeProvider } from "@/lib/theme/ThemeProvider";
+import { THEME_INIT_SCRIPT } from "@/lib/theme/theme";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -46,12 +48,17 @@ export default function RootLayout({
     <html
       lang="ht"
       suppressHydrationWarning
-      className={`${sora.variable} ${inter.variable} ${ibmPlexMono.variable} ${playfair.variable}`}
+      className={`dark ${sora.variable} ${inter.variable} ${ibmPlexMono.variable} ${playfair.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

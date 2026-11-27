@@ -13,10 +13,10 @@ export default function NotFound() {
       <main className="flex-1 flex flex-col items-center justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 py-16 text-center">
         {/* Symbole cinématique */}
         <div className="relative mb-8">
-          <div className="w-24 h-24 rounded-2xl bg-deep-navy border border-white/[0.08] flex items-center justify-center shadow-2xl shadow-[var(--brand-glow-soft)]">
+          <div className="w-24 h-24 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] flex items-center justify-center shadow-[var(--card-shadow)]">
             <PortalSymbol size={48} className="opacity-85" />
           </div>
-          <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-brand text-[#07080A] font-mono text-[11px] font-bold tracking-wider">
+          <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-brand text-[var(--brand-fg)] font-mono text-[11px] font-bold tracking-wider">
             404
           </div>
         </div>
@@ -40,7 +40,7 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link
             href="/formations"
-            className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-light text-[#07080A] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <svg
               className="w-4 h-4"
@@ -61,7 +61,7 @@ export default function NotFound() {
 
           <Link
             href="/"
-            className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-[#13151B] hover:border-brand/50 border border-white/[0.12] text-ice-white font-sans font-medium text-sm sm:text-base inline-flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-[var(--surface-elevated)] hover:border-brand/50 border border-[var(--border-strong)] text-ice-white font-sans font-medium text-sm sm:text-base inline-flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <span>{t("erreur404.retourAccueil")}</span>
           </Link>

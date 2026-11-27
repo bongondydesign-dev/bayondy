@@ -45,7 +45,7 @@ interface AdminLesson {
 function FieldGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="font-mono text-xs uppercase tracking-wider text-ice-white/60 block">
+      <label className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block">
         {label}
       </label>
       {children}
@@ -54,9 +54,9 @@ function FieldGroup({ label, children }: { label: string; children: React.ReactN
 }
 
 function inputClass(error?: boolean) {
-  return `w-full px-4 py-3 rounded-xl bg-obsidian border ${
-    error ? "border-red-400" : "border-white/[0.1]"
-  } text-ice-white placeholder:text-ice-white/30 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
+  return `w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border ${
+    error ? "border-red-500 dark:border-red-400" : "border-[var(--border-strong)]"
+  } text-ice-white placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
 }
 
 function StatusBadge({ status }: { status: "draft" | "published" }) {
@@ -65,7 +65,7 @@ function StatusBadge({ status }: { status: "draft" | "published" }) {
       className={`inline-block px-2.5 py-1 rounded-full text-xs font-mono font-medium ${
         status === "published"
           ? "bg-brand/15 text-brand-light border border-brand/30"
-          : "bg-white/5 text-ice-white/55 border border-white/10"
+          : "bg-[var(--surface-well)] text-ice-white/65 border border-[var(--border-subtle)]"
       }`}
     >
       {status === "published" ? t("admin.statut.publie") : t("admin.statut.brouillon")}
@@ -130,13 +130,13 @@ function LessonForm({
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-obsidian border border-white/10 space-y-4">
-      <h3 className="font-display font-semibold text-white text-sm">
+    <div className="p-5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] space-y-4">
+      <h3 className="font-display font-semibold text-ice-white text-sm">
         {initial ? t("admin.lecon.modifier") : t("admin.lecon.ajouter")}
       </h3>
 
       {errors.length > 0 && (
-        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs space-y-1">
+        <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-300 text-xs space-y-1">
           {errors.map((e, i) => <div key={i}>{e}</div>)}
         </div>
       )}
@@ -200,7 +200,7 @@ function LessonForm({
           type="checkbox"
           checked={form.isFreePreview}
           onChange={(e) => setForm((p) => ({ ...p, isFreePreview: e.target.checked }))}
-          className="w-5 h-5 rounded border-white/20 bg-obsidian accent-brand"
+          className="w-5 h-5 rounded border-[var(--border-strong)] bg-[var(--surface-elevated)] accent-brand"
         />
         <span className="font-sans text-sm text-ice-white/80">{t("admin.lecon.champApercu")}</span>
       </label>
@@ -210,7 +210,7 @@ function LessonForm({
           type="button"
           onClick={save}
           disabled={saving}
-          className="min-h-[48px] px-5 py-2.5 rounded-full bg-brand text-[#07080A] font-sans font-semibold text-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+          className="min-h-[48px] px-5 py-2.5 rounded-full bg-brand text-[var(--brand-fg)] font-sans font-semibold text-sm hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {saving ? t("admin.enregistrement") : t("admin.enregistrer")}
         </button>
@@ -218,7 +218,7 @@ function LessonForm({
           type="button"
           onClick={onCancel}
           disabled={saving}
-          className="min-h-[48px] px-5 py-2.5 rounded-full bg-[#13151B] border border-white/[0.1] text-ice-white/80 font-sans text-sm hover:text-white hover:border-white/[0.2] disabled:opacity-50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+          className="min-h-[48px] px-5 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/80 font-sans text-sm hover:text-ice-white hover:border-brand/40 disabled:opacity-50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {t("admin.annuler")}
         </button>
@@ -445,8 +445,8 @@ export default function AdminFormationDetailPage() {
   if (loading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-8 bg-white/10 rounded-xl w-64" />
-        <div className="h-48 bg-[#0D0E11] rounded-2xl border border-white/[0.06]" />
+        <div className="h-8 bg-[var(--surface-subtle)] rounded-xl w-64" />
+        <div className="h-48 bg-deep-navy rounded-2xl border border-[var(--border-subtle)]" />
       </div>
     );
   }
@@ -456,13 +456,13 @@ export default function AdminFormationDetailPage() {
       {/* En-tête */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="font-display font-bold text-2xl sm:text-3xl text-white truncate">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white truncate">
             {isNew ? t("admin.formations.nouvelle") : (course?.title ?? "")}
           </h1>
           {course && (
             <div className="flex items-center gap-2 mt-1">
               <StatusBadge status={course.status} />
-              <span className="font-mono text-xs text-ice-white/40">/{course.slug}</span>
+              <span className="font-mono text-xs text-ice-white/55">/{course.slug}</span>
             </div>
           )}
         </div>
@@ -473,8 +473,8 @@ export default function AdminFormationDetailPage() {
             disabled={saving}
             className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-full font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
               course.status === "published"
-                ? "bg-[#13151B] border border-white/[0.1] text-ice-white/85 hover:text-white hover:border-white/[0.2]"
-                : "bg-brand text-[#07080A] hover:bg-brand-light"
+                ? "bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/85 hover:text-ice-white hover:border-brand/40"
+                : "bg-brand text-[var(--brand-fg)] hover:bg-brand-dark dark:hover:bg-brand-light"
             }`}
           >
             {saving
@@ -487,13 +487,13 @@ export default function AdminFormationDetailPage() {
       </div>
 
       {/* Formulaire cours */}
-      <div className="p-6 rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-5">
-        <h2 className="font-display font-semibold text-white text-base">
+      <div className="p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-5">
+        <h2 className="font-display font-semibold text-ice-white text-base">
           {t("admin.formations.infoGenerales")}
         </h2>
 
         {courseErrors.length > 0 && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs space-y-1">
+          <div className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-300 text-xs space-y-1">
             {courseErrors.map((e, i) => <div key={i}>{e}</div>)}
           </div>
         )}
@@ -607,7 +607,7 @@ export default function AdminFormationDetailPage() {
           type="button"
           onClick={saveCourse}
           disabled={saving}
-          className="min-h-[48px] px-6 py-3 rounded-full bg-brand text-[#07080A] font-sans font-semibold text-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+          className="min-h-[48px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-sans font-semibold text-sm hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {saving ? t("admin.enregistrement") : t("admin.enregistrer")}
         </button>
@@ -615,9 +615,9 @@ export default function AdminFormationDetailPage() {
 
       {/* Gestion des leçons (seulement si la formation existe) */}
       {!isNew && (
-        <div className="p-6 rounded-2xl bg-[#0D0E11] border border-white/[0.08] space-y-5">
+        <div className="p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-5">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="font-display font-semibold text-white text-base">
+            <h2 className="font-display font-semibold text-ice-white text-base">
               {t("admin.lecons.titre")} ({lessons.length})
             </h2>
             {!addingLesson && (
@@ -645,7 +645,7 @@ export default function AdminFormationDetailPage() {
 
           {/* Liste des leçons */}
           {lessons.length === 0 && !addingLesson ? (
-            <p className="text-ice-white/40 text-sm text-center py-6">
+            <p className="text-ice-white/55 text-sm text-center py-6">
               {t("admin.lecons.vide")}
             </p>
           ) : (
@@ -660,7 +660,7 @@ export default function AdminFormationDetailPage() {
                       onCancel={() => setEditingLessonId(null)}
                     />
                   ) : (
-                    <div className="flex items-center gap-3 p-4 rounded-xl bg-obsidian border border-white/5 hover:border-white/10 transition-colors">
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] hover:border-[var(--border-subtle)] transition-colors">
                       {/* Boutons Monter/Descendre */}
                       <div className="flex flex-col gap-1 shrink-0">
                         <button
@@ -668,7 +668,7 @@ export default function AdminFormationDetailPage() {
                           onClick={() => moveLesson(lesson.id, "up")}
                           disabled={idx === 0}
                           aria-label={t("admin.lecons.monter")}
-                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                          className="w-7 h-7 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-ice-white/60 hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
@@ -679,7 +679,7 @@ export default function AdminFormationDetailPage() {
                           onClick={() => moveLesson(lesson.id, "down")}
                           disabled={idx === lessons.length - 1}
                           aria-label={t("admin.lecons.descendre")}
-                          className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-ice-white/50 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                          className="w-7 h-7 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-ice-white/60 hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -693,7 +693,7 @@ export default function AdminFormationDetailPage() {
                           <span className="font-mono text-xs text-brand-light shrink-0">
                             {String(lesson.order).padStart(2, "0")}
                           </span>
-                          <span className="font-sans font-medium text-white text-sm truncate">
+                          <span className="font-sans font-medium text-ice-white text-sm truncate">
                             {lesson.title}
                           </span>
                           {lesson.isFreePreview && (
@@ -702,7 +702,7 @@ export default function AdminFormationDetailPage() {
                             </span>
                           )}
                         </div>
-                        <span className="font-mono text-xs text-ice-white/45 mt-0.5 block">
+                        <span className="font-mono text-xs text-ice-white/55 mt-0.5 block">
                           {lesson.moduleTitle} · {lesson.durationMinutes} min
                         </span>
                       </div>
@@ -713,7 +713,7 @@ export default function AdminFormationDetailPage() {
                           type="button"
                           onClick={() => { setEditingLessonId(lesson.id); setAddingLesson(false); }}
                           aria-label={t("admin.lecon.modifier")}
-                          className="min-h-[44px] px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-ice-white/75 hover:text-white hover:bg-white/10 font-sans text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                          className="min-h-[44px] px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-ice-white/80 hover:text-ice-white hover:bg-[var(--surface-subtle)] font-sans text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           {t("admin.modifier")}
                         </button>
@@ -722,7 +722,7 @@ export default function AdminFormationDetailPage() {
                           onClick={() => archiveLesson(lesson.id)}
                           disabled={archivingId === lesson.id}
                           aria-label={t("admin.lecon.archiver")}
-                          className="min-h-[44px] px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 font-sans text-xs disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                          className="min-h-[44px] px-3 py-2 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 font-sans text-xs disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                         >
                           {archivingId === lesson.id ? "…" : t("admin.archiver")}
                         </button>

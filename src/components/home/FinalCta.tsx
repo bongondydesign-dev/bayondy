@@ -5,10 +5,10 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function FinalCta() {
   return (
-    <section className="w-full py-24 sm:py-36 border-t border-white/[0.06] relative overflow-hidden bg-[#07080A] text-center">
+    <section className="w-full py-24 sm:py-36 border-t border-[var(--border-faint)] relative overflow-hidden bg-obsidian text-center transition-colors duration-200">
       {/* Fond de vagues topographiques orange animées doucement */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-45"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-25 dark:opacity-45"
         aria-hidden="true"
       >
         <svg
@@ -44,10 +44,10 @@ export function FinalCta() {
       </div>
 
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-70 dark:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 50% 55% at 50% 50%, rgba(255, 91, 34, 0.14) 0%, transparent 72%)",
+            "radial-gradient(ellipse 50% 55% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",
         }}
         aria-hidden="true"
       />
@@ -74,7 +74,7 @@ export function FinalCta() {
           >
             <span>{t("final.cta")}</span>
             <span
-              className="w-7 h-7 rounded-full bg-[#07080A] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +90,7 @@ export function FinalCta() {
           >
             <span>{t("hero.cta")}</span>
             <span
-              className="w-6 h-6 rounded-full bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

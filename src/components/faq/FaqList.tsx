@@ -20,13 +20,13 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
       {faqs.map((item, index) => (
         <details
           key={index}
-          className="group rounded-xl bg-[#0D0E11] border border-white/[0.08] hover:border-white/[0.16] open:border-brand/40 transition-colors px-5 py-3.5"
+          className="group rounded-xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--border-strong)] open:border-brand/45 shadow-xs dark:shadow-none transition-colors px-5 py-3.5"
         >
           <summary className="flex items-center justify-between cursor-pointer list-none select-none font-display font-semibold text-sm sm:text-base text-ice-white min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group-hover:text-brand-light rounded-lg transition-colors">
             <span className="pr-4">{item.q}</span>
             {/* Symbole '+' qui tourne de 45 degrés en 'x' en CSS pur */}
             <span
-              className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-mono text-base font-bold group-open:rotate-45 transition-transform duration-200 select-none bg-[#15171D] border border-white/[0.08] text-ice-white/75 group-open:border-brand/40 group-open:text-brand-light"
+              className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-mono text-base font-bold group-open:rotate-45 transition-transform duration-200 select-none bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-ice-white/75 group-open:border-brand/40 group-open:text-brand-light"
               aria-hidden="true"
             >
               +
