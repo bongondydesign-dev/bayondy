@@ -34,14 +34,14 @@
   --home-orange-glow: var(--brand-glow);
   --home-orange-glow-soft: var(--brand-glow-soft);
 
-  --catalog-bg: #F4F7FC;
-  --catalog-card: #FFFFFF;
-  --catalog-well: #EAF0FA;
-  --catalog-ink: #0F172A;
-  --catalog-blue: #1D4ED8;
-  --catalog-blue-hover: #1E40AF;
-  --catalog-aurora: #0E7490;
-  --catalog-glow: rgba(29, 78, 216, 0.12);
+  --catalog-bg: var(--obsidian);
+  --catalog-card: var(--deep-navy);
+  --catalog-well: var(--surface-well);
+  --catalog-ink: var(--ice-white);
+  --catalog-blue: var(--brand);
+  --catalog-blue-hover: var(--brand-dark);
+  --catalog-aurora: var(--brand-light);
+  --catalog-glow: var(--brand-glow);
 }
 
 /* Mode sombre BAYONDY */
@@ -77,14 +77,14 @@
   --home-orange-glow: var(--brand-glow);
   --home-orange-glow-soft: var(--brand-glow-soft);
 
-  --catalog-bg: #080B14;
-  --catalog-card: rgba(20, 36, 59, 0.7);
-  --catalog-well: #080B14;
-  --catalog-ink: #E8EDF5;
-  --catalog-blue: #2864FF;
-  --catalog-blue-hover: #3B74FF;
-  --catalog-aurora: #37D6D0;
-  --catalog-glow: rgba(40, 100, 255, 0.16);
+  --catalog-bg: var(--obsidian);
+  --catalog-card: var(--deep-navy);
+  --catalog-well: var(--surface-well);
+  --catalog-ink: var(--ice-white);
+  --catalog-blue: var(--brand);
+  --catalog-blue-hover: var(--brand-light);
+  --catalog-aurora: var(--brand-light);
+  --catalog-glow: var(--brand-glow);
 }
 
 @theme inline {

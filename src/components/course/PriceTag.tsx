@@ -14,20 +14,14 @@ export function PriceTag({
   priceUSD,
   priceHTG,
   size = "sm",
-  variant = "brand",
   className = "",
 }: PriceTagProps) {
   const { hasPrice, formattedUSD, formattedHTG } = formatPrice(priceUSD, priceHTG);
-  const isCatalog = variant === "catalog";
 
   if (!hasPrice) {
     return (
       <span
-        className={`inline-flex items-center font-mono font-medium rounded-lg border ${
-          isCatalog
-            ? "text-[var(--catalog-aurora)] bg-[var(--catalog-blue)]/10 border-[var(--catalog-blue)]/30"
-            : "text-brand-light bg-brand/10 border-brand/25"
-        } ${
+        className={`inline-flex items-center font-mono font-medium rounded-lg border text-brand-light bg-brand/10 border-brand/25 ${
           size === "lg" ? "text-sm sm:text-base px-3.5 py-1.5" : "text-xs px-2.5 py-1"
         } ${className}`}
       >
@@ -37,12 +31,10 @@ export function PriceTag({
   }
 
   return (
-    <div className={`flex flex-wrap items-baseline gap-2 ${className}`}>
+    <div className={`flex flex-wrap items-baseline gap-2 tabular-nums ${className}`}>
       {formattedHTG && (
         <span
-          className={`font-display font-bold tracking-tight ${
-            isCatalog ? "text-[var(--catalog-ink)]" : "text-ice-white"
-          } ${
+          className={`font-display font-bold tracking-tight text-ice-white ${
             size === "lg" ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
           }`}
         >
@@ -51,9 +43,7 @@ export function PriceTag({
       )}
       {formattedUSD && (
         <span
-          className={`font-mono ${
-            isCatalog ? "text-[var(--catalog-ink)]/70" : "text-ice-white/65"
-          } ${
+          className={`font-mono text-ice-white/65 ${
             size === "lg" ? "text-sm sm:text-base" : "text-xs"
           }`}
         >

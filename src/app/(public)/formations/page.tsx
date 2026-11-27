@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CourseFilters } from "@/components/course/CourseFilters";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { Button } from "@/components/ui/Button";
 import { getPublishedCourses } from "@/lib/courses/queries";
 import { computeCatalogStats } from "@/lib/courses/catalog";
 import { t } from "@/lib/i18n";
@@ -14,121 +15,142 @@ export const metadata: Metadata = {
   description: t("catalogue.sousTitre"),
 };
 
-export default async function FormationsPage() {
+function CatalogSkeleton() {
+  return (
+    <div className="space-y-8 animate-pulse" aria-busy="true">
+      <div className="h-16 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="h-80 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+async function CatalogContent() {
   const courses = await getPublishedCourses();
   const { totalCourses, totalLessons } = computeCatalogStats(courses);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--catalog-bg)] bg-noise text-[var(--catalog-ink)] selection:bg-[var(--catalog-blue)]/25 selection:text-[var(--catalog-blue)] dark:selection:text-[var(--catalog-aurora)] overflow-x-clip">
-      <Navbar />
-
-      <main className="relative flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12 sm:space-y-16">
-        {/* Lueur d'ambiance Ion Blue / Aurora en haut de page */}
+    <>
+      {/* 1. En-tête du catalogue avec lueur pleine largeur BAYONDY */}
+      <section className="relative w-full pt-12 pb-10 sm:pt-16 sm:pb-12 overflow-hidden bg-obsidian transition-colors duration-200">
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_at_top_left,var(--catalog-glow),transparent_60%)]"
+          className="absolute inset-x-0 top-0 h-[440px] pointer-events-none opacity-80 dark:opacity-100"
+          style={{
+            background:
+              "radial-gradient(ellipse 65% 55% at 50% 0%, var(--brand-glow) 0%, var(--brand-glow-soft) 48%, transparent 78%)",
+          }}
           aria-hidden="true"
         />
 
-        {/* 1. En-tête du catalogue */}
-        <header className="relative max-w-3xl space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/30 px-3.5 py-1.5 shadow-sm dark:shadow-none">
-            <span
-              className="w-2 h-2 rounded-full bg-[var(--catalog-aurora)]"
-              aria-hidden="true"
-            />
-            <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--catalog-aurora)]">
-              {t("catalogue.badge")}
-            </span>
-          </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand-light">
+            {t("catalogue.badge")}
+          </p>
 
-          <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-[var(--catalog-ink)] leading-[1.08]">
+          <h1 className="font-display font-bold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-ice-white leading-[1.06] max-w-3xl text-balance">
             <span className="block">{t("catalogue.titreLigne1")}</span>
             <span className="block">
               {t("catalogue.titreLigne2Prefix")}
-              <span className="bg-gradient-to-r from-[var(--catalog-blue)] to-[var(--catalog-aurora)] bg-clip-text text-transparent">
+              <span className="font-serif italic font-normal bg-gradient-to-r from-[var(--brand-light)] to-[var(--brand)] bg-clip-text text-transparent pr-1.5">
                 {t("catalogue.titreLigne2Accent")}
               </span>
             </span>
           </h1>
 
-          <p className="font-sans text-base sm:text-lg text-[var(--catalog-ink)]/75 leading-relaxed max-w-2xl">
+          <p className="font-sans text-base sm:text-lg text-ice-white/70 leading-relaxed max-w-2xl text-balance">
             {t("catalogue.sousTitre")}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-1">
+          <div className="flex flex-wrap items-center gap-6 pt-1">
             {totalCourses > 0 ? (
-              <a
+              <Button
                 href="#disponibles"
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-blue)] hover:bg-[var(--catalog-blue-hover)] text-white text-sm sm:text-base font-semibold transition-colors shadow-lg shadow-[var(--catalog-glow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)]"
+                variant="principal"
+                className="pl-6 pr-2.5 py-2"
               >
                 <span>{t("catalogue.boutonExplorer")}</span>
-                <svg
-                  className="w-4 h-4 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                <span
+                  className="w-7 h-7 rounded-full bg-[var(--brand-fg)] text-brand inline-flex items-center justify-center shrink-0"
                   aria-hidden="true"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </a>
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.4}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </Button>
             ) : (
-              <Link
-                href="/faq"
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/35 hover:border-[var(--catalog-aurora)] text-[var(--catalog-ink)] text-sm sm:text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)] shadow-sm dark:shadow-none"
-              >
+              <Button href="/faq" variant="secondaire">
                 {t("catalogue.aideBouton")}
-              </Link>
+              </Button>
+            )}
+
+            {/* Statistiques réelles sobrement intégrées sans pastilles */}
+            {(totalCourses > 0 || totalLessons > 0) && (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ice-white/75 font-sans tabular-nums">
+                {totalCourses > 0 && (
+                  <div className="inline-flex items-baseline gap-2">
+                    <span className="font-mono font-semibold text-brand-light">
+                      {totalCourses}
+                    </span>
+                    <span>
+                      {totalCourses > 1
+                        ? t("catalogue.statFormations")
+                        : t("catalogue.statFormationsSingulier")}
+                    </span>
+                  </div>
+                )}
+
+                {totalCourses > 0 && totalLessons > 0 && (
+                  <span className="text-ice-white/30" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+
+                {totalLessons > 0 && (
+                  <div className="inline-flex items-baseline gap-2">
+                    <span className="font-mono font-semibold text-brand-light">
+                      {totalLessons}
+                    </span>
+                    <span>
+                      {totalLessons > 1
+                        ? t("catalogue.statLecons")
+                        : t("catalogue.statLeconsSingulier")}
+                    </span>
+                  </div>
+                )}
+              </div>
             )}
           </div>
+        </div>
+      </section>
 
-          {/* 2. Rangée de pastilles de chiffres RÉELS (affichées seulement si > 0) */}
-          {(totalCourses > 0 || totalLessons > 0) && (
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              {totalCourses > 0 && (
-                <div className="inline-flex items-center gap-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--border-subtle)] px-4 py-2 shadow-sm dark:shadow-none">
-                  <span className="font-mono text-sm font-semibold text-[var(--catalog-aurora)]">
-                    {totalCourses}
-                  </span>
-                  <span className="font-sans text-xs sm:text-sm text-[var(--catalog-ink)]/80">
-                    {totalCourses > 1
-                      ? t("catalogue.statFormations")
-                      : t("catalogue.statFormationsSingulier")}
-                  </span>
-                </div>
-              )}
-
-              {totalLessons > 0 && (
-                <div className="inline-flex items-center gap-2.5 rounded-full bg-[var(--catalog-card)] border border-[var(--border-subtle)] px-4 py-2 shadow-sm dark:shadow-none">
-                  <span className="font-mono text-sm font-semibold text-[var(--catalog-aurora)]">
-                    {totalLessons}
-                  </span>
-                  <span className="font-sans text-xs sm:text-sm text-[var(--catalog-ink)]/80">
-                    {totalLessons > 1
-                      ? t("catalogue.statLecons")
-                      : t("catalogue.statLeconsSingulier")}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-        </header>
-
-        {/* 3. Filtres et grille des formations publiées ou état vide */}
+      {/* 2. Corps du catalogue (filtres + grille ou état vide) + bandeau d'aide */}
+      <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 pb-16 sm:pb-24 space-y-14">
         {courses.length === 0 ? (
-          <section className="flex-1 flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-2xl bg-[var(--catalog-card)] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
-            <div className="w-16 h-16 rounded-2xl bg-[var(--catalog-well)] border border-[var(--catalog-blue)]/30 flex items-center justify-center mb-6 shadow-lg shadow-[var(--catalog-glow)]">
-              <PortalSymbol accent="ion" size={36} className="opacity-90" />
+          <section className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <div className="w-16 h-16 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center justify-center mb-6">
+              <PortalSymbol accent="brand" size={38} className="opacity-95" />
             </div>
-            <h2 className="font-sans font-semibold text-xl sm:text-2xl text-[var(--catalog-ink)] mb-2">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white mb-2">
               {t("catalogue.vide")}
             </h2>
-            <p className="font-sans text-sm sm:text-base text-[var(--catalog-ink)]/70 max-w-md mx-auto leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-ice-white/70 max-w-md mx-auto leading-relaxed">
               {t("catalogue.videDescription")}
             </p>
           </section>
@@ -136,20 +158,20 @@ export default async function FormationsPage() {
           <CourseFilters courses={courses} />
         )}
 
-        {/* 4. Bandeau d'aide en bas de page */}
-        <section className="rounded-2xl bg-[var(--catalog-card)] border border-[var(--catalog-blue)]/30 shadow-[var(--card-shadow)] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        {/* 3. Bandeau d'aide en bas de page */}
+        <section className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/35 transition-colors shadow-[var(--card-shadow)] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="space-y-1.5">
-            <h2 className="font-display font-bold text-xl sm:text-2xl text-[var(--catalog-ink)] tracking-tight">
+            <h2 className="font-display font-bold text-xl sm:text-2xl text-ice-white tracking-tight">
               {t("catalogue.aideTitre")}
             </h2>
-            <p className="font-sans text-sm sm:text-base text-[var(--catalog-ink)]/75">
+            <p className="font-sans text-sm sm:text-base text-ice-white/70">
               {t("aide.contactBientot")}
             </p>
           </div>
 
           <Link
             href="/faq"
-            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--catalog-well)] border border-[var(--catalog-aurora)]/45 hover:border-[var(--catalog-aurora)] text-[var(--catalog-ink)] hover:text-[var(--catalog-aurora)] text-sm font-semibold transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--catalog-aurora)]"
+            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/50 text-ice-white hover:text-brand-light text-sm font-semibold transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <span>{t("catalogue.aideBouton")}</span>
             <svg
@@ -168,6 +190,26 @@ export default async function FormationsPage() {
             </svg>
           </Link>
         </section>
+      </div>
+    </>
+  );
+}
+
+export default function FormationsPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+      <Navbar />
+
+      <main className="flex-1 flex flex-col">
+        <Suspense
+          fallback={
+            <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 py-12">
+              <CatalogSkeleton />
+            </div>
+          }
+        >
+          <CatalogContent />
+        </Suspense>
       </main>
 
       <Footer />
