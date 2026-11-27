@@ -3,21 +3,30 @@
 
 /* Mode clair professionnel (par défaut sans classe .dark) */
 :root {
-  --obsidian: #F6F8FB;
+  --obsidian: #F8FAFC;
   --deep-navy: #FFFFFF;
-  --surface-subtle: #EFF3F8;
+  --surface-subtle: #F1F5F9;
   --surface-elevated: #FFFFFF;
-  --surface-well: #F1F5F9;
+  --surface-well: #F3F6FB;
+  --surface-band: rgba(241, 245, 249, 0.56);
   --surface-browser: #FFFFFF;
   --surface-sidebar: #F8FAFC;
   --surface-active: #FFF2ED;
-  --surface-nav: rgba(255, 255, 255, 0.88);
+  --surface-nav: rgba(248, 250, 252, 0.78);
   --surface-grid-line: rgba(15, 23, 42, 0.08);
   --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-faint: rgba(15, 23, 42, 0.06);
+  --border-faint: rgba(15, 23, 42, 0.05);
   --border-strong: rgba(15, 23, 42, 0.14);
   --track-muted: rgba(15, 23, 42, 0.1);
-  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px -8px rgba(15, 23, 42, 0.08);
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 14px 36px -12px rgba(15, 23, 42, 0.08);
+  --canvas-ambient:
+    radial-gradient(ellipse 76% 44% at 50% -6%, rgba(234, 88, 12, 0.095) 0%, transparent 64%),
+    radial-gradient(ellipse 52% 42% at 88% 12%, rgba(59, 130, 246, 0.08) 0%, transparent 64%),
+    radial-gradient(ellipse 54% 44% at 8% 58%, rgba(14, 165, 233, 0.055) 0%, transparent 68%),
+    radial-gradient(ellipse 64% 40% at 75% 94%, rgba(251, 146, 60, 0.05) 0%, transparent 70%);
+  --canvas-grid: rgba(15, 23, 42, 0.045);
+  --surface-gloss: rgba(255, 255, 255, 0.7);
+  --canvas-vignette: rgba(226, 232, 240, 0.24);
 
   --brand: #CF3F0C;
   --brand-fg: #FFFFFF;
@@ -46,29 +55,38 @@
 
 /* Mode sombre BAYONDY */
 .dark {
-  --obsidian: #07080A;
-  --deep-navy: #0D0E11;
-  --surface-subtle: #111216;
-  --surface-elevated: #13151B;
-  --surface-well: #07080A;
-  --surface-browser: #0B0C0F;
-  --surface-sidebar: #090A0D;
-  --surface-active: #15171E;
-  --surface-nav: rgba(7, 8, 10, 0.85);
-  --surface-grid-line: rgba(255, 255, 255, 0.06);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-faint: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --track-muted: rgba(255, 255, 255, 0.1);
-  --card-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.6);
+  --obsidian: #060913;
+  --deep-navy: #0D1426;
+  --surface-subtle: #131C33;
+  --surface-elevated: #16213B;
+  --surface-well: #0A1020;
+  --surface-band: rgba(13, 20, 38, 0.42);
+  --surface-browser: #0C1324;
+  --surface-sidebar: #090F1E;
+  --surface-active: #18233F;
+  --surface-nav: rgba(6, 9, 19, 0.74);
+  --surface-grid-line: rgba(148, 163, 184, 0.08);
+  --border-subtle: rgba(148, 163, 184, 0.13);
+  --border-faint: rgba(148, 163, 184, 0.075);
+  --border-strong: rgba(148, 163, 184, 0.22);
+  --track-muted: rgba(148, 163, 184, 0.14);
+  --card-shadow: 0 22px 48px -14px rgba(2, 6, 23, 0.72);
+  --canvas-ambient:
+    radial-gradient(ellipse 72% 42% at 50% -6%, rgba(255, 98, 42, 0.16) 0%, transparent 64%),
+    radial-gradient(ellipse 52% 44% at 88% 12%, rgba(56, 189, 248, 0.105) 0%, transparent 64%),
+    radial-gradient(ellipse 54% 46% at 8% 58%, rgba(99, 102, 241, 0.095) 0%, transparent 66%),
+    radial-gradient(ellipse 65% 40% at 72% 94%, rgba(255, 91, 34, 0.07) 0%, transparent 68%);
+  --canvas-grid: rgba(148, 163, 184, 0.055);
+  --surface-gloss: rgba(255, 255, 255, 0.045);
+  --canvas-vignette: rgba(4, 7, 15, 0.42);
 
   --brand: #FF5B22;
-  --brand-fg: #07080A;
+  --brand-fg: #060913;
   --brand-light: #FF885C;
   --brand-dark: #C93E0E;
-  --brand-glow: rgba(255, 91, 34, 0.22);
-  --brand-glow-soft: rgba(255, 91, 34, 0.11);
-  --ice-white: #F4F5F7;
+  --brand-glow: rgba(255, 91, 34, 0.24);
+  --brand-glow-soft: rgba(255, 91, 34, 0.12);
+  --ice-white: #F8FAFC;
 
   --home-orange: var(--brand);
   --home-orange-fg: var(--brand-fg);
@@ -115,9 +133,26 @@ body {
   color: var(--brand-light);
 }
 
-/* Texture de grain subtile et légère (SVG data URI sans image externe) */
+/* Trame architecturale de précision avec fondu radial */
+.backdrop-grid {
+  background-image:
+    linear-gradient(to right, var(--canvas-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--canvas-grid) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 84% 62% at 50% 6%, #000 12%, transparent 80%);
+  mask-image: radial-gradient(ellipse 84% 62% at 50% 6%, #000 12%, transparent 80%);
+}
+
+/* Reflet de surface discret pour cartes et vignettes */
 .bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+  background-image: linear-gradient(155deg, var(--surface-gloss) 0%, transparent 55%, var(--canvas-vignette) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Séparateur dégradé ultra-fin entre sections */
+.section-hairline {
+  background: linear-gradient(90deg, transparent 0%, var(--border-subtle) 22%, var(--border-strong) 50%, var(--border-subtle) 78%, transparent 100%);
 }
 
 /* Animation lente de pulsation pour le symbole B-Portail */

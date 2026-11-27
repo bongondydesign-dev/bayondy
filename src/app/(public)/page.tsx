@@ -12,7 +12,7 @@ import { FinalCta } from "@/components/home/FinalCta";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       {/* 1. Navbar fine */}
       <Navbar />
 

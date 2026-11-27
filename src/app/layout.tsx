@@ -4,6 +4,7 @@ import "@/styles/theme.css";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme";
+import { AmbientBackdrop } from "@/components/layout/AmbientBackdrop";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -53,10 +54,13 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col">
+      <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col relative">
         <ThemeProvider>
           <AuthProvider>
-            {children}
+            <AmbientBackdrop />
+            <div className="relative z-10 min-h-screen flex flex-col">
+              {children}
+            </div>
           </AuthProvider>
         </ThemeProvider>
       </body>

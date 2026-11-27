@@ -5,7 +5,8 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function FinalCta() {
   return (
-    <section className="w-full py-24 sm:py-36 border-t border-[var(--border-faint)] relative overflow-hidden bg-obsidian text-center transition-colors duration-200">
+    <section className="w-full py-24 sm:py-36 relative overflow-hidden bg-[var(--surface-band)] backdrop-blur-[2px] text-center transition-colors duration-200">
+      <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       {/* Fond de vagues topographiques orange animées doucement */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-25 dark:opacity-45"

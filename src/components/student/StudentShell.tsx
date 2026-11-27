@@ -240,7 +240,7 @@ export function StudentShell({
   );
 
   return (
-    <div className="min-h-screen flex bg-obsidian text-ice-white overflow-x-clip">
+    <div className="min-h-screen flex bg-transparent text-ice-white overflow-x-clip">
       <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-deep-navy border-r border-[var(--border-subtle)] sticky top-0 h-screen">
         {sidebarContent()}
       </aside>

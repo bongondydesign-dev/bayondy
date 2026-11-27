@@ -25,7 +25,7 @@ function ConnexionContent() {
 
 export default function ConnexionPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
         <Suspense

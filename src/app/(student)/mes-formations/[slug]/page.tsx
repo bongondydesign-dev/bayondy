@@ -13,7 +13,7 @@ export default async function StudentPlayerPage({ params }: PageProps) {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-obsidian text-ice-white">
+        <div className="min-h-screen flex items-center justify-center bg-transparent text-ice-white">
           <div className="w-10 h-10 border-2 border-brand border-t-transparent rounded-full animate-spin" />
         </div>
       }

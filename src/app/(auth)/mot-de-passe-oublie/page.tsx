@@ -28,7 +28,7 @@ export default function MotDePasseOubliePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
         <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)]">

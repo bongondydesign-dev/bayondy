@@ -4,12 +4,13 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function Affirmation() {
   return (
-    <section className="w-full py-24 sm:py-36 relative overflow-hidden bg-obsidian border-t border-[var(--border-faint)] transition-colors duration-200">
+    <section className="w-full py-24 sm:py-36 relative overflow-hidden bg-[var(--surface-band)] backdrop-blur-[2px] transition-colors duration-200">
+      <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div
-        className="absolute inset-0 pointer-events-none opacity-75 dark:opacity-100"
+        className="absolute inset-0 pointer-events-none opacity-80 dark:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 55% 60% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",
+            "radial-gradient(ellipse 58% 65% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",
         }}
         aria-hidden="true"
       />

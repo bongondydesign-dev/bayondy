@@ -38,7 +38,7 @@ async function CatalogContent() {
   return (
     <>
       {/* 1. En-tête du catalogue avec lueur pleine largeur BAYONDY */}
-      <section className="relative w-full pt-12 pb-10 sm:pt-16 sm:pb-12 overflow-hidden bg-obsidian transition-colors duration-200">
+      <section className="relative w-full pt-12 pb-10 sm:pt-16 sm:pb-12 overflow-hidden bg-transparent transition-colors duration-200">
         <div
           className="absolute inset-x-0 top-0 h-[440px] pointer-events-none opacity-80 dark:opacity-100"
           style={{
@@ -197,7 +197,7 @@ async function CatalogContent() {
 
 export default function FormationsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 flex flex-col">

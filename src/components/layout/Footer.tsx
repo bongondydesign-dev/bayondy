@@ -6,7 +6,8 @@ export function Footer() {
   const currentYear = 2026;
 
   return (
-    <footer className="w-full bg-obsidian border-t border-[var(--border-subtle)] relative overflow-hidden pt-16 pb-0 transition-colors duration-200">
+    <footer className="w-full bg-[var(--surface-band)] backdrop-blur-[3px] relative overflow-hidden pt-16 pb-0 transition-colors duration-200">
+      <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Grille des colonnes de liens */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[var(--border-subtle)]">

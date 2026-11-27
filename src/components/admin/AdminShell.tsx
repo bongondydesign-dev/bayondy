@@ -9,7 +9,7 @@ import { t } from "@/lib/i18n";
 
 function AccessDenied() {
   return (
-    <div className="min-h-screen bg-obsidian text-ice-white flex flex-col px-4">
+    <div className="min-h-screen bg-transparent text-ice-white flex flex-col px-4">
       <meta name="robots" content="noindex" />
       <header className="h-16 max-w-6xl w-full mx-auto flex items-center justify-between">
         <Link
@@ -219,7 +219,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-obsidian flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="w-10 h-10 border-2 border-brand border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -299,7 +299,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen flex bg-obsidian text-ice-white overflow-x-clip">
+    <div className="min-h-screen flex bg-transparent text-ice-white overflow-x-clip">
       <meta name="robots" content="noindex" />
 
       <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-deep-navy border-r border-[var(--border-subtle)] sticky top-0 h-screen">

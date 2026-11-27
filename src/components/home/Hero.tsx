@@ -12,7 +12,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-obsidian transition-colors duration-200">
+    <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-transparent transition-colors duration-200">
       {/* Lueur d'ambiance orange douce par dégradé radial */}
       <div
         className="absolute inset-x-0 top-0 h-[520px] pointer-events-none opacity-80 dark:opacity-100"

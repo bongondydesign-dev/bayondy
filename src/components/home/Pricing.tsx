@@ -9,7 +9,8 @@ export function Pricing() {
     .map((m) => m.trim());
 
   return (
-    <section className="w-full py-24 sm:py-32 border-t border-[var(--border-faint)] bg-obsidian relative transition-colors duration-200">
+    <section className="w-full py-24 sm:py-32 bg-[var(--surface-band)] backdrop-blur-[2px] relative transition-colors duration-200">
+      <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">

@@ -8,8 +8,9 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="w-full py-24 sm:py-32 border-t border-[var(--border-faint)] bg-obsidian scroll-mt-20 relative transition-colors duration-200"
+      className="w-full py-24 sm:py-32 bg-transparent scroll-mt-20 relative transition-colors duration-200"
     >
+      <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">

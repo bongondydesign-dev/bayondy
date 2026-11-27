@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function MerciPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian bg-noise text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-16 sm:py-24">
