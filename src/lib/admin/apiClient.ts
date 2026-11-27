@@ -21,13 +21,18 @@ export async function adminFetch(
     return new Response(JSON.stringify({ error: "Non connecté." }), { status: 401 });
   }
 
-  const token = await user.getIdToken();
+  const sendWithToken = async (forceRefresh: boolean) => {
+    const token = await user.getIdToken(forceRefresh);
+    const headers = new Headers(options.headers ?? {});
+    headers.set("Authorization", `Bearer ${token}`);
+    headers.set("Content-Type", "application/json");
+    return fetch(path, { ...options, headers });
+  };
 
-  const headers = new Headers(options.headers ?? {});
-  headers.set("Authorization", `Bearer ${token}`);
-  headers.set("Content-Type", "application/json");
-
-  const response = await fetch(path, { ...options, headers });
+  let response = await sendWithToken(false);
+  if (response.status === 401) {
+    response = await sendWithToken(true);
+  }
 
   if (response.status === 401) {
     console.warn("[adminFetch] 401 — token invalide ou expiré.");
