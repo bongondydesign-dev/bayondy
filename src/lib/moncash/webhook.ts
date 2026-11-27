@@ -109,8 +109,34 @@ export function parseMonCashWebhookEvent(
   }
 
   const obj = parsed as Record<string, unknown>;
-  const event = typeof obj.event === "string" ? obj.event.trim() : "";
-  const reference = typeof obj.reference === "string" ? obj.reference.trim() : "";
+  const nestedData =
+    obj.data && typeof obj.data === "object" && !Array.isArray(obj.data)
+      ? (obj.data as Record<string, unknown>)
+      : null;
+
+  const eventRaw =
+    typeof obj.event === "string"
+      ? obj.event
+      : typeof obj.type === "string"
+        ? obj.type
+        : "";
+  const event = eventRaw.trim();
+
+  const refCandidate =
+    typeof obj.reference === "string"
+      ? obj.reference
+      : typeof obj.referenceId === "string"
+        ? obj.referenceId
+        : typeof obj.orderId === "string"
+          ? obj.orderId
+          : nestedData && typeof nestedData.reference === "string"
+            ? nestedData.reference
+            : nestedData && typeof nestedData.referenceId === "string"
+              ? nestedData.referenceId
+              : nestedData && typeof nestedData.orderId === "string"
+                ? nestedData.orderId
+                : "";
+  const reference = refCandidate.trim();
 
   if (!event) {
     return { ok: false, error: "Missing event field" };
@@ -119,14 +145,17 @@ export function parseMonCashWebhookEvent(
     return { ok: false, error: "Missing or invalid reference field" };
   }
 
+  const rawAmount = obj.amount ?? nestedData?.amount;
   const amount =
-    typeof obj.amount === "number" && Number.isFinite(obj.amount)
-      ? obj.amount
+    typeof rawAmount === "number" && Number.isFinite(rawAmount)
+      ? rawAmount
       : null;
-  const status = typeof obj.status === "string" ? obj.status.trim() : null;
+  const rawStatus = obj.status ?? nestedData?.status;
+  const status = typeof rawStatus === "string" ? rawStatus.trim() : null;
+  const rawCompletedAt = obj.completedAt ?? nestedData?.completedAt;
   const completedAt =
-    typeof obj.completedAt === "string" || typeof obj.completedAt === "number"
-      ? obj.completedAt
+    typeof rawCompletedAt === "string" || typeof rawCompletedAt === "number"
+      ? rawCompletedAt
       : null;
 
   return {

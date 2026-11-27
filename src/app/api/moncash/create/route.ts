@@ -63,7 +63,10 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Lecture exclusive de la clé secrète côté serveur
-  const mccSecretKey = process.env.MCC_SECRET_KEY?.trim();
+  const mccSecretKey = process.env.MCC_SECRET_KEY
+    ?.trim()
+    .replace(/^(['"])([\s\S]*)\1$/, "$2")
+    .trim();
   if (!mccSecretKey) {
     return NextResponse.json(
       { error: "Sèvis MonCash la poko konfigire sou sèvè a.", code: "MCC_SECRET_MISSING" },

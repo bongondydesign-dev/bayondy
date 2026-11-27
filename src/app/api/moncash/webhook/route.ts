@@ -32,7 +32,10 @@ export async function POST(req: NextRequest) {
   const rawBody = await req.text();
 
   // 2. Récupérer le secret webhook uniquement depuis process.env
-  const webhookSecret = process.env.MCC_WEBHOOK_SECRET?.trim();
+  const webhookSecret = process.env.MCC_WEBHOOK_SECRET
+    ?.trim()
+    .replace(/^(['"])([\s\S]*)\1$/, "$2")
+    .trim();
   if (!webhookSecret) {
     return NextResponse.json(
       { error: "Webhook secret is not configured", code: "MCC_WEBHOOK_SECRET_MISSING" },
@@ -89,136 +92,144 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, ignored: true, event }, { status: 200 });
   }
 
-  const db = getAdminDb();
+  try {
+    const db = getAdminDb();
 
-  // 7. Retrouver la commande par reference === orderId (doc ID puis fallback orderId)
-  const isSafeDocId =
-    !reference.includes("/") && reference !== "." && reference !== "..";
-  let paymentRef = isSafeDocId ? db.collection("payments").doc(reference) : null;
-  const directSnap = paymentRef ? await paymentRef.get() : null;
+    // 7. Retrouver la commande par reference === orderId (doc ID puis fallback orderId)
+    const isSafeDocId =
+      !reference.includes("/") && reference !== "." && reference !== "..";
+    let paymentRef = isSafeDocId ? db.collection("payments").doc(reference) : null;
+    const directSnap = paymentRef ? await paymentRef.get() : null;
 
-  if (!directSnap || !directSnap.exists) {
-    const byOrderId = await db
-      .collection("payments")
-      .where("orderId", "==", reference)
-      .limit(1)
-      .get();
+    if (!directSnap || !directSnap.exists) {
+      const byOrderId = await db
+        .collection("payments")
+        .where("orderId", "==", reference)
+        .limit(1)
+        .get();
 
-    if (byOrderId.empty) {
-      // Toujours répondre 200 pour éviter des retries infinis si référence inconnue
+      if (byOrderId.empty) {
+        // Toujours répondre 200 pour éviter des retries infinis si référence inconnue
+        return NextResponse.json(
+          { ok: true, found: false, reference },
+          { status: 200 }
+        );
+      }
+
+      paymentRef = byOrderId.docs[0].ref;
+    }
+
+    if (!paymentRef) {
       return NextResponse.json(
         { ok: true, found: false, reference },
         { status: 200 }
       );
     }
 
-    paymentRef = byOrderId.docs[0].ref;
-  }
-
-  if (!paymentRef) {
-    return NextResponse.json(
-      { ok: true, found: false, reference },
-      { status: 200 }
-    );
-  }
-
-  // 8. Mise à jour transactionnelle & idempotente de la commande (et accès cours si payée)
-  const result = await db.runTransaction(async (tx) => {
-    const snap = await tx.get(paymentRef);
-    if (!snap.exists) {
-      return { outcome: "not_found" as const };
-    }
-
-    const data = snap.data() as {
-      uid?: string;
-      courseId?: string;
-      amount?: number;
-      status?: string;
-    };
-
-    if (event === "payment.completed") {
-      // Vérification de cohérence du montant si fourni
-      if (
-        typeof amount === "number" &&
-        typeof data.amount === "number" &&
-        Math.round(amount) !== Math.round(data.amount)
-      ) {
-        return { outcome: "amount_mismatch" as const };
+    // 8. Mise à jour transactionnelle & idempotente de la commande (et accès cours si payée)
+    const result = await db.runTransaction(async (tx) => {
+      const snap = await tx.get(paymentRef);
+      if (!snap.exists) {
+        return { outcome: "not_found" as const };
       }
 
-      const alreadyPaid = data.status === "paid";
+      const data = snap.data() as {
+        uid?: string;
+        courseId?: string;
+        amount?: number;
+        status?: string;
+      };
 
-      if (!alreadyPaid) {
-        const paidAtValue =
-          parseCompletedAtTimestamp(completedAt) ?? FieldValue.serverTimestamp();
-        tx.update(paymentRef, {
-          status: "paid",
-          paidAt: paidAtValue,
-          providerReference: reference,
-          failureReason: null,
-        });
-      }
+      if (event === "payment.completed") {
+        // Vérification de cohérence du montant si fourni
+        if (
+          typeof amount === "number" &&
+          typeof data.amount === "number" &&
+          Math.round(amount) !== Math.round(data.amount)
+        ) {
+          return { outcome: "amount_mismatch" as const };
+        }
 
-      // Attribuer l'accès au cours de manière idempotente
-      if (data.uid && data.courseId) {
-        const enrollmentRef = db
-          .collection("enrollments")
-          .doc(`${data.uid}_${data.courseId}`);
-        const enrollmentSnap = await tx.get(enrollmentRef);
+        const alreadyPaid = data.status === "paid";
 
-        if (enrollmentSnap.exists) {
-          if (enrollmentSnap.data()?.status !== "active") {
-            tx.update(enrollmentRef, {
+        if (!alreadyPaid) {
+          const paidAtValue =
+            parseCompletedAtTimestamp(completedAt) ?? FieldValue.serverTimestamp();
+          tx.update(paymentRef, {
+            status: "paid",
+            paidAt: paidAtValue,
+            providerReference: reference,
+            failureReason: null,
+          });
+        }
+
+        // Attribuer l'accès au cours de manière idempotente
+        if (data.uid && data.courseId) {
+          const enrollmentRef = db
+            .collection("enrollments")
+            .doc(`${data.uid}_${data.courseId}`);
+          const enrollmentSnap = await tx.get(enrollmentRef);
+
+          if (enrollmentSnap.exists) {
+            if (enrollmentSnap.data()?.status !== "active") {
+              tx.update(enrollmentRef, {
+                status: "active",
+                source: "payment",
+                paymentId: paymentRef.id,
+                grantedAt: FieldValue.serverTimestamp(),
+              });
+            }
+          } else {
+            tx.set(enrollmentRef, {
+              uid: data.uid,
+              courseId: data.courseId,
               status: "active",
               source: "payment",
               paymentId: paymentRef.id,
               grantedAt: FieldValue.serverTimestamp(),
+              progress: {
+                completedLessonIds: [],
+                lastLessonId: "",
+              },
             });
           }
-        } else {
-          tx.set(enrollmentRef, {
-            uid: data.uid,
-            courseId: data.courseId,
-            status: "active",
-            source: "payment",
-            paymentId: paymentRef.id,
-            grantedAt: FieldValue.serverTimestamp(),
-            progress: {
-              completedLessonIds: [],
-              lastLessonId: "",
-            },
-          });
         }
+
+        return { outcome: alreadyPaid ? ("already_paid" as const) : ("paid" as const) };
       }
 
-      return { outcome: alreadyPaid ? ("already_paid" as const) : ("paid" as const) };
-    }
+      // event === "payment.failed"
+      // Ne jamais rétrograder une commande déjà payée
+      if (data.status === "paid") {
+        return { outcome: "already_paid" as const };
+      }
+      if (data.status === "failed") {
+        return { outcome: "already_failed" as const };
+      }
 
-    // event === "payment.failed"
-    // Ne jamais rétrograder une commande déjà payée
-    if (data.status === "paid") {
-      return { outcome: "already_paid" as const };
-    }
-    if (data.status === "failed") {
-      return { outcome: "already_failed" as const };
-    }
+      tx.update(paymentRef, {
+        status: "failed",
+        failureReason: status || "payment.failed",
+      });
 
-    tx.update(paymentRef, {
-      status: "failed",
-      failureReason: status || "payment.failed",
+      return { outcome: "failed" as const };
     });
 
-    return { outcome: "failed" as const };
-  });
-
-  // 9. Répondre 200 toujours pour garantir l'idempotence des retries MCC
-  return NextResponse.json(
-    {
-      ok: true,
-      event,
-      reference,
-      outcome: result.outcome,
-    },
-    { status: 200 }
-  );
+    // 9. Répondre 200 toujours pour garantir l'idempotence des retries MCC
+    return NextResponse.json(
+      {
+        ok: true,
+        event,
+        reference,
+        outcome: result.outcome,
+      },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error("[moncash/webhook] Server error:", err instanceof Error ? err.message : err);
+    return NextResponse.json(
+      { error: "Webhook processing failed", code: "WEBHOOK_SERVER_ERROR" },
+      { status: 500 }
+    );
+  }
 }

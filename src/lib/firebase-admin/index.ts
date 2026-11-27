@@ -13,11 +13,16 @@ let _adminApp: App | null = null;
 let _adminAuth: Auth | null = null;
 let _adminDb: Firestore | null = null;
 
+function cleanEnvValue(value: string | undefined): string {
+  if (!value) return "";
+  return value.trim().replace(/^(['"])([\s\S]*)\1$/, "$2").trim();
+}
+
 export function hasAdminCredentials(): boolean {
   return Boolean(
-    process.env.FIREBASE_ADMIN_PROJECT_ID &&
-    process.env.FIREBASE_ADMIN_CLIENT_EMAIL &&
-    process.env.FIREBASE_ADMIN_PRIVATE_KEY
+    cleanEnvValue(process.env.FIREBASE_ADMIN_PROJECT_ID) &&
+    cleanEnvValue(process.env.FIREBASE_ADMIN_CLIENT_EMAIL) &&
+    cleanEnvValue(process.env.FIREBASE_ADMIN_PRIVATE_KEY)
   );
 }
 
@@ -28,9 +33,9 @@ function getAdminApp(): App {
     return _adminApp;
   }
 
-  const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
-  const rawPrivateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
+  const projectId = cleanEnvValue(process.env.FIREBASE_ADMIN_PROJECT_ID);
+  const clientEmail = cleanEnvValue(process.env.FIREBASE_ADMIN_CLIENT_EMAIL);
+  const rawPrivateKey = cleanEnvValue(process.env.FIREBASE_ADMIN_PRIVATE_KEY);
 
   if (!projectId || !clientEmail || !rawPrivateKey) {
     const missing = [
