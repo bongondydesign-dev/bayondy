@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { hasCourseAccess } from "@/lib/learning/access";
 import { getEnrollmentForCourse } from "@/lib/learning/queries";
 import { t } from "@/lib/i18n";
 import {
@@ -24,15 +25,17 @@ export function EnrollButton({
   priceHTG,
   className = "",
 }: EnrollButtonProps) {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, isAdmin } = useAuth();
   const [enrolled, setEnrolled] = useState(false);
-  const [checkingEnrollment, setCheckingEnrollment] = useState(Boolean(user?.uid && courseId));
+  const [checkingEnrollment, setCheckingEnrollment] = useState(
+    Boolean(user?.uid && courseId && !isAdmin)
+  );
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Vérifier si l'utilisateur connecté est déjà inscrit au cours
+  // Vérifier si l'utilisateur connecté est déjà inscrit au cours (inutile pour admin)
   useEffect(() => {
-    if (!user?.uid || !courseId) {
+    if (!user?.uid || !courseId || isAdmin) {
       return;
     }
 
@@ -54,10 +57,10 @@ export function EnrollButton({
     return () => {
       cancelled = true;
     };
-  }, [user?.uid, courseId]);
+  }, [user?.uid, courseId, isAdmin]);
 
   // 1. État de chargement initial
-  if (authLoading || (user && checkingEnrollment)) {
+  if (authLoading || (user && !isAdmin && checkingEnrollment)) {
     return (
       <div
         className={`w-full h-12 rounded-2xl bg-[var(--surface-well)] animate-pulse border border-[var(--border-subtle)] ${className}`}
@@ -92,18 +95,30 @@ export function EnrollButton({
     );
   }
 
-  // 3. Élève déjà inscrit avec accès actif
-  if (enrolled) {
+  // 3. Administrateur ou élève déjà inscrit avec accès actif
+  const canAccessDirectly = hasCourseAccess({
+    isAdmin,
+    enrollmentStatus: enrolled ? "active" : null,
+  });
+
+  if (canAccessDirectly) {
     return (
-      <Link
-        href={`/mes-formations/${courseSlug}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${className}`}
-      >
-        <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center text-xs" aria-hidden="true">
-          ✓
-        </span>
-        <span>{t("catalogue.boutonAcceder")}</span>
-      </Link>
+      <div className={`space-y-2.5 ${className}`}>
+        <Link
+          href={`/mes-formations/${courseSlug}`}
+          className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+        >
+          <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center text-xs" aria-hidden="true">
+            ✓
+          </span>
+          <span>{t("catalogue.boutonAcceder")}</span>
+        </Link>
+        {isAdmin && !enrolled && (
+          <p className="text-center font-mono text-[11px] text-brand-light/90">
+            {t("catalogue.accesAdminGratuit")}
+          </p>
+        )}
+      </div>
     );
   }
 

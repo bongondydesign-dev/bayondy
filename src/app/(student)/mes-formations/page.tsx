@@ -8,11 +8,13 @@ import { StudentShell } from "@/components/student/StudentShell";
 import { ProgressBar } from "@/components/player/ProgressBar";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import {
+  getAllCoursesForAdmin,
   getMyEnrollments,
   getCourseByIdForStudent,
   getMyPayments,
   type PaymentWithId,
 } from "@/lib/learning/queries";
+import { mergeAdminCoursesWithEnrollments } from "@/lib/learning/access";
 import {
   computeCoursePercent,
   computeStudentStats,
@@ -40,18 +42,26 @@ function paymentStatusBadge(status: string): string {
 }
 
 export default function MesFormationsPage() {
-  const { user, loading: authLoading } = useRequireAuth();
+  const { user, loading: authLoading, isAdmin } = useRequireAuth();
   const [items, setItems] = useState<StudentCourseItem[]>([]);
   const [payments, setPayments] = useState<PaymentWithId[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [courseFilter, setCourseFilter] = useState<StudentCourseFilter>("all");
 
-  const fetchDashboardData = useCallback(async (uid: string) => {
-    const [enrollments, userPayments] = await Promise.all([
+  const fetchDashboardData = useCallback(async (uid: string, admin: boolean) => {
+    const [enrollments, userPayments, adminCourses] = await Promise.all([
       getMyEnrollments(uid),
       getMyPayments(uid).catch(() => [] as PaymentWithId[]),
+      admin ? getAllCoursesForAdmin().catch(() => []) : Promise.resolve([]),
     ]);
+
+    if (admin && adminCourses.length > 0) {
+      return {
+        loaded: mergeAdminCoursesWithEnrollments(adminCourses, enrollments, uid),
+        userPayments,
+      };
+    }
 
     const loaded: StudentCourseItem[] = [];
     for (const enr of enrollments) {
@@ -69,10 +79,10 @@ export default function MesFormationsPage() {
   }, []);
 
   useEffect(() => {
-    if (!user?.uid) return;
+    if (authLoading || !user?.uid) return;
     let cancelled = false;
 
-    fetchDashboardData(user.uid)
+    fetchDashboardData(user.uid, isAdmin)
       .then(({ loaded, userPayments }) => {
         if (!cancelled) {
           setItems(loaded);
@@ -90,13 +100,13 @@ export default function MesFormationsPage() {
     return () => {
       cancelled = true;
     };
-  }, [user?.uid, fetchDashboardData]);
+  }, [user?.uid, authLoading, isAdmin, fetchDashboardData]);
 
   const handleRetry = () => {
     if (!user?.uid) return;
     setDataLoading(true);
     setError(null);
-    fetchDashboardData(user.uid)
+    fetchDashboardData(user.uid, isAdmin)
       .then(({ loaded, userPayments }) => {
         setItems(loaded);
         setPayments(userPayments);

@@ -9,6 +9,7 @@ import { VideoPlayer } from "@/components/player/VideoPlayer";
 import { LessonList } from "@/components/player/LessonList";
 import { ProgressBar } from "@/components/player/ProgressBar";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { hasCourseAccess } from "@/lib/learning/access";
 import {
   getCourseBySlugForStudent,
   getEnrollment,
@@ -25,27 +26,28 @@ interface PlayerViewProps {
 }
 
 export function PlayerView({ slug }: PlayerViewProps) {
-  const { user, loading: authLoading } = useRequireAuth();
+  const { user, loading: authLoading, isAdmin } = useRequireAuth();
 
   const [course, setCourse] = useState<CourseWithId | null>(null);
   const [lessons, setLessons] = useState<LessonWithId[]>([]);
   const [currentLessonId, setCurrentLessonId] = useState<string>("");
   const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
+  const [hasActiveEnrollment, setHasActiveEnrollment] = useState(false);
 
   const [dataLoading, setDataLoading] = useState(true);
   const [notEnrolled, setNotEnrolled] = useState(false);
   const [savingProgress, setSavingProgress] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  // Chargement sécurisé : Cours -> Inscription -> Leçons
+  // Chargement sécurisé : Cours -> Inscription (ou accès admin) -> Leçons
   useEffect(() => {
-    if (!user?.uid) return;
+    if (authLoading || !user?.uid) return;
     let cancelled = false;
 
     async function loadData() {
       try {
-        // 1. Récupération du cours publié
-        const courseDoc = await getCourseBySlugForStudent(slug);
+        // 1. Récupération du cours (y compris brouillon si admin)
+        const courseDoc = await getCourseBySlugForStudent(slug, isAdmin);
         if (cancelled) return;
         if (!courseDoc) {
           setNotEnrolled(true);
@@ -54,10 +56,16 @@ export function PlayerView({ slug }: PlayerViewProps) {
         }
         setCourse(courseDoc);
 
-        // 2. Vérification de l'inscription de l'élève
-        const enrollDoc = await getEnrollment(user!.uid, courseDoc.id);
+        // 2. Vérification de l'inscription de l'élève (ou accès gratuit admin)
+        const enrollDoc = await getEnrollment(user!.uid, courseDoc.id).catch(
+          () => null
+        );
         if (cancelled) return;
-        if (!enrollDoc || enrollDoc.status !== "active") {
+
+        const enrolledActive = enrollDoc?.status === "active";
+        setHasActiveEnrollment(enrolledActive);
+
+        if (!hasCourseAccess({ isAdmin, enrollmentStatus: enrollDoc?.status })) {
           // ⚠️ Stop immédiat : l'élève n'est pas actif sur ce cours, AUCUNE lecture de leçons
           setNotEnrolled(true);
           setDataLoading(false);
@@ -65,20 +73,20 @@ export function PlayerView({ slug }: PlayerViewProps) {
         }
 
         const initialCompleted = Array.isArray(
-          enrollDoc.progress?.completedLessonIds
+          enrollDoc?.progress?.completedLessonIds
         )
           ? enrollDoc.progress.completedLessonIds
           : [];
         setCompletedLessonIds(initialCompleted);
 
-        // 3. Lecture des leçons du cours (uniquement si inscription validée)
+        // 3. Lecture des leçons du cours (autorisée pour inscription active ou admin)
         try {
           const lessonList = await getCourseLessons(courseDoc.id);
           if (cancelled) return;
           setLessons(lessonList);
 
           if (lessonList.length > 0) {
-            const savedLastId = enrollDoc.progress?.lastLessonId;
+            const savedLastId = enrollDoc?.progress?.lastLessonId;
             const validSavedLesson = lessonList.find((l) => l.id === savedLastId);
 
             if (validSavedLesson) {
@@ -123,7 +131,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
     return () => {
       cancelled = true;
     };
-  }, [slug, user]);
+  }, [slug, user, authLoading, isAdmin]);
 
   // Leçon active courante
   const currentLesson = useMemo(() => {
@@ -140,13 +148,13 @@ export function PlayerView({ slug }: PlayerViewProps) {
     return currentLesson ? completedLessonIds.includes(currentLesson.id) : false;
   }, [currentLesson, completedLessonIds]);
 
-  // Changement de leçon active avec sauvegarde de lastLessonId
+  // Changement de leçon active avec sauvegarde de lastLessonId (si inscription active)
   const handleSelectLesson = async (lessonId: string) => {
     if (lessonId === currentLessonId) return;
     setCurrentLessonId(lessonId);
     setSaveError(null);
 
-    if (user?.uid && course?.id) {
+    if (hasActiveEnrollment && user?.uid && course?.id) {
       try {
         await saveProgress(user.uid, course.id, {
           completedLessonIds,
@@ -174,9 +182,13 @@ export function PlayerView({ slug }: PlayerViewProps) {
 
     // Mise à jour optimiste
     setCompletedLessonIds(newCompleted);
-    setSavingProgress(true);
     setSaveError(null);
 
+    if (!hasActiveEnrollment) {
+      return;
+    }
+
+    setSavingProgress(true);
     try {
       await saveProgress(user.uid, course.id, {
         completedLessonIds: newCompleted,

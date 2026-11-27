@@ -89,20 +89,22 @@ export async function getCourseByIdForStudent(
 }
 
 /**
- * Récupère un cours par son slug pour un élève connecté.
- * Filtre strictement slug et status == "published".
+ * Récupère un cours par son slug pour un élève connecté (published) ou un admin (published + draft).
  */
 export async function getCourseBySlugForStudent(
-  slug: string
+  slug: string,
+  allowDraft = false
 ): Promise<CourseWithId | null> {
   if (!slug) return null;
   const db = getFirebaseDb();
-  const q = query(
-    collection(db, "courses"),
-    where("slug", "==", slug),
-    where("status", "==", "published"),
-    limit(1)
-  );
+  const q = allowDraft
+    ? query(collection(db, "courses"), where("slug", "==", slug), limit(1))
+    : query(
+        collection(db, "courses"),
+        where("slug", "==", slug),
+        where("status", "==", "published"),
+        limit(1)
+      );
   const snapshot = await getDocs(q);
   if (snapshot.empty) return null;
   const d = snapshot.docs[0];
@@ -110,6 +112,18 @@ export async function getCourseBySlugForStudent(
     id: d.id,
     ...(d.data() as CourseDoc),
   };
+}
+
+/**
+ * Récupère toutes les formations pour un administrateur connecté (accès gratuit global).
+ */
+export async function getAllCoursesForAdmin(): Promise<CourseWithId[]> {
+  const db = getFirebaseDb();
+  const snapshot = await getDocs(collection(db, "courses"));
+  return snapshot.docs.map((d) => ({
+    id: d.id,
+    ...(d.data() as CourseDoc),
+  }));
 }
 
 /**

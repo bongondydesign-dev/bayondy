@@ -4,7 +4,9 @@
 // jamais dans les pages publiques ni dans le syllabus côté client.
 
 import React, { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
+import { PlayCircle } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { CoverImageField } from "@/components/admin/CoverImageField";
 import { t } from "@/lib/i18n";
@@ -480,22 +482,33 @@ export default function AdminFormationDetailPage() {
           )}
         </div>
         {!isNew && course && (
-          <button
-            type="button"
-            onClick={toggleStatus}
-            disabled={saving}
-            className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-full font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
-              course.status === "published"
-                ? "bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/85 hover:text-ice-white hover:border-brand/40"
-                : "bg-brand text-[var(--brand-fg)] hover:bg-brand-dark dark:hover:bg-brand-light"
-            }`}
-          >
-            {saving
-              ? t("admin.enregistrement")
-              : course.status === "published"
-              ? t("admin.formations.depublier")
-              : t("admin.formations.publier")}
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            {lessons.length > 0 && (
+              <Link
+                href={`/mes-formations/${course.slug}`}
+                className="inline-flex items-center gap-2 min-h-[48px] px-4 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/90 hover:text-ice-white hover:border-brand/50 font-sans font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              >
+                <PlayCircle className="w-4 h-4 text-brand-light" aria-hidden="true" />
+                <span>{t("catalogue.boutonAcceder")}</span>
+              </Link>
+            )}
+            <button
+              type="button"
+              onClick={toggleStatus}
+              disabled={saving}
+              className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-full font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                course.status === "published"
+                  ? "bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/85 hover:text-ice-white hover:border-brand/40"
+                  : "bg-brand text-[var(--brand-fg)] hover:bg-brand-dark dark:hover:bg-brand-light"
+              }`}
+            >
+              {saving
+                ? t("admin.enregistrement")
+                : course.status === "published"
+                ? t("admin.formations.depublier")
+                : t("admin.formations.publier")}
+            </button>
+          </div>
         )}
       </div>
 

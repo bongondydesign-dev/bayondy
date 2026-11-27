@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
 
 export function useRequireAuth() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export function useRequireAuth() {
     }
   }, [user, loading, router]);
 
-  return { user, loading };
+  return { user, loading, isAdmin };
 }
 
 export default useRequireAuth;

@@ -58,6 +58,15 @@ export async function POST(req: NextRequest) {
   let customerEmail: string | undefined;
   try {
     const decoded = await getAdminAuth().verifyIdToken(idToken, true);
+    if (decoded.admin === true) {
+      return NextResponse.json(
+        {
+          error: "Kont admin yo gen aksè gratis nan tout fòmasyon yo.",
+          code: "ADMIN_FREE_ACCESS",
+        },
+        { status: 403 }
+      );
+    }
     uid = decoded.uid;
     customerName =
       typeof decoded.name === "string" && decoded.name.trim()
