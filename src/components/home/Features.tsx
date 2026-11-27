@@ -70,7 +70,7 @@ export function Features() {
             {/* Carte 1 (Large - col-span-2) : Leçons en créole avec courbe SVG animée */}
             <div className="group md:col-span-2 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-300 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-w-0">
               <div
-                className="absolute inset-x-0 top-0 h-40 pointer-events-none opacity-0 group-hover:opacity-65 dark:group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-x-0 top-0 h-40 pointer-events-none opacity-0 group-hover:opacity-65 dark:group-hover:opacity-75 transition-opacity duration-500"
                 style={{
                   background:
                     "radial-gradient(ellipse 65% 70% at 50% 0%, var(--home-orange-glow-soft) 0%, transparent 72%)",
@@ -194,7 +194,7 @@ export function Features() {
                   <span className="w-2 h-2 rounded-full bg-[var(--home-orange)]" />
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[var(--surface-active)] dark:bg-[var(--surface-well)] border border-[var(--home-orange)]/35 flex items-center justify-between gap-3 shadow-2xs dark:shadow-none">
+                <div className="p-3.5 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange)]/35 flex items-center justify-between gap-3 shadow-2xs dark:shadow-none">
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="w-9 h-9 rounded-lg bg-deep-navy dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/35 text-[var(--home-orange)] dark:text-[var(--home-orange-light)] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200 shadow-2xs dark:shadow-none">
                       <Lock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
@@ -229,7 +229,7 @@ export function Features() {
               <div className="py-4 flex items-center justify-center">
                 <div className="relative w-32 h-32 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                   <div
-                    className="absolute inset-2 rounded-full pointer-events-none opacity-45 dark:opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-2 rounded-full pointer-events-none opacity-45 dark:opacity-55 group-hover:opacity-100 transition-opacity duration-300"
                     style={{
                       background:
                         "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
@@ -331,7 +331,7 @@ export function Features() {
                 <div className="relative w-28 h-28 flex items-center justify-center" aria-hidden="true">
                   <div className="absolute inset-0 rounded-full border border-dashed border-[var(--border-strong)] group-hover:border-[var(--home-orange)]/45 group-hover:rotate-45 transition-all duration-700 ease-out" />
                   <div className="absolute inset-3 rounded-full border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/30 group-hover:scale-105 transition-all duration-500" />
-                  <div className="w-12 h-12 rounded-xl bg-deep-navy dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/40 flex items-center justify-center text-[var(--home-orange)] dark:text-[var(--home-orange-light)] shadow-[0_6px_16px_-4px_var(--home-orange-glow)] group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-deep-navy dark:bg-[#151821] border border-[var(--home-orange)]/40 flex items-center justify-center text-[var(--home-orange)] dark:text-[var(--home-orange-light)] shadow-[0_6px_16px_-4px_var(--home-orange-glow)] group-hover:scale-105 transition-transform duration-300">
                     <RefreshCw
                       className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500 ease-out"
                       strokeWidth={2}
@@ -366,7 +366,7 @@ export function Features() {
                     <div
                       key={method}
                       style={{ transitionDelay: `${idx * 45}ms` }}
-                      className="px-4 py-2.5 rounded-xl bg-deep-navy border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none group-hover:border-[var(--home-orange)]/35 group-hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-ice-white"
+                      className="px-4 py-2.5 rounded-xl bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] group-hover:border-[var(--home-orange)]/35 group-hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-ice-white"
                     >
                       <span className="w-5 h-5 rounded-full bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 text-[var(--home-orange)] inline-flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />

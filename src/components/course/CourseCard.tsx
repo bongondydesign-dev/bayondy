@@ -47,10 +47,10 @@ export function CourseCard({ course }: CourseCardProps) {
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-well)]">
             <div
-              className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-85 group-hover:opacity-75 dark:group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-55 group-hover:opacity-75 dark:group-hover:opacity-80 transition-opacity duration-300"
               style={{
                 background:
-                  "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 45%, transparent 72%)",
+                  "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 40%, transparent 64%)",
               }}
               aria-hidden="true"
             />
@@ -108,7 +108,7 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="flex items-center gap-2.5">
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-deep-navy dark:bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/50 hover:bg-[var(--surface-subtle)] text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-deep-navy dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 hover:border-brand/50 hover:bg-[var(--surface-subtle)] dark:hover:bg-[#1A1E29] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.gadeFormasyon")} — ${course.title}`}
             >
               {t("catalogue.gadeFormasyon")}

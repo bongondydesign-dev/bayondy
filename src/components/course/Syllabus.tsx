@@ -32,7 +32,7 @@ export function Syllabus({ syllabus }: SyllabusProps) {
             <details
               key={`mod-${modIdx}`}
               open={modIdx === 0}
-              className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-sm dark:shadow-none overflow-hidden transition-colors duration-200 open:border-brand/35"
+              className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-sm dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] open:shadow-[var(--card-shadow)] overflow-hidden transition-colors duration-200 open:border-brand/35"
             >
               <summary className="flex items-center justify-between p-4 sm:p-5 cursor-pointer select-none list-none min-h-[44px] hover:bg-[var(--surface-subtle)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light transition-colors">
                 <div className="flex items-center gap-3 pr-2">

@@ -7,7 +7,7 @@ export function Affirmation() {
     <section className="w-full py-24 sm:py-32 relative overflow-hidden bg-[var(--surface-band)] transition-colors duration-200">
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div
-        className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-100"
+        className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-55"
         style={{
           background:
             "radial-gradient(ellipse 56% 62% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",
@@ -21,7 +21,7 @@ export function Affirmation() {
         </p>
 
         <blockquote className="font-display font-bold text-2xl sm:text-4xl lg:text-[2.75rem] leading-[1.22] tracking-tight text-balance">
-          <span className="text-slate-500 dark:text-ice-white/60 block">
+          <span className="text-slate-500 dark:text-zinc-400 block">
             {t("affirmation.texte")}
           </span>
           <span className="text-ice-white block mt-3">

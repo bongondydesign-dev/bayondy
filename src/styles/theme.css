@@ -58,42 +58,45 @@
   --catalog-glow: var(--brand-glow);
 }
 
-/* Mode sombre BAYONDY */
+/* Mode sombre BAYONDY — Studio Carbone & Obsidienne */
 .dark {
-  --obsidian: #03050A;
-  --deep-navy: #090E1B;
-  --surface-subtle: #0E1528;
-  --surface-elevated: #111A31;
-  --surface-well: #060913;
-  --surface-band: rgba(8, 12, 24, 0.52);
-  --surface-browser: #080C18;
-  --surface-sidebar: #050812;
-  --surface-active: #121B33;
-  --surface-nav: rgba(3, 5, 10, 0.82);
-  --surface-grid-line: rgba(148, 163, 184, 0.075);
-  --border-subtle: rgba(148, 163, 184, 0.12);
-  --border-faint: rgba(148, 163, 184, 0.07);
-  --border-strong: rgba(148, 163, 184, 0.21);
-  --track-muted: rgba(148, 163, 184, 0.14);
-  --card-shadow: 0 22px 48px -14px rgba(1, 3, 10, 0.82);
-  --card-shadow-hover: 0 26px 56px -14px rgba(1, 3, 10, 0.92);
+  --obsidian: #07080B;
+  --deep-navy: #0F1117;
+  --surface-subtle: #161922;
+  --surface-elevated: #181B24;
+  --surface-well: #0B0D12;
+  --surface-band: rgba(15, 17, 23, 0.56);
+  --surface-browser: #0D0F14;
+  --surface-sidebar: #0A0C10;
+  --surface-active: #1D1512;
+  --surface-nav: rgba(7, 8, 11, 0.88);
+  --surface-grid-line: rgba(255, 255, 255, 0.065);
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-faint: rgba(255, 255, 255, 0.055);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --track-muted: rgba(255, 255, 255, 0.11);
+  --card-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 22px 48px -16px rgba(0, 0, 0, 0.85);
+  --card-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 26px 56px -14px rgba(0, 0, 0, 0.92);
   --canvas-ambient:
-    radial-gradient(ellipse 72% 42% at 50% -6%, rgba(255, 98, 42, 0.115) 0%, transparent 64%),
-    radial-gradient(ellipse 52% 44% at 88% 12%, rgba(56, 189, 248, 0.065) 0%, transparent 64%),
-    radial-gradient(ellipse 54% 46% at 8% 58%, rgba(99, 102, 241, 0.055) 0%, transparent 66%),
-    radial-gradient(ellipse 65% 40% at 72% 94%, rgba(255, 91, 34, 0.045) 0%, transparent 68%);
-  --canvas-grid: rgba(148, 163, 184, 0.04);
+    radial-gradient(ellipse 68% 36% at 50% -6%, rgba(255, 91, 34, 0.075) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 32% at 88% 12%, rgba(245, 158, 11, 0.032) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 38% at 15% 75%, rgba(255, 91, 34, 0.025) 0%, transparent 68%);
+  --canvas-grid: rgba(255, 255, 255, 0.032);
   --surface-gloss: rgba(255, 255, 255, 0.035);
-  --canvas-vignette: rgba(2, 4, 9, 0.58);
-  --portal-shadow: drop-shadow(0 0 20px var(--brand-glow));
+  --canvas-vignette: rgba(0, 0, 0, 0.45);
+  --portal-shadow: drop-shadow(0 0 18px rgba(255, 91, 34, 0.28));
 
   --brand: #FF5B22;
-  --brand-fg: #03050A;
-  --brand-light: #FF885C;
-  --brand-dark: #C93E0E;
-  --brand-glow: rgba(255, 91, 34, 0.2);
-  --brand-glow-soft: rgba(255, 91, 34, 0.095);
-  --ice-white: #F8FAFC;
+  --brand-fg: #07080A;
+  --brand-light: #FF8A60;
+  --brand-dark: #E04814;
+  --brand-glow: rgba(255, 91, 34, 0.24);
+  --brand-glow-soft: rgba(255, 91, 34, 0.08);
+  --ice-white: #F4F5F7;
 
   --home-orange: var(--brand);
   --home-orange-fg: var(--brand-fg);

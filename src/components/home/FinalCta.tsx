@@ -10,7 +10,7 @@ export function FinalCta() {
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       {/* Fond de vagues topographiques orange avec fondu radial aux bords */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-20 dark:opacity-45 [mask-image:radial-gradient(ellipse_78%_75%_at_50%_50%,#000_28%,transparent_100%)]"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-20 dark:opacity-35 [mask-image:radial-gradient(ellipse_78%_75%_at_50%_50%,#000_28%,transparent_100%)]"
         aria-hidden="true"
       >
         <svg
@@ -46,7 +46,7 @@ export function FinalCta() {
       </div>
 
       <div
-        className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-100"
+        className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-55"
         style={{
           background:
             "radial-gradient(ellipse 50% 55% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",

@@ -156,7 +156,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               placeholder={t("auth.nomPlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
           </div>
         )}
@@ -178,7 +178,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("auth.emailPlaceholder")}
-            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
           />
         </div>
 
@@ -213,7 +213,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={motDePasse}
               onChange={(e) => setMotDePasse(e.target.value)}
               placeholder={t("auth.motDePassePlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
             {/* Bouton d'affichage du mot de passe accessible */}
             <button

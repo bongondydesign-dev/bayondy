@@ -11,13 +11,13 @@ export function HowItWorks() {
       desc: t("etapes.aprann.description"),
       preview: (
         <div className="space-y-2">
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--home-orange)]/35 text-xs font-medium text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200 shadow-2xs dark:shadow-none">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/35 text-xs font-medium text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200 shadow-2xs dark:shadow-none">
             {t("hero.apercu.lecon1")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
             {t("hero.apercu.lecon2")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
             {t("hero.apercu.lecon3")}
           </div>
         </div>
@@ -79,7 +79,7 @@ export function HowItWorks() {
             <div
               key={item}
               style={{ transitionDelay: `${idx * 50}ms` }}
-              className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/30 transition-colors duration-200 flex items-center gap-2.5 text-xs font-medium text-ice-white"
+              className="px-3 py-2 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/30 transition-colors duration-200 flex items-center gap-2.5 text-xs font-medium text-ice-white"
             >
               <Check
                 className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"

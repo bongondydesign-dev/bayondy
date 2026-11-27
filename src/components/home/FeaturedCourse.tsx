@@ -82,15 +82,15 @@ export function FeaturedCourse() {
             {/* Colonne droite : Visuel architectural avec carte flottante */}
             <div className="lg:col-span-6 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
               <div
-                className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-90 group-hover:opacity-65 dark:group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-45 group-hover:opacity-65 dark:group-hover:opacity-65 transition-opacity duration-500"
                 style={{
                   background:
-                    "radial-gradient(circle at 85% 18%, var(--home-orange-glow) 0%, transparent 56%)",
+                    "radial-gradient(circle at 82% 20%, var(--home-orange-glow-soft) 0%, transparent 52%)",
                 }}
                 aria-hidden="true"
               />
               <div
-                className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-25"
+                className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-40"
                 style={{
                   backgroundImage:
                     "radial-gradient(var(--surface-grid-line) 1px, transparent 1px)",
@@ -101,12 +101,12 @@ export function FeaturedCourse() {
 
               <div className="relative z-10 flex items-center justify-between">
                 <PortalSymbol size={48} accent="orange" />
-                <span className="font-mono text-xs font-medium text-[var(--home-orange-light)] px-3 py-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] shadow-2xs dark:shadow-none">
+                <span className="font-mono text-xs font-medium text-[var(--home-orange-light)] px-3 py-1 rounded-full bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                   {t("bento.badgeCreole")}
                 </span>
               </div>
 
-              <div className="relative z-10 mt-10 p-4 rounded-xl bg-deep-navy border border-[var(--border-subtle)] group-hover:-translate-y-1 group-hover:border-[var(--home-orange)]/40 transition-all duration-300 shadow-[0_6px_18px_-6px_rgba(15,23,42,0.08)] dark:shadow-sm">
+              <div className="relative z-10 mt-10 p-4 rounded-xl bg-deep-navy dark:bg-[#13161E] border border-[var(--border-subtle)] group-hover:-translate-y-1 group-hover:border-[var(--home-orange)]/40 transition-all duration-300 shadow-[0_6px_18px_-6px_rgba(15,23,42,0.08)] dark:shadow-[var(--card-shadow)]">
                 <p className="font-display font-bold text-lg text-ice-white">
                   {t("hero.apercu.titre")}
                 </p>

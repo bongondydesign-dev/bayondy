@@ -25,7 +25,7 @@ export function Pricing() {
 
           <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-300 p-8 sm:p-12 text-center shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] relative overflow-hidden">
             <div
-              className="absolute inset-x-0 top-0 h-44 pointer-events-none opacity-40 dark:opacity-100"
+              className="absolute inset-x-0 top-0 h-44 pointer-events-none opacity-40 dark:opacity-55"
               style={{
                 background:
                   "radial-gradient(ellipse 65% 75% at 50% 0%, var(--home-orange-glow-soft) 0%, transparent 75%)",
@@ -67,7 +67,7 @@ export function Pricing() {
                   {methods.map((method) => (
                     <div
                       key={method}
-                      className="px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
+                      className="px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[#141720] border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
                     >
                       <Check
                         className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"

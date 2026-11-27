@@ -21,7 +21,7 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
       {faqs.map((item, index) => (
         <details
           key={index}
-          className="group rounded-xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--border-strong)] open:border-brand/45 shadow-[0_1px_2px_rgba(15,23,42,0.03)] open:shadow-[var(--card-shadow)] dark:shadow-none transition-all duration-200 px-5 py-3.5"
+          className="group rounded-xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--border-strong)] open:border-brand/45 shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] open:shadow-[var(--card-shadow)] transition-all duration-200 px-5 py-3.5"
         >
           <summary className="flex items-center justify-between cursor-pointer list-none select-none font-display font-semibold text-sm sm:text-base text-ice-white min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group-hover:text-brand-light rounded-lg transition-colors">
             <span className="pr-4">{item.q}</span>

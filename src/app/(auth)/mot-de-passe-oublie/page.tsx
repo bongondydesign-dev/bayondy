@@ -37,7 +37,7 @@ export default function MotDePasseOubliePage() {
             <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white tracking-tight">
               {t("auth.titreMotDePasseOublie")}
             </h1>
-            <p className="mt-2 text-sm text-ice-white/70 font-sans">
+            <p className="mt-2 text-sm text-slate-600 dark:text-ice-white/70 font-sans">
               {t("auth.sousTitreMotDePasseOublie")}
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function MotDePasseOubliePage() {
               <div>
                 <label
                   htmlFor="reset-email"
-                  className="block text-xs font-mono uppercase tracking-wider text-ice-white/70 mb-2"
+                  className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70 mb-2"
                 >
                   {t("auth.email")}
                 </label>
@@ -94,7 +94,7 @@ export default function MotDePasseOubliePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("auth.emailPlaceholder")}
-                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
                 />
               </div>
 
@@ -111,7 +111,7 @@ export default function MotDePasseOubliePage() {
               <div className="pt-4 text-center">
                 <Link
                   href="/connexion"
-                  className="text-xs text-ice-white/60 hover:text-brand-light transition-colors min-h-[44px] inline-flex items-center"
+                  className="text-xs text-slate-500 dark:text-ice-white/60 hover:text-brand-light transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("auth.retourConnexion")}
                 </Link>

@@ -48,7 +48,7 @@ export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
       type="button"
       onClick={handleClick}
       disabled={submitting}
-      className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white font-medium text-sm sm:text-base flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-subtle)] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-deep-navy cursor-pointer"
+      className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-white dark:bg-[#151821] border border-slate-300 dark:border-white/15 text-ice-white font-medium text-sm sm:text-base flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[#1B1F2A] dark:hover:border-white/25 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-deep-navy cursor-pointer"
     >
       {/* Logo Google (SVG inline) */}
       <svg

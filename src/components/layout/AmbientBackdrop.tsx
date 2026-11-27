@@ -23,7 +23,7 @@ export function AmbientBackdrop() {
         viewBox="0 0 1440 720"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute inset-x-0 top-0 w-full h-[540px] sm:h-[680px] opacity-35 dark:opacity-75"
+        className="absolute inset-x-0 top-0 w-full h-[540px] sm:h-[680px] opacity-35 dark:opacity-50"
         preserveAspectRatio="xMidYMin slice"
       >
         <defs>
@@ -55,7 +55,7 @@ export function AmbientBackdrop() {
 
       {/* 4. Faisceau spéculaire supérieur sous la barre de navigation */}
       <div
-        className="absolute top-16 inset-x-0 h-px opacity-35 dark:opacity-70"
+        className="absolute top-16 inset-x-0 h-px opacity-35 dark:opacity-45"
         style={{
           background:
             "linear-gradient(90deg, transparent 8%, var(--brand-glow) 50%, transparent 92%)",

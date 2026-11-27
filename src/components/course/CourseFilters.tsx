@@ -57,7 +57,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                     className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                       selectedLevel === "all"
                         ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                        : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                     }`}
                   >
                     {t("catalogue.filtreTout")}
@@ -74,7 +74,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                         }`}
                       >
                         {t(`catalogue.niveaux.${level}`)}
@@ -99,7 +99,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                     className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                       selectedLanguage === "all"
                         ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                        : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                     }`}
                   >
                     {t("catalogue.filtreTout")}
@@ -116,7 +116,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                         }`}
                       >
                         {t(`catalogue.langues.${language}`)}
