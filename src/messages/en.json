@@ -109,7 +109,7 @@
     },
     "paiement": {
       "titre": "Easy local payment",
-      "description": "Pay securely using MonCash, NatCash, or debit/credit card."
+      "description": "Pay easily with MonCash today. NatCash is coming soon."
     },
     "acces": {
       "titre": "Instant access",
@@ -136,13 +136,15 @@
     "titre": "Prices will be announced before launch",
     "description": "We believe education should be accessible to everyone. Course prices will be displayed clearly with no hidden fees.",
     "moyensTitre": "Accepted payment methods:",
-    "moyens": "MonCash, NatCash, Card"
+    "moyens": "MonCash, NatCash",
+    "statutDisponible": "Available",
+    "statutAvenir": "Coming soon"
   },
   "faq": {
     "titreSection": "Frequently asked questions",
     "sousTitreSection": "Everything you need to know before getting started.",
     "q1": "How do I pay for a course?",
-    "r1": "You can pay directly on the platform using MonCash, NatCash, or your bank card.",
+    "r1": "You can pay directly on the platform using MonCash today. NatCash will be available soon.",
     "q2": "How do I get access after payment?",
     "r2": "Once payment is validated, access to all course lessons is unlocked instantly on your account.",
     "q3": "Can I watch courses on my mobile phone?",

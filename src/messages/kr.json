@@ -109,7 +109,7 @@
     },
     "paiement": {
       "titre": "Peman lokal fasil",
-      "description": "Peye ak MonCash, NatCash oswa kat labank san difikilte."
+      "description": "Peye ak MonCash kounye a san difikilte. Peman ak NatCash ap vini talè."
     },
     "acces": {
       "titre": "Aksè otomatik",
@@ -136,13 +136,15 @@
     "titre": "Pri yo ap anonse avan lansman",
     "description": "Nou vle fè fòmasyon yo aksesib pou tout moun. Pri chak fòmasyon ap afiche klèman san okenn frè kache.",
     "moyensTitre": "Mwayen peman aksepte :",
-    "moyens": "MonCash, NatCash, Kat labank"
+    "moyens": "MonCash, NatCash",
+    "statutDisponible": "Disponib",
+    "statutAvenir": "Ap vini talè"
   },
   "faq": {
     "titreSection": "Kesyon moun poze souvan",
     "sousTitreSection": "Tout sa w bezwen konnen anvan w kòmanse.",
     "q1": "Kijan pou m peye yon fòmasyon ?",
-    "r1": "Ou ka peye dirèkteman sou platfòm nan ak MonCash, NatCash oswa kat labank ou.",
+    "r1": "Ou ka peye dirèkteman sou platfòm nan ak MonCash kounye a. Peman ak NatCash ap disponib talè.",
     "q2": "Kijan m ap jwenn aksè apre peman an ?",
     "r2": "Kou peman an fin valide, aksè a louvri otomatikman sou kont ou pou tout leson fòmasyon an.",
     "q3": "Èske m ka swiv kou yo sou telefòn mwen ?",

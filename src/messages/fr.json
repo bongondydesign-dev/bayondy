@@ -109,7 +109,7 @@
     },
     "paiement": {
       "titre": "Paiement local simple",
-      "description": "Payez facilement avec MonCash, NatCash ou par carte bancaire en toute sécurité."
+      "description": "Payez facilement avec MonCash dès maintenant. NatCash arrive bientôt."
     },
     "acces": {
       "titre": "Accès automatique",
@@ -136,13 +136,15 @@
     "titre": "Les prix seront annoncés avant le lancement",
     "description": "Notre volonté est de rendre l'apprentissage accessible à tous. Les tarifs seront transparents, sans frais cachés.",
     "moyensTitre": "Moyens de paiement acceptés :",
-    "moyens": "MonCash, NatCash, Carte bancaire"
+    "moyens": "MonCash, NatCash",
+    "statutDisponible": "Disponible",
+    "statutAvenir": "À venir"
   },
   "faq": {
     "titreSection": "Foire aux questions",
     "sousTitreSection": "Tout ce que vous devez savoir avant de commencer.",
     "q1": "Comment payer une formation ?",
-    "r1": "Vous pouvez payer directement sur la plateforme avec MonCash, NatCash ou votre carte bancaire.",
+    "r1": "Vous pouvez payer directement sur la plateforme avec MonCash dès maintenant. NatCash sera bientôt disponible.",
     "q2": "Comment obtenir l'accès après paiement ?",
     "r2": "Dès validation du paiement, l'accès à l'ensemble des leçons est débloqué automatiquement sur votre compte.",
     "q3": "Puis-je suivre les cours sur téléphone ?",

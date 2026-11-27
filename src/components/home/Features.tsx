@@ -1,13 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Check, Lock, Play, RefreshCw } from "lucide-react";
+import { ArrowRight, Check, Clock, Lock, Play, RefreshCw } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function Features() {
-  const paymentMethods = t("tarifs.moyens")
-    .split(",")
-    .map((m) => m.trim());
 
   const capabilityRows = [
     t("bento.badgeCreole"),
@@ -362,18 +359,27 @@ export function Features() {
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                  {paymentMethods.map((method, idx) => (
-                    <div
-                      key={method}
-                      style={{ transitionDelay: `${idx * 45}ms` }}
-                      className="px-4 py-2.5 rounded-xl bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] group-hover:border-[var(--home-orange)]/35 group-hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-ice-white"
-                    >
-                      <span className="w-5 h-5 rounded-full bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 text-[var(--home-orange)] inline-flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
-                      </span>
-                      <span>{method}</span>
-                    </div>
-                  ))}
+                  {/* MonCash — Opérationnel */}
+                  <div className="px-4 py-2.5 rounded-xl bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/40 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] group-hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-ice-white">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 inline-flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
+                    </span>
+                    <span>MonCash</span>
+                    <span className="font-mono text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
+                      · {t("tarifs.statutDisponible")}
+                    </span>
+                  </div>
+
+                  {/* NatCash — À venir */}
+                  <div className="px-4 py-2.5 rounded-xl bg-deep-navy/70 dark:bg-[#11141C] border border-[var(--border-subtle)] transition-all duration-200 flex items-center gap-2.5 text-xs sm:text-sm font-medium text-ice-white/85">
+                    <span className="w-5 h-5 rounded-full bg-[var(--surface-well)] dark:bg-[#161A24] text-slate-500 dark:text-zinc-400 inline-flex items-center justify-center shrink-0">
+                      <Clock className="w-3 h-3" strokeWidth={2.2} aria-hidden="true" />
+                    </span>
+                    <span>NatCash</span>
+                    <span className="font-mono text-[10px] text-slate-500 dark:text-zinc-400">
+                      · {t("tarifs.statutAvenir")}
+                    </span>
+                  </div>
                 </div>
               </div>
 
