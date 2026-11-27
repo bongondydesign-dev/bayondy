@@ -187,14 +187,14 @@ export default function MesFormationsPage() {
         <div className="space-y-10">
           {/* Top Bento Hero: 8 cols Dark Obsidian Banner + 4 cols Resume Card */}
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-            {/* Dark Hero Banner (dark architectural card in both themes) */}
-            <div className="lg:col-span-8 relative overflow-hidden rounded-3xl bg-[#0A0B0F] border border-white/10 p-6 sm:p-8 text-[#F4F5F7] flex flex-col justify-between gap-6 shadow-xl">
+            {/* Theme-adaptive Hero Banner */}
+            <div className="lg:col-span-8 relative overflow-hidden rounded-3xl bg-deep-navy dark:bg-[#0A0B0F] border border-[var(--border-subtle)] dark:border-white/10 p-6 sm:p-8 text-ice-white dark:text-[#F4F5F7] flex flex-col justify-between gap-6 shadow-[var(--card-shadow)] dark:shadow-xl">
               {/* Warm ambient orange glow + delicate dashed orbital ring */}
               <div
-                className="pointer-events-none absolute -bottom-24 right-8 w-80 h-80 rounded-full opacity-45 blur-3xl"
+                className="pointer-events-none absolute -bottom-24 right-8 w-80 h-80 rounded-full opacity-25 dark:opacity-45 blur-3xl"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(255,91,34,0.38) 0%, rgba(201,62,14,0.08) 55%, transparent 75%)",
+                    "radial-gradient(circle, rgba(229,72,19,0.28) 0%, rgba(186,52,8,0.06) 55%, transparent 75%)",
                 }}
                 aria-hidden="true"
               />
@@ -208,75 +208,75 @@ export default function MesFormationsPage() {
                   cx="120"
                   cy="120"
                   r="96"
-                  stroke="rgba(255,255,255,0.12)"
+                  className="stroke-slate-900/10 dark:stroke-white/15"
                   strokeWidth="1"
                   strokeDasharray="3 5"
                 />
-                <circle cx="52" cy="70" r="2.5" fill="#FF885C" />
-                <circle cx="176" cy="148" r="2.5" fill="#FF5B22" />
+                <circle cx="52" cy="70" r="2.5" className="fill-brand dark:fill-[#FF885C]" />
+                <circle cx="176" cy="148" r="2.5" className="fill-brand dark:fill-[#FF5B22]" />
               </svg>
 
               <div className="relative z-10 space-y-2">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#FF885C]">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand-light dark:text-[#FF885C]">
                   {t("mesFormations.bonjour")}
                 </p>
-                <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-white">
+                <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-ice-white dark:text-white">
                   {displayName}
                 </h1>
-                <p className="font-sans text-sm sm:text-base text-slate-300/80 max-w-lg leading-relaxed">
+                <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-slate-300/80 max-w-lg leading-relaxed">
                   {t("mesFormations.sousTitre")}
                 </p>
               </div>
 
               {/* 3 Real KPI Tiles */}
               <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-4 flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-[#FF5B22]/20 border border-[#FF5B22]/35 text-[#FF885C] flex items-center justify-center shrink-0">
+                <div className="rounded-2xl bg-[var(--surface-well)] dark:bg-white/[0.06] border border-[var(--border-subtle)] dark:border-white/10 p-4 flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--surface-active)] dark:bg-[#FF5B22]/20 border border-brand/25 dark:border-[#FF5B22]/35 text-brand dark:text-[#FF885C] flex items-center justify-center shrink-0">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       {t("mesFormations.kpiCours")}
                     </span>
-                    <span className="font-display font-bold text-xl sm:text-2xl text-white tabular-nums">
+                    <span className="font-display font-bold text-xl sm:text-2xl text-ice-white dark:text-white tabular-nums">
                       {stats.totalCourses}
                     </span>
                   </div>
                 </div>
 
-                <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-4 flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 text-slate-200 flex items-center justify-center shrink-0">
+                <div className="rounded-2xl bg-[var(--surface-well)] dark:bg-white/[0.06] border border-[var(--border-subtle)] dark:border-white/10 p-4 flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-deep-navy dark:bg-white/10 border border-[var(--border-subtle)] dark:border-white/15 text-slate-700 dark:text-slate-200 flex items-center justify-center shrink-0">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       {t("mesFormations.kpiLecons")}
                     </span>
-                    <span className="font-display font-bold text-xl sm:text-2xl text-white tabular-nums">
+                    <span className="font-display font-bold text-xl sm:text-2xl text-ice-white dark:text-white tabular-nums">
                       {stats.totalCompletedLessons}
-                      <span className="text-sm font-normal text-slate-400">
+                      <span className="text-sm font-normal text-slate-500 dark:text-slate-400">
                         /{stats.totalCourseLessons}
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div className="rounded-2xl bg-white/[0.06] border border-white/10 p-4 flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/35 text-amber-300 flex items-center justify-center shrink-0">
+                <div className="rounded-2xl bg-[var(--surface-well)] dark:bg-white/[0.06] border border-[var(--border-subtle)] dark:border-white/10 p-4 flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/15 dark:bg-amber-500/20 border border-amber-500/30 dark:border-amber-400/35 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   </div>
                   <div className="min-w-0">
-                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                    <span className="block font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       {t("mesFormations.kpiProgression")}
                     </span>
-                    <span className="font-display font-bold text-xl sm:text-2xl text-amber-300 tabular-nums">
+                    <span className="font-display font-bold text-xl sm:text-2xl text-amber-700 dark:text-amber-300 tabular-nums">
                       {stats.globalPercent}%
                     </span>
                   </div>
@@ -446,7 +446,7 @@ export default function MesFormationsPage() {
                       key={enrollment.id}
                       className="group relative flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/45 shadow-[var(--card-shadow)] transition-all duration-300 overflow-hidden"
                     >
-                      <div className="relative aspect-video w-full overflow-hidden bg-[#0B0E17] border-b border-[var(--border-faint)]">
+                      <div className="relative aspect-video w-full overflow-hidden bg-[var(--surface-well)] border-b border-[var(--border-subtle)]">
                         {course.coverUrl ? (
                           <Image
                             src={course.coverUrl}
@@ -457,10 +457,18 @@ export default function MesFormationsPage() {
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
-                          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#FF5B22]/18 via-[#0D0E11] to-[#C93E0E]/12">
+                          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-well)]">
+                            <div
+                              className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-85"
+                              style={{
+                                background:
+                                  "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 45%, transparent 72%)",
+                              }}
+                              aria-hidden="true"
+                            />
                             <PortalSymbol
                               size={48}
-                              className="opacity-80 transition-transform duration-500 group-hover:scale-110"
+                              className="relative z-10 opacity-90 transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
                         )}

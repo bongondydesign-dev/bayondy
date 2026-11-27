@@ -154,7 +154,7 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 item.active
                   ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
-                  : "text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
+                  : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <span className="flex items-center gap-3 min-w-0 truncate">
@@ -188,7 +188,7 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 item.active
                   ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
-                  : "text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
+                  : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <span className="flex items-center gap-3 min-w-0 truncate">
@@ -302,7 +302,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex bg-transparent text-ice-white overflow-x-clip">
       <meta name="robots" content="noindex" />
 
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-deep-navy border-r border-[var(--border-subtle)] sticky top-0 h-screen">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-[var(--surface-sidebar)] border-r border-[var(--border-subtle)] sticky top-0 h-screen">
         {renderSidebar()}
       </aside>
 

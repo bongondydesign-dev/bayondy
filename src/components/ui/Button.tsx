@@ -26,8 +26,8 @@ export function Button({
 
   const variantStyles =
     variant === "principal"
-      ? "bg-brand text-[var(--brand-fg)] font-semibold hover:bg-brand-dark dark:hover:bg-brand-light hover:-translate-y-0.5 shadow-lg shadow-[var(--brand-glow)]"
-      : "border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-ice-white hover:border-brand/50 hover:bg-[var(--surface-subtle)] hover:-translate-y-0.5 shadow-xs dark:shadow-none";
+      ? "bg-brand text-[var(--brand-fg)] font-semibold hover:bg-brand-dark dark:hover:bg-brand-light hover:-translate-y-0.5 shadow-[0_6px_18px_-4px_var(--brand-glow)]"
+      : "border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-ice-white hover:border-brand/55 hover:bg-[var(--surface-subtle)] hover:-translate-y-0.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] dark:shadow-none";
 
   const combinedClasses = `${baseStyles} ${variantStyles} ${className}`.trim();
 

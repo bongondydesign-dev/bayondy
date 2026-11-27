@@ -46,7 +46,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
             {/* Filtre par niveau */}
             {levels.length > 0 && (
               <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-2.5">
-                <span className="font-mono text-xs uppercase tracking-wider text-ice-white/60 shrink-0">
+                <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 shrink-0">
                   {t("catalogue.filtreNiveau")}
                 </span>
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
@@ -57,7 +57,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                     className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                       selectedLevel === "all"
                         ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
                     }`}
                   >
                     {t("catalogue.filtreTout")}
@@ -74,7 +74,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
                         }`}
                       >
                         {t(`catalogue.niveaux.${level}`)}
@@ -88,7 +88,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
             {/* Filtre par langue */}
             {languages.length > 0 && (
               <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-2.5">
-                <span className="font-mono text-xs uppercase tracking-wider text-ice-white/60 shrink-0">
+                <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 shrink-0">
                   {t("catalogue.filtreLangue")}
                 </span>
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
@@ -99,7 +99,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                     className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                       selectedLanguage === "all"
                         ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                        : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
                     }`}
                   >
                     {t("catalogue.filtreTout")}
@@ -116,7 +116,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "bg-brand border-brand text-[var(--brand-fg)] font-semibold shadow-sm shadow-[var(--brand-glow)]"
-                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
+                            : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white"
                         }`}
                       >
                         {t(`catalogue.langues.${language}`)}
@@ -157,7 +157,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
             <p className="font-display font-semibold text-lg sm:text-xl text-ice-white">
               {t("catalogue.aucunResultat")}
             </p>
-            <p className="font-sans text-sm sm:text-base text-ice-white/70 max-w-md mx-auto">
+            <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-ice-white/70 max-w-md mx-auto">
               {t("catalogue.aucunResultatDescription")}
             </p>
             {hasActiveFilter && (

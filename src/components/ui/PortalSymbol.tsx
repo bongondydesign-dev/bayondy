@@ -15,9 +15,9 @@ export function PortalSymbol({
   const primaryGradId = isIon ? "portal-grad-ion-primary" : "portal-grad-brand-primary";
   const innerGradId = isIon ? "portal-grad-ion-inner" : "portal-grad-brand-inner";
   const glowFilterId = isIon ? "soft-glow-ion" : "soft-glow-brand";
-  const stopLight = isIon ? "var(--catalog-aurora, #37D6D0)" : "var(--brand-light, #FF885C)";
-  const stopMid = isIon ? "var(--catalog-blue, #2864FF)" : "var(--brand, #FF5B22)";
-  const stopDark = isIon ? "#1947C6" : "var(--brand-dark, #C93E0E)";
+  const stopLight = isIon ? "var(--catalog-aurora, #37D6D0)" : "var(--brand, #E54813)";
+  const stopMid = isIon ? "var(--catalog-blue, #2864FF)" : "var(--brand, #E54813)";
+  const stopDark = isIon ? "#1947C6" : "var(--brand-dark, #BA3408)";
 
   return (
     <div
@@ -67,19 +67,19 @@ export function PortalSymbol({
           </linearGradient>
 
           <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feGaussianBlur stdDeviation="5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
 
-        {/* Lueur arrière-plan */}
+        {/* Lueur arrière-plan discrète en mode clair, plus marquée en mode sombre */}
         <ellipse
           cx="60"
           cy="60"
-          rx="42"
-          ry="46"
+          rx="40"
+          ry="44"
           fill={`url(#${primaryGradId})`}
-          opacity="0.15"
+          className="opacity-[0.07] dark:opacity-[0.16]"
           filter={`url(#${glowFilterId})`}
         />
 

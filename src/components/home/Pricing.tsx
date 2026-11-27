@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowRight, Check } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
@@ -9,7 +10,7 @@ export function Pricing() {
     .map((m) => m.trim());
 
   return (
-    <section className="w-full py-24 sm:py-32 bg-[var(--surface-band)] backdrop-blur-[2px] relative transition-colors duration-200">
+    <section className="w-full py-24 sm:py-32 bg-[var(--surface-band)] relative transition-colors duration-200">
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <Reveal>
@@ -22,12 +23,12 @@ export function Pricing() {
             </h2>
           </div>
 
-          <div className="rounded-2xl bg-deep-navy border border-[var(--home-orange)]/35 hover:border-[var(--home-orange)]/60 transition-colors duration-300 p-8 sm:p-12 text-center shadow-[var(--card-shadow)] relative overflow-hidden">
+          <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-300 p-8 sm:p-12 text-center shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] relative overflow-hidden">
             <div
-              className="absolute inset-x-0 top-0 h-56 pointer-events-none opacity-80 dark:opacity-100"
+              className="absolute inset-x-0 top-0 h-44 pointer-events-none opacity-40 dark:opacity-100"
               style={{
                 background:
-                  "radial-gradient(ellipse 65% 80% at 50% 0%, var(--home-orange-glow-soft) 0%, transparent 75%)",
+                  "radial-gradient(ellipse 65% 75% at 50% 0%, var(--home-orange-glow-soft) 0%, transparent 75%)",
               }}
               aria-hidden="true"
             />
@@ -37,7 +38,7 @@ export function Pricing() {
                 {t("tarifs.titre")}
               </h3>
 
-              <p className="text-base sm:text-lg text-ice-white/70 max-w-xl mx-auto leading-relaxed font-sans mb-8">
+              <p className="text-base sm:text-lg text-slate-600 dark:text-ice-white/70 max-w-xl mx-auto leading-relaxed font-sans mb-8">
                 {t("tarifs.description")}
               </p>
 
@@ -53,32 +54,26 @@ export function Pricing() {
                     className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                     aria-hidden="true"
                   >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 12h14m-6-6l6 6-6 6" />
-                    </svg>
+                    <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.4} />
                   </span>
                 </Button>
               </div>
 
               <div className="pt-7 border-t border-[var(--border-subtle)] max-w-lg mx-auto">
-                <p className="font-mono text-xs uppercase tracking-wider text-ice-white/65 mb-4">
+                <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/65 mb-4">
                   {t("tarifs.moyensTitre")}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   {methods.map((method) => (
                     <div
                       key={method}
-                      className="px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/35 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
+                      className="px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 transition-colors text-xs sm:text-sm font-semibold text-ice-white flex items-center gap-2"
                     >
-                      <svg
+                      <Check
                         className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
                         aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 13l4 4L19 7" />
-                      </svg>
+                      />
                       <span>{method}</span>
                     </div>
                   ))}

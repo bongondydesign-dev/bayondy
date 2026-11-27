@@ -67,7 +67,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
         )}
         <Link
           href="/mes-formations"
-          className="text-sm font-medium text-ice-white/75 hover:text-ice-white px-3 py-2 min-h-[44px] inline-flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
+          className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-slate-900/[0.045] dark:hover:bg-white/[0.05] px-3.5 py-2 min-h-[40px] inline-flex items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
         >
           {t("nav.mesFormations")}
         </Link>
@@ -111,7 +111,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
     <div className="hidden md:flex items-center gap-3 shrink-0">
       <Link
         href="/connexion"
-        className="text-sm font-medium text-ice-white/75 hover:text-ice-white px-3 py-2 min-h-[44px] inline-flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
+        className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-slate-900/[0.045] dark:hover:bg-white/[0.05] px-3.5 py-2 min-h-[40px] inline-flex items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
       >
         {t("nav.connexion")}
       </Link>

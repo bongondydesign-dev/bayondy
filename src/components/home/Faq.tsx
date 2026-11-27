@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowRight } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { FaqList } from "@/components/faq/FaqList";
 import { Button } from "@/components/ui/Button";
@@ -22,7 +23,7 @@ export function Faq() {
               <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight leading-[1.08] text-balance">
                 {t("faq.titreSection")}
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-ice-white/70 font-sans leading-relaxed mb-6">
+              <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
                 {t("faq.sousTitreSection")}
               </p>
               <Button
@@ -33,12 +34,10 @@ export function Faq() {
               >
                 <span>{t("nav.faq")}</span>
                 <span
-                  className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+                  className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                   aria-hidden="true"
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M5 12h14m-6-6l6 6-6 6" />
-                  </svg>
+                  <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
                 </span>
               </Button>
             </div>

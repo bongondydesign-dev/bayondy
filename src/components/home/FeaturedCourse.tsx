@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowRight, Check } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
@@ -26,34 +27,34 @@ export function FeaturedCourse() {
           </div>
 
           {/* Carte divisée 2 colonnes */}
-          <div className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/35 shadow-[var(--card-shadow)] transition-colors duration-300 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative overflow-hidden">
+          <div className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-300 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative overflow-hidden">
             {/* Colonne gauche : texte, bénéfices et CTA */}
             <div className="lg:col-span-6 flex flex-col justify-between gap-6">
               <div>
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--home-orange-light)] mb-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--home-orange)]" aria-hidden="true" />
+                  <span>{t("bento.badgeCreole")}</span>
+                </span>
                 <h3 className="font-display font-semibold text-2xl sm:text-3xl text-ice-white leading-snug mb-3 text-balance">
-                  {t("une.titre")}
+                  {t("hero.apercu.titre")}
                 </h3>
-                <p className="text-sm sm:text-base text-ice-white/70 leading-relaxed font-sans">
+                <p className="text-sm sm:text-base text-slate-600 dark:text-ice-white/70 leading-relaxed font-sans">
                   {t("une.description")}
                 </p>
               </div>
 
               <div className="space-y-4">
-                <ul className="space-y-2.5 pt-4 border-t border-[var(--border-faint)]">
+                <ul className="space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
                   {highlights.map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-2.5 text-sm text-ice-white/85 font-sans"
+                      className="flex items-center gap-2.5 text-sm text-slate-700 dark:text-ice-white/85 font-sans font-medium"
                     >
-                      <svg
+                      <Check
                         className="w-4 h-4 text-[var(--home-orange)] shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
                         aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 13l4 4L19 7" />
-                      </svg>
+                      />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -71,37 +72,45 @@ export function FeaturedCourse() {
                       className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                       aria-hidden="true"
                     >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 12h14m-6-6l6 6-6 6" />
-                      </svg>
+                      <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.4} />
                     </span>
                   </Button>
                 </div>
               </div>
             </div>
 
-            {/* Colonne droite : Visuel atmosphérique avec carte flottante */}
+            {/* Colonne droite : Visuel architectural avec carte flottante */}
             <div className="lg:col-span-6 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
               <div
-                className="absolute inset-0 pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-90 group-hover:opacity-65 dark:group-hover:opacity-100 transition-opacity duration-500"
                 style={{
                   background:
-                    "radial-gradient(circle at 85% 15%, var(--home-orange-glow) 0%, transparent 55%)",
+                    "radial-gradient(circle at 85% 18%, var(--home-orange-glow) 0%, transparent 56%)",
                 }}
                 aria-hidden="true"
               />
+              <div
+                className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-25"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(var(--surface-grid-line) 1px, transparent 1px)",
+                  backgroundSize: "18px 18px",
+                }}
+                aria-hidden="true"
+              />
+
               <div className="relative z-10 flex items-center justify-between">
                 <PortalSymbol size={48} accent="orange" />
-                <span className="font-mono text-xs text-[var(--home-orange-light)] px-3 py-1 rounded-full bg-deep-navy border border-[var(--border-subtle)]">
+                <span className="font-mono text-xs font-medium text-[var(--home-orange-light)] px-3 py-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] shadow-2xs dark:shadow-none">
                   {t("bento.badgeCreole")}
                 </span>
               </div>
 
-              <div className="relative z-10 mt-10 p-4 rounded-xl bg-deep-navy/95 border border-[var(--border-subtle)] group-hover:-translate-y-1 group-hover:border-[var(--home-orange)]/35 transition-all duration-300 backdrop-blur-sm shadow-sm">
+              <div className="relative z-10 mt-10 p-4 rounded-xl bg-deep-navy border border-[var(--border-subtle)] group-hover:-translate-y-1 group-hover:border-[var(--home-orange)]/40 transition-all duration-300 shadow-[0_6px_18px_-6px_rgba(15,23,42,0.08)] dark:shadow-sm">
                 <p className="font-display font-bold text-lg text-ice-white">
                   {t("hero.apercu.titre")}
                 </p>
-                <p className="mt-1 text-xs text-ice-white/70 font-sans">
+                <p className="mt-1 text-xs text-slate-600 dark:text-ice-white/70 font-sans">
                   {t("affirmation.sousTexte")}
                 </p>
               </div>

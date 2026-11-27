@@ -93,13 +93,13 @@ export default function ProfilPage() {
         </div>
       ) : (
         <div className="space-y-8">
-          {/* Dark Profile Hero Banner */}
-          <section className="relative overflow-hidden rounded-3xl bg-[#0A0B0F] border border-white/10 p-6 sm:p-8 text-[#F4F5F7] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl">
+          {/* Theme-adaptive Profile Hero Banner */}
+          <section className="relative overflow-hidden rounded-3xl bg-deep-navy dark:bg-[#0A0B0F] border border-[var(--border-subtle)] dark:border-white/10 p-6 sm:p-8 text-ice-white dark:text-[#F4F5F7] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-[var(--card-shadow)] dark:shadow-xl">
             <div
-              className="pointer-events-none absolute -bottom-24 left-1/3 w-80 h-80 rounded-full opacity-40 blur-3xl"
+              className="pointer-events-none absolute -bottom-24 left-1/3 w-80 h-80 rounded-full opacity-25 dark:opacity-40 blur-3xl"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,91,34,0.34) 0%, rgba(201,62,14,0.08) 55%, transparent 75%)",
+                  "radial-gradient(circle, rgba(229,72,19,0.28) 0%, rgba(186,52,8,0.06) 55%, transparent 75%)",
               }}
               aria-hidden="true"
             />
@@ -113,34 +113,34 @@ export default function ProfilPage() {
                 cx="120"
                 cy="120"
                 r="94"
-                stroke="rgba(255,255,255,0.12)"
+                className="stroke-slate-900/10 dark:stroke-white/15"
                 strokeWidth="1"
                 strokeDasharray="3 5"
               />
-              <circle cx="58" cy="84" r="2.5" fill="#FF885C" />
+              <circle cx="58" cy="84" r="2.5" className="fill-brand dark:fill-[#FF885C]" />
             </svg>
 
             <div className="relative z-10 space-y-2">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#FF885C]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand-light dark:text-[#FF885C]">
                   {t("profil.badge")}
                 </span>
                 {isAdmin && (
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-amber-300 font-semibold">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-amber-700 dark:text-amber-300 font-semibold">
                     · Admin
                   </span>
                 )}
               </div>
-              <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-white">
+              <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-ice-white dark:text-white">
                 {t("profil.titre")}
               </h1>
-              <p className="font-sans text-sm sm:text-base text-slate-300/80 max-w-lg">
+              <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-slate-300/80 max-w-lg">
                 {t("profil.sousTitre")}
               </p>
             </div>
 
             <div className="relative z-10 flex items-center gap-4 shrink-0">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#151821] border-2 border-[#FF5B22]/60 flex items-center justify-center font-display font-bold text-2xl sm:text-3xl text-[#FF885C] shadow-inner">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[var(--surface-active)] dark:bg-[#151821] border-2 border-brand/45 dark:border-[#FF5B22]/60 flex items-center justify-center font-display font-bold text-2xl sm:text-3xl text-brand dark:text-[#FF885C] shadow-inner">
                 {initial}
               </div>
             </div>
@@ -176,7 +176,7 @@ export default function ProfilPage() {
                     value={displayNameInput}
                     onChange={(e) => setDisplayNameDraft(e.target.value)}
                     placeholder={t("auth.nomPlaceholder")}
-                    className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                    className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white placeholder:text-slate-400 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                   />
                 </div>
 

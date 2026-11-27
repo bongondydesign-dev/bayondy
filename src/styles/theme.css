@@ -1,39 +1,44 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Mode clair professionnel (par défaut sans classe .dark) */
+/* Mode clair architectural et lumineux (par défaut sans classe .dark) */
 :root {
-  --obsidian: #F8FAFC;
+  --obsidian: #FAFAF8;
   --deep-navy: #FFFFFF;
-  --surface-subtle: #F1F5F9;
+  --surface-subtle: #F4F3F0;
   --surface-elevated: #FFFFFF;
-  --surface-well: #F3F6FB;
-  --surface-band: rgba(241, 245, 249, 0.56);
+  --surface-well: #F6F5F2;
+  --surface-band: rgba(242, 240, 234, 0.58);
   --surface-browser: #FFFFFF;
-  --surface-sidebar: #F8FAFC;
-  --surface-active: #FFF2ED;
-  --surface-nav: rgba(248, 250, 252, 0.78);
+  --surface-sidebar: #F9F8F6;
+  --surface-active: #FFF3ED;
+  --surface-nav: rgba(250, 250, 248, 0.92);
   --surface-grid-line: rgba(15, 23, 42, 0.08);
-  --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-faint: rgba(15, 23, 42, 0.05);
-  --border-strong: rgba(15, 23, 42, 0.14);
-  --track-muted: rgba(15, 23, 42, 0.1);
-  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 14px 36px -12px rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(15, 23, 42, 0.095);
+  --border-faint: rgba(15, 23, 42, 0.065);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --track-muted: rgba(15, 23, 42, 0.09);
+  --card-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 10px 26px -10px rgba(15, 23, 42, 0.07);
+  --card-shadow-hover:
+    0 2px 6px rgba(15, 23, 42, 0.05),
+    0 18px 38px -12px rgba(15, 23, 42, 0.12);
   --canvas-ambient:
-    radial-gradient(ellipse 76% 44% at 50% -6%, rgba(234, 88, 12, 0.095) 0%, transparent 64%),
-    radial-gradient(ellipse 52% 42% at 88% 12%, rgba(59, 130, 246, 0.08) 0%, transparent 64%),
-    radial-gradient(ellipse 54% 44% at 8% 58%, rgba(14, 165, 233, 0.055) 0%, transparent 68%),
-    radial-gradient(ellipse 64% 40% at 75% 94%, rgba(251, 146, 60, 0.05) 0%, transparent 70%);
-  --canvas-grid: rgba(15, 23, 42, 0.045);
-  --surface-gloss: rgba(255, 255, 255, 0.7);
-  --canvas-vignette: rgba(226, 232, 240, 0.24);
+    radial-gradient(ellipse 72% 40% at 50% -8%, rgba(229, 72, 19, 0.06) 0%, transparent 64%),
+    radial-gradient(ellipse 56% 36% at 88% 12%, rgba(245, 158, 11, 0.04) 0%, transparent 66%),
+    radial-gradient(ellipse 58% 40% at 12% 72%, rgba(229, 72, 19, 0.03) 0%, transparent 70%);
+  --canvas-grid: rgba(15, 23, 42, 0.032);
+  --surface-gloss: rgba(255, 255, 255, 0.8);
+  --canvas-vignette: rgba(228, 226, 220, 0.28);
+  --portal-shadow: drop-shadow(0 6px 14px rgba(229, 72, 19, 0.16));
 
-  --brand: #CF3F0C;
+  --brand: #E54813;
   --brand-fg: #FFFFFF;
-  --brand-light: #B83508;
-  --brand-dark: #9A2B06;
-  --brand-glow: rgba(207, 63, 12, 0.2);
-  --brand-glow-soft: rgba(207, 63, 12, 0.1);
+  --brand-light: #C63A0B;
+  --brand-dark: #BA3408;
+  --brand-glow: rgba(229, 72, 19, 0.18);
+  --brand-glow-soft: rgba(229, 72, 19, 0.075);
   --ice-white: #0F172A;
 
   --home-orange: var(--brand);
@@ -71,6 +76,7 @@
   --border-strong: rgba(148, 163, 184, 0.21);
   --track-muted: rgba(148, 163, 184, 0.14);
   --card-shadow: 0 22px 48px -14px rgba(1, 3, 10, 0.82);
+  --card-shadow-hover: 0 26px 56px -14px rgba(1, 3, 10, 0.92);
   --canvas-ambient:
     radial-gradient(ellipse 72% 42% at 50% -6%, rgba(255, 98, 42, 0.115) 0%, transparent 64%),
     radial-gradient(ellipse 52% 44% at 88% 12%, rgba(56, 189, 248, 0.065) 0%, transparent 64%),
@@ -79,6 +85,7 @@
   --canvas-grid: rgba(148, 163, 184, 0.04);
   --surface-gloss: rgba(255, 255, 255, 0.035);
   --canvas-vignette: rgba(2, 4, 9, 0.58);
+  --portal-shadow: drop-shadow(0 0 20px var(--brand-glow));
 
   --brand: #FF5B22;
   --brand-fg: #03050A;
@@ -130,6 +137,10 @@ body {
 
 ::selection {
   background-color: var(--brand-glow);
+  color: var(--brand-dark);
+}
+
+.dark ::selection {
   color: var(--brand-light);
 }
 
@@ -139,6 +150,7 @@ body {
     linear-gradient(to right, var(--canvas-grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--canvas-grid) 1px, transparent 1px);
   background-size: 72px 72px;
+  background-position: center 40px;
   -webkit-mask-image: radial-gradient(ellipse 84% 62% at 50% 6%, #000 12%, transparent 80%);
   mask-image: radial-gradient(ellipse 84% 62% at 50% 6%, #000 12%, transparent 80%);
 }
@@ -159,13 +171,13 @@ body {
 @keyframes portal-pulse {
   0%, 100% {
     transform: scale(1);
-    opacity: 0.94;
-    filter: drop-shadow(0 0 18px var(--brand-glow));
+    opacity: 0.96;
+    filter: var(--portal-shadow);
   }
   50% {
-    transform: scale(1.025);
+    transform: scale(1.02);
     opacity: 1;
-    filter: drop-shadow(0 0 26px var(--brand-glow));
+    filter: var(--portal-shadow);
   }
 }
 

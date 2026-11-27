@@ -6,7 +6,7 @@ export function Footer() {
   const currentYear = 2026;
 
   return (
-    <footer className="w-full bg-[var(--surface-band)] backdrop-blur-[3px] relative overflow-hidden pt-16 pb-0 transition-colors duration-200">
+    <footer className="w-full bg-[var(--surface-band)] relative overflow-hidden pt-16 pb-0 transition-colors duration-200">
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Grille des colonnes de liens */}
@@ -18,24 +18,24 @@ export function Footer() {
               className="inline-flex items-center gap-2.5 font-display font-bold text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1"
             >
               <span
-                className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-sm shrink-0"
+                className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-sm shadow-sm shadow-[var(--home-orange-glow)] shrink-0"
                 aria-hidden="true"
               >
                 B
               </span>
               <span>{t("accueil.titre")}</span>
             </Link>
-            <p className="mt-4 text-sm text-ice-white/70 max-w-sm font-sans leading-relaxed">
+            <p className="mt-4 text-sm text-slate-600 dark:text-ice-white/70 max-w-sm font-sans leading-relaxed">
               {t("footer.description")}
             </p>
           </div>
 
           {/* Colonne 2 : Liens de navigation */}
           <div>
-            <p className="font-mono text-xs uppercase tracking-wider text-ice-white/60 mb-4">
+            <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 mb-4">
               {t("footer.navigationTitre")}
             </p>
-            <ul className="space-y-1.5 text-sm text-ice-white/80">
+            <ul className="space-y-1 text-sm text-slate-700 dark:text-ice-white/80">
               <li>
                 <Link
                   href="/formations"
@@ -65,10 +65,10 @@ export function Footer() {
 
           {/* Colonne 3 : Légal */}
           <div>
-            <p className="font-mono text-xs uppercase tracking-wider text-ice-white/60 mb-4">
+            <p className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 mb-4">
               {t("footer.legalTitre")}
             </p>
-            <ul className="space-y-1.5 text-sm text-ice-white/80">
+            <ul className="space-y-1 text-sm text-slate-700 dark:text-ice-white/80">
               <li>
                 <Link
                   href="/conditions"
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
 
         {/* Ligne de copyright */}
-        <div className="pt-6 pb-4 text-center text-xs text-ice-white/60 font-mono">
+        <div className="pt-6 pb-4 text-center text-xs text-slate-500 dark:text-ice-white/60 font-mono">
           © {currentYear} {t("accueil.titre")}. {t("footer.droits")}
         </div>
       </div>
@@ -100,7 +100,7 @@ export function Footer() {
         className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-end leading-none -mb-3 sm:-mb-6 md:-mb-10"
         aria-hidden="true"
       >
-        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-slate-900/[0.045] dark:text-white/[0.04] uppercase whitespace-nowrap block select-none">
+        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-slate-900/[0.04] dark:text-white/[0.04] uppercase whitespace-nowrap block select-none">
           {t("accueil.titre")}
         </span>
       </div>

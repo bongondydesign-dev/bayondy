@@ -1,4 +1,5 @@
 import React from "react";
+import { Check } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,13 +11,13 @@ export function HowItWorks() {
       desc: t("etapes.aprann.description"),
       preview: (
         <div className="space-y-2">
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--home-orange)]/30 text-xs text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--home-orange)]/35 text-xs font-medium text-ice-white truncate group-hover:translate-x-1 transition-transform duration-200 shadow-2xs dark:shadow-none">
             {t("hero.apercu.lecon1")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-75">
             {t("hero.apercu.lecon2")}
           </div>
-          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-xs text-slate-600 dark:text-ice-white/75 truncate group-hover:translate-x-1 transition-transform duration-200 delay-150">
             {t("hero.apercu.lecon3")}
           </div>
         </div>
@@ -29,18 +30,18 @@ export function HowItWorks() {
       preview: (
         <div className="space-y-3 py-1">
           <div>
-            <div className="flex justify-between text-[11px] font-mono text-ice-white/70 mb-1">
+            <div className="flex justify-between text-[11px] font-mono text-slate-600 dark:text-ice-white/70 mb-1">
               <span>{t("bento.badgeCreole")}</span>
-              <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
+              <span className="tabular-nums font-semibold text-[var(--home-orange-light)]">100%</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div className="h-full w-full rounded-full bg-[var(--home-orange)] animate-bar-fill" />
             </div>
           </div>
           <div>
-            <div className="flex justify-between text-[11px] font-mono text-ice-white/70 mb-1">
+            <div className="flex justify-between text-[11px] font-mono text-slate-600 dark:text-ice-white/70 mb-1">
               <span>{t("bento.badgeMobile")}</span>
-              <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
+              <span className="tabular-nums font-semibold text-[var(--home-orange-light)]">100%</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div
@@ -50,9 +51,9 @@ export function HowItWorks() {
             </div>
           </div>
           <div>
-            <div className="flex justify-between text-[11px] font-mono text-ice-white/70 mb-1">
+            <div className="flex justify-between text-[11px] font-mono text-slate-600 dark:text-ice-white/70 mb-1">
               <span>{t("bento.badgeRevoir")}</span>
-              <span className="tabular-nums text-[var(--home-orange-light)]">100%</span>
+              <span className="tabular-nums font-semibold text-[var(--home-orange-light)]">100%</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
               <div
@@ -69,7 +70,7 @@ export function HowItWorks() {
       title: t("etapes.avanse.titre"),
       desc: t("etapes.avanse.description"),
       preview: (
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {[
             t("fonctionnalites.acces.titre"),
             t("fonctionnalites.progression.titre"),
@@ -78,17 +79,13 @@ export function HowItWorks() {
             <div
               key={item}
               style={{ transitionDelay: `${idx * 50}ms` }}
-              className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/25 transition-colors duration-200 flex items-center gap-2.5 text-xs text-ice-white/85"
+              className="px-3 py-2 rounded-lg bg-deep-navy border border-[var(--border-subtle)] group-hover:border-[var(--home-orange)]/30 transition-colors duration-200 flex items-center gap-2.5 text-xs font-medium text-ice-white"
             >
-              <svg
+              <Check
                 className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                strokeWidth={2.5}
                 aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 13l4 4L19 7" />
-              </svg>
+              />
               <span className="truncate">{item}</span>
             </div>
           ))}
@@ -100,19 +97,19 @@ export function HowItWorks() {
   return (
     <section
       id="kijan"
-      className="w-full py-24 sm:py-32 bg-[var(--surface-band)] backdrop-blur-[2px] scroll-mt-20 relative overflow-hidden transition-colors duration-200"
+      className="w-full py-24 sm:py-32 bg-[var(--surface-band)] scroll-mt-20 relative overflow-hidden transition-colors duration-200"
     >
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
-              {t("etapes.titreSection")}
+              01 · 02 · 03
             </p>
             <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight text-balance">
               {t("etapes.titreSection")}
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-ice-white/70">
+            <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-ice-white/70">
               {t("etapes.sousTitreSection")}
             </p>
           </div>
@@ -121,21 +118,21 @@ export function HowItWorks() {
             {steps.map((step) => (
               <div
                 key={step.num}
-                className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 shadow-[var(--card-shadow)] p-6 flex flex-col justify-between transition-all duration-300 min-w-0"
+                className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] p-6 flex flex-col justify-between transition-all duration-300 min-w-0"
               >
                 {/* Aperçu visuel supérieur */}
-                <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] p-4 mb-6">
+                <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-4 mb-6">
                   {step.preview}
                 </div>
 
                 <div>
-                  <span className="font-mono text-xs font-semibold text-[var(--home-orange-light)] tabular-nums block mb-2">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/12 border border-[var(--home-orange)]/25 font-mono text-xs font-semibold text-[var(--home-orange-light)] tabular-nums mb-3">
                     {step.num}
                   </span>
                   <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-ice-white/70 font-sans leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
                     {step.desc}
                   </p>
                 </div>

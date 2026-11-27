@@ -112,7 +112,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
             )}
 
             {/* Visuel principal ou Repli CSS stylisé */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0B0E17] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[var(--surface-well)] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
               {course.coverUrl ? (
                 <Image
                   src={course.coverUrl}
@@ -124,10 +124,18 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   className="object-cover"
                 />
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#FF5B22]/18 via-[#0D0E11] to-[#C93E0E]/12">
-                  <div className="absolute inset-0 bg-noise opacity-50" aria-hidden="true" />
-                  <PortalSymbol size={80} className="opacity-85 drop-shadow-lg" />
-                  <span className="mt-4 font-mono text-xs tracking-wider uppercase text-slate-300/60">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[var(--surface-well)]">
+                  <div
+                    className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-85"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 45%, transparent 72%)",
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div className="absolute inset-0 bg-noise opacity-35 dark:opacity-50" aria-hidden="true" />
+                  <PortalSymbol size={80} className="relative z-10 opacity-90" />
+                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider uppercase text-slate-500 dark:text-slate-300/60">
                     BAYONDY
                   </span>
                 </div>

@@ -68,18 +68,18 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Dark Architectural Admin Hero Banner */}
-      <section className="relative overflow-hidden rounded-3xl bg-[#0A0B0F] border border-white/10 p-6 sm:p-8 text-[#F4F5F7] space-y-6 shadow-xl">
+      {/* Architectural Admin Hero Banner */}
+      <section className="relative overflow-hidden rounded-3xl bg-deep-navy dark:bg-[#0A0B0F] border border-[var(--border-subtle)] dark:border-white/10 p-6 sm:p-8 text-ice-white dark:text-[#F4F5F7] space-y-6 shadow-[var(--card-shadow)] dark:shadow-xl">
         <div
-          className="pointer-events-none absolute -bottom-24 right-12 w-96 h-96 rounded-full opacity-40 blur-3xl"
+          className="pointer-events-none absolute -bottom-24 right-12 w-96 h-96 rounded-full opacity-20 dark:opacity-40 blur-3xl"
           style={{
             background:
-              "radial-gradient(circle, rgba(255,91,34,0.38) 0%, rgba(201,62,14,0.08) 55%, transparent 75%)",
+              "radial-gradient(circle, rgba(255,91,34,0.34) 0%, rgba(201,62,14,0.08) 55%, transparent 75%)",
           }}
           aria-hidden="true"
         />
         <svg
-          className="pointer-events-none absolute -top-16 -right-12 w-72 h-72 opacity-45"
+          className="pointer-events-none absolute -top-16 -right-12 w-72 h-72 opacity-25 dark:opacity-45 text-slate-900/15 dark:text-white/15"
           viewBox="0 0 240 240"
           fill="none"
           aria-hidden="true"
@@ -88,7 +88,7 @@ export default function AdminDashboard() {
             cx="120"
             cy="120"
             r="96"
-            stroke="rgba(255,255,255,0.12)"
+            stroke="currentColor"
             strokeWidth="1"
             strokeDasharray="3 5"
           />
@@ -98,20 +98,20 @@ export default function AdminDashboard() {
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1.5">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#FF885C]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand-light dark:text-[#FF885C]">
               {t("admin.navigation")}
             </p>
-            <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-white">
+            <h1 className="font-display font-bold text-2xl sm:text-4xl tracking-tight text-ice-white dark:text-white">
               {t("admin.tableau.titre")}
             </h1>
-            <p className="font-sans text-sm sm:text-base text-slate-300/80">
+            <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-slate-300/80">
               {t("admin.tableau.sousTitre")}
             </p>
           </div>
 
           <Link
             href="/admin/formations/new"
-            className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#FF5B22] hover:bg-[#FF885C] text-[#07080A] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 transition-colors shrink-0 self-start sm:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+            className="min-h-[44px] px-5 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:bg-[#FF5B22] dark:hover:bg-[#FF885C] text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[var(--brand-glow)] shrink-0 self-start sm:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -124,59 +124,62 @@ export default function AdminDashboard() {
         {loading ? (
           <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-3.5 animate-pulse">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 rounded-2xl bg-white/[0.06] border border-white/10" />
+              <div
+                key={i}
+                className="h-24 rounded-2xl bg-[var(--surface-well)] dark:bg-white/[0.06] border border-[var(--border-subtle)] dark:border-white/10"
+              />
             ))}
           </div>
         ) : error ? (
-          <div className="relative z-10 p-4 rounded-xl bg-red-500/15 border border-red-400/30 text-red-200 text-sm">
+          <div className="relative z-10 p-4 rounded-xl bg-red-50 dark:bg-red-500/15 border border-red-200 dark:border-red-400/30 text-red-700 dark:text-red-200 text-sm">
             {error}
           </div>
         ) : stats ? (
           <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             <Link
               href="/admin/formations"
-              className="rounded-2xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+              className="rounded-2xl bg-[var(--surface-well)] hover:bg-[var(--surface-active)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1] border border-[var(--border-subtle)] dark:border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
-              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400 block">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                 {t("admin.tableau.formationsPubliees")}
               </span>
-              <span className="font-display font-bold text-2xl sm:text-3xl text-[#FF885C] tabular-nums mt-1 block">
+              <span className="font-display font-bold text-2xl sm:text-3xl text-brand dark:text-[#FF885C] tabular-nums mt-1 block">
                 {stats.courses.published}
               </span>
             </Link>
 
             <Link
               href="/admin/formations"
-              className="rounded-2xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+              className="rounded-2xl bg-[var(--surface-well)] hover:bg-[var(--surface-active)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1] border border-[var(--border-subtle)] dark:border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
-              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400 block">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                 {t("admin.tableau.formationsDraft")}
               </span>
-              <span className="font-display font-bold text-2xl sm:text-3xl text-white tabular-nums mt-1 block">
+              <span className="font-display font-bold text-2xl sm:text-3xl text-ice-white dark:text-white tabular-nums mt-1 block">
                 {stats.courses.draft}
               </span>
             </Link>
 
             <Link
               href="/admin/eleves"
-              className="rounded-2xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+              className="rounded-2xl bg-[var(--surface-well)] hover:bg-[var(--surface-active)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1] border border-[var(--border-subtle)] dark:border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
-              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400 block">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                 {t("admin.tableau.inscriptionsActives")}
               </span>
-              <span className="font-display font-bold text-2xl sm:text-3xl text-amber-300 tabular-nums mt-1 block">
+              <span className="font-display font-bold text-2xl sm:text-3xl text-amber-600 dark:text-amber-300 tabular-nums mt-1 block">
                 {stats.enrollments.active}
               </span>
             </Link>
 
             <Link
               href="/admin/eleves"
-              className="rounded-2xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+              className="rounded-2xl bg-[var(--surface-well)] hover:bg-[var(--surface-active)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1] border border-[var(--border-subtle)] dark:border-white/10 p-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
-              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400 block">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
                 {t("admin.tableau.elevesUniques")}
               </span>
-              <span className="font-display font-bold text-2xl sm:text-3xl text-white tabular-nums mt-1 block">
+              <span className="font-display font-bold text-2xl sm:text-3xl text-ice-white dark:text-white tabular-nums mt-1 block">
                 {stats.students.unique}
               </span>
             </Link>

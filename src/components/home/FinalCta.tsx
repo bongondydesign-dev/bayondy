@@ -1,15 +1,16 @@
 import React from "react";
+import { ArrowRight } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function FinalCta() {
   return (
-    <section className="w-full py-24 sm:py-36 relative overflow-hidden bg-[var(--surface-band)] backdrop-blur-[2px] text-center transition-colors duration-200">
+    <section className="w-full py-24 sm:py-36 relative overflow-hidden bg-[var(--surface-band)] text-center transition-colors duration-200">
       <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
-      {/* Fond de vagues topographiques orange animées doucement */}
+      {/* Fond de vagues topographiques orange avec fondu radial aux bords */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-25 dark:opacity-45"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-20 dark:opacity-45 [mask-image:radial-gradient(ellipse_78%_75%_at_50%_50%,#000_28%,transparent_100%)]"
         aria-hidden="true"
       >
         <svg
@@ -28,8 +29,8 @@ export function FinalCta() {
               y2="600"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%" stopColor="var(--home-orange-dark, #C93E0E)" />
-              <stop offset="50%" stopColor="var(--home-orange, #FF5B22)" />
+              <stop offset="0%" stopColor="var(--home-orange-dark, #BA3408)" />
+              <stop offset="50%" stopColor="var(--home-orange, #E54813)" />
               <stop offset="100%" stopColor="var(--home-orange-light, #FF885C)" />
             </linearGradient>
           </defs>
@@ -45,7 +46,7 @@ export function FinalCta() {
       </div>
 
       <div
-        className="absolute inset-0 pointer-events-none opacity-70 dark:opacity-100"
+        className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-100"
         style={{
           background:
             "radial-gradient(ellipse 50% 55% at 50% 50%, var(--home-orange-glow-soft) 0%, transparent 72%)",
@@ -62,7 +63,7 @@ export function FinalCta() {
           {t("final.titre")}
         </h2>
 
-        <p className="mt-5 text-base sm:text-lg text-ice-white/70 max-w-lg leading-relaxed font-sans">
+        <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-ice-white/70 max-w-lg leading-relaxed font-sans">
           {t("final.sousTitre")}
         </p>
 
@@ -78,9 +79,7 @@ export function FinalCta() {
               className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 12h14m-6-6l6 6-6 6" />
-              </svg>
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.4} />
             </span>
           </Button>
           <Button
@@ -91,12 +90,10 @@ export function FinalCta() {
           >
             <span>{t("hero.cta")}</span>
             <span
-              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M5 12h14m-6-6l6 6-6 6" />
-              </svg>
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
             </span>
           </Button>
         </div>

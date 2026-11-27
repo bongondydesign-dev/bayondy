@@ -27,13 +27,13 @@ export function CourseCard({ course }: CourseCardProps) {
   const metaParts = [levelLabel, durationText, lessonsLabel].filter(Boolean);
 
   return (
-    <article className="group relative flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/40 shadow-[var(--card-shadow)] transition-all duration-200 overflow-hidden">
+    <article className="group relative flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/45 hover:-translate-y-0.5 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 overflow-hidden">
       {/* Couverture 16:9 avec repli BAYONDY */}
       <Link
         href={`/formations/${course.slug}`}
         tabIndex={-1}
         aria-hidden="true"
-        className="relative aspect-video w-full overflow-hidden bg-[var(--surface-well)] border-b border-[var(--border-faint)] block"
+        className="relative aspect-video w-full overflow-hidden bg-[var(--surface-well)] border-b border-[var(--border-subtle)] block"
       >
         {course.coverUrl ? (
           <Image
@@ -47,18 +47,18 @@ export function CourseCard({ course }: CourseCardProps) {
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-well)]">
             <div
-              className="absolute inset-0 pointer-events-none opacity-85 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-85 group-hover:opacity-75 dark:group-hover:opacity-100 transition-opacity duration-300"
               style={{
                 background:
                   "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 45%, transparent 72%)",
               }}
               aria-hidden="true"
             />
-            <div className="absolute inset-0 bg-noise opacity-45" aria-hidden="true" />
+            <div className="absolute inset-0 bg-noise opacity-35 dark:opacity-45" aria-hidden="true" />
             <PortalSymbol
               accent="brand"
               size={60}
-              className="relative z-10 opacity-90 transition-transform duration-300 group-hover:scale-105"
+              className="relative z-10 opacity-95 transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         )}
@@ -69,7 +69,7 @@ export function CourseCard({ course }: CourseCardProps) {
         <div>
           {/* Métadonnées sobres sans pastilles */}
           {metaParts.length > 0 && (
-            <p className="font-mono text-xs text-ice-white/60 tabular-nums mb-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+            <p className="font-mono text-xs text-slate-500 dark:text-ice-white/60 tabular-nums mb-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
               {metaParts.map((part, idx) => (
                 <React.Fragment key={`${part}-${idx}`}>
                   {idx > 0 && <span aria-hidden="true">·</span>}
@@ -91,7 +91,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
           {/* Description courte (2 lignes max) */}
           {course.shortDescription && (
-            <p className="mt-2 text-sm text-ice-white/70 font-sans line-clamp-2 leading-relaxed">
+            <p className="mt-2 text-sm text-slate-600 dark:text-ice-white/70 font-sans line-clamp-2 leading-relaxed">
               {course.shortDescription}
             </p>
           )}
@@ -108,7 +108,7 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="flex items-center gap-2.5">
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 hover:text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-deep-navy dark:bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/50 hover:bg-[var(--surface-subtle)] text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.gadeFormasyon")} — ${course.title}`}
             >
               {t("catalogue.gadeFormasyon")}
@@ -116,7 +116,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] text-xs sm:text-sm font-semibold transition-all duration-200 shadow-lg shadow-[var(--brand-glow)] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] text-xs sm:text-sm font-semibold transition-all duration-200 shadow-[0_6px_18px_-4px_var(--brand-glow)] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.boutonInscrire")} — ${course.title}`}
             >
               <span>{t("catalogue.boutonInscrire")}</span>

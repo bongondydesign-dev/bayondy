@@ -29,7 +29,7 @@ export default function FaqPage() {
           <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
             {t("faqPage.titre")}
           </h1>
-          <p className="mt-4 font-sans text-base sm:text-lg text-ice-white/75 leading-relaxed">
+          <p className="mt-4 font-sans text-base sm:text-lg text-slate-600 dark:text-ice-white/75 leading-relaxed">
             {t("faqPage.sousTitre")}
           </p>
         </header>
@@ -50,7 +50,7 @@ export default function FaqPage() {
           >
             {t("aide.titre")}
           </h2>
-          <p className="font-sans text-sm sm:text-base text-ice-white/75 leading-relaxed">
+          <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-ice-white/75 leading-relaxed">
             {t("aide.sousTitre")}
           </p>
           <div className="pt-2 flex flex-wrap items-center gap-3">

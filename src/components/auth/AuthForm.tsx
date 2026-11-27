@@ -80,7 +80,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             ? t("auth.titreInscription")
             : t("auth.titreConnexion")}
         </h1>
-        <p className="mt-2 text-sm text-ice-white/70 font-sans">
+        <p className="mt-2 text-sm text-slate-600 dark:text-ice-white/70 font-sans">
           {mode === "inscription"
             ? t("auth.sousTitreInscription")
             : t("auth.sousTitreConnexion")}
@@ -130,7 +130,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       {/* Séparateur « Oswa » */}
       <div className="my-6 flex items-center gap-3">
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
-        <span className="font-mono text-xs uppercase tracking-wider text-ice-white/55">
+        <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/55">
           {t("auth.ou")}
         </span>
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
@@ -143,7 +143,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <div>
             <label
               htmlFor="auth-nom"
-              className="block text-xs font-mono uppercase tracking-wider text-ice-white/70 mb-2"
+              className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70 mb-2"
             >
               {t("auth.nom")}
             </label>
@@ -156,7 +156,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               placeholder={t("auth.nomPlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
           </div>
         )}
@@ -165,7 +165,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <div>
           <label
             htmlFor="auth-email"
-            className="block text-xs font-mono uppercase tracking-wider text-ice-white/70 mb-2"
+            className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70 mb-2"
           >
             {t("auth.email")}
           </label>
@@ -178,7 +178,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("auth.emailPlaceholder")}
-            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
           />
         </div>
 
@@ -187,7 +187,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <div className="flex items-center justify-between mb-2">
             <label
               htmlFor="auth-password"
-              className="block text-xs font-mono uppercase tracking-wider text-ice-white/70"
+              className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70"
             >
               {t("auth.motDePasse")}
             </label>
@@ -213,7 +213,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={motDePasse}
               onChange={(e) => setMotDePasse(e.target.value)}
               placeholder={t("auth.motDePassePlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-ice-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
             />
             {/* Bouton d'affichage du mot de passe accessible */}
             <button
@@ -224,7 +224,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
                   ? t("auth.cacherMotDePasse")
                   : t("auth.afficherMotDePasse")
               }
-              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
+              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-slate-500 dark:text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
             >
               {showPassword ? (
                 /* Icône Oeil barré */
@@ -273,7 +273,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:bg-brand-dark dark:hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-lg shadow-[var(--brand-glow)]"
+          className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:bg-brand-dark dark:hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[0_6px_18px_-4px_var(--brand-glow)] cursor-pointer"
         >
           {submitting
             ? t("auth.chargement")
@@ -284,7 +284,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
 
         {/* Liens vers les conditions et la politique de confidentialité sous le formulaire d'inscription */}
         {mode === "inscription" && (
-          <p className="pt-2 text-xs text-center text-ice-white/65 font-sans leading-relaxed">
+          <p className="pt-2 text-xs text-center text-slate-600 dark:text-ice-white/65 font-sans leading-relaxed">
             {t("auth.acceptationTexte")}{" "}
             <Link
               href="/conditions"
@@ -305,7 +305,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       </form>
 
       {/* Liens d'orientation en bas */}
-      <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center text-sm text-ice-white/70">
+      <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center text-sm text-slate-600 dark:text-ice-white/70">
         {mode === "inscription" ? (
           <p>
             {t("auth.dejaCompte")}{" "}
