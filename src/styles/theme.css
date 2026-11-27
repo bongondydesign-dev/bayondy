@@ -55,37 +55,37 @@
 
 /* Mode sombre BAYONDY */
 .dark {
-  --obsidian: #060913;
-  --deep-navy: #0D1426;
-  --surface-subtle: #131C33;
-  --surface-elevated: #16213B;
-  --surface-well: #0A1020;
-  --surface-band: rgba(13, 20, 38, 0.42);
-  --surface-browser: #0C1324;
-  --surface-sidebar: #090F1E;
-  --surface-active: #18233F;
-  --surface-nav: rgba(6, 9, 19, 0.74);
-  --surface-grid-line: rgba(148, 163, 184, 0.08);
-  --border-subtle: rgba(148, 163, 184, 0.13);
-  --border-faint: rgba(148, 163, 184, 0.075);
-  --border-strong: rgba(148, 163, 184, 0.22);
+  --obsidian: #03050A;
+  --deep-navy: #090E1B;
+  --surface-subtle: #0E1528;
+  --surface-elevated: #111A31;
+  --surface-well: #060913;
+  --surface-band: rgba(8, 12, 24, 0.52);
+  --surface-browser: #080C18;
+  --surface-sidebar: #050812;
+  --surface-active: #121B33;
+  --surface-nav: rgba(3, 5, 10, 0.82);
+  --surface-grid-line: rgba(148, 163, 184, 0.075);
+  --border-subtle: rgba(148, 163, 184, 0.12);
+  --border-faint: rgba(148, 163, 184, 0.07);
+  --border-strong: rgba(148, 163, 184, 0.21);
   --track-muted: rgba(148, 163, 184, 0.14);
-  --card-shadow: 0 22px 48px -14px rgba(2, 6, 23, 0.72);
+  --card-shadow: 0 22px 48px -14px rgba(1, 3, 10, 0.82);
   --canvas-ambient:
-    radial-gradient(ellipse 72% 42% at 50% -6%, rgba(255, 98, 42, 0.16) 0%, transparent 64%),
-    radial-gradient(ellipse 52% 44% at 88% 12%, rgba(56, 189, 248, 0.105) 0%, transparent 64%),
-    radial-gradient(ellipse 54% 46% at 8% 58%, rgba(99, 102, 241, 0.095) 0%, transparent 66%),
-    radial-gradient(ellipse 65% 40% at 72% 94%, rgba(255, 91, 34, 0.07) 0%, transparent 68%);
-  --canvas-grid: rgba(148, 163, 184, 0.055);
-  --surface-gloss: rgba(255, 255, 255, 0.045);
-  --canvas-vignette: rgba(4, 7, 15, 0.42);
+    radial-gradient(ellipse 72% 42% at 50% -6%, rgba(255, 98, 42, 0.115) 0%, transparent 64%),
+    radial-gradient(ellipse 52% 44% at 88% 12%, rgba(56, 189, 248, 0.065) 0%, transparent 64%),
+    radial-gradient(ellipse 54% 46% at 8% 58%, rgba(99, 102, 241, 0.055) 0%, transparent 66%),
+    radial-gradient(ellipse 65% 40% at 72% 94%, rgba(255, 91, 34, 0.045) 0%, transparent 68%);
+  --canvas-grid: rgba(148, 163, 184, 0.04);
+  --surface-gloss: rgba(255, 255, 255, 0.035);
+  --canvas-vignette: rgba(2, 4, 9, 0.58);
 
   --brand: #FF5B22;
-  --brand-fg: #060913;
+  --brand-fg: #03050A;
   --brand-light: #FF885C;
   --brand-dark: #C93E0E;
-  --brand-glow: rgba(255, 91, 34, 0.24);
-  --brand-glow-soft: rgba(255, 91, 34, 0.12);
+  --brand-glow: rgba(255, 91, 34, 0.2);
+  --brand-glow-soft: rgba(255, 91, 34, 0.095);
   --ice-white: #F8FAFC;
 
   --home-orange: var(--brand);
