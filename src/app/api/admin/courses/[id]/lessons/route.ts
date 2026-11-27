@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -14,6 +14,10 @@ interface RouteContext {
 export async function POST(req: NextRequest, ctx: RouteContext) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
+
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
 
   const { id: courseId } = await ctx.params;
 
@@ -43,15 +47,15 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
     );
   }
 
-  const db = getAdminDb();
-
-  // Vérifier que le cours existe
-  const courseDoc = await db.collection("courses").doc(courseId).get();
-  if (!courseDoc.exists) {
-    return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
-  }
-
   try {
+    const db = getAdminDb();
+
+    // Vérifier que le cours existe
+    const courseDoc = await db.collection("courses").doc(courseId).get();
+    if (!courseDoc.exists) {
+      return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
+    }
+
     const lessonRef = db.collection("lessons").doc();
 
     // Écriture avec liste blanche stricte — pas de youtubeVideoId dans syllabus ici

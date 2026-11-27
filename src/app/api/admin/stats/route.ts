@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 
 export async function GET(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
-  const db = getAdminDb();
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
 
   try {
+    const db = getAdminDb();
     // Formations : published vs draft
     const coursesSnap = await db.collection("courses").get();
     let publishedCourses = 0;

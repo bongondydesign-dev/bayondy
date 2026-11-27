@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateCourseInput } from "@/lib/admin/validation";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -14,10 +14,14 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
   const { id } = await ctx.params;
-  const db = getAdminDb();
 
   try {
+    const db = getAdminDb();
     const courseDoc = await db.collection("courses").doc(id).get();
     if (!courseDoc.exists) {
       return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
@@ -80,6 +84,10 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
   const { id } = await ctx.params;
 
   let body: unknown;
@@ -99,9 +107,8 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     return NextResponse.json({ error: "Aucun champ valide à modifier." }, { status: 400 });
   }
 
-  const db = getAdminDb();
-
   try {
+    const db = getAdminDb();
     const courseRef = db.collection("courses").doc(id);
     const courseDoc = await courseRef.get();
     if (!courseDoc.exists) {

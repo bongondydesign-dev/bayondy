@@ -336,6 +336,13 @@ export default function AdminFormationDetailPage() {
     setCourseErrors([]);
     setCourseSuccess(false);
 
+    const normalizedSlug = (form.slug.trim() || form.title.trim())
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
     const payload: Record<string, unknown> = {
       title: form.title,
       shortDescription: form.shortDescription,
@@ -348,7 +355,7 @@ export default function AdminFormationDetailPage() {
       priceUSD: form.priceUSD !== "" ? parseFloat(form.priceUSD) : null,
       priceHTG: form.priceHTG !== "" ? parseFloat(form.priceHTG) : null,
     };
-    if (isNew) payload.slug = form.slug;
+    if (isNew) payload.slug = normalizedSlug;
 
     try {
       let res: Response;
@@ -373,9 +380,14 @@ export default function AdminFormationDetailPage() {
           return;
         }
       }
-      const data = await res.json();
+      const data = (await res.json().catch(() => null)) as {
+        errors?: string[];
+        error?: string;
+      } | null;
       setCourseErrors(
-        Array.isArray(data.errors) ? data.errors : [data.error ?? t("admin.erreurServeur")]
+        data && Array.isArray(data.errors)
+          ? data.errors
+          : [data?.error ?? t("admin.erreurServeur")]
       );
     } catch {
       setCourseErrors([t("admin.erreurServeur")]);

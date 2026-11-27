@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateCourseInput } from "@/lib/admin/validation";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 
 // GET /api/admin/courses — liste toutes les formations (published + draft)
@@ -10,8 +10,12 @@ export async function GET(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
-  const db = getAdminDb();
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
   try {
+    const db = getAdminDb();
     const snap = await db.collection("courses").orderBy("createdAt", "desc").get();
     const courses = snap.docs.map((doc) => {
       const d = doc.data();
@@ -28,7 +32,8 @@ export async function GET(req: NextRequest) {
       };
     });
     return NextResponse.json({ courses });
-  } catch {
+  } catch (err) {
+    console.error("[admin/courses GET]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
   }
 }
@@ -37,6 +42,10 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
+
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
 
   let body: unknown;
   try {
@@ -58,15 +67,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const db = getAdminDb();
-
-  // Vérifier l'unicité du slug
-  const existing = await db.collection("courses").where("slug", "==", data.slug).limit(1).get();
-  if (!existing.empty) {
-    return NextResponse.json({ error: "Ce slug est déjà utilisé par une autre formation." }, { status: 409 });
-  }
-
   try {
+    const db = getAdminDb();
+
+    // Vérifier l'unicité du slug
+    const existing = await db.collection("courses").where("slug", "==", data.slug).limit(1).get();
+    if (!existing.empty) {
+      return NextResponse.json({ error: "Ce slug est déjà utilisé par une autre formation." }, { status: 409 });
+    }
+
     const now = FieldValue.serverTimestamp();
     const docRef = db.collection("courses").doc();
 
