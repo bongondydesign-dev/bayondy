@@ -119,6 +119,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   alt={course.title}
                   fill
                   priority
+                  referrerPolicy="no-referrer"
                   sizes="(max-width: 1024px) 100vw, 800px"
                   className="object-cover"
                 />

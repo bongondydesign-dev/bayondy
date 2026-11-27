@@ -2,8 +2,11 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { adminFetch } from "@/lib/admin/apiClient";
+import { isValidCoverUrl } from "@/lib/admin/cover";
 import { filterAdminCourses } from "@/lib/admin/filters";
+import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { t } from "@/lib/i18n";
 
 interface CourseRow {
@@ -13,6 +16,7 @@ interface CourseRow {
   status: "draft" | "published";
   lessonsCount: number;
   level: string;
+  coverUrl?: string | null;
 }
 
 export default function AdminFormationsPage() {
@@ -162,40 +166,57 @@ export default function AdminFormationsPage() {
         </div>
       ) : (
         <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-faint)] overflow-hidden">
-          {filteredCourses.map((c) => (
-            <Link
-              key={c.id}
-              href={`/admin/formations/${c.id}`}
-              className="flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-[var(--surface-subtle)] transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-light min-h-[72px]"
-            >
-              <div className="flex-1 min-w-0 space-y-1">
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <span className="font-sans font-semibold text-ice-white text-sm sm:text-base truncate group-hover:text-brand-light transition-colors">
-                    {c.title}
-                  </span>
-                  <span
-                    className={`shrink-0 inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border ${
-                      c.status === "published"
-                        ? "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25"
-                        : "bg-[var(--surface-well)] text-ice-white/65 border-[var(--border-subtle)]"
-                    }`}
-                  >
-                    {c.status === "published" ? t("admin.statut.publie") : t("admin.statut.brouillon")}
-                  </span>
+          {filteredCourses.map((c) => {
+            const hasCover = isValidCoverUrl(c.coverUrl);
+            return (
+              <Link
+                key={c.id}
+                href={`/admin/formations/${c.id}`}
+                className="flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-[var(--surface-subtle)] transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-light min-h-[72px]"
+              >
+                <div className="relative w-20 sm:w-24 aspect-video rounded-xl overflow-hidden bg-[var(--surface-well)] border border-[var(--border-subtle)] shrink-0 flex items-center justify-center">
+                  {hasCover && c.coverUrl ? (
+                    <Image
+                      src={c.coverUrl}
+                      alt={c.title}
+                      fill
+                      referrerPolicy="no-referrer"
+                      sizes="96px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <PortalSymbol accent="brand" size={24} className="opacity-75" />
+                  )}
                 </div>
-                <p className="font-mono text-xs text-ice-white/55 flex items-center gap-2 flex-wrap tabular-nums">
-                  <span>{c.lessonsCount} {t("catalogue.lecons")}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{c.level}</span>
-                  <span aria-hidden="true">·</span>
-                  <span className="truncate">{c.slug}</span>
-                </p>
-              </div>
-              <svg className="w-4 h-4 text-ice-white/45 group-hover:text-brand-light transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          ))}
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <span className="font-sans font-semibold text-ice-white text-sm sm:text-base truncate group-hover:text-brand-light transition-colors">
+                      {c.title}
+                    </span>
+                    <span
+                      className={`shrink-0 inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-medium border ${
+                        c.status === "published"
+                          ? "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25"
+                          : "bg-[var(--surface-well)] text-ice-white/65 border-[var(--border-subtle)]"
+                      }`}
+                    >
+                      {c.status === "published" ? t("admin.statut.publie") : t("admin.statut.brouillon")}
+                    </span>
+                  </div>
+                  <p className="font-mono text-xs text-ice-white/55 flex items-center gap-2 flex-wrap tabular-nums">
+                    <span>{c.lessonsCount} {t("catalogue.lecons")}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{c.level}</span>
+                    <span aria-hidden="true">·</span>
+                    <span className="truncate">{c.slug}</span>
+                  </p>
+                </div>
+                <svg className="w-4 h-4 text-ice-white/45 group-hover:text-brand-light transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

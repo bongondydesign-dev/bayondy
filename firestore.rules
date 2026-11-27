@@ -154,5 +154,13 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // ================================================================
+    // courseCovers/{coverId}
+    // Images de couverture — écriture/lecture via Admin SDK (/api/admin/covers & /api/covers/[id]).
+    // ================================================================
+    match /courseCovers/{coverId} {
+      allow read, write: if false;
+    }
+
   }
 }

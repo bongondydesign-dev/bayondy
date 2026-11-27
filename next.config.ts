@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
   output: process.env.VERCEL ? undefined : "standalone",
   serverExternalPackages: ["firebase-admin"],
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
+    ],
+  },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

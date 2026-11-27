@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
         lessonsCount: d.lessonsCount ?? 0,
         level: d.level ?? "",
         language: d.language ?? "",
+        coverUrl: typeof d.coverUrl === "string" && d.coverUrl ? d.coverUrl : null,
         createdAt: d.createdAt?.toDate?.()?.toISOString() ?? null,
         updatedAt: d.updatedAt?.toDate?.()?.toISOString() ?? null,
       };

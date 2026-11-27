@@ -6,6 +6,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { adminFetch } from "@/lib/admin/apiClient";
+import { CoverImageField } from "@/components/admin/CoverImageField";
 import { t } from "@/lib/i18n";
 
 // ─────────────────────────── Types ───────────────────────────
@@ -587,15 +588,17 @@ export default function AdminFormationDetailPage() {
               min={0}
             />
           </FieldGroup>
-          <FieldGroup label={t("admin.formations.champCoverUrl")}>
-            <input
-              className={inputClass()}
-              value={form.coverUrl}
-              onChange={(e) => setForm((p) => ({ ...p, coverUrl: e.target.value }))}
-              placeholder={t("admin.formations.champCoverUrlPlaceholder")}
-            />
-          </FieldGroup>
         </div>
+
+        <CoverImageField
+          courseId={isNew ? undefined : id}
+          value={form.coverUrl}
+          courseTitle={form.title}
+          onChange={(nextUrl) => setForm((p) => ({ ...p, coverUrl: nextUrl }))}
+          onPersisted={async () => {
+            await loadCourse();
+          }}
+        />
 
         <FieldGroup label={t("admin.formations.champCourteDescription")}>
           <input

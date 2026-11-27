@@ -10,6 +10,8 @@ const YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 // Regex : URL http(s)
 const URL_RE = /^https?:\/\/.{1,2000}$/;
 
+import { isValidCoverUrl } from "./cover";
+
 export type CourseLevel = "debutant" | "intermediaire" | "avance";
 export type CourseLanguage = "ht" | "fr" | "en";
 export type CourseStatus = "draft" | "published";
@@ -115,8 +117,11 @@ export function validateCourseInput(body: unknown): {
       data.coverUrl = null;
     } else {
       const v = str(b.coverUrl, 2000);
-      if (v === null || !URL_RE.test(v)) errors.push("coverUrl: URL http(s) valide requise.");
-      else data.coverUrl = v;
+      if (v === null || !isValidCoverUrl(v)) {
+        errors.push("coverUrl: URL ou image de couverture valide requise.");
+      } else {
+        data.coverUrl = v;
+      }
     }
   }
   if ("priceUSD" in b) {
