@@ -74,6 +74,18 @@ export interface PublicCourse {
   syllabus: SyllabusModule[];
 }
 
+export interface PublicPreviewLesson {
+  id: string;
+  title: string;
+  moduleTitle: string;
+  order: number;
+  durationMinutes: number;
+  youtubeVideoId: string;
+  videoProvider?: VideoProvider;
+  videoId?: string;
+  videoUrl?: string;
+}
+
 // ------------------------------------------------------------------
 // lessons/{lessonId}
 // ⚠️  Les règles Firestore ne filtrent pas les requêtes de collection.

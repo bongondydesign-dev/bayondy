@@ -599,7 +599,22 @@
     "commentaireErreurSuppression": "Impossible de supprimer ce commentaire.",
     "commentaireVideValidation": "Écrivez un commentaire avant de publier.",
     "commentaireTropLong": "Le commentaire ne peut pas dépasser 2000 caractères.",
-    "commentaireAuteurAnonyme": "Élève"
+    "commentaireAuteurAnonyme": "Élève",
+    "lecture": "Lecture",
+    "pause": "Pause",
+    "reculer10s": "Reculer de 10 secondes",
+    "avancer10s": "Avancer de 10 secondes",
+    "pleinEcran": "Plein écran",
+    "quitterPleinEcran": "Quitter le plein écran",
+    "revoirLecon": "Revoir la leçon",
+    "leconTermineeOverlay": "Leçon terminée",
+    "apercuGratuitBadge": "Aperçu gratuit",
+    "apercuLeconsTitre": "Leçons en aperçu gratuit",
+    "regarderApercu": "Regarder l'aperçu",
+    "vitesseLecture": "Vitesse de lecture",
+    "volume": "Volume",
+    "barreProgressionVideo": "Progression de la vidéo",
+    "chargementVideo": "Chargement du lecteur..."
   },
   "legal": {
     "banniereProvisoire": "Ce texte est provisoire. Il sera relu et validé avant le lancement officiel.",

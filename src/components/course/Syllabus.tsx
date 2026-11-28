@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, PlayCircle } from "lucide-react";
 import type { SyllabusModule } from "@/types/firestore";
 import { t } from "@/lib/i18n";
 import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
@@ -7,9 +7,14 @@ import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 interface SyllabusProps {
   syllabus: SyllabusModule[];
   lang?: AppLang;
+  previewLessonTitles?: string[];
 }
 
-export function Syllabus({ syllabus, lang = DEFAULT_APP_LANG }: SyllabusProps) {
+export function Syllabus({
+  syllabus,
+  lang = DEFAULT_APP_LANG,
+  previewLessonTitles = [],
+}: SyllabusProps) {
   if (!syllabus || syllabus.length === 0) {
     return null;
   }
@@ -64,19 +69,35 @@ export function Syllabus({ syllabus, lang = DEFAULT_APP_LANG }: SyllabusProps) {
 
               <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-1 border-t border-[var(--border-faint)] bg-[var(--surface-well)]">
                 <ul className="divide-y divide-[var(--border-faint)]">
-                  {mod.lessons?.map((lesson, lessonIdx) => (
-                    <li
-                      key={`mod-${modIdx}-l-${lessonIdx}`}
-                      className="py-3 flex items-center gap-3 text-sm text-slate-800 dark:text-ice-white/80"
-                    >
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white dark:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] flex items-center justify-center text-slate-600 dark:text-ice-white/60 font-mono text-[10px] font-medium tabular-nums">
-                        {lessonIdx + 1}
-                      </span>
-                      <span className="font-sans flex-1 leading-snug">
-                        {lesson.title}
-                      </span>
-                    </li>
-                  ))}
+                  {mod.lessons?.map((lesson, lessonIdx) => {
+                    const normalizedTitle = (lesson.title || "").trim().toLowerCase();
+                    const isPreview =
+                      normalizedTitle.length > 0 &&
+                      previewLessonTitles.some(
+                        (pt) => pt.trim().toLowerCase() === normalizedTitle
+                      );
+                    return (
+                      <li
+                        key={`mod-${modIdx}-l-${lessonIdx}`}
+                        className="py-3 flex items-center justify-between gap-3 text-sm text-slate-800 dark:text-ice-white/80"
+                      >
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white dark:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] flex items-center justify-center text-slate-600 dark:text-ice-white/60 font-mono text-[10px] font-medium tabular-nums">
+                            {lessonIdx + 1}
+                          </span>
+                          <span className="font-sans truncate leading-snug">
+                            {lesson.title}
+                          </span>
+                        </div>
+                        {isPreview && (
+                          <span className="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-brand-light shrink-0 whitespace-nowrap">
+                            <PlayCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                            <span>{t("lecteur.apercuGratuitBadge", lang)}</span>
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </details>

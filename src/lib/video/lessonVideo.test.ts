@@ -1,6 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getLessonPlaybackInfo, parseLessonVideoInput } from "./lessonVideo";
+import {
+  buildYouTubeEmbedUrl,
+  clampPlaybackProgress,
+  computeSeekTarget,
+  formatPlaybackTime,
+  getLessonPlaybackInfo,
+  getYouTubeThumbnailUrl,
+  parseLessonVideoInput,
+} from "./lessonVideo";
 
 test("parseLessonVideoInput handles full TikTok video URLs and raw TikTok IDs", () => {
   const full = parseLessonVideoInput(
@@ -98,4 +106,46 @@ test("getLessonPlaybackInfo supports both TikTok and legacy YouTube lessons", ()
   assert.equal(legacyYt.provider, "youtube");
   assert.equal(legacyYt.playableInIframe, true);
   assert.match(legacyYt.embedUrl ?? "", /^https:\/\/www\.youtube-nocookie\.com\/embed\/dQw4w9WgXcQ/);
+  assert.equal(
+    legacyYt.thumbnailUrl,
+    "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+  );
+});
+
+test("buildYouTubeEmbedUrl strips annotations and supports chromeless custom player mode", () => {
+  const cleanUrl = buildYouTubeEmbedUrl("dQw4w9WgXcQ", {
+    autoplay: true,
+    controls: false,
+    enableJsApi: true,
+    disableKeyboard: true,
+    fullscreenButton: false,
+    origin: "https://bayondy.com",
+  });
+  const parsed = new URL(cleanUrl);
+  assert.equal(parsed.hostname, "www.youtube-nocookie.com");
+  assert.equal(parsed.searchParams.get("rel"), "0");
+  assert.equal(parsed.searchParams.get("iv_load_policy"), "3");
+  assert.equal(parsed.searchParams.get("controls"), "0");
+  assert.equal(parsed.searchParams.get("autoplay"), "1");
+  assert.equal(parsed.searchParams.get("disablekb"), "1");
+  assert.equal(parsed.searchParams.get("fs"), "0");
+  assert.equal(parsed.searchParams.get("enablejsapi"), "1");
+  assert.equal(parsed.searchParams.get("origin"), "https://bayondy.com");
+
+  assert.equal(getYouTubeThumbnailUrl("bad-id"), null);
+});
+
+test("formatPlaybackTime, clampPlaybackProgress, and computeSeekTarget behave safely", () => {
+  assert.equal(formatPlaybackTime(-5), "00:00");
+  assert.equal(formatPlaybackTime(Number.NaN), "00:00");
+  assert.equal(formatPlaybackTime(65), "01:05");
+  assert.equal(formatPlaybackTime(3725), "1:02:05");
+
+  assert.equal(clampPlaybackProgress(30, 120), 25);
+  assert.equal(clampPlaybackProgress(200, 100), 100);
+  assert.equal(clampPlaybackProgress(10, 0), 0);
+
+  assert.equal(computeSeekTarget(5, -10, 120), 0);
+  assert.equal(computeSeekTarget(115, 10, 120), 120);
+  assert.equal(computeSeekTarget(45, 10, 120), 55);
 });

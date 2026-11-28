@@ -45,7 +45,7 @@ function buildReportOnlyCsp(): string {
   const imgSources = ["'self'", "data:", "blob:", ...trustedImageHosts.map((h) => `https://${h}`)].join(" ");
   const directives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com",
+    "script-src 'self' 'unsafe-inline' https://apis.google.com https://www.gstatic.com https://www.youtube.com https://s.ytimg.com",
     "style-src 'self' 'unsafe-inline'",
     `img-src ${imgSources}`,
     "font-src 'self' data:",

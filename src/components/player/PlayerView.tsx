@@ -426,6 +426,10 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   videoId={currentLesson.videoId}
                   videoUrl={currentLesson.videoUrl}
                   durationMinutes={currentLesson.durationMinutes}
+                  nextLessonTitle={nextLesson?.title}
+                  onNextLesson={
+                    nextLesson ? () => handleSelectLesson(nextLesson.id) : undefined
+                  }
                 />
 
                 {/* Carte d'information et actions de la leçon */}

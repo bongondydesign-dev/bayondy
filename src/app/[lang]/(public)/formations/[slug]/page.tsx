@@ -1,16 +1,18 @@
 import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, Clock, PlayCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Syllabus } from "@/components/course/Syllabus";
+import { CoursePreviewPlayer } from "@/components/course/CoursePreviewPlayer";
 import { PriceTag } from "@/components/course/PriceTag";
 import { EnrollButton } from "@/components/course/EnrollButton";
-import { PortalSymbol } from "@/components/ui/PortalSymbol";
-import { getPublishedCourseBySlug } from "@/lib/courses/queries";
+import {
+  getCourseFreePreviewLessons,
+  getPublishedCourseBySlug,
+} from "@/lib/courses/queries";
 import { formatDuration } from "@/lib/courses/format";
 import { isValidCoverUrl } from "@/lib/admin/cover";
 import { t } from "@/lib/i18n";
@@ -69,6 +71,9 @@ export default async function CourseDetailPage({ params }: PageProps) {
   if (!course) {
     notFound();
   }
+
+  const previewLessons = await getCourseFreePreviewLessons(course.id);
+  const previewLessonTitles = previewLessons.map((l) => l.title);
 
   const durationText = formatDuration(course.durationMinutes);
   const levelKey = `catalogue.niveaux.${course.level}`;
@@ -186,39 +191,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            {/* Visuel principal ou Repli CSS stylisé */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[var(--surface-well)] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
-              {course.coverUrl ? (
-                <Image
-                  src={course.coverUrl}
-                  alt={course.title}
-                  fill
-                  priority
-                  referrerPolicy="no-referrer"
-                  sizes="(max-width: 1024px) 100vw, 800px"
-                  className="object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[var(--surface-well)]">
-                  <div
-                    className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-85"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 45%, transparent 72%)",
-                    }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className="absolute inset-0 bg-noise opacity-35 dark:opacity-50"
-                    aria-hidden="true"
-                  />
-                  <PortalSymbol size={80} className="relative z-10 opacity-90" />
-                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider text-slate-600 dark:text-slate-300/60">
-                    {SITE_NAME}
-                  </span>
-                </div>
-              )}
-            </div>
+            {/* Aperçu vidéo gratuit (si configuré) ou visuel de couverture */}
+            <CoursePreviewPlayer
+              courseTitle={course.title}
+              coverUrl={course.coverUrl}
+              previewLessons={previewLessons}
+            />
 
             {/* Description détaillée */}
             {course.description && (
@@ -234,7 +212,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
             {/* Programme / Syllabus */}
             <div className="pt-4 border-t border-[var(--border-subtle)]">
-              <Syllabus syllabus={course.syllabus} lang={lang} />
+              <Syllabus
+                syllabus={course.syllabus}
+                lang={lang}
+                previewLessonTitles={previewLessonTitles}
+              />
             </div>
           </div>
 

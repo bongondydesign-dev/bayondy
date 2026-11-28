@@ -41,12 +41,99 @@ export interface LessonPlaybackInput {
   youtubeVideoId?: string | null;
 }
 
+export const PLAYBACK_SPEEDS = [0.75, 1, 1.25, 1.5, 2] as const;
+
 export interface LessonPlaybackInfo {
   provider: VideoProvider | null;
   playableInIframe: boolean;
   embedUrl: string | null;
   externalUrl: string | null;
+  thumbnailUrl: string | null;
   videoId: string;
+}
+
+export interface YouTubeEmbedOptions {
+  autoplay?: boolean;
+  controls?: boolean;
+  enableJsApi?: boolean;
+  disableKeyboard?: boolean;
+  fullscreenButton?: boolean;
+  origin?: string;
+}
+
+export function buildYouTubeEmbedUrl(
+  videoId: string,
+  options: YouTubeEmbedOptions = {}
+): string {
+  const params = new URLSearchParams({
+    rel: "0",
+    modestbranding: "1",
+    iv_load_policy: "3",
+    playsinline: "1",
+    cc_load_policy: "0",
+    autoplay: options.autoplay ? "1" : "0",
+    controls: options.controls === false ? "0" : "1",
+    disablekb: options.disableKeyboard ? "1" : "0",
+    fs: options.fullscreenButton === false ? "0" : "1",
+  });
+
+  if (options.enableJsApi) {
+    params.set("enablejsapi", "1");
+  }
+  if (options.origin && /^https?:\/\//i.test(options.origin)) {
+    params.set("origin", options.origin);
+  }
+
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(
+    videoId
+  )}?${params.toString()}`;
+}
+
+export function getYouTubeThumbnailUrl(videoId: string): string | null {
+  if (!YOUTUBE_ID_RE.test(videoId)) return null;
+  return `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`;
+}
+
+export function formatPlaybackTime(totalSeconds: number): string {
+  if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
+    return "00:00";
+  }
+  const whole = Math.floor(totalSeconds);
+  const hours = Math.floor(whole / 3600);
+  const minutes = Math.floor((whole % 3600) / 60);
+  const seconds = whole % 60;
+  const mm = String(minutes).padStart(2, "0");
+  const ss = String(seconds).padStart(2, "0");
+  return hours > 0 ? `${hours}:${mm}:${ss}` : `${mm}:${ss}`;
+}
+
+export function clampPlaybackProgress(
+  currentSeconds: number,
+  durationSeconds: number
+): number {
+  if (
+    !Number.isFinite(currentSeconds) ||
+    !Number.isFinite(durationSeconds) ||
+    durationSeconds <= 0
+  ) {
+    return 0;
+  }
+  const pct = (currentSeconds / durationSeconds) * 100;
+  return Math.max(0, Math.min(100, pct));
+}
+
+export function computeSeekTarget(
+  currentSeconds: number,
+  deltaSeconds: number,
+  durationSeconds: number
+): number {
+  const safeCurrent = Number.isFinite(currentSeconds) && currentSeconds > 0 ? currentSeconds : 0;
+  const safeDelta = Number.isFinite(deltaSeconds) ? deltaSeconds : 0;
+  const target = safeCurrent + safeDelta;
+  if (!Number.isFinite(durationSeconds) || durationSeconds <= 0) {
+    return Math.max(0, target);
+  }
+  return Math.max(0, Math.min(durationSeconds, target));
 }
 
 export function isAllowedTikTokHostname(hostname: string): boolean {
@@ -269,6 +356,7 @@ export function getLessonPlaybackInfo(lesson: LessonPlaybackInput): LessonPlayba
           resolvedId
         )}?autoplay=0&controls=1&description=0&music_info=0&rel=0`,
         externalUrl: safeExternalUrl,
+        thumbnailUrl: null,
         videoId: resolvedId,
       };
     }
@@ -279,6 +367,7 @@ export function getLessonPlaybackInfo(lesson: LessonPlaybackInput): LessonPlayba
         playableInIframe: false,
         embedUrl: null,
         externalUrl: safeExternalUrl,
+        thumbnailUrl: null,
         videoId: "",
       };
     }
@@ -298,10 +387,13 @@ export function getLessonPlaybackInfo(lesson: LessonPlaybackInput): LessonPlayba
     return {
       provider: "youtube",
       playableInIframe: true,
-      embedUrl: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(
-        ytCandidate
-      )}?rel=0&modestbranding=1`,
+      embedUrl: buildYouTubeEmbedUrl(ytCandidate, {
+        autoplay: false,
+        controls: true,
+        enableJsApi: false,
+      }),
       externalUrl: `https://www.youtube.com/watch?v=${encodeURIComponent(ytCandidate)}`,
+      thumbnailUrl: getYouTubeThumbnailUrl(ytCandidate),
       videoId: ytCandidate,
     };
   }
@@ -311,6 +403,7 @@ export function getLessonPlaybackInfo(lesson: LessonPlaybackInput): LessonPlayba
     playableInIframe: false,
     embedUrl: null,
     externalUrl: null,
+    thumbnailUrl: null,
     videoId: "",
   };
 }

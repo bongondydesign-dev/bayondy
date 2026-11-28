@@ -599,7 +599,22 @@
     "commentaireErreurSuppression": "Nou pa t kapab efase kòmantè sa a.",
     "commentaireVideValidation": "Ekri yon kòmantè anvan ou pibliye.",
     "commentaireTropLong": "Kòmantè a pa ka depase 2000 karaktè.",
-    "commentaireAuteurAnonyme": "Elèv"
+    "commentaireAuteurAnonyme": "Elèv",
+    "lecture": "Jwe",
+    "pause": "Poz",
+    "reculer10s": "Fè bak 10 segond",
+    "avancer10s": "Avanse 10 segond",
+    "pleinEcran": "Tout ekran",
+    "quitterPleinEcran": "Sòti nan tout ekran",
+    "revoirLecon": "Rewè leson an",
+    "leconTermineeOverlay": "Leson fini",
+    "apercuGratuitBadge": "Apèsi gratis",
+    "apercuLeconsTitre": "Leson apèsi gratis yo",
+    "regarderApercu": "Gade apèsi a",
+    "vitesseLecture": "Vitès lekti",
+    "volume": "Volim",
+    "barreProgressionVideo": "Pwogrè videyo a",
+    "chargementVideo": "N ap chaje lektè a..."
   },
   "legal": {
     "banniereProvisoire": "Tèks sa a pwovizwa. N ap verifye l anvan lansman.",

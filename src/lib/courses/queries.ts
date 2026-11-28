@@ -2,7 +2,12 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
-import type { CourseDoc, PublicCourse } from "@/types/firestore";
+import type {
+  CourseDoc,
+  LessonDoc,
+  PublicCourse,
+  PublicPreviewLesson,
+} from "@/types/firestore";
 
 /**
  * Mappe un document Firestore brut vers l'objet PublicCourse sécurisé.
@@ -130,3 +135,73 @@ export async function getPublishedCourseBySlug(
     return null;
   }
 }
+
+/**
+ * Récupère les leçons marquées "Aperçu gratuit" (isFreePreview === true)
+ * pour la page publique d'une formation. Ne renvoie jamais de leçons payantes ni archivées.
+ */
+export async function getCourseFreePreviewLessons(
+  courseId: string
+): Promise<PublicPreviewLesson[]> {
+  "use cache";
+  cacheTag("courses", `course-preview-${courseId}`);
+  cacheLife({
+    stale: 60,
+    revalidate: 300,
+    expire: 3600,
+  });
+
+  if (!courseId || typeof courseId !== "string") {
+    return [];
+  }
+
+  if (!hasAdminCredentials()) {
+    return [];
+  }
+
+  try {
+    const db = getAdminDb();
+    const snapshot = await db
+      .collection("lessons")
+      .where("courseId", "==", courseId)
+      .limit(200)
+      .get();
+
+    if (snapshot.empty) {
+      return [];
+    }
+
+    const previews: PublicPreviewLesson[] = [];
+    for (const d of snapshot.docs) {
+      const data = d.data() as Partial<LessonDoc>;
+      if (data.isFreePreview !== true || data.archived === true) continue;
+
+      previews.push({
+        id: d.id,
+        title: typeof data.title === "string" ? data.title : "",
+        moduleTitle: typeof data.moduleTitle === "string" ? data.moduleTitle : "",
+        order: typeof data.order === "number" ? data.order : 0,
+        durationMinutes: typeof data.durationMinutes === "number" ? data.durationMinutes : 0,
+        youtubeVideoId: typeof data.youtubeVideoId === "string" ? data.youtubeVideoId : "",
+        videoProvider:
+          data.videoProvider === "tiktok" || data.videoProvider === "youtube"
+            ? data.videoProvider
+            : undefined,
+        videoId: typeof data.videoId === "string" ? data.videoId : undefined,
+        videoUrl: typeof data.videoUrl === "string" ? data.videoUrl : undefined,
+      });
+    }
+
+    previews.sort((a, b) => a.order - b.order);
+    return previews;
+  } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error(
+        "[getCourseFreePreviewLessons error]",
+        error instanceof Error ? error.name : "unknown"
+      );
+    }
+    return [];
+  }
+}
+
