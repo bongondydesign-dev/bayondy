@@ -30,10 +30,16 @@ export function formatPrice(
     };
   }
 
+  const formattedHTG = hasHTG
+    ? `${Math.round(priceHTG!)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, " ")} HTG`
+    : null;
+
   return {
     hasPrice: true,
-    formattedUSD: hasUSD ? `${priceUSD} $ USD` : null,
-    formattedHTG: hasHTG ? `${priceHTG.toLocaleString("fr-FR")} HTG` : null,
+    formattedUSD: hasUSD ? `$${priceUSD} USD` : null,
+    formattedHTG,
   };
 }
 

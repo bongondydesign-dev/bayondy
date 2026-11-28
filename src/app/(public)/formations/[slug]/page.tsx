@@ -161,48 +161,68 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
           {/* Colonne latérale (Carte d'inscription & Prix verre dépoli) */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
-            <div className="rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-7 space-y-6">
-              <div>
-                <span className="block font-mono text-xs font-medium text-slate-600 dark:text-ice-white/60 uppercase tracking-wider mb-2">
-                  Pri
-                </span>
-                <PriceTag
-                  priceUSD={course.priceUSD}
-                  priceHTG={course.priceHTG}
-                  size="lg"
-                />
-              </div>
+            <div className="relative rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-7 overflow-hidden">
+              {/* Lueur ambiante discrète en haut de carte */}
+              <div
+                className="pointer-events-none absolute -top-20 -right-16 w-60 h-60 rounded-full opacity-35 dark:opacity-45"
+                style={{
+                  background:
+                    "radial-gradient(circle, var(--brand-glow-soft) 0%, transparent 70%)",
+                }}
+                aria-hidden="true"
+              />
 
-              <div>
-                <EnrollButton
-                  courseId={course.id}
-                  courseSlug={course.slug}
-                  courseTitle={course.title}
-                  priceUSD={course.priceUSD}
-                  priceHTG={course.priceHTG}
-                />
-              </div>
+              <div className="relative z-10 space-y-6">
+                {/* En-tête Prix & Accès */}
+                <div className="space-y-3 pb-5 border-b border-[var(--border-subtle)]">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-zinc-400 uppercase tracking-[0.14em]">
+                      Pri
+                    </span>
+                    <span className="font-sans text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                      {t("fonctionnalites.acces.titre")}
+                    </span>
+                  </div>
 
-              {/* Récapitulatif des atouts de la formation */}
-              <div className="pt-6 border-t border-[var(--border-subtle)] space-y-3.5">
-                <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} aria-hidden="true" />
-                  </span>
-                  <span>{t("catalogue.atoutLangue")} {t(languageKey)}</span>
+                  <PriceTag
+                    priceUSD={course.priceUSD}
+                    priceHTG={course.priceHTG}
+                    size="lg"
+                  />
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} aria-hidden="true" />
-                  </span>
-                  <span>{t("catalogue.atoutMobile")}</span>
+
+                {/* Action principale MonCash / Inscription */}
+                <div>
+                  <EnrollButton
+                    courseId={course.id}
+                    courseSlug={course.slug}
+                    courseTitle={course.title}
+                    priceUSD={course.priceUSD}
+                    priceHTG={course.priceHTG}
+                  />
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/80">
-                  <span className="w-5 h-5 rounded-full bg-brand/15 text-brand-light flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} aria-hidden="true" />
-                  </span>
-                  <span>{t("catalogue.atoutRythme")}</span>
-                </div>
+
+                {/* Récapitulatif des atouts de la formation */}
+                <ul className="pt-5 border-t border-[var(--border-subtle)] space-y-3">
+                  <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/85">
+                    <span className="w-5 h-5 rounded-full bg-brand/12 border border-brand/25 text-brand-light flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
+                    </span>
+                    <span>{t("catalogue.atoutLangue")} {t(languageKey)}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/85">
+                    <span className="w-5 h-5 rounded-full bg-brand/12 border border-brand/25 text-brand-light flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
+                    </span>
+                    <span>{t("catalogue.atoutMobile")}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-ice-white/85">
+                    <span className="w-5 h-5 rounded-full bg-brand/12 border border-brand/25 text-brand-light flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
+                    </span>
+                    <span>{t("catalogue.atoutRythme")}</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </aside>

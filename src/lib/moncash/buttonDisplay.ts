@@ -1,7 +1,7 @@
 export const MONCASH_BUTTON_IMAGE_SRC = "/assets/aistudio/rs_w_1280_e5a11620.webp";
 
 export const MONCASH_BUTTON_GRADIENT =
-  "linear-gradient(180deg, #e6002d 0%, #e1002a 13%, #d40126 31%, #c00520 50%, #a20716 70%, #7a0b0a 86%, #5f0f03 100%)";
+  "linear-gradient(180deg, #e6002c 0%, #e3002a 10%, #db0129 23%, #cd0224 40%, #c00520 50%, #a50516 66%, #85090e 82%, #690d05 94%, #5c0e02 100%)";
 
 /**
  * Recadrage exact de la pilule rouge MonCash (sans bordures blanches)
@@ -13,6 +13,17 @@ export const MONCASH_IMAGE_CROP_STYLE = {
   height: "191.489%",
   left: "-4.237%",
   top: "-45.745%",
+} as const;
+
+/**
+ * Fondu horizontal doux aux extrémités gauche/droite pour supprimer toute couture
+ * entre la pilule recadrée et le dégradé du bouton pleine largeur.
+ */
+export const MONCASH_SEAMLESS_MASK_STYLE = {
+  maskImage:
+    "linear-gradient(90deg, transparent 0%, #000 13%, #000 94%, transparent 100%)",
+  WebkitMaskImage:
+    "linear-gradient(90deg, transparent 0%, #000 13%, #000 94%, transparent 100%)",
 } as const;
 
 export const MONCASH_MARK_SIZES = {

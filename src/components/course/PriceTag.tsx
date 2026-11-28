@@ -31,11 +31,11 @@ export function PriceTag({
   }
 
   return (
-    <div className={`flex flex-wrap items-baseline gap-2 tabular-nums ${className}`}>
+    <div className={`flex flex-wrap items-baseline gap-x-2.5 gap-y-1 tabular-nums ${className}`}>
       {formattedHTG && (
         <span
-          className={`font-display font-bold tracking-tight text-ice-white ${
-            size === "lg" ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
+          className={`font-display font-bold tracking-tight text-ice-white leading-none ${
+            size === "lg" ? "text-3xl sm:text-[34px]" : "text-lg sm:text-xl"
           }`}
         >
           {formattedHTG}
@@ -43,11 +43,11 @@ export function PriceTag({
       )}
       {formattedUSD && (
         <span
-          className={`font-mono text-slate-700 dark:text-ice-white/65 ${
-            size === "lg" ? "text-sm sm:text-base" : "text-xs"
+          className={`font-mono text-slate-600 dark:text-zinc-400 ${
+            size === "lg" ? "text-xs sm:text-sm" : "text-xs"
           }`}
         >
-          ({formattedUSD})
+          {formattedHTG ? `≈ ${formattedUSD}` : formattedUSD}
         </span>
       )}
     </div>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check, Clock, LogIn } from "lucide-react";
+import { AlertCircle, Check, Clock, LogIn } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { hasCourseAccess } from "@/lib/learning/access";
 import { getEnrollmentForCourse } from "@/lib/learning/queries";
@@ -90,8 +90,8 @@ export function EnrollButton({
           <span>{t("catalogue.boutonInscrireConnexion")}</span>
         </Link>
         {amountHTG > 0 && (
-          <div className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)]">
-            <span className="font-mono text-[11px] text-slate-600 dark:text-ice-white/65 truncate">
+          <div className="pt-1 flex items-center justify-between gap-3">
+            <span className="font-sans text-xs text-slate-600 dark:text-zinc-400 truncate">
               {t("paiement.payerMonCash")}
             </span>
             <MonCashMark size="sm" />
@@ -212,9 +212,13 @@ export function EnrollButton({
       {errorMessage && (
         <div
           role="alert"
-          className="p-3 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 text-xs sm:text-sm text-left"
+          className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-red-50 dark:bg-red-950/35 border border-red-200/85 dark:border-red-500/25 text-red-700 dark:text-red-300 text-xs sm:text-[13px] leading-snug text-left"
         >
-          {errorMessage}
+          <AlertCircle
+            className="w-4 h-4 shrink-0 mt-0.5 text-red-600 dark:text-red-400"
+            aria-hidden="true"
+          />
+          <span className="min-w-0 break-words">{errorMessage}</span>
         </div>
       )}
     </div>
