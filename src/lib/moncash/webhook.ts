@@ -39,10 +39,13 @@ export function verifyMonCashWebhookTimestamp(
     return { ok: false, code: "INVALID_TIMESTAMP" };
   }
 
-  const timestamp = Number(raw);
-  if (!Number.isSafeInteger(timestamp) || timestamp <= 0) {
+  const rawNum = Number(raw);
+  if (!Number.isSafeInteger(rawNum) || rawNum <= 0) {
     return { ok: false, code: "INVALID_TIMESTAMP" };
   }
+
+  // Supporter les timestamps en millisecondes (13 chiffres) ou en secondes (10 chiffres)
+  const timestamp = rawNum >= 1e12 ? Math.floor(rawNum / 1000) : rawNum;
 
   if (Math.abs(nowEpochSeconds - timestamp) > maxSkewSeconds) {
     return { ok: false, code: "TIMESTAMP_EXPIRED" };

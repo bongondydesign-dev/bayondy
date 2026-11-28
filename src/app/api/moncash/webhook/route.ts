@@ -1,30 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { FieldValue, Timestamp } from "firebase-admin/firestore";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import {
+  findPaymentRefByReference,
+  fulfillPaidOrderTransaction,
+  markFailedOrderTransaction,
+} from "@/lib/moncash/fulfillment";
+import { normalizeMonCashWebhookEvent } from "@/lib/moncash/status";
 import {
   parseMonCashWebhookEvent,
   verifyMonCashWebhookSignature,
   verifyMonCashWebhookTimestamp,
 } from "@/lib/moncash/webhook";
 
-function parseCompletedAtTimestamp(
-  value: string | number | null
-): Timestamp | null {
-  try {
-    if (typeof value === "number" && Number.isFinite(value) && value > 0) {
-      const ms = value > 1e12 ? value : value * 1000;
-      return Timestamp.fromMillis(ms);
-    }
-    if (typeof value === "string" && value.trim()) {
-      const ms = Date.parse(value.trim());
-      if (!Number.isNaN(ms)) {
-        return Timestamp.fromMillis(ms);
-      }
-    }
-  } catch {
-    return null;
-  }
-  return null;
+export async function GET() {
+  return NextResponse.json(
+    { ok: true, endpoint: "moncash-webhook" },
+    { status: 200 }
+  );
 }
 
 export async function POST(req: NextRequest) {
@@ -44,7 +36,9 @@ export async function POST(req: NextRequest) {
   }
 
   // 3. Récupérer les headers MonCashConnect
-  const signatureHeader = req.headers.get("x-mcc-signature");
+  const signatureHeader =
+    req.headers.get("x-mcc-signature") ??
+    req.headers.get("x-moncashconnect-signature");
   const timestampHeader = req.headers.get("x-mcc-timestamp");
 
   // 4. Vérifier la fenêtre anti-rejeu (<= 300 secondes)
@@ -87,12 +81,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const action = normalizeMonCashWebhookEvent(event, status);
+
   // Ignorer proprement en 200 les événements non gérés (retries MCC idempotents)
-  if (
-    event !== "payment.completed" &&
-    event !== "payment.failed" &&
-    event !== "payment.cancelled"
-  ) {
+  if (action === "ignored") {
     return NextResponse.json({ ok: true, ignored: true, event }, { status: 200 });
   }
 
@@ -100,30 +92,9 @@ export async function POST(req: NextRequest) {
     const db = getAdminDb();
 
     // 7. Retrouver la commande par reference === orderId (doc ID puis fallback orderId)
-    const isSafeDocId =
-      !reference.includes("/") && reference !== "." && reference !== "..";
-    let paymentRef = isSafeDocId ? db.collection("payments").doc(reference) : null;
-    const directSnap = paymentRef ? await paymentRef.get() : null;
-
-    if (!directSnap || !directSnap.exists) {
-      const byOrderId = await db
-        .collection("payments")
-        .where("orderId", "==", reference)
-        .limit(1)
-        .get();
-
-      if (byOrderId.empty) {
-        // Toujours répondre 200 pour éviter des retries infinis si référence inconnue
-        return NextResponse.json(
-          { ok: true, found: false, reference },
-          { status: 200 }
-        );
-      }
-
-      paymentRef = byOrderId.docs[0].ref;
-    }
-
+    const paymentRef = await findPaymentRefByReference(db, reference);
     if (!paymentRef) {
+      // Toujours répondre 200 pour éviter des retries infinis si référence inconnue
       return NextResponse.json(
         { ok: true, found: false, reference },
         { status: 200 }
@@ -131,93 +102,22 @@ export async function POST(req: NextRequest) {
     }
 
     // 8. Mise à jour transactionnelle & idempotente de la commande (et accès cours si payée)
-    const result = await db.runTransaction(async (tx) => {
-      const snap = await tx.get(paymentRef);
-      if (!snap.exists) {
-        return { outcome: "not_found" as const };
-      }
-
-      const data = snap.data() as {
-        uid?: string;
-        courseId?: string;
-        amount?: number;
-        status?: string;
-      };
-
-      if (event === "payment.completed") {
-        // Vérification de cohérence du montant si fourni
-        if (
-          typeof amount === "number" &&
-          typeof data.amount === "number" &&
-          Math.round(amount) !== Math.round(data.amount)
-        ) {
-          return { outcome: "amount_mismatch" as const };
-        }
-
-        const alreadyPaid = data.status === "paid";
-
-        if (!alreadyPaid) {
-          const paidAtValue =
-            parseCompletedAtTimestamp(completedAt) ?? FieldValue.serverTimestamp();
-          tx.update(paymentRef, {
-            status: "paid",
-            paidAt: paidAtValue,
-            providerReference: reference,
-            failureReason: null,
+    const outcome =
+      action === "completed"
+        ? (
+            await fulfillPaidOrderTransaction({
+              db,
+              paymentRef,
+              reference,
+              amount,
+              completedAt,
+            })
+          ).outcome
+        : await markFailedOrderTransaction({
+            db,
+            paymentRef,
+            failureReason: status || event,
           });
-        }
-
-        // Attribuer l'accès au cours de manière idempotente
-        if (data.uid && data.courseId) {
-          const enrollmentRef = db
-            .collection("enrollments")
-            .doc(`${data.uid}_${data.courseId}`);
-          const enrollmentSnap = await tx.get(enrollmentRef);
-
-          if (enrollmentSnap.exists) {
-            if (enrollmentSnap.data()?.status !== "active") {
-              tx.update(enrollmentRef, {
-                status: "active",
-                source: "payment",
-                paymentId: paymentRef.id,
-                grantedAt: FieldValue.serverTimestamp(),
-              });
-            }
-          } else {
-            tx.set(enrollmentRef, {
-              uid: data.uid,
-              courseId: data.courseId,
-              status: "active",
-              source: "payment",
-              paymentId: paymentRef.id,
-              grantedAt: FieldValue.serverTimestamp(),
-              progress: {
-                completedLessonIds: [],
-                lastLessonId: "",
-              },
-            });
-          }
-        }
-
-        return { outcome: alreadyPaid ? ("already_paid" as const) : ("paid" as const) };
-      }
-
-      // event === "payment.failed" | "payment.cancelled"
-      // Ne jamais rétrograder une commande déjà payée
-      if (data.status === "paid") {
-        return { outcome: "already_paid" as const };
-      }
-      if (data.status === "failed") {
-        return { outcome: "already_failed" as const };
-      }
-
-      tx.update(paymentRef, {
-        status: "failed",
-        failureReason: status || event,
-      });
-
-      return { outcome: "failed" as const };
-    });
 
     // 9. Répondre 200 toujours pour garantir l'idempotence des retries MCC
     return NextResponse.json(
@@ -225,7 +125,7 @@ export async function POST(req: NextRequest) {
         ok: true,
         event,
         reference,
-        outcome: result.outcome,
+        outcome,
       },
       { status: 200 }
     );

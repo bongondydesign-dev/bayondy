@@ -86,40 +86,99 @@ export default function MesFormationsPage() {
   const [courseFilter, setCourseFilter] = useState<StudentCourseFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchDashboardData = useCallback(async (uid: string, admin: boolean) => {
-    const [enrollments, userPayments, adminCourses] = await Promise.all([
-      getMyEnrollments(uid),
-      getMyPayments(uid).catch(() => [] as PaymentWithId[]),
-      admin ? getAllCoursesForAdmin().catch(() => []) : Promise.resolve([]),
-    ]);
+  const fetchDashboardData = useCallback(
+    async (uid: string, admin: boolean, getToken?: () => Promise<string>) => {
+      const [initialEnrollments, initialPayments, adminCourses] = await Promise.all([
+        getMyEnrollments(uid),
+        getMyPayments(uid).catch(() => [] as PaymentWithId[]),
+        admin ? getAllCoursesForAdmin().catch(() => []) : Promise.resolve([]),
+      ]);
 
-    if (admin && adminCourses.length > 0) {
-      return {
-        loaded: mergeAdminCoursesWithEnrollments(adminCourses, enrollments, uid),
-        userPayments,
-      };
-    }
+      let enrollments = initialEnrollments;
+      let userPayments = initialPayments;
 
-    const loaded: StudentCourseItem[] = [];
-    for (const enr of enrollments) {
-      try {
-        const course = await getCourseByIdForStudent(enr.courseId);
-        if (course) {
-          loaded.push({ enrollment: enr, course });
+      // Réconciliation active des paiements MonCash en attente si le webhook n'est pas encore passé
+      if (!admin && getToken) {
+        const pendingOrders = userPayments
+          .filter(
+            (p) => p.status === "awaiting_payment" || p.status === "pending"
+          )
+          .slice(0, 3);
+
+        if (pendingOrders.length > 0) {
+          try {
+            const idToken = await getToken();
+            let shouldRefresh = false;
+
+            await Promise.all(
+              pendingOrders.map(async (p) => {
+                const orderId = p.orderId || p.merchantReference || p.id;
+                if (!orderId) return;
+                try {
+                  const res = await fetch("/api/moncash/verify", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${idToken}`,
+                    },
+                    body: JSON.stringify({ orderId }),
+                  });
+                  if (!res.ok) return;
+                  const data = (await res.json().catch(() => null)) as {
+                    status?: string;
+                  } | null;
+                  if (data?.status === "paid" || data?.status === "failed") {
+                    shouldRefresh = true;
+                  }
+                } catch {
+                  // Ignorer les erreurs réseau individuelles sans bloquer le tableau de bord
+                }
+              })
+            );
+
+            if (shouldRefresh) {
+              const [refreshedEnrollments, refreshedPayments] = await Promise.all([
+                getMyEnrollments(uid),
+                getMyPayments(uid).catch(() => userPayments),
+              ]);
+              enrollments = refreshedEnrollments;
+              userPayments = refreshedPayments;
+            }
+          } catch {
+            // Ignorer si le jeton n'a pas pu être récupéré
+          }
         }
-      } catch {
-        // Cours inaccessible ou supprimé — ignoré sans bloquer le reste
       }
-    }
 
-    return { loaded, userPayments };
-  }, []);
+      if (admin && adminCourses.length > 0) {
+        return {
+          loaded: mergeAdminCoursesWithEnrollments(adminCourses, enrollments, uid),
+          userPayments,
+        };
+      }
+
+      const loaded: StudentCourseItem[] = [];
+      for (const enr of enrollments) {
+        try {
+          const course = await getCourseByIdForStudent(enr.courseId);
+          if (course) {
+            loaded.push({ enrollment: enr, course });
+          }
+        } catch {
+          // Cours inaccessible ou supprimé — ignoré sans bloquer le reste
+        }
+      }
+
+      return { loaded, userPayments };
+    },
+    []
+  );
 
   useEffect(() => {
     if (authLoading || !user?.uid) return;
     let cancelled = false;
 
-    fetchDashboardData(user.uid, isAdmin)
+    fetchDashboardData(user.uid, isAdmin, () => user.getIdToken())
       .then(({ loaded, userPayments }) => {
         if (!cancelled) {
           setItems(loaded);
@@ -137,13 +196,13 @@ export default function MesFormationsPage() {
     return () => {
       cancelled = true;
     };
-  }, [user?.uid, authLoading, isAdmin, fetchDashboardData]);
+  }, [user, authLoading, isAdmin, fetchDashboardData]);
 
   const handleRetry = () => {
     if (!user?.uid) return;
     setDataLoading(true);
     setError(null);
-    fetchDashboardData(user.uid, isAdmin)
+    fetchDashboardData(user.uid, isAdmin, () => user.getIdToken())
       .then(({ loaded, userPayments }) => {
         setItems(loaded);
         setPayments(userPayments);

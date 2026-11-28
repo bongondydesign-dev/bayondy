@@ -16,8 +16,10 @@ function resolveAllowedOrigins(req: NextRequest): string[] {
   const requestOrigin = req.nextUrl?.origin;
   if (requestOrigin) origins.add(requestOrigin);
 
-  const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
-  const proto = req.headers.get("x-forwarded-proto") || "https";
+  const rawHost = req.headers.get("x-forwarded-host") || req.headers.get("host");
+  const rawProto = req.headers.get("x-forwarded-proto") || "https";
+  const host = rawHost?.split(",")[0]?.trim();
+  const proto = rawProto.split(",")[0]?.trim() || "https";
   if (host) {
     origins.add(`${proto}://${host}`);
   }

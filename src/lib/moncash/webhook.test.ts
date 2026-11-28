@@ -63,6 +63,14 @@ test("verifyMonCashWebhookTimestamp enforces 300-second window", () => {
     ok: false,
     code: "TIMESTAMP_EXPIRED",
   });
+  assert.deepEqual(verifyMonCashWebhookTimestamp(String(now * 1000), now), {
+    ok: true,
+    timestamp: now,
+  });
+  assert.deepEqual(verifyMonCashWebhookTimestamp(String((now - 301) * 1000), now), {
+    ok: false,
+    code: "TIMESTAMP_EXPIRED",
+  });
   assert.deepEqual(verifyMonCashWebhookTimestamp("not-a-timestamp", now), {
     ok: false,
     code: "INVALID_TIMESTAMP",

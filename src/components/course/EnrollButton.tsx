@@ -161,7 +161,18 @@ export function EnrollButton({
     try {
       const token = await user.getIdToken();
       const orderId = createMonCashOrderId(courseId);
-      const returnUrl = `${window.location.origin}/merci`;
+      const returnUrl = `${window.location.origin}/merci?orderId=${encodeURIComponent(
+        orderId
+      )}&courseSlug=${encodeURIComponent(courseSlug)}`;
+
+      try {
+        window.sessionStorage.setItem(
+          "bayondy_last_order",
+          JSON.stringify({ orderId, courseId, courseSlug })
+        );
+      } catch {
+        // Ignorer si sessionStorage est bloqué en navigation privée
+      }
 
       const res = await fetch("/api/moncash/create", {
         method: "POST",
