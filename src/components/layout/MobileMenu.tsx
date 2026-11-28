@@ -52,7 +52,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         aria-label={open ? t("nav.fermer") : t("nav.menu")}
-        className="flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-glass)] backdrop-blur-md text-ice-white hover:border-[var(--home-orange)]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] active:scale-95 cursor-pointer shadow-2xs"
+        className="flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl border border-[var(--border-strong)] bg-white dark:bg-[var(--surface-glass)] dark:backdrop-blur-md text-ice-white hover:border-[var(--home-orange-vivid)]/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] active:scale-95 cursor-pointer shadow-2xs"
       >
         {open ? (
           <X
@@ -84,7 +84,7 @@ export function MobileMenu() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-0 top-16 z-50 border-b border-[var(--border-subtle)] bg-[#FCFBF8] dark:bg-[#0D0F16] px-4 pb-6 pt-3 shadow-[var(--card-shadow-hover)]"
+              className="fixed inset-x-0 top-16 z-50 border-b border-[var(--border-subtle)] bg-white dark:bg-[#0D0F16] px-4 pb-6 pt-3 shadow-[var(--card-shadow-hover)]"
             >
               <div className="divide-y divide-[var(--border-faint)]">
                 {links.map((item) => (
@@ -104,7 +104,7 @@ export function MobileMenu() {
                       className={`w-4 h-4 ${
                         item.isActive
                           ? "text-[var(--home-orange-light)]"
-                          : "text-slate-400 dark:text-ice-white/40"
+                          : "text-slate-500 dark:text-ice-white/40"
                       }`}
                       aria-hidden="true"
                     />

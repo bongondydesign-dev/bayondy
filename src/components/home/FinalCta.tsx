@@ -116,7 +116,7 @@ export function FinalCta() {
                 >
                   <span>{t("final.cta")}</span>
                   <span
-                    className="w-7 h-7 rounded-full bg-white text-[#EB4A15] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+                    className="w-7 h-7 rounded-full bg-white text-[var(--brand)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                     aria-hidden="true"
                   >
                     <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.4} />

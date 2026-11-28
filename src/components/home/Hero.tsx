@@ -28,22 +28,22 @@ export function Hero() {
         {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)]/80 hover:border-[var(--home-orange)]/55 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
           <Sparkles
-            className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
+            className="w-3.5 h-3.5 text-[var(--home-orange-vivid)] shrink-0"
             strokeWidth={2.2}
             aria-hidden="true"
           />
           <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
             {t("accueil.titre")}
           </span>
-          <span className="h-3.5 w-px bg-[var(--border-subtle)]" aria-hidden="true" />
-          <span className="font-sans text-xs sm:text-sm font-medium text-slate-700 dark:text-ice-white/85 group-hover:text-ice-white transition-colors">
+          <span className="h-3.5 w-px bg-[var(--border-strong)]/60" aria-hidden="true" />
+          <span className="font-sans text-xs sm:text-sm font-semibold text-slate-800 dark:text-ice-white/85 group-hover:text-ice-white transition-colors">
             {t("hero.badge")}
           </span>
           <ChevronRight
-            className="w-3.5 h-3.5 text-slate-400 dark:text-ice-white/60 group-hover:translate-x-0.5 group-hover:text-[var(--home-orange-light)] transition-all"
+            className="w-3.5 h-3.5 text-slate-600 dark:text-ice-white/60 group-hover:translate-x-0.5 group-hover:text-[var(--home-orange-light)] transition-all"
             strokeWidth={2.2}
             aria-hidden="true"
           />
@@ -54,14 +54,14 @@ export function Hero() {
           <span className="block">{t("hero.titreLigne1")}</span>
           <span className="block">
             {t("hero.titreLigne2Prefix")}
-            <span className="font-serif italic font-normal bg-gradient-to-r from-[#EB4A15] to-[#B83207] dark:from-[#FF8C61] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
+            <span className="font-serif italic font-normal bg-gradient-to-r from-[#FF5618] to-[#D43302] dark:from-[#FF8C61] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
               {t("hero.titreLigne2Gradient")}
             </span>
           </span>
         </h1>
 
         {/* Sous-titre */}
-        <p className="animate-hero-2 mt-5 text-base sm:text-lg text-slate-600 dark:text-ice-white/75 max-w-xl leading-relaxed font-sans text-balance">
+        <p className="animate-hero-2 mt-5 text-base sm:text-lg text-slate-700 dark:text-ice-white/75 max-w-xl leading-relaxed font-sans text-balance">
           {t("hero.sousTitre")}
         </p>
 
@@ -98,11 +98,11 @@ export function Hero() {
         </div>
 
         {/* Ligne sobre de 3 points clés */}
-        <div className="animate-hero-3 mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-[13px] text-slate-600 dark:text-ice-white/70 font-sans font-medium">
+        <div className="animate-hero-3 mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-[13px] text-slate-700 dark:text-ice-white/75 font-sans font-medium">
           {trustPoints.map((point) => (
             <span key={point} className="inline-flex items-center gap-1.5">
               <Check
-                className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
+                className="w-3.5 h-3.5 text-[var(--home-orange-vivid)] shrink-0"
                 strokeWidth={2.5}
                 aria-hidden="true"
               />

@@ -16,12 +16,12 @@ export function Affirmation() {
       />
 
       <Reveal className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-6">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-6">
           {t("affirmation.badge")}
         </p>
 
         <blockquote className="font-display font-bold text-2xl sm:text-4xl lg:text-[2.75rem] leading-[1.22] tracking-tight text-balance">
-          <span className="text-slate-500 dark:text-zinc-400 block">
+          <span className="text-slate-700 dark:text-zinc-400 block">
             {t("affirmation.texte")}
           </span>
           <span className="text-ice-white block mt-3">

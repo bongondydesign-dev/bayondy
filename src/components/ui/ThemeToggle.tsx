@@ -65,8 +65,8 @@ export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggl
 
   const variantClasses =
     variant === "ghost"
-      ? "w-11 h-11 md:w-9 md:h-9 min-w-[44px] min-h-[44px] md:min-w-[36px] md:min-h-[36px] rounded-xl border border-transparent hover:border-[var(--border-subtle)] bg-transparent hover:bg-[var(--surface-glass)] text-slate-700 dark:text-ice-white/75 hover:text-ice-white"
-      : "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[var(--border-strong)] bg-[var(--surface-glass)] backdrop-blur-md hover:border-[var(--home-orange)]/60 hover:bg-deep-navy text-ice-white hover:text-[var(--home-orange-light)] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] dark:shadow-none";
+      ? "w-11 h-11 md:w-9 md:h-9 min-w-[44px] min-h-[44px] md:min-w-[36px] md:min-h-[36px] rounded-xl border border-transparent hover:border-[var(--border-subtle)] bg-transparent hover:bg-white dark:hover:bg-[var(--surface-glass)] text-slate-800 dark:text-ice-white/75 hover:text-ice-white"
+      : "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[var(--border-strong)] bg-white dark:bg-[var(--surface-glass)] dark:backdrop-blur-md hover:border-[var(--home-orange-vivid)]/65 hover:bg-white text-ice-white hover:text-[var(--home-orange-light)] shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-none";
 
   return (
     <button

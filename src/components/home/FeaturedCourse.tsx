@@ -31,14 +31,14 @@ export function FeaturedCourse() {
             {/* Colonne gauche : texte, bénéfices et CTA */}
             <div className="lg:col-span-6 flex flex-col justify-between gap-6">
               <div>
-                <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--home-orange-light)] mb-3">
-                  <BookOpen className="w-3.5 h-3.5 text-[var(--home-orange)]" aria-hidden="true" />
+                <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)] mb-3">
+                  <BookOpen className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]" aria-hidden="true" />
                   <span>{t("bento.badgeCreole")}</span>
                 </span>
                 <h3 className="font-display font-semibold text-2xl sm:text-3xl text-ice-white leading-snug mb-3 text-balance">
                   {t("hero.apercu.titre")}
                 </h3>
-                <p className="text-sm sm:text-base text-slate-600 dark:text-ice-white/70 leading-relaxed font-sans">
+                <p className="text-sm sm:text-base text-slate-700 dark:text-ice-white/70 leading-relaxed font-sans">
                   {t("une.description")}
                 </p>
               </div>
@@ -48,10 +48,10 @@ export function FeaturedCourse() {
                   {highlights.map((item) => (
                     <li
                       key={item}
-                      className="flex items-center gap-2.5 text-sm text-slate-700 dark:text-ice-white/85 font-sans font-medium"
+                      className="flex items-center gap-2.5 text-sm text-slate-800 dark:text-ice-white/85 font-sans font-medium"
                     >
                       <Check
-                        className="w-4 h-4 text-[var(--home-orange)] shrink-0"
+                        className="w-4 h-4 text-[var(--home-orange-vivid)] shrink-0"
                         strokeWidth={2.5}
                         aria-hidden="true"
                       />

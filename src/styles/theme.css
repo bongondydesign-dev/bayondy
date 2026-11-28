@@ -1,54 +1,53 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Mode clair BAYONDY — Porcelaine Chaude, Verre Dépoli & Contraste Obsidienne */
+/* Mode clair BAYONDY — Haute Clarté, Blanc Pur & Contraste Vif */
 :root {
-  --obsidian: #F5F4F0;
+  --obsidian: #F5F6FA;
   --deep-navy: #FFFFFF;
-  --surface-subtle: #EAE7E0;
-  --surface-elevated: rgba(255, 255, 255, 0.92);
-  --surface-glass: rgba(255, 255, 255, 0.80);
-  --surface-contrast: #12141B;
-  --surface-well: #ECE9E2;
-  --surface-band: rgba(236, 233, 226, 0.56);
-  --surface-browser: rgba(255, 255, 255, 0.92);
-  --surface-sidebar: rgba(250, 249, 246, 0.90);
-  --surface-active: #FFF1EA;
-  --surface-nav: rgba(245, 244, 240, 0.80);
-  --surface-grid-line: rgba(17, 19, 24, 0.055);
-  --border-subtle: rgba(17, 19, 24, 0.085);
-  --border-faint: rgba(17, 19, 24, 0.05);
-  --border-strong: rgba(17, 19, 24, 0.16);
-  --track-muted: rgba(17, 19, 24, 0.09);
+  --surface-subtle: #E6E9F2;
+  --surface-elevated: #FFFFFF;
+  --surface-glass: #FFFFFF;
+  --surface-contrast: #0F1219;
+  --surface-well: #EEF1F7;
+  --surface-band: #ECEFF6;
+  --surface-browser: #FFFFFF;
+  --surface-sidebar: #F8F9FC;
+  --surface-active: #FFF0E9;
+  --surface-nav: rgba(255, 255, 255, 0.92);
+  --surface-grid-line: rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-faint: rgba(15, 23, 42, 0.075);
+  --border-strong: rgba(15, 23, 42, 0.24);
+  --track-muted: rgba(15, 23, 42, 0.12);
   --card-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 1px 2px rgba(17, 19, 24, 0.04),
-    0 14px 32px -14px rgba(17, 19, 24, 0.08);
+    0 1px 2px rgba(15, 23, 42, 0.05),
+    0 10px 26px -10px rgba(15, 23, 42, 0.09);
   --card-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.98),
-    0 4px 10px rgba(17, 19, 24, 0.05),
-    0 22px 44px -14px rgba(17, 19, 24, 0.13);
+    0 4px 12px rgba(15, 23, 42, 0.07),
+    0 20px 42px -12px rgba(15, 23, 42, 0.14);
   --contrast-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.10),
-    0 20px 44px -16px rgba(17, 19, 24, 0.36);
+    0 20px 44px -14px rgba(15, 23, 42, 0.34);
   --canvas-ambient:
-    radial-gradient(ellipse 72% 40% at 50% -6%, rgba(240, 78, 24, 0.065) 0%, transparent 62%),
-    radial-gradient(ellipse 52% 34% at 88% 12%, rgba(245, 158, 11, 0.04) 0%, transparent 64%),
-    radial-gradient(ellipse 56% 36% at 12% 72%, rgba(214, 208, 196, 0.35) 0%, transparent 68%);
-  --canvas-grid: rgba(17, 19, 24, 0.028);
-  --surface-gloss: rgba(255, 255, 255, 0.92);
-  --canvas-vignette: rgba(226, 222, 212, 0.24);
-  --portal-shadow: drop-shadow(0 8px 18px rgba(240, 78, 24, 0.18));
+    radial-gradient(ellipse 70% 42% at 50% -4%, rgba(255, 77, 18, 0.10) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 34% at 88% 12%, rgba(255, 138, 60, 0.055) 0%, transparent 64%);
+  --canvas-grid: rgba(15, 23, 42, 0.042);
+  --surface-gloss: rgba(255, 255, 255, 0.98);
+  --canvas-vignette: rgba(232, 236, 244, 0.36);
+  --portal-shadow: drop-shadow(0 8px 18px rgba(255, 77, 18, 0.24));
 
-  --brand: #EB4A15;
+  --brand: #DC3804;
+  --brand-vivid: #FF5214;
   --brand-fg: #FFFFFF;
-  --brand-light: #C63A0B;
-  --brand-dark: #CD3B0A;
-  --brand-glow: rgba(235, 74, 21, 0.22);
-  --brand-glow-soft: rgba(235, 74, 21, 0.085);
-  --ice-white: #111318;
+  --brand-light: #C82F02;
+  --brand-dark: #BA2C02;
+  --brand-glow: rgba(255, 82, 20, 0.28);
+  --brand-glow-soft: rgba(255, 82, 20, 0.11);
+  --ice-white: #090B10;
 
   --home-orange: var(--brand);
+  --home-orange-vivid: var(--brand-vivid);
   --home-orange-fg: var(--brand-fg);
   --home-orange-light: var(--brand-light);
   --home-orange-dark: var(--brand-dark);
@@ -103,6 +102,7 @@
   --portal-shadow: drop-shadow(0 0 18px rgba(255, 91, 34, 0.30));
 
   --brand: #FF5B22;
+  --brand-vivid: #FF5B22;
   --brand-fg: #07080A;
   --brand-light: #FF8A60;
   --brand-dark: #E04814;
@@ -111,6 +111,7 @@
   --ice-white: #F4F5F7;
 
   --home-orange: var(--brand);
+  --home-orange-vivid: var(--brand-vivid);
   --home-orange-fg: var(--brand-fg);
   --home-orange-light: var(--brand-light);
   --home-orange-dark: var(--brand-dark);
@@ -159,12 +160,15 @@ body {
   color: var(--brand-light);
 }
 
-/* Surface verre dépoli avec arête spéculaire supérieure */
+/* Surface nette blanc pur en mode clair, verre dépoli fumé en mode sombre */
 .surface-glass {
   background-color: var(--surface-glass);
+  box-shadow: var(--card-shadow);
+}
+
+.dark .surface-glass {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: var(--card-shadow);
 }
 
 .surface-glass:hover {

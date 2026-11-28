@@ -34,7 +34,7 @@ export function NavLinks() {
 
   return (
     <nav
-      className="hidden lg:flex items-center gap-1 xl:gap-1.5 px-2 py-1 rounded-full bg-[var(--surface-glass)] border border-[var(--border-subtle)] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md"
+      className="hidden lg:flex items-center gap-1 xl:gap-1.5 px-2 py-1 rounded-full bg-white dark:bg-[var(--surface-glass)] border border-[var(--border-subtle)] shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] dark:backdrop-blur-md"
       aria-label={t("nav.menu")}
     >
       {items.map((item) => (
@@ -45,14 +45,14 @@ export function NavLinks() {
           className={`relative px-3.5 lg:px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] ${
             item.isActive
               ? "text-white dark:text-[#07080A] font-semibold"
-              : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white"
+              : "text-slate-700 dark:text-ice-white/75 hover:text-ice-white"
           }`}
         >
           {item.isActive && (
             <motion.span
               layoutId="nav-active-pill"
               transition={{ type: "spring", stiffness: 420, damping: 32 }}
-              className="absolute inset-0 rounded-full bg-[#12141B] dark:bg-[var(--home-orange)] shadow-xs"
+              className="absolute inset-0 rounded-full bg-[#0F1219] dark:bg-[var(--home-orange)] shadow-xs"
               aria-hidden="true"
             />
           )}

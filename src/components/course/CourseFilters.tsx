@@ -47,7 +47,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
             {/* Filtre par niveau */}
             {levels.length > 0 && (
               <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-2.5">
-                <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 shrink-0">
+                <span className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/60 shrink-0">
                   {t("catalogue.filtreNiveau")}
                 </span>
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
@@ -66,14 +66,14 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`relative min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "border-transparent text-white dark:text-[var(--brand-fg)] font-semibold"
-                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
+                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-700 dark:text-ice-white/75 hover:border-brand/55 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                         }`}
                       >
                         {isActive && (
                           <motion.span
                             layoutId="catalog-level-pill"
                             transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                            className="absolute inset-0 rounded-full bg-[#12141B] dark:bg-brand shadow-sm"
+                            className="absolute inset-0 rounded-full bg-[#0F1219] dark:bg-brand shadow-sm"
                             aria-hidden="true"
                           />
                         )}
@@ -88,7 +88,7 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
             {/* Filtre par langue */}
             {languages.length > 0 && (
               <div className="min-w-0 flex flex-col sm:flex-row sm:items-center gap-2.5">
-                <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/60 shrink-0">
+                <span className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/60 shrink-0">
                   {t("catalogue.filtreLangue")}
                 </span>
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
@@ -107,14 +107,14 @@ export function CourseFilters({ courses }: CourseFiltersProps) {
                         className={`relative min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                           isActive
                             ? "border-transparent text-white dark:text-[var(--brand-fg)] font-semibold"
-                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-600 dark:text-ice-white/75 hover:border-brand/45 hover:text-ice-white dark:hover:bg-[#1A1E29]"
+                            : "bg-[var(--surface-well)] dark:bg-[#141720] border-[var(--border-subtle)] dark:border-white/12 text-slate-700 dark:text-ice-white/75 hover:border-brand/55 hover:text-ice-white dark:hover:bg-[#1A1E29]"
                         }`}
                       >
                         {isActive && (
                           <motion.span
                             layoutId="catalog-language-pill"
                             transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                            className="absolute inset-0 rounded-full bg-[#12141B] dark:bg-brand shadow-sm"
+                            className="absolute inset-0 rounded-full bg-[#0F1219] dark:bg-brand shadow-sm"
                             aria-hidden="true"
                           />
                         )}

@@ -17,13 +17,13 @@ export function Faq() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             {/* Colonne gauche */}
             <div className="lg:col-span-4 text-left">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
                 {t("nav.faq")}
               </p>
               <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight leading-[1.08] text-balance">
                 {t("faq.titreSection")}
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
+              <p className="mt-4 text-sm sm:text-base text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
                 {t("faq.sousTitreSection")}
               </p>
               <Button

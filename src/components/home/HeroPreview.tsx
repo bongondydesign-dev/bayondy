@@ -94,7 +94,7 @@ export function HeroPreview() {
         aria-hidden="true"
       />
 
-      <div className="rounded-2xl bg-[var(--surface-browser)] backdrop-blur-xl border border-[var(--border-strong)]/80 dark:border-white/[0.11] hover:border-[var(--border-strong)] dark:hover:border-white/[0.18] transition-colors duration-300 shadow-[var(--card-shadow-hover)] dark:shadow-[0_28px_72px_-20px_rgba(0,0,0,0.88),inset_0_1px_0_rgba(255,255,255,0.08)] ring-1 ring-slate-900/[0.03] dark:ring-white/[0.04] overflow-hidden text-left">
+      <div className="rounded-2xl bg-[var(--surface-browser)] dark:backdrop-blur-xl border border-[var(--border-strong)] dark:border-white/[0.11] hover:border-slate-900/35 dark:hover:border-white/[0.18] transition-colors duration-300 shadow-[var(--card-shadow-hover)] dark:shadow-[0_28px_72px_-20px_rgba(0,0,0,0.88),inset_0_1px_0_rgba(255,255,255,0.08)] overflow-hidden text-left">
         {/* Barre supérieure navigateur */}
         <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--surface-sidebar)]">
           <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
@@ -103,7 +103,7 @@ export function HeroPreview() {
             <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/15 inline-block" />
           </div>
 
-          <div className="px-3 py-1 rounded-lg bg-deep-navy dark:bg-[#13161F] border border-[var(--border-subtle)] text-[11px] font-mono text-slate-600 dark:text-zinc-300 inline-flex items-center gap-1.5 truncate max-w-[230px] sm:max-w-none shadow-[0_1px_1px_rgba(17,19,24,0.04)] dark:shadow-none">
+          <div className="px-3 py-1 rounded-lg bg-deep-navy dark:bg-[#13161F] border border-[var(--border-subtle)] text-[11px] font-mono text-slate-700 dark:text-zinc-300 inline-flex items-center gap-1.5 truncate max-w-[230px] sm:max-w-none shadow-[0_1px_1px_rgba(15,23,42,0.04)] dark:shadow-none">
             <Lock
               className="w-3 h-3 text-[var(--home-orange-light)] shrink-0"
               strokeWidth={2.2}
@@ -115,8 +115,8 @@ export function HeroPreview() {
           </div>
 
           <div className="hidden sm:inline-flex items-center gap-2 shrink-0">
-            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300">
-              <MonitorPlay className="w-3 h-3 text-[var(--home-orange)]" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] text-slate-700 dark:text-zinc-300 font-medium">
+              <MonitorPlay className="w-3 h-3 text-[var(--home-orange-vivid)]" aria-hidden="true" />
               HD
             </span>
           </div>
@@ -137,17 +137,17 @@ export function HeroPreview() {
                     <p className="font-display font-semibold text-sm text-ice-white leading-tight truncate">
                       {t("accueil.titre")}
                     </p>
-                    <p className="font-mono text-[10px] text-slate-500 dark:text-zinc-400 truncate">
+                    <p className="font-mono text-[10px] text-slate-600 dark:text-zinc-400 truncate">
                       {t("bento.badgeCreole")}
                     </p>
                   </div>
                 </div>
-                <span className="font-mono text-[11px] text-[var(--home-orange-light)] bg-[var(--surface-active)] border border-[var(--home-orange)]/25 px-2 py-0.5 rounded-md tabular-nums shrink-0">
+                <span className="font-mono text-[11px] font-semibold text-[var(--home-orange-light)] bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/40 px-2 py-0.5 rounded-md tabular-nums shrink-0">
                   {current.num}/{String(lessons.length).padStart(2, "0")}
                 </span>
               </div>
 
-              <p className="px-1 mb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-slate-500 dark:text-zinc-400">
+              <p className="px-1 mb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-slate-600 dark:text-zinc-400 font-medium">
                 {t("hero.apercu.listeTitre")}
               </p>
 
@@ -165,14 +165,14 @@ export function HeroPreview() {
                       className={`relative w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] cursor-pointer ${
                         isActive
                           ? "text-ice-white"
-                          : "bg-deep-navy/75 dark:bg-[#12151E]/85 border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
+                          : "bg-white dark:bg-[#12151E]/85 border border-[var(--border-subtle)] text-slate-700 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
                       }`}
                     >
                       {isActive && (
                         <motion.span
                           layoutId="hero-lesson-active"
                           transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                          className="absolute inset-0 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange)]/45 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                          className="absolute inset-0 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/55 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                           aria-hidden="true"
                         />
                       )}
@@ -182,8 +182,8 @@ export function HeroPreview() {
                           isActive
                             ? "bg-[var(--home-orange)] text-[var(--home-orange-fg)]"
                             : isCompleted
-                              ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25"
-                              : "bg-[var(--surface-well)] text-slate-500 dark:text-zinc-400 border border-[var(--border-subtle)]"
+                              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30"
+                              : "bg-[var(--surface-well)] text-slate-600 dark:text-zinc-400 border border-[var(--border-subtle)]"
                         }`}
                         aria-hidden="true"
                       >
@@ -202,7 +202,7 @@ export function HeroPreview() {
                         >
                           {lesson.cleanTitle}
                         </p>
-                        <p className="font-mono text-[10px] text-slate-500 dark:text-zinc-400 mt-0.5 flex items-center gap-1.5">
+                        <p className="font-mono text-[10px] text-slate-600 dark:text-zinc-400 mt-0.5 flex items-center gap-1.5">
                           <span>{lesson.tag}</span>
                           <span aria-hidden="true">·</span>
                           <span className="tabular-nums">{lesson.duration}</span>
@@ -215,9 +215,9 @@ export function HeroPreview() {
             </div>
 
             {/* Carte de progression globale */}
-            <div className="mt-5 p-3.5 rounded-xl bg-deep-navy dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(17,19,24,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <div className="mt-5 p-3.5 rounded-xl bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.05)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
               <div className="flex items-center justify-between text-xs mb-2">
-                <span className="text-slate-600 dark:text-zinc-300 font-sans font-medium">
+                <span className="text-slate-700 dark:text-zinc-300 font-sans font-medium">
                   {t("hero.apercu.progression")}
                 </span>
                 <span className="font-mono font-semibold text-[var(--home-orange-light)] tabular-nums">
@@ -226,7 +226,7 @@ export function HeroPreview() {
               </div>
               <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[var(--home-orange-dark)] to-[var(--home-orange)]"
+                  className="h-full rounded-full bg-gradient-to-r from-[var(--home-orange)] to-[var(--home-orange-vivid)]"
                   initial={false}
                   animate={{ width: `${current.progressPct}%` }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -249,13 +249,13 @@ export function HeroPreview() {
               </div>
 
               <div className="flex items-center gap-2 text-xs font-mono shrink-0">
-                <span className="text-[var(--home-orange-light)] font-medium">
+                <span className="text-[var(--home-orange-light)] font-semibold">
                   {t("bento.badgeCreole")}
                 </span>
-                <span className="text-slate-400 dark:text-zinc-500" aria-hidden="true">
+                <span className="text-slate-500 dark:text-zinc-500" aria-hidden="true">
                   ·
                 </span>
-                <span className="text-slate-600 dark:text-zinc-300 tabular-nums">
+                <span className="text-slate-700 dark:text-zinc-300 tabular-nums font-medium">
                   {current.duration}
                 </span>
               </div>
@@ -437,8 +437,8 @@ export function HeroPreview() {
                     aria-pressed={isActive}
                     className={`p-2 rounded-lg text-left border transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] ${
                       isActive
-                        ? "bg-[var(--surface-active)] border-[var(--home-orange)]/45 text-ice-white"
-                        : "bg-[var(--surface-sidebar)] border-[var(--border-subtle)] text-slate-600 dark:text-zinc-400"
+                        ? "bg-[var(--surface-active)] border-[var(--home-orange-vivid)]/55 text-ice-white"
+                        : "bg-[var(--surface-sidebar)] border-[var(--border-subtle)] text-slate-700 dark:text-zinc-400"
                     }`}
                   >
                     <span className="block font-mono text-[10px] font-semibold text-[var(--home-orange-light)] tabular-nums">
@@ -454,27 +454,27 @@ export function HeroPreview() {
 
             {/* Pied du lecteur */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-[var(--border-faint)] text-xs">
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-slate-600 dark:text-zinc-400">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-slate-700 dark:text-zinc-400 font-medium">
                 <span className="inline-flex items-center gap-1.5">
                   <Check
-                    className="w-3.5 h-3.5 text-[var(--home-orange-light)]"
-                    strokeWidth={2.3}
+                    className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]"
+                    strokeWidth={2.5}
                     aria-hidden="true"
                   />
                   <span>{t("bento.badgeCreole")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <Check
-                    className="w-3.5 h-3.5 text-[var(--home-orange-light)]"
-                    strokeWidth={2.3}
+                    className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]"
+                    strokeWidth={2.5}
                     aria-hidden="true"
                   />
                   <span>{t("bento.badgeMobile")}</span>
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5">
                   <Check
-                    className="w-3.5 h-3.5 text-[var(--home-orange-light)]"
-                    strokeWidth={2.3}
+                    className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]"
+                    strokeWidth={2.5}
                     aria-hidden="true"
                   />
                   <span>{t("bento.badgeRevoir")}</span>
@@ -486,7 +486,7 @@ export function HeroPreview() {
                 onClick={() =>
                   handleSelectLesson((activeIdx + 1) % lessons.length)
                 }
-                className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium text-[var(--home-orange-light)] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded"
+                className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-[var(--home-orange-light)] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded"
               >
                 <span>
                   {nextLesson.num}. {nextLesson.cleanTitle}

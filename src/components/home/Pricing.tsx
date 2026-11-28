@@ -47,8 +47,8 @@ export function Pricing() {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Colonne gauche */}
               <div className="lg:col-span-7 text-left space-y-6">
-                <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--home-orange-light)]">
-                  <CreditCard className="w-3.5 h-3.5 text-[var(--home-orange)]" aria-hidden="true" />
+                <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
+                  <CreditCard className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]" aria-hidden="true" />
                   <span>{t("bento.badgeCreole")}</span>
                   <span aria-hidden="true">·</span>
                   <span>{t("tarifs.badge")}</span>
@@ -59,7 +59,7 @@ export function Pricing() {
                     {t("tarifs.titre")}
                   </h3>
 
-                  <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-ice-white/70 leading-relaxed font-sans max-w-xl">
+                  <p className="mt-4 text-sm sm:text-base text-slate-700 dark:text-ice-white/70 leading-relaxed font-sans max-w-xl">
                     {t("tarifs.description")}
                   </p>
                 </div>
@@ -71,7 +71,7 @@ export function Pricing() {
                       key={label}
                       className="flex items-center gap-2 text-xs sm:text-sm font-medium text-ice-white"
                     >
-                      <span className="w-5 h-5 rounded-full bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/30 text-[var(--home-orange)] inline-flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange-vivid)]/40 text-[var(--home-orange-vivid)] inline-flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3" strokeWidth={2.6} aria-hidden="true" />
                       </span>
                       <span className="truncate">{label}</span>
@@ -108,11 +108,11 @@ export function Pricing() {
               {/* Colonne droite : Panneau structuré des moyens de paiement */}
               <div className="lg:col-span-5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-5 sm:p-6 space-y-4">
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subtle)]">
-                  <p className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-zinc-400">
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-700 dark:text-zinc-400">
                     {t("tarifs.moyensTitre")}
                   </p>
                   <ShieldCheck
-                    className="w-4 h-4 text-[var(--home-orange-light)] shrink-0"
+                    className="w-4 h-4 text-[var(--home-orange-vivid)] shrink-0"
                     strokeWidth={2}
                     aria-hidden="true"
                   />
@@ -120,16 +120,16 @@ export function Pricing() {
 
                 <div className="space-y-3">
                   {/* MonCash — Opérationnel */}
-                  <div className="p-3.5 rounded-xl bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/40 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#141720] border border-[var(--home-orange-vivid)]/50 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className="w-9 h-9 rounded-lg bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/35 text-[var(--home-orange)] dark:text-[var(--home-orange-light)] flex items-center justify-center shrink-0">
+                      <span className="w-9 h-9 rounded-lg bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange-vivid)]/45 text-[var(--home-orange-vivid)] dark:text-[var(--home-orange-light)] flex items-center justify-center shrink-0">
                         <Smartphone className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
                         <p className="font-display font-semibold text-sm text-ice-white">
                           MonCash
                         </p>
-                        <p className="font-sans text-xs text-slate-600 dark:text-zinc-400 truncate">
+                        <p className="font-sans text-xs text-slate-700 dark:text-zinc-400 truncate">
                           {t("fonctionnalites.acces.titre")}
                         </p>
                       </div>
@@ -142,28 +142,28 @@ export function Pricing() {
                   </div>
 
                   {/* NatCash — À venir */}
-                  <div className="p-3.5 rounded-xl bg-deep-navy/65 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className="w-9 h-9 rounded-lg bg-[var(--surface-well)] dark:bg-[#161A24] border border-[var(--border-subtle)] text-slate-500 dark:text-zinc-400 flex items-center justify-center shrink-0">
+                      <span className="w-9 h-9 rounded-lg bg-[var(--surface-well)] dark:bg-[#161A24] border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-400 flex items-center justify-center shrink-0">
                         <Clock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
-                        <p className="font-display font-semibold text-sm text-ice-white/90">
+                        <p className="font-display font-semibold text-sm text-ice-white">
                           NatCash
                         </p>
-                        <p className="font-sans text-xs text-slate-500 dark:text-zinc-500 truncate">
+                        <p className="font-sans text-xs text-slate-600 dark:text-zinc-500 truncate">
                           {t("bento.badgePaiement")}
                         </p>
                       </div>
                     </div>
 
-                    <span className="font-mono text-[11px] font-medium text-slate-500 dark:text-zinc-400 shrink-0">
+                    <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-zinc-400 shrink-0">
                       {t("tarifs.statutAvenir")}
                     </span>
                   </div>
                 </div>
 
-                <p className="pt-1 font-sans text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
+                <p className="pt-1 font-sans text-xs text-slate-700 dark:text-zinc-400 leading-relaxed">
                   {t("fonctionnalites.paiement.description")}
                 </p>
               </div>

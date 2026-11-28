@@ -49,7 +49,7 @@ export function Features() {
           {/* En-tête asymétrique */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 sm:mb-16">
             <div className="max-w-2xl">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
                 {t("bento.badge")}
               </p>
               <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight leading-[1.08] text-balance">
@@ -58,7 +58,7 @@ export function Features() {
             </div>
 
             <div className="max-w-md space-y-3">
-              <p className="text-sm sm:text-base text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed text-balance">
+              <p className="text-sm sm:text-base text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed text-balance">
                 {t("bento.sousTitreSection")}
               </p>
               <Link
@@ -67,7 +67,7 @@ export function Features() {
               >
                 <span>{t("hero.cta")}</span>
                 <span
-                  className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.08] inline-flex items-center justify-center group-hover:translate-x-0.5 group-hover:bg-[var(--home-orange)]/15 group-hover:text-[var(--home-orange-light)] transition-all duration-200"
+                  className="w-6 h-6 rounded-full bg-slate-900/[0.07] dark:bg-white/[0.08] inline-flex items-center justify-center group-hover:translate-x-0.5 group-hover:bg-[var(--home-orange-vivid)]/15 group-hover:text-[var(--home-orange-light)] transition-all duration-200"
                   aria-hidden="true"
                 >
                   <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
@@ -77,13 +77,13 @@ export function Features() {
           </div>
         </Reveal>
 
-        {/* Grille Bento asymétrique avec alternance verre clair & ancre obsidienne */}
+        {/* Grille Bento asymétrique avec alternance blanc net & ancre obsidienne */}
         <RevealStagger className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* ── Carte 1 (col-span-2) : Leçons en créole ─────────────────────── */}
           <RevealItem className="md:col-span-2 flex">
-            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-w-0">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange-vivid)]/60 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-w-0">
               <div
-                className="absolute -top-24 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-40 dark:opacity-55 group-hover:opacity-75 transition-opacity duration-300"
+                className="absolute -top-24 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-45 dark:opacity-55 group-hover:opacity-80 transition-opacity duration-300"
                 style={{
                   background:
                     "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
@@ -94,7 +94,7 @@ export function Features() {
               <div className="relative z-10 pb-6 mb-6 border-b border-[var(--border-faint)]">
                 <div className="flex flex-wrap items-baseline justify-between gap-3 mb-5">
                   <div>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-ice-white/55 block mb-1">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55 block mb-1">
                       {t("fonctionnalites.creole.titre")}
                     </span>
                     <span className="font-display font-bold text-3xl sm:text-4xl text-ice-white tracking-tight tabular-nums">
@@ -102,8 +102,8 @@ export function Features() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 font-mono text-xs text-slate-600 dark:text-ice-white/65">
-                    <span className="text-[var(--home-orange-light)] font-medium">
+                  <div className="flex items-center gap-2 font-mono text-xs text-slate-700 dark:text-ice-white/65">
+                    <span className="text-[var(--home-orange-light)] font-semibold">
                       {t("catalogue.langues.ht")}
                     </span>
                     <span aria-hidden="true">·</span>
@@ -120,13 +120,13 @@ export function Features() {
                   >
                     <defs>
                       <linearGradient id="bento-curve-fill" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="var(--home-orange)" stopOpacity="0.22" />
-                        <stop offset="100%" stopColor="var(--home-orange)" stopOpacity="0" />
+                        <stop offset="0%" stopColor="var(--home-orange-vivid)" stopOpacity="0.26" />
+                        <stop offset="100%" stopColor="var(--home-orange-vivid)" stopOpacity="0" />
                       </linearGradient>
                       <linearGradient id="bento-curve-stroke" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="var(--home-orange-dark)" />
-                        <stop offset="55%" stopColor="var(--home-orange)" />
-                        <stop offset="100%" stopColor="var(--home-orange-light)" />
+                        <stop offset="55%" stopColor="var(--home-orange-vivid)" />
+                        <stop offset="100%" stopColor="var(--home-orange-vivid)" />
                       </linearGradient>
                     </defs>
 
@@ -192,7 +192,7 @@ export function Features() {
                       cy="62"
                       r="4.5"
                       fill="var(--deep-navy)"
-                      stroke="var(--home-orange)"
+                      stroke="var(--home-orange-vivid)"
                       strokeWidth="2"
                     />
                     <circle
@@ -200,14 +200,14 @@ export function Features() {
                       cy="22"
                       r="10"
                       fill="none"
-                      stroke="var(--home-orange)"
+                      stroke="var(--home-orange-vivid)"
                       strokeWidth="1.25"
                       className="animate-ping-slow"
                     />
-                    <circle cx="528" cy="22" r="4.5" fill="var(--home-orange)" />
+                    <circle cx="528" cy="22" r="4.5" fill="var(--home-orange-vivid)" />
                   </svg>
 
-                  <div className="mt-2 grid grid-cols-3 gap-2 font-mono text-[11px] text-slate-600 dark:text-ice-white/65">
+                  <div className="mt-2 grid grid-cols-3 gap-2 font-mono text-[11px] text-slate-700 dark:text-ice-white/65">
                     {milestones.map((m, i) => (
                       <div
                         key={m.num}
@@ -215,11 +215,11 @@ export function Features() {
                           i === 1
                             ? "justify-center"
                             : i === 2
-                              ? "justify-end text-ice-white font-medium"
+                              ? "justify-end text-ice-white font-semibold"
                               : "justify-start"
                         }`}
                       >
-                        <span className="text-[var(--home-orange-light)] tabular-nums">
+                        <span className="text-[var(--home-orange-light)] font-semibold tabular-nums">
                           {m.num}
                         </span>
                         <span className="truncate">{m.label}</span>
@@ -233,7 +233,7 @@ export function Features() {
                 <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-1.5">
                   {t("fonctionnalites.creole.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed max-w-xl">
+                <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed max-w-xl">
                   {t("fonctionnalites.creole.description")}
                 </p>
               </div>
@@ -350,7 +350,7 @@ export function Features() {
 
           {/* ── Carte 3 : Swiv pwogrè w ────────────────────────────────────── */}
           <RevealItem className="md:col-span-1 flex">
-            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange-vivid)]/60 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
               <div className="py-2 flex flex-col items-center justify-center gap-4">
                 <div className="relative w-32 h-32 flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-200">
                   <div
@@ -369,8 +369,8 @@ export function Features() {
                     <defs>
                       <linearGradient id="bento-ring-gradient" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stopColor="var(--home-orange-dark)" />
-                        <stop offset="55%" stopColor="var(--home-orange)" />
-                        <stop offset="100%" stopColor="var(--home-orange-light)" />
+                        <stop offset="55%" stopColor="var(--home-orange-vivid)" />
+                        <stop offset="100%" stopColor="var(--home-orange-vivid)" />
                       </linearGradient>
                     </defs>
 
@@ -408,7 +408,7 @@ export function Features() {
                     <span className="font-display font-bold text-2xl text-ice-white tabular-nums tracking-tight">
                       {t("bento.progressionCent")}
                     </span>
-                    <span className="font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--home-orange-light)] mt-0.5">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--home-orange-light)] mt-0.5">
                       {t("bento.badgeProgression")}
                     </span>
                   </div>
@@ -416,14 +416,14 @@ export function Features() {
 
                 <div className="w-full max-w-[196px] space-y-1.5" aria-hidden="true">
                   <div className="grid grid-cols-3 gap-1.5">
+                    <span className="h-1 rounded-full bg-[var(--home-orange-vivid)]" />
+                    <span className="h-1 rounded-full bg-[var(--home-orange-vivid)]" />
                     <span className="h-1 rounded-full bg-[var(--home-orange)]" />
-                    <span className="h-1 rounded-full bg-[var(--home-orange)]" />
-                    <span className="h-1 rounded-full bg-[var(--home-orange-light)]" />
                   </div>
-                  <div className="flex items-center justify-between font-mono text-[10px] text-slate-500 dark:text-ice-white/50 tabular-nums">
+                  <div className="flex items-center justify-between font-mono text-[10px] text-slate-600 dark:text-ice-white/50 tabular-nums font-medium">
                     <span>01</span>
                     <span>02</span>
-                    <span className="text-[var(--home-orange-light)]">03</span>
+                    <span className="text-[var(--home-orange-light)] font-semibold">03</span>
                   </div>
                 </div>
               </div>
@@ -432,7 +432,7 @@ export function Features() {
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.progression.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed">
                   {t("fonctionnalites.progression.description")}
                 </p>
               </div>
@@ -495,7 +495,7 @@ export function Features() {
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.mobile.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed">
                   {t("fonctionnalites.mobile.description")}
                 </p>
               </div>
@@ -504,7 +504,7 @@ export function Features() {
 
           {/* ── Carte 5 : Gade yo tout tan ─────────────────────────────────── */}
           <RevealItem className="md:col-span-1 flex">
-            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange-vivid)]/60 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
               <div className="py-2 flex flex-col items-center justify-center gap-4">
                 <div
                   className="relative w-32 h-32 flex items-center justify-center"
@@ -513,8 +513,8 @@ export function Features() {
                   <svg viewBox="0 0 120 120" className="w-full h-full">
                     <defs>
                       <linearGradient id="bento-orbit-grad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="var(--home-orange)" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="var(--home-orange-light)" stopOpacity="0.15" />
+                        <stop offset="0%" stopColor="var(--home-orange-vivid)" stopOpacity="0.95" />
+                        <stop offset="100%" stopColor="var(--home-orange-vivid)" stopOpacity="0.22" />
                       </linearGradient>
                     </defs>
 
@@ -534,12 +534,12 @@ export function Features() {
                       r="38"
                       fill="none"
                       stroke="url(#bento-orbit-grad)"
-                      strokeWidth="2"
+                      strokeWidth="2.2"
                     />
-                    <circle cx="98" cy="60" r="3.5" fill="var(--home-orange)" />
+                    <circle cx="98" cy="60" r="3.5" fill="var(--home-orange-vivid)" />
                   </svg>
 
-                  <div className="absolute w-12 h-12 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange)]/35 flex items-center justify-center text-[var(--home-orange)] dark:text-[var(--home-orange-light)] shadow-[0_6px_18px_-4px_var(--home-orange-glow)] group-hover:scale-105 transition-transform duration-200">
+                  <div className="absolute w-12 h-12 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 flex items-center justify-center text-[var(--home-orange-vivid)] dark:text-[var(--home-orange-light)] shadow-[0_6px_18px_-4px_var(--home-orange-glow)] group-hover:scale-105 transition-transform duration-200">
                     <RefreshCw
                       className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500 ease-out"
                       strokeWidth={2}
@@ -547,14 +547,14 @@ export function Features() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 font-mono text-[11px] text-slate-600 dark:text-ice-white/65 tabular-nums">
+                <div className="flex items-center gap-1.5 font-mono text-[11px] text-slate-700 dark:text-ice-white/65 tabular-nums font-medium">
                   <span>01</span>
-                  <span className="text-slate-400 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
                   <span>02</span>
-                  <span className="text-slate-400 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
                   <span>03</span>
-                  <span className="text-slate-400 dark:text-ice-white/30" aria-hidden="true">·</span>
-                  <span className="text-[var(--home-orange-light)] font-medium">
+                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-[var(--home-orange-light)] font-semibold">
                     {t("bento.badgeRevoir")}
                   </span>
                 </div>
@@ -564,7 +564,7 @@ export function Features() {
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.revoir.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed">
                   {t("fonctionnalites.revoir.description")}
                 </p>
               </div>
@@ -573,29 +573,29 @@ export function Features() {
 
           {/* ── Carte 6 (col-span-2) : Peman lokal fasil ───────────────────── */}
           <RevealItem className="md:col-span-2 flex">
-            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between min-w-0">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange-vivid)]/60 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between min-w-0">
               <div className="space-y-4 pb-6 mb-6 border-b border-[var(--border-faint)]">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-mono text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-ice-white/65">
+                  <span className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/65">
                     {t("tarifs.moyensTitre")}
                   </span>
-                  <span className="font-mono text-xs font-medium text-[var(--home-orange-light)]">
+                  <span className="font-mono text-xs font-semibold text-[var(--home-orange-light)]">
                     {t("bento.badgePaiement")} · HTG / USD
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* MonCash — Disponible */}
-                  <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange)]/40 flex items-center justify-between gap-3 group-hover:-translate-y-0.5 transition-transform duration-200">
+                  <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/50 flex items-center justify-between gap-3 group-hover:-translate-y-0.5 transition-transform duration-200">
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <span className="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 inline-flex items-center justify-center shrink-0">
+                      <span className="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-600/30 text-emerald-700 dark:text-emerald-400 inline-flex items-center justify-center shrink-0">
                         <Check className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
                         <p className="font-display font-semibold text-base text-ice-white truncate">
                           MonCash
                         </p>
-                        <p className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400 truncate mt-0.5">
+                        <p className="font-mono text-[11px] font-medium text-emerald-700 dark:text-emerald-400 truncate mt-0.5">
                           {t("tarifs.statutDisponible")} · {t("bento.badgeAcces")}
                         </p>
                       </div>
@@ -609,14 +609,14 @@ export function Features() {
                   {/* NatCash — À venir */}
                   <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-well)] border border-dashed border-[var(--border-strong)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <span className="w-10 h-10 rounded-lg bg-deep-navy border border-[var(--border-subtle)] text-slate-500 dark:text-zinc-400 inline-flex items-center justify-center shrink-0">
+                      <span className="w-10 h-10 rounded-lg bg-white dark:bg-deep-navy border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-400 inline-flex items-center justify-center shrink-0">
                         <Clock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
-                        <p className="font-display font-medium text-base text-ice-white/85 truncate">
+                        <p className="font-display font-medium text-base text-ice-white truncate">
                           NatCash
                         </p>
-                        <p className="font-mono text-[11px] text-slate-500 dark:text-zinc-400 truncate mt-0.5">
+                        <p className="font-mono text-[11px] text-slate-600 dark:text-zinc-400 truncate mt-0.5">
                           {t("tarifs.statutAvenir")}
                         </p>
                       </div>
@@ -624,9 +624,9 @@ export function Features() {
                   </div>
                 </div>
 
-                <div className="pt-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-slate-500 dark:text-ice-white/55">
+                <div className="pt-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-slate-600 dark:text-ice-white/55">
                   <span>{t("paiement.reussi")} → {t("fonctionnalites.acces.titre")}</span>
-                  <span className="text-ice-white/75 tabular-nums">HTG · USD</span>
+                  <span className="text-ice-white font-semibold tabular-nums">HTG · USD</span>
                 </div>
               </div>
 
@@ -634,7 +634,7 @@ export function Features() {
                 <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-1.5">
                   {t("fonctionnalites.paiement.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed max-w-xl">
+                <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed max-w-xl">
                   {t("fonctionnalites.paiement.description")}
                 </p>
               </div>

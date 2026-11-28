@@ -35,7 +35,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
   }
 
   const primaryBtnClasses =
-    "group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] hover:brightness-105 text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0";
+    "group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-gradient-to-b from-[#FF5E24] to-[var(--home-orange)] hover:brightness-105 text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0";
 
   if (user) {
     if (mobile) {
@@ -88,7 +88,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
         )}
         <Link
           href="/profil"
-          className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
+          className="text-sm font-medium text-slate-700 dark:text-ice-white/75 hover:text-ice-white py-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
         >
           {t("nav.profil")}
         </Link>
@@ -110,14 +110,14 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
         <Link
           href="/connexion"
           onClick={onNavigate}
-          className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] bg-[var(--surface-glass)] text-ice-white hover:bg-[var(--surface-subtle)] transition-colors font-medium text-sm"
+          className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] bg-white dark:bg-[var(--surface-glass)] text-ice-white hover:bg-[var(--surface-well)] transition-colors font-semibold text-sm"
         >
           {t("nav.connexion")}
         </Link>
         <Link
           href="/inscription"
           onClick={onNavigate}
-          className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] transition-all duration-200"
+          className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF5E24] to-[var(--home-orange)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] transition-all duration-200"
         >
           <span>{t("nav.inscription")}</span>
           <ArrowRight
@@ -134,7 +134,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
     <div className="hidden lg:flex items-center gap-4 shrink-0">
       <Link
         href="/connexion"
-        className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
+        className="text-sm font-medium text-slate-700 dark:text-ice-white/75 hover:text-ice-white py-2 px-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
       >
         {t("nav.connexion")}
       </Link>

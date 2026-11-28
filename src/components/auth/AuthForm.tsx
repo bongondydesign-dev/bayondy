@@ -83,7 +83,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             ? t("auth.titreInscription")
             : t("auth.titreConnexion")}
         </h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-ice-white/70 font-sans">
+        <p className="mt-2 text-sm text-slate-700 dark:text-ice-white/70 font-sans">
           {mode === "inscription"
             ? t("auth.sousTitreInscription")
             : t("auth.sousTitreConnexion")}
@@ -123,7 +123,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
       {/* Séparateur */}
       <div className="my-6 flex items-center gap-3">
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
-        <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/55">
+        <span className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
           {t("auth.ou")}
         </span>
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
@@ -135,7 +135,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <div>
             <label
               htmlFor="auth-nom"
-              className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70 mb-2"
+              className="block text-xs font-mono font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/70 mb-2"
             >
               {t("auth.nom")}
             </label>
@@ -156,7 +156,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <div>
           <label
             htmlFor="auth-email"
-            className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70 mb-2"
+            className="block text-xs font-mono font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/70 mb-2"
           >
             {t("auth.email")}
           </label>
@@ -177,7 +177,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <div className="flex items-center justify-between mb-2">
             <label
               htmlFor="auth-password"
-              className="block text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-ice-white/70"
+              className="block text-xs font-mono font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/70"
             >
               {t("auth.motDePasse")}
             </label>
@@ -227,7 +227,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full min-h-[46px] px-6 py-3 rounded-full bg-gradient-to-b from-[#FF652E] to-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:brightness-105 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)] cursor-pointer"
+          className="w-full min-h-[46px] px-6 py-3 rounded-full bg-gradient-to-b from-[#FF5E24] to-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:brightness-105 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)] cursor-pointer"
         >
           {submitting
             ? t("auth.chargement")
@@ -237,7 +237,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         </button>
 
         {mode === "inscription" && (
-          <p className="pt-2 text-xs text-center text-slate-600 dark:text-ice-white/65 font-sans leading-relaxed">
+          <p className="pt-2 text-xs text-center text-slate-700 dark:text-ice-white/65 font-sans leading-relaxed">
             {t("auth.acceptationTexte")}{" "}
             <Link
               href="/conditions"
@@ -257,7 +257,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         )}
       </form>
 
-      <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center text-sm text-slate-600 dark:text-ice-white/70">
+      <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center text-sm text-slate-700 dark:text-ice-white/70">
         {mode === "inscription" ? (
           <p>
             {t("auth.dejaCompte")}{" "}

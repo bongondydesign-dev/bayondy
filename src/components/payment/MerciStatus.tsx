@@ -500,8 +500,8 @@ export function MerciStatus() {
           <p
             className={`pt-4 border-t border-[var(--border-faint)] font-sans text-xs sm:text-sm leading-relaxed ${
               uiMode === "pending" && verificationError
-                ? "text-amber-700 dark:text-amber-300 font-medium"
-                : "text-ice-white/60"
+                ? "text-amber-800 dark:text-amber-300 font-medium"
+                : "text-slate-700 dark:text-ice-white/60"
             }`}
           >
             {statusConfig.note}
@@ -509,18 +509,18 @@ export function MerciStatus() {
         </div>
 
         {/* Pipeline 3 étapes (sans cartes imbriquées) */}
-        <div className="relative z-10 px-6 sm:px-8 lg:px-10 py-5 border-t border-[var(--border-subtle)] bg-[var(--surface-well)]/65">
+        <div className="relative z-10 px-6 sm:px-8 lg:px-10 py-5 border-t border-[var(--border-subtle)] bg-[var(--surface-well)]">
           <ol className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
             {/* Étape 01 : Commande créée */}
             <li className="flex items-center gap-3 min-w-0">
               <span
-                className="w-7 h-7 rounded-lg bg-emerald-500/12 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0"
+                className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-600/30 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0"
                 aria-hidden="true"
               >
                 <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
               </span>
               <div className="min-w-0">
-                <span className="block font-mono text-[10px] text-ice-white/50 tabular-nums">
+                <span className="block font-mono text-[10px] text-slate-600 dark:text-ice-white/50 tabular-nums font-medium">
                   01
                 </span>
                 <span className="block font-sans text-xs font-medium text-ice-white leading-snug">
@@ -534,12 +534,12 @@ export function MerciStatus() {
               <span
                 className={`w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 ${
                   uiMode === "paid"
-                    ? "bg-emerald-500/12 border-emerald-500/25 text-emerald-600 dark:text-emerald-400"
+                    ? "bg-emerald-500/15 border-emerald-600/30 text-emerald-700 dark:text-emerald-400"
                     : uiMode === "failed"
-                      ? "bg-red-500/12 border-red-500/25 text-red-600 dark:text-red-400"
+                      ? "bg-red-500/15 border-red-600/30 text-red-700 dark:text-red-400"
                       : uiMode === "loading" || uiMode === "verifying"
-                        ? "bg-brand/12 border-brand/30 text-brand-light"
-                        : "bg-amber-500/12 border-amber-500/25 text-amber-600 dark:text-amber-400"
+                        ? "bg-brand/15 border-brand/35 text-brand-light"
+                        : "bg-amber-500/15 border-amber-600/30 text-amber-700 dark:text-amber-400"
                 }`}
                 aria-hidden="true"
               >
@@ -554,7 +554,7 @@ export function MerciStatus() {
                 )}
               </span>
               <div className="min-w-0">
-                <span className="block font-mono text-[10px] text-ice-white/50 tabular-nums">
+                <span className="block font-mono text-[10px] text-slate-600 dark:text-ice-white/50 tabular-nums font-medium">
                   02
                 </span>
                 <span className="block font-sans text-xs font-medium text-ice-white leading-snug">
@@ -568,8 +568,8 @@ export function MerciStatus() {
               <span
                 className={`w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 ${
                   uiMode === "paid"
-                    ? "bg-emerald-500/12 border-emerald-500/25 text-emerald-600 dark:text-emerald-400"
-                    : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] text-ice-white/40"
+                    ? "bg-emerald-500/15 border-emerald-600/30 text-emerald-700 dark:text-emerald-400"
+                    : "bg-white dark:bg-[var(--surface-elevated)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/40"
                 }`}
                 aria-hidden="true"
               >
@@ -580,12 +580,12 @@ export function MerciStatus() {
                 )}
               </span>
               <div className="min-w-0">
-                <span className="block font-mono text-[10px] text-ice-white/50 tabular-nums">
+                <span className="block font-mono text-[10px] text-slate-600 dark:text-ice-white/50 tabular-nums font-medium">
                   03
                 </span>
                 <span
                   className={`block font-sans text-xs font-medium leading-snug ${
-                    uiMode === "paid" ? "text-ice-white" : "text-ice-white/55"
+                    uiMode === "paid" ? "text-ice-white" : "text-slate-700 dark:text-ice-white/55"
                   }`}
                 >
                   {t("merci.etapeAcces")}

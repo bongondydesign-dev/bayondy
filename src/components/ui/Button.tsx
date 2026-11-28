@@ -26,10 +26,10 @@ export function Button({
 
   const variantStyles =
     variant === "principal"
-      ? "bg-gradient-to-b from-[#FF652E] to-brand dark:from-[#FF703D] dark:to-brand text-[var(--brand-fg)] font-semibold hover:brightness-105 hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)]"
+      ? "bg-gradient-to-b from-[#FF5E24] to-brand dark:from-[#FF703D] dark:to-brand text-[var(--brand-fg)] font-semibold hover:brightness-105 hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)]"
       : variant === "carbon"
-        ? "bg-[#12141B] hover:bg-[#1B1E28] text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-[#0B0D12] font-semibold hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_24px_-8px_rgba(17,19,24,0.35)]"
-        : "border border-[var(--border-strong)] bg-[var(--surface-glass)] backdrop-blur-md text-ice-white hover:border-brand/55 hover:bg-[var(--deep-navy)] hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_2px_8px_-2px_rgba(17,19,24,0.06)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]";
+        ? "bg-[#0F1219] hover:bg-[#191E2A] text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-[#0B0D12] font-semibold hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_24px_-8px_rgba(15,23,42,0.35)]"
+        : "border border-[var(--border-strong)] bg-white dark:bg-[var(--surface-glass)] dark:backdrop-blur-md text-ice-white hover:border-[var(--home-orange-vivid)]/70 hover:bg-white hover:-translate-y-0.5 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]";
 
   const combinedClasses = `${baseStyles} ${variantStyles} ${className}`.trim();
 

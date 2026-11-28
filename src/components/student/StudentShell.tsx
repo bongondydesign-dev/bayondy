@@ -79,7 +79,7 @@ function StudentSidebarLinks({
       aria-label={t("nav.menu")}
     >
       <div className="space-y-1.5">
-        <p className="px-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/45">
+        <p className="px-3 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/45">
           {t("mesFormations.navApprendre")}
         </p>
         <div className="space-y-1">
@@ -91,13 +91,13 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
-                  : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
+                  ? "bg-[#0F1219] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
+                  : "text-slate-700 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <Icon
                 className={`w-4 h-4 shrink-0 ${
-                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"
+                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-slate-600 dark:text-ice-white/55"
                 }`}
                 aria-hidden="true"
               />
@@ -108,7 +108,7 @@ function StudentSidebarLinks({
       </div>
 
       <div className="space-y-1.5">
-        <p className="px-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/45">
+        <p className="px-3 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/45">
           {t("mesFormations.navCompte")}
         </p>
         <div className="space-y-1">
@@ -120,13 +120,13 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
-                  : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
+                  ? "bg-[#0F1219] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
+                  : "text-slate-700 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <Icon
                 className={`w-4 h-4 shrink-0 ${
-                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"
+                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-slate-600 dark:text-ice-white/55"
                 }`}
                 aria-hidden="true"
               />
@@ -285,7 +285,7 @@ export function StudentShell({
             </button>
             <div className="min-w-0">
               {pageSubtitle && (
-                <p className="hidden sm:block font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/50 truncate">
+                <p className="hidden sm:block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/50 truncate">
                   {pageSubtitle}
                 </p>
               )}

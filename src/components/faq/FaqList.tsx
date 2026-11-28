@@ -33,7 +33,7 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
             key={index}
             className={`rounded-xl surface-glass border transition-all duration-200 ${
               isOpen
-                ? "border-brand/45 shadow-[var(--card-shadow-hover)]"
+                ? "border-[var(--home-orange-vivid)]/55 shadow-[var(--card-shadow-hover)]"
                 : "border-[var(--border-subtle)] hover:border-[var(--border-strong)]"
             }`}
           >
@@ -51,8 +51,8 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 border ${
                   isOpen
-                    ? "bg-[var(--surface-active)] border-brand/40 text-brand-light"
-                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-600 dark:text-ice-white/75"
+                    ? "bg-[var(--surface-active)] border-[var(--home-orange-vivid)]/45 text-brand-light"
+                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/75"
                 }`}
                 aria-hidden="true"
               >
@@ -72,7 +72,7 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
                   transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="px-5 pb-4 pt-0.5 text-sm sm:text-base text-slate-600 dark:text-ice-white/75 font-sans leading-relaxed pr-12">
+                  <div className="px-5 pb-4 pt-0.5 text-sm sm:text-base text-slate-700 dark:text-ice-white/75 font-sans leading-relaxed pr-12">
                     {item.a}
                   </div>
                 </motion.div>
