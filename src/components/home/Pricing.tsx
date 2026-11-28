@@ -6,11 +6,11 @@ import {
   Clock,
   CreditCard,
   ShieldCheck,
-  Smartphone,
 } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { MonCashMark } from "@/components/payment/MonCashPayButton";
 
 export function Pricing() {
   const highlights = [
@@ -120,25 +120,27 @@ export function Pricing() {
 
                 <div className="space-y-3">
                   {/* MonCash — Opérationnel */}
-                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#141720] border border-[var(--home-orange-vivid)]/55 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="w-9 h-9 rounded-lg bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange-vivid)]/45 text-[var(--home-orange-vivid)] dark:text-[var(--home-orange-light)] flex items-center justify-center shrink-0">
-                        <Smartphone className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#141720] border border-[var(--home-orange-vivid)]/55 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] space-y-2.5">
+                    <div className="flex items-center justify-between gap-3">
+                      <MonCashMark
+                        size="sm"
+                        className="shadow-[0_4px_12px_-4px_rgba(214,0,42,0.45)]"
+                      />
+
+                      <span className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                        <span>{t("tarifs.statutDisponible")}</span>
                       </span>
-                      <div className="min-w-0">
-                        <p className="font-display font-semibold text-sm text-ice-white">
-                          MonCash
-                        </p>
-                        <p className="font-sans text-xs text-slate-700 dark:text-zinc-400 truncate">
-                          {t("fonctionnalites.acces.titre")}
-                        </p>
-                      </div>
                     </div>
 
-                    <span className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                      <span>{t("tarifs.statutDisponible")}</span>
-                    </span>
+                    <div className="flex items-center justify-between gap-3 text-xs pt-2 border-t border-[var(--border-subtle)]">
+                      <span className="font-display font-semibold text-sm text-ice-white">
+                        MonCash
+                      </span>
+                      <span className="font-sans text-slate-700 dark:text-zinc-400">
+                        {t("fonctionnalites.acces.titre")}
+                      </span>
+                    </div>
                   </div>
 
                   {/* NatCash — À venir */}

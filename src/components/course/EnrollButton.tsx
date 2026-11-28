@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check, Clock, CreditCard, LogIn } from "lucide-react";
+import { Check, Clock, LogIn } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { hasCourseAccess } from "@/lib/learning/access";
 import { getEnrollmentForCourse } from "@/lib/learning/queries";
@@ -11,6 +11,7 @@ import {
   createMonCashOrderId,
   isSafePaymentRedirectUrl,
 } from "@/lib/moncash/validation";
+import { MonCashMark, MonCashPayButton } from "@/components/payment/MonCashPayButton";
 
 interface EnrollButtonProps {
   courseId: string;
@@ -35,6 +36,11 @@ export function EnrollButton({
   );
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const amountHTG =
+    typeof priceHTG === "number" && Number.isFinite(priceHTG)
+      ? Math.round(priceHTG)
+      : 0;
 
   // Vérifier si l'utilisateur connecté est déjà inscrit au cours (inutile pour admin)
   useEffect(() => {
@@ -72,16 +78,26 @@ export function EnrollButton({
     );
   }
 
-  // 2. Visiteur non connecté : invitation à se connecter
+  // 2. Visiteur non connecté : invitation à se connecter (+ aperçu MonCash prêt)
   if (!user) {
     return (
-      <Link
-        href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
-        className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
-      >
-        <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
-        <span>{t("catalogue.boutonInscrireConnexion")}</span>
-      </Link>
+      <div className={`space-y-3 ${className}`}>
+        <Link
+          href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
+          className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+        >
+          <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>{t("catalogue.boutonInscrireConnexion")}</span>
+        </Link>
+        {amountHTG > 0 && (
+          <div className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)]">
+            <span className="font-mono text-[11px] text-slate-600 dark:text-ice-white/65 truncate">
+              {t("paiement.payerMonCash")}
+            </span>
+            <MonCashMark size="sm" />
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -113,11 +129,6 @@ export function EnrollButton({
   }
 
   // 4. Élève connecté mais pas encore inscrit : paiement MonCash (HTG entier)
-  const amountHTG =
-    typeof priceHTG === "number" && Number.isFinite(priceHTG)
-      ? Math.round(priceHTG)
-      : 0;
-
   if (amountHTG <= 0) {
     return (
       <div
@@ -192,27 +203,11 @@ export function EnrollButton({
 
   return (
     <div className={`space-y-3 ${className}`}>
-      <button
-        type="button"
+      <MonCashPayButton
         onClick={handlePayMonCash}
-        disabled={submitting}
-        className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-60 text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] cursor-pointer disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
-      >
-        {submitting ? (
-          <>
-            <span
-              className="w-4 h-4 border-2 border-[var(--brand-fg)]/35 border-t-[var(--brand-fg)] rounded-full animate-spin"
-              aria-hidden="true"
-            />
-            <span>{t("paiement.redirection")}</span>
-          </>
-        ) : (
-          <>
-            <CreditCard className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-            <span>{t("paiement.payerMonCash")}</span>
-          </>
-        )}
-      </button>
+        loading={submitting}
+        amountHTG={amountHTG}
+      />
 
       {errorMessage && (
         <div
