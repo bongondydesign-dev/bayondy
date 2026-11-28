@@ -128,9 +128,12 @@ export async function getAllCoursesForAdmin(): Promise<CourseWithId[]> {
   }));
 }
 
+import { normalizeProgress } from "@/lib/learning/progress";
+
 /**
  * Récupère l'inscription d'un élève pour un cours donné.
- * ID canonique = `${uid}_${courseId}`.
+ * Vérifie d'abord l'ID canonique `${uid}_${courseId}`, puis recherche une
+ * inscription active correspondante pour l'utilisateur si besoin.
  */
 export async function getEnrollment(
   uid: string,
@@ -140,10 +143,28 @@ export async function getEnrollment(
   const db = getFirebaseDb();
   const ref = doc(db, "enrollments", `${uid}_${courseId}`);
   const snap = await getDoc(ref);
-  if (!snap.exists()) return null;
+  if (snap.exists()) {
+    return {
+      id: snap.id,
+      ...(snap.data() as EnrollmentDoc),
+    };
+  }
+
+  const q = query(
+    collection(db, "enrollments"),
+    where("uid", "==", uid),
+    limit(100)
+  );
+  const querySnap = await getDocs(q);
+  const matching = querySnap.docs.find((d) => {
+    const data = d.data() as Partial<EnrollmentDoc>;
+    return data.courseId === courseId && data.status === "active";
+  });
+
+  if (!matching) return null;
   return {
-    id: snap.id,
-    ...(snap.data() as EnrollmentDoc),
+    id: matching.id,
+    ...(matching.data() as EnrollmentDoc),
   };
 }
 
@@ -187,29 +208,91 @@ export async function saveProgress(
   uid: string,
   courseId: string,
   progress: EnrollmentProgress,
-  lang: AppLang = DEFAULT_APP_LANG
+  lang: AppLang = DEFAULT_APP_LANG,
+  enrollmentId?: string
 ): Promise<void> {
   if (!uid || !courseId) {
     throw new Error("uid ak courseId obligatwa pou anrejistre pwogrè a.");
   }
 
   // Dédoublonnage et vérification de la borne stricte (500)
-  const uniqueIds = Array.from(new Set(progress.completedLessonIds || []));
-  if (uniqueIds.length > MAX_COMPLETED_LESSONS) {
+  const rawUnique = Array.from(new Set(progress.completedLessonIds || []));
+  if (rawUnique.length > MAX_COMPLETED_LESSONS) {
     throw new Error(t("lecteur.limiteLeconsDepassee", lang));
   }
-  const sanitizedLastLessonId = (progress.lastLessonId || "").slice(0, 128);
+  const normalized = normalizeProgress({
+    completedLessonIds: rawUnique,
+    lastLessonId: progress.lastLessonId,
+  });
 
   const db = getFirebaseDb();
-  const ref = doc(db, "enrollments", `${uid}_${courseId}`);
+  const targetDocId = enrollmentId || `${uid}_${courseId}`;
+  const ref = doc(db, "enrollments", targetDocId);
 
   // Seul le champ progress est inclus dans la mise à jour
   await updateDoc(ref, {
-    progress: {
-      completedLessonIds: uniqueIds,
-      lastLessonId: sanitizedLastLessonId,
-    },
+    progress: normalized,
   });
+}
+
+export interface SaveProgressApiResult {
+  ok: boolean;
+  status: number;
+  code?: string;
+  enrollmentId?: string;
+  error?: string;
+}
+
+export async function saveProgressViaApi(params: {
+  idToken: string;
+  courseId: string;
+  progress: EnrollmentProgress;
+}): Promise<SaveProgressApiResult> {
+  const { idToken, courseId, progress } = params;
+  const normalized = normalizeProgress(progress);
+
+  try {
+    const res = await fetch("/api/learning/progress", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        courseId,
+        completedLessonIds: normalized.completedLessonIds,
+        lastLessonId: normalized.lastLessonId,
+      }),
+    });
+
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      code?: string;
+      enrollmentId?: string;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok) {
+      return {
+        ok: false,
+        status: res.status,
+        code: data?.code,
+        error: data?.error,
+      };
+    }
+
+    return {
+      ok: true,
+      status: res.status,
+      enrollmentId: data.enrollmentId,
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      code: "NETWORK_ERROR",
+    };
+  }
 }
 
 /**

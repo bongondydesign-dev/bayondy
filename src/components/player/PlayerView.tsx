@@ -16,10 +16,20 @@ import {
   getEnrollment,
   getCourseLessons,
   saveProgress,
+  saveProgressViaApi,
   type CourseWithId,
   type LessonWithId,
 } from "@/lib/learning/queries";
-import { MAX_COMPLETED_LESSONS } from "@/types/firestore";
+import {
+  clearLocalProgressFallback,
+  getBrowserLocalStorage,
+  hasUnsyncedFallbackLessons,
+  mergeProgressWithFallback,
+  normalizeProgress,
+  readLocalProgressFallback,
+  writeLocalProgressFallback,
+} from "@/lib/learning/progress";
+import { MAX_COMPLETED_LESSONS, type EnrollmentProgress } from "@/types/firestore";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface PlayerViewProps {
@@ -35,15 +45,88 @@ export function PlayerView({ slug }: PlayerViewProps) {
   const [currentLessonId, setCurrentLessonId] = useState<string>("");
   const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
   const [hasActiveEnrollment, setHasActiveEnrollment] = useState(false);
+  const [enrollmentId, setEnrollmentId] = useState<string | null>(null);
 
   const [dataLoading, setDataLoading] = useState(true);
   const [notEnrolled, setNotEnrolled] = useState(false);
   const [savingProgress, setSavingProgress] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
+  const uid = user?.uid ?? null;
+
+  const persistProgress = React.useCallback(
+    async (
+      targetCourseId: string,
+      nextProgress: EnrollmentProgress,
+      activeEnrolled: boolean,
+      activeEnrollmentId: string | null
+    ): Promise<void> => {
+      if (!user || !uid) {
+        throw new Error(t("lecteur.erreurEnregistrement"));
+      }
+
+      const storage = getBrowserLocalStorage();
+      const normalized = normalizeProgress(nextProgress);
+
+      if (activeEnrolled) {
+        try {
+          await saveProgress(
+            uid,
+            targetCourseId,
+            normalized,
+            lang,
+            activeEnrollmentId ?? undefined
+          );
+          clearLocalProgressFallback(storage, uid, targetCourseId);
+          return;
+        } catch {
+          // Fallback serveur si la règle client bloque (ex. document sans champ source ou id non canonique)
+        }
+      }
+
+      try {
+        const idToken = await user.getIdToken();
+        const apiRes = await saveProgressViaApi({
+          idToken,
+          courseId: targetCourseId,
+          progress: normalized,
+        });
+
+        if (apiRes.ok) {
+          setHasActiveEnrollment(true);
+          if (apiRes.enrollmentId) {
+            setEnrollmentId(apiRes.enrollmentId);
+          }
+          clearLocalProgressFallback(storage, uid, targetCourseId);
+          return;
+        }
+
+        // Si le serveur n'a pas Firebase Admin configuré (503) ou est hors ligne pour un admin,
+        // sauvegarder localement afin que la progression survive au rafraîchissement.
+        if (
+          isAdmin ||
+          apiRes.status === 503 ||
+          apiRes.status === 0
+        ) {
+          writeLocalProgressFallback(storage, uid, targetCourseId, normalized);
+          return;
+        }
+
+        throw new Error(apiRes.error || t("lecteur.erreurEnregistrement"));
+      } catch (err) {
+        if (isAdmin) {
+          writeLocalProgressFallback(storage, uid, targetCourseId, normalized);
+          return;
+        }
+        throw err;
+      }
+    },
+    [user, uid, lang, isAdmin, t]
+  );
+
   // Chargement sécurisé : Cours -> Inscription (ou accès admin) -> Leçons
   useEffect(() => {
-    if (authLoading || !user?.uid) return;
+    if (authLoading || !uid) return;
     let cancelled = false;
 
     async function loadData() {
@@ -59,13 +142,14 @@ export function PlayerView({ slug }: PlayerViewProps) {
         setCourse(courseDoc);
 
         // 2. Vérification de l'inscription de l'élève (ou accès gratuit admin)
-        const enrollDoc = await getEnrollment(user!.uid, courseDoc.id).catch(
+        const enrollDoc = await getEnrollment(uid!, courseDoc.id).catch(
           () => null
         );
         if (cancelled) return;
 
         const enrolledActive = enrollDoc?.status === "active";
         setHasActiveEnrollment(enrolledActive);
+        setEnrollmentId(enrollDoc?.id ?? null);
 
         if (!hasCourseAccess({ isAdmin, enrollmentStatus: enrollDoc?.status })) {
           // ⚠️ Stop immédiat : l'élève n'est pas actif sur ce cours, AUCUNE lecture de leçons
@@ -74,12 +158,44 @@ export function PlayerView({ slug }: PlayerViewProps) {
           return;
         }
 
-        const initialCompleted = Array.isArray(
-          enrollDoc?.progress?.completedLessonIds
-        )
-          ? enrollDoc.progress.completedLessonIds
-          : [];
-        setCompletedLessonIds(initialCompleted);
+        const storage = getBrowserLocalStorage();
+        const localFallback = readLocalProgressFallback(
+          storage,
+          uid!,
+          courseDoc.id
+        );
+        const mergedProgress = mergeProgressWithFallback(
+          enrollDoc?.progress,
+          localFallback
+        );
+        setCompletedLessonIds(mergedProgress.completedLessonIds);
+
+        if (
+          localFallback &&
+          hasUnsyncedFallbackLessons(enrollDoc?.progress, localFallback) &&
+          user
+        ) {
+          // Synchronisation silencieuse d'une progression locale en attente vers Firestore
+          user
+            .getIdToken()
+            .then((idToken) =>
+              saveProgressViaApi({
+                idToken,
+                courseId: courseDoc.id,
+                progress: mergedProgress,
+              })
+            )
+            .then((res) => {
+              if (!cancelled && res.ok) {
+                setHasActiveEnrollment(true);
+                if (res.enrollmentId) setEnrollmentId(res.enrollmentId);
+                clearLocalProgressFallback(storage, uid!, courseDoc.id);
+              }
+            })
+            .catch(() => undefined);
+        } else if (localFallback && enrolledActive) {
+          clearLocalProgressFallback(storage, uid!, courseDoc.id);
+        }
 
         // 3. Lecture des leçons du cours (autorisée pour inscription active ou admin)
         try {
@@ -88,7 +204,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
           setLessons(lessonList);
 
           if (lessonList.length > 0) {
-            const savedLastId = enrollDoc?.progress?.lastLessonId;
+            const savedLastId = mergedProgress.lastLessonId;
             const validSavedLesson = lessonList.find((l) => l.id === savedLastId);
 
             if (validSavedLesson) {
@@ -133,7 +249,8 @@ export function PlayerView({ slug }: PlayerViewProps) {
     return () => {
       cancelled = true;
     };
-  }, [slug, user, authLoading, isAdmin, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, uid, authLoading, isAdmin]);
 
   // Leçon active courante
   const currentLesson = useMemo(() => {
@@ -143,25 +260,32 @@ export function PlayerView({ slug }: PlayerViewProps) {
   // Nombre de leçons terminées valides (correspondant aux leçons réelles du cours)
   const validCompletedCount = useMemo(() => {
     const lessonIdSet = new Set(lessons.map((l) => l.id));
-    return completedLessonIds.filter((id) => lessonIdSet.has(id)).length;
+    return Array.from(new Set(completedLessonIds)).filter((id) =>
+      lessonIdSet.has(id)
+    ).length;
   }, [lessons, completedLessonIds]);
 
   const isCurrentCompleted = useMemo(() => {
     return currentLesson ? completedLessonIds.includes(currentLesson.id) : false;
   }, [currentLesson, completedLessonIds]);
 
-  // Changement de leçon active avec sauvegarde de lastLessonId (si inscription active)
+  // Changement de leçon active avec sauvegarde de lastLessonId
   const handleSelectLesson = async (lessonId: string) => {
     if (lessonId === currentLessonId) return;
     setCurrentLessonId(lessonId);
     setSaveError(null);
 
-    if (hasActiveEnrollment && user?.uid && course?.id) {
+    if (uid && course?.id) {
       try {
-        await saveProgress(user.uid, course.id, {
-          completedLessonIds,
-          lastLessonId: lessonId,
-        });
+        await persistProgress(
+          course.id,
+          {
+            completedLessonIds,
+            lastLessonId: lessonId,
+          },
+          hasActiveEnrollment,
+          enrollmentId
+        );
       } catch {
         // Échec silencieux pour le simple changement de position
       }
@@ -170,7 +294,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
 
   // Marquer la leçon comme terminée
   const handleMarkCompleted = async () => {
-    if (!currentLesson || !user?.uid || !course?.id || savingProgress) return;
+    if (!currentLesson || !uid || !course?.id || savingProgress) return;
     if (completedLessonIds.includes(currentLesson.id)) return;
 
     const previousCompleted = [...completedLessonIds];
@@ -186,20 +310,16 @@ export function PlayerView({ slug }: PlayerViewProps) {
     setCompletedLessonIds(newCompleted);
     setSaveError(null);
 
-    if (!hasActiveEnrollment) {
-      return;
-    }
-
     setSavingProgress(true);
     try {
-      await saveProgress(
-        user.uid,
+      await persistProgress(
         course.id,
         {
           completedLessonIds: newCompleted,
           lastLessonId: currentLesson.id,
         },
-        lang
+        hasActiveEnrollment,
+        enrollmentId
       );
     } catch (err: unknown) {
       // Rollback optimiste en cas d'erreur Firestore ou validation

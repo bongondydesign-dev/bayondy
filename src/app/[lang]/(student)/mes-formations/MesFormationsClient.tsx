@@ -31,6 +31,13 @@ import {
 } from "@/lib/learning/queries";
 import { mergeAdminCoursesWithEnrollments } from "@/lib/learning/access";
 import {
+  clearLocalProgressFallback,
+  getBrowserLocalStorage,
+  hasUnsyncedFallbackLessons,
+  mergeProgressWithFallback,
+  readLocalProgressFallback,
+} from "@/lib/learning/progress";
+import {
   computeCoursePercent,
   computeStudentStats,
   filterStudentCourses,
@@ -166,9 +173,29 @@ export function MesFormationsClient() {
         }
       }
 
+      const storage = getBrowserLocalStorage();
+      const applyLocalFallback = (rawItems: StudentCourseItem[]) =>
+        rawItems.map((item) => {
+          const fallback = readLocalProgressFallback(storage, uid, item.course.id);
+          if (!fallback) return item;
+          if (!hasUnsyncedFallbackLessons(item.enrollment.progress, fallback)) {
+            clearLocalProgressFallback(storage, uid, item.course.id);
+            return item;
+          }
+          return {
+            ...item,
+            enrollment: {
+              ...item.enrollment,
+              progress: mergeProgressWithFallback(item.enrollment.progress, fallback),
+            },
+          };
+        });
+
       if (admin && adminCourses.length > 0) {
         return {
-          loaded: mergeAdminCoursesWithEnrollments(adminCourses, enrollments, uid),
+          loaded: applyLocalFallback(
+            mergeAdminCoursesWithEnrollments(adminCourses, enrollments, uid)
+          ),
           userPayments,
         };
       }
@@ -185,7 +212,7 @@ export function MesFormationsClient() {
         }
       }
 
-      return { loaded, userPayments };
+      return { loaded: applyLocalFallback(loaded), userPayments };
     },
     []
   );
