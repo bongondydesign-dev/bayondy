@@ -158,9 +158,9 @@ describe("1. Visiteur non connecté", () => {
     await assertFails(getDoc(doc(db, "courses", DRAFT_COURSE_ID)));
   });
 
-  it("peut lire une leçon en aperçu gratuit", async () => {
+  it("ne peut pas lire une leçon même marquée aperçu avant achat", async () => {
     const db = unauthenticatedCtx().firestore();
-    await assertSucceeds(getDoc(doc(db, "lessons", LESSON_FREE_ID)));
+    await assertFails(getDoc(doc(db, "lessons", LESSON_FREE_ID)));
   });
 
   it("ne peut pas lire une leçon payante", async () => {
@@ -173,9 +173,10 @@ describe("1. Visiteur non connecté", () => {
 describe("2. Élève non inscrit", () => {
   beforeEach(seedAll);
 
-  it("ne peut pas lire une leçon payante", async () => {
+  it("ne peut pas lire une leçon payante ni marquée aperçu avant achat", async () => {
     const db = userCtx(USER_A).firestore();
     await assertFails(getDoc(doc(db, "lessons", LESSON_PAID_ID)));
+    await assertFails(getDoc(doc(db, "lessons", LESSON_FREE_ID)));
   });
 });
 

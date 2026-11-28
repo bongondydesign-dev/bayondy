@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  canAccessLessonVideo,
   hasCourseAccess,
   mergeAdminCoursesWithEnrollments,
   shouldShowPaymentOption,
@@ -32,6 +33,25 @@ test("hasCourseAccess grants access to admins even without an enrollment", () =>
   assert.equal(hasCourseAccess({ isAdmin: false, enrollmentStatus: "active" }), true);
   assert.equal(hasCourseAccess({ isAdmin: false, enrollmentStatus: null }), false);
   assert.equal(hasCourseAccess({ isAdmin: false, enrollmentStatus: "revoked" }), false);
+});
+
+test("canAccessLessonVideo denies preview playback before purchase even when isFreePreview is true", () => {
+  assert.equal(
+    canAccessLessonVideo({ isAdmin: false, enrollmentStatus: null, isFreePreview: true }),
+    false
+  );
+  assert.equal(
+    canAccessLessonVideo({ isAdmin: false, enrollmentStatus: "revoked", isFreePreview: true }),
+    false
+  );
+  assert.equal(
+    canAccessLessonVideo({ isAdmin: false, enrollmentStatus: "active", isFreePreview: false }),
+    true
+  );
+  assert.equal(
+    canAccessLessonVideo({ isAdmin: true, enrollmentStatus: null, isFreePreview: false }),
+    true
+  );
 });
 
 test("shouldShowPaymentOption never asks admins to pay", () => {

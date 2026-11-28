@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Check, Clock, PlayCircle, ShieldCheck } from "lucide-react";
-import type { PublicCourse, PublicPreviewLesson } from "@/types/firestore";
+import type { PublicCourse } from "@/types/firestore";
 import { useRequireAuth } from "@/lib/auth/useRequireAuth";
 import { StudentShell } from "@/components/student/StudentShell";
 import { CoursePreviewPlayer } from "@/components/course/CoursePreviewPlayer";
@@ -12,30 +12,22 @@ import { EnrollButton } from "@/components/course/EnrollButton";
 import { Syllabus } from "@/components/course/Syllabus";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { formatDuration } from "@/lib/courses/format";
-import {
-  getCourseFreePreviewLessonsClient,
-  getPublishedCourseBySlugClient,
-} from "@/lib/learning/queries";
+import { getPublishedCourseBySlugClient } from "@/lib/learning/queries";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface StudentCourseDetailClientProps {
   slug: string;
   initialCourse: PublicCourse | null;
-  initialPreviewLessons: PublicPreviewLesson[];
 }
 
 export function StudentCourseDetailClient({
   slug,
   initialCourse,
-  initialPreviewLessons,
 }: StudentCourseDetailClientProps) {
   const { lang, t, localize } = useI18n();
   const { user, loading: authLoading, isAdmin } = useRequireAuth();
 
   const [course, setCourse] = useState<PublicCourse | null>(initialCourse);
-  const [previewLessons, setPreviewLessons] = useState<PublicPreviewLesson[]>(
-    initialPreviewLessons
-  );
   const [resolvingClient, setResolvingClient] = useState(!initialCourse);
 
   useEffect(() => {
@@ -46,16 +38,9 @@ export function StudentCourseDetailClient({
 
     let cancelled = false;
     getPublishedCourseBySlugClient(slug, isAdmin)
-      .then(async (found) => {
-        if (cancelled) return;
-        setCourse(found);
-        if (found) {
-          const previews = await getCourseFreePreviewLessonsClient(found.id).catch(
-            () => []
-          );
-          if (!cancelled) {
-            setPreviewLessons(previews);
-          }
+      .then((found) => {
+        if (!cancelled) {
+          setCourse(found);
         }
       })
       .catch(() => {
@@ -81,7 +66,6 @@ export function StudentCourseDetailClient({
   const courseLanguageKey = course
     ? `catalogue.coursEnLangue.${course.language}`
     : "";
-  const previewLessonTitles = previewLessons.map((l) => l.title);
 
   return (
     <StudentShell
@@ -188,7 +172,6 @@ export function StudentCourseDetailClient({
               <CoursePreviewPlayer
                 courseTitle={course.title}
                 coverUrl={course.coverUrl}
-                previewLessons={previewLessons}
               />
 
               {course.description && (
@@ -203,11 +186,7 @@ export function StudentCourseDetailClient({
               )}
 
               <section id="programme" className="scroll-mt-24">
-                <Syllabus
-                  syllabus={course.syllabus}
-                  lang={lang}
-                  previewLessonTitles={previewLessonTitles}
-                />
+                <Syllabus syllabus={course.syllabus} lang={lang} />
               </section>
             </div>
 

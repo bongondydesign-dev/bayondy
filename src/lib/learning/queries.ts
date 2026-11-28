@@ -208,43 +208,14 @@ export async function getPublishedCourseBySlugClient(
 }
 
 /**
- * Récupère les leçons en aperçu gratuit côté client pour un cours donné.
- * Respecte firestore.rules : filtre strictement where("courseId", "==", courseId).
+ * Les aperçus vidéo avant achat sont désactivés : aucune leçon n'est exposée
+ * côté client avant l'achat / inscription active.
  */
 export async function getCourseFreePreviewLessonsClient(
   courseId: string
 ): Promise<PublicPreviewLesson[]> {
-  if (!courseId) return [];
-  const db = getFirebaseDb();
-  const q = query(
-    collection(db, "lessons"),
-    where("courseId", "==", courseId),
-    limit(200)
-  );
-  const snapshot = await getDocs(q);
-  const previews: PublicPreviewLesson[] = [];
-
-  for (const d of snapshot.docs) {
-    const data = d.data() as Partial<LessonDoc>;
-    if (data.isFreePreview !== true || data.archived === true) continue;
-    previews.push({
-      id: d.id,
-      title: typeof data.title === "string" ? data.title : "",
-      moduleTitle: typeof data.moduleTitle === "string" ? data.moduleTitle : "",
-      order: typeof data.order === "number" ? data.order : 0,
-      durationMinutes: typeof data.durationMinutes === "number" ? data.durationMinutes : 0,
-      youtubeVideoId: typeof data.youtubeVideoId === "string" ? data.youtubeVideoId : "",
-      videoProvider:
-        data.videoProvider === "tiktok" || data.videoProvider === "youtube"
-          ? data.videoProvider
-          : undefined,
-      videoId: typeof data.videoId === "string" ? data.videoId : undefined,
-      videoUrl: typeof data.videoUrl === "string" ? data.videoUrl : undefined,
-    });
-  }
-
-  previews.sort((a, b) => a.order - b.order);
-  return previews;
+  void courseId;
+  return [];
 }
 
 import { normalizeProgress } from "@/lib/learning/progress";

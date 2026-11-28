@@ -15,6 +15,21 @@ export function hasCourseAccess(params: {
 }
 
 /**
+ * Aucun aperçu vidéo gratuit n'est autorisé avant l'achat de la formation :
+ * l'accès vidéo exige une inscription active ou un rôle admin, même si isFreePreview vaut true.
+ */
+export function canAccessLessonVideo(params: {
+  isAdmin: boolean;
+  enrollmentStatus?: EnrollmentStatus | string | null;
+  isFreePreview?: boolean;
+}): boolean {
+  return hasCourseAccess({
+    isAdmin: params.isAdmin,
+    enrollmentStatus: params.enrollmentStatus,
+  });
+}
+
+/**
  * Détermine si le bouton de paiement doit être affiché sur la fiche formation.
  * Les administrateurs n'ont jamais besoin de payer.
  */

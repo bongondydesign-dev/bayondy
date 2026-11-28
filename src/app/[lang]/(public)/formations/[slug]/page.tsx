@@ -9,10 +9,7 @@ import { Syllabus } from "@/components/course/Syllabus";
 import { CoursePreviewPlayer } from "@/components/course/CoursePreviewPlayer";
 import { PriceTag } from "@/components/course/PriceTag";
 import { EnrollButton } from "@/components/course/EnrollButton";
-import {
-  getCourseFreePreviewLessons,
-  getPublishedCourseBySlug,
-} from "@/lib/courses/queries";
+import { getPublishedCourseBySlug } from "@/lib/courses/queries";
 import { formatDuration } from "@/lib/courses/format";
 import { isValidCoverUrl } from "@/lib/admin/cover";
 import { t } from "@/lib/i18n";
@@ -71,9 +68,6 @@ export default async function CourseDetailPage({ params }: PageProps) {
   if (!course) {
     notFound();
   }
-
-  const previewLessons = await getCourseFreePreviewLessons(course.id);
-  const previewLessonTitles = previewLessons.map((l) => l.title);
 
   const durationText = formatDuration(course.durationMinutes);
   const levelKey = `catalogue.niveaux.${course.level}`;
@@ -191,11 +185,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            {/* Aperçu vidéo gratuit (si configuré) ou visuel de couverture */}
+            {/* Visuel de couverture (aucun aperçu vidéo avant l'achat) */}
             <CoursePreviewPlayer
               courseTitle={course.title}
               coverUrl={course.coverUrl}
-              previewLessons={previewLessons}
             />
 
             {/* Description détaillée */}
@@ -215,11 +208,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
               id="programme"
               className="pt-4 border-t border-[var(--border-subtle)] scroll-mt-24"
             >
-              <Syllabus
-                syllabus={course.syllabus}
-                lang={lang}
-                previewLessonTitles={previewLessonTitles}
-              />
+              <Syllabus syllabus={course.syllabus} lang={lang} />
             </div>
           </div>
 

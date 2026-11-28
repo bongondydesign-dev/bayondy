@@ -386,7 +386,7 @@
   },
   "catalogueClient": {
     "titre": "Catalogue des formations",
-    "sousTitre": "Parcourez, testez un aperçu et achetez vos formations directement depuis votre espace client.",
+    "sousTitre": "Parcourez le catalogue, consultez les programmes et achetez vos formations directement depuis votre espace client.",
     "filtreToutes": "Toutes",
     "filtreDisponibles": "À acheter",
     "filtreMesAcces": "Mes accès",

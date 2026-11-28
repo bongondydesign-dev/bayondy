@@ -93,14 +93,11 @@ service cloud.firestore {
     match /lessons/{lessonId} {
 
       allow read: if
-        (resource.data.archived != true && (
-          // Aperçu gratuit : accessible à tous (non archivé)
-          resource.data.isFreePreview == true
-          // Élève avec inscription active sur ce cours (non archivé)
-          || (isAuthenticated()
-              && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId))
-              && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId)).data.status == 'active')
-        ))
+        (resource.data.archived != true
+          // Élève avec inscription active sur ce cours (non archivé) — aucun aperçu sans achat
+          && isAuthenticated()
+          && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId))
+          && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId)).data.status == 'active')
         // Admin (peut lire y compris archivé)
         || isAdmin();
 

@@ -133,7 +133,6 @@ function LessonForm({
     order: initial?.order ?? defaultOrder,
     videoSource: initialVideoSource,
     durationMinutes: initial?.durationMinutes ?? 0,
-    isFreePreview: initial?.isFreePreview ?? false,
   });
   const [moduleIdTouched, setModuleIdTouched] = useState(Boolean(initial?.moduleId));
   const [saving, setSaving] = useState(false);
@@ -174,7 +173,7 @@ function LessonForm({
       order: form.order,
       videoSource: form.videoSource,
       durationMinutes: form.durationMinutes,
-      isFreePreview: form.isFreePreview,
+      isFreePreview: false,
     };
 
     try {
@@ -362,20 +361,6 @@ function LessonForm({
           </FieldGroup>
         </div>
       </div>
-
-      <label className="flex items-center gap-3 cursor-pointer min-h-[44px]">
-        <input
-          type="checkbox"
-          checked={form.isFreePreview}
-          onChange={(e) =>
-            setForm((p) => ({ ...p, isFreePreview: e.target.checked }))
-          }
-          className="w-5 h-5 rounded border-[var(--border-strong)] bg-[var(--surface-elevated)] accent-brand"
-        />
-        <span className="font-sans text-sm text-slate-800 dark:text-ice-white/80">
-          {t("admin.lecon.champApercu")}
-        </span>
-      </label>
 
       <div className="flex items-center gap-3 pt-2">
         <button
@@ -846,11 +831,6 @@ function AdminFormationDetailContent() {
                             <span className="font-sans font-medium text-ice-white text-sm truncate">
                               {lesson.title}
                             </span>
-                            {lesson.isFreePreview && (
-                              <span className="shrink-0 text-xs font-mono text-emerald-700 dark:text-emerald-300">
-                                · {t("admin.lecon.apercu")}
-                              </span>
-                            )}
                           </div>
                           <span className="font-mono text-xs text-slate-600 dark:text-ice-white/55 mt-0.5 flex items-center gap-1.5 flex-wrap">
                             <span>{lesson.moduleTitle}</span>
