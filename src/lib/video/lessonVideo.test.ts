@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildTikTokEmbedUrl,
   buildYouTubeEmbedUrl,
   clampPlaybackProgress,
   computeSeekTarget,
@@ -8,6 +9,7 @@ import {
   getLessonPlaybackInfo,
   getYouTubeThumbnailUrl,
   parseLessonVideoInput,
+  resolveYouTubePlayerState,
 } from "./lessonVideo";
 
 test("parseLessonVideoInput handles full TikTok video URLs and raw TikTok IDs", () => {
@@ -148,4 +150,41 @@ test("formatPlaybackTime, clampPlaybackProgress, and computeSeekTarget behave sa
   assert.equal(computeSeekTarget(5, -10, 120), 0);
   assert.equal(computeSeekTarget(115, 10, 120), 120);
   assert.equal(computeSeekTarget(45, 10, 120), 55);
+});
+
+test("buildTikTokEmbedUrl supports autoplay when triggered from studio poster", () => {
+  const pausedUrl = new URL(buildTikTokEmbedUrl("7412345678901234567", { autoplay: false }));
+  assert.equal(pausedUrl.searchParams.get("autoplay"), "0");
+  assert.equal(pausedUrl.searchParams.get("controls"), "1");
+
+  const playingUrl = new URL(buildTikTokEmbedUrl("7412345678901234567", { autoplay: true }));
+  assert.equal(playingUrl.searchParams.get("autoplay"), "1");
+});
+
+test("resolveYouTubePlayerState transitions loading -> playing/paused/ended cleanly", () => {
+  assert.deepEqual(resolveYouTubePlayerState(1, "loading"), {
+    nextPhase: "playing",
+    shouldTriggerPlay: false,
+    clearSettling: false,
+  });
+  assert.deepEqual(resolveYouTubePlayerState(2, "playing"), {
+    nextPhase: "paused",
+    shouldTriggerPlay: false,
+    clearSettling: true,
+  });
+  assert.deepEqual(resolveYouTubePlayerState(0, "playing"), {
+    nextPhase: "ended",
+    shouldTriggerPlay: false,
+    clearSettling: true,
+  });
+  assert.deepEqual(resolveYouTubePlayerState(5, "loading"), {
+    nextPhase: "loading",
+    shouldTriggerPlay: true,
+    clearSettling: false,
+  });
+  assert.deepEqual(resolveYouTubePlayerState(3, "playing"), {
+    nextPhase: "playing",
+    shouldTriggerPlay: false,
+    clearSettling: false,
+  });
 });

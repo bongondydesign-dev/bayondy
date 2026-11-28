@@ -89,6 +89,52 @@ export function buildYouTubeEmbedUrl(
   )}?${params.toString()}`;
 }
 
+export function buildTikTokEmbedUrl(
+  videoId: string,
+  options: { autoplay?: boolean } = {}
+): string {
+  const params = new URLSearchParams({
+    autoplay: options.autoplay ? "1" : "0",
+    controls: "1",
+    description: "0",
+    music_info: "0",
+    rel: "0",
+  });
+  return `https://www.tiktok.com/player/v1/${encodeURIComponent(videoId)}?${params.toString()}`;
+}
+
+export type VideoPlayerPhase =
+  | "poster"
+  | "loading"
+  | "playing"
+  | "paused"
+  | "ended"
+  | "fallback";
+
+export function resolveYouTubePlayerState(
+  ytState: number,
+  currentPhase: VideoPlayerPhase
+): { nextPhase: VideoPlayerPhase; shouldTriggerPlay: boolean; clearSettling: boolean } {
+  // YT.PlayerState: -1 UNSTARTED, 0 ENDED, 1 PLAYING, 2 PAUSED, 3 BUFFERING, 5 CUED
+  switch (ytState) {
+    case 1:
+      return { nextPhase: "playing", shouldTriggerPlay: false, clearSettling: false };
+    case 2:
+      return { nextPhase: "paused", shouldTriggerPlay: false, clearSettling: true };
+    case 0:
+      return { nextPhase: "ended", shouldTriggerPlay: false, clearSettling: true };
+    case 5:
+      return {
+        nextPhase: currentPhase,
+        shouldTriggerPlay: currentPhase === "loading",
+        clearSettling: false,
+      };
+    case 3:
+    default:
+      return { nextPhase: currentPhase, shouldTriggerPlay: false, clearSettling: false };
+  }
+}
+
 export function getYouTubeThumbnailUrl(videoId: string): string | null {
   if (!YOUTUBE_ID_RE.test(videoId)) return null;
   return `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`;
@@ -352,9 +398,7 @@ export function getLessonPlaybackInfo(lesson: LessonPlaybackInput): LessonPlayba
       return {
         provider: "tiktok",
         playableInIframe: true,
-        embedUrl: `https://www.tiktok.com/player/v1/${encodeURIComponent(
-          resolvedId
-        )}?autoplay=0&controls=1&description=0&music_info=0&rel=0`,
+        embedUrl: buildTikTokEmbedUrl(resolvedId, { autoplay: false }),
         externalUrl: safeExternalUrl,
         thumbnailUrl: null,
         videoId: resolvedId,
