@@ -36,10 +36,12 @@
     "terminee": "Lesson completed"
   },
   "seo": {
-    "nom": "Bayondy Akademi",
-    "titreAccueil": "Bayondy Akademi, video courses in Haitian Creole",
-    "description": "Bayondy Akademi is a video training platform in Haitian Creole to learn modern digital skills on your phone with easy local payments.",
-    "llmsResume": "Online video training platform in Haitian Creole, built for mobile access and local MonCash payments."
+    "nom": "BAYONDY",
+    "titreAccueil": "BAYONDY — Video courses in Haitian Creole",
+    "description": "BAYONDY is a video course platform in Haitian Creole designed to watch on your phone, with access to lessons after payment.",
+    "llmsResume": "Online video training platform in Haitian Creole, built for mobile access and local MonCash payments.",
+    "ogAlt": "BAYONDY — Video courses in Haitian Creole",
+    "ogFormationBadge": "Course in Creole"
   },
   "accueil": {
     "titre": "BAYONDY",
@@ -181,6 +183,19 @@
       "confidentialite": "Privacy policy",
       "formations": "Courses",
       "apropos": "About"
+    },
+    "reseauxTitre": "Social media",
+    "reseaux": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "whatsappCommunaute": "WhatsApp Community"
+    },
+    "reseauxAria": {
+      "tiktok": "Follow BAYONDY on TikTok",
+      "instagram": "Follow BAYONDY on Instagram",
+      "facebook": "Follow BAYONDY on Facebook",
+      "whatsappCommunaute": "Join the BAYONDY WhatsApp Community"
     }
   },
   "auth": {
@@ -303,6 +318,7 @@
     "boutonAcceder": "Access course",
     "accesAdminGratuit": "Admin access — free without payment",
     "gadeFormasyon": "View course",
+    "couvertureAlt": "Course cover image:",
     "lecons": "lessons",
     "leconSingulier": "lesson",
     "prixLabel": "Price",

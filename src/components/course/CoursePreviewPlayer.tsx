@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import type { PublicPreviewLesson } from "@/types/firestore";
-import { PortalSymbol } from "@/components/ui/PortalSymbol";
-import { SITE_NAME } from "@/lib/site";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CoursePreviewPlayerProps {
@@ -22,38 +20,16 @@ export function CoursePreviewPlayer({
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[var(--surface-well)] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
-        {coverUrl ? (
-          <Image
-            src={coverUrl}
-            alt={courseTitle}
-            fill
-            priority
-            referrerPolicy="no-referrer"
-            sizes="(max-width: 1024px) 100vw, 800px"
-            className="object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0B0E17] p-6 text-center">
-            <div
-              className="absolute inset-0 pointer-events-none opacity-80"
-              style={{
-                background:
-                  "radial-gradient(circle at 50% 45%, rgba(255, 91, 34, 0.22) 0%, rgba(255, 91, 34, 0.05) 42%, transparent 72%)",
-              }}
-              aria-hidden="true"
-            />
-            <div
-              className="absolute inset-0 bg-noise opacity-35"
-              aria-hidden="true"
-            />
-            <PortalSymbol size={72} className="relative z-10 opacity-90" />
-            <span className="relative z-10 mt-4 font-mono text-xs tracking-wider text-slate-300/70">
-              {SITE_NAME}
-            </span>
-          </div>
-        )}
-      </div>
+      <CoverImage
+        src={coverUrl}
+        alt={`${t("catalogue.couvertureAlt")} ${courseTitle}`}
+        priority
+        sizes="(max-width: 1024px) 100vw, 800px"
+        className="rounded-2xl border border-[var(--border-subtle)] shadow-[var(--card-shadow)]"
+        accent="ion"
+        symbolSize={72}
+        showBrandCaption
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 rounded-xl surface-glass border border-[var(--border-subtle)]">
         <span className="font-sans text-xs sm:text-sm text-slate-700 dark:text-ice-white/75 truncate">

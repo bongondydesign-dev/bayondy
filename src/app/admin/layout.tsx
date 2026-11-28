@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@/styles/theme.css";
 import { fontClassNames } from "@/lib/layout/fonts";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
@@ -14,6 +14,10 @@ import { t } from "@/lib/i18n";
 import { getSiteUrl, SITE_NAME, SITE_TITLE_TEMPLATE } from "@/lib/site";
 
 const LANG_INIT_SCRIPT = `(function(){try{if(/(?:^|;\\s*)${LANG_COOKIE_NAME}=kr(?:;|$)/.test(document.cookie)){document.documentElement.lang='ht';}}catch(e){}})();`;
+
+export const viewport: Viewport = {
+  themeColor: "#080B14",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),

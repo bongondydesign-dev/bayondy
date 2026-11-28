@@ -6,6 +6,8 @@ import {
   SITE_NAME,
   SITE_ALTERNATE_NAMES,
   SITE_WORDMARK,
+  SITE_LOCALE,
+  SITE_ICON_PATH,
   SITE_TITLE_TEMPLATE,
   formatPageTitle,
 } from "./site";
@@ -28,12 +30,14 @@ function readLocale(name: "kr" | "fr" | "en"): Record<string, unknown> {
   return JSON.parse(fs.readFileSync(filePath, "utf8")) as Record<string, unknown>;
 }
 
-test("site constants match official Bayondy Akademi branding", () => {
-  assert.equal(SITE_NAME, "Bayondy Akademi");
-  assert.deepEqual(SITE_ALTERNATE_NAMES, ["Bayondy"]);
+test("site constants match official BAYONDY branding", () => {
+  assert.equal(SITE_NAME, "BAYONDY");
+  assert.deepEqual(SITE_ALTERNATE_NAMES, []);
   assert.equal(SITE_WORDMARK, "BAYONDY");
-  assert.equal(SITE_TITLE_TEMPLATE, "%s | Bayondy Akademi");
-  assert.equal(formatPageTitle("FAQ"), "FAQ | Bayondy Akademi");
+  assert.equal(SITE_LOCALE, "ht_HT");
+  assert.equal(SITE_ICON_PATH, "/icons/icon-192.png");
+  assert.equal(SITE_TITLE_TEMPLATE, "%s | BAYONDY");
+  assert.equal(formatPageTitle("FAQ"), "FAQ | BAYONDY");
 });
 
 test("kr, fr, and en translation dictionaries share identical non-empty keys", () => {
@@ -75,20 +79,20 @@ test("SEO metadata strings meet length and naming requirements in all locales", 
     };
 
     assert.equal(dict.accueil.titre, "BAYONDY");
-    assert.equal(dict.seo.nom, "Bayondy Akademi");
+    assert.equal(dict.seo.nom, "BAYONDY");
     assert.ok(
       dict.seo.description.length >= 120 && dict.seo.description.length <= 160,
       `${locale} seo.description length (${dict.seo.description.length}) must be between 120 and 160`
     );
     assert.ok(
-      dict.seo.titreAccueil.includes("Bayondy Akademi"),
-      `${locale} seo.titreAccueil must contain Bayondy Akademi`
+      dict.seo.titreAccueil.includes("BAYONDY"),
+      `${locale} seo.titreAccueil must contain BAYONDY`
     );
   }
 
   const kr = readLocale("kr") as { seo: { titreAccueil: string } };
   assert.equal(
     kr.seo.titreAccueil,
-    "Bayondy Akademi, fòmasyon videyo an kreyòl ayisyen"
+    "BAYONDY — Fòmasyon videyo an kreyòl ayisyen"
   );
 });

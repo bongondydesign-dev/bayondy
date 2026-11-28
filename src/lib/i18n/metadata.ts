@@ -35,6 +35,9 @@ export function buildLocalizedMetadata(options: {
   robots?: Metadata["robots"];
   ogType?: "website" | "article";
   image?: string | null;
+  twitterImage?: string | null;
+  imageAlt?: string;
+  omitImages?: boolean;
 }): Metadata {
   const {
     lang,
@@ -45,14 +48,25 @@ export function buildLocalizedMetadata(options: {
     robots,
     ogType = "website",
     image,
+    twitterImage,
+    imageAlt,
+    omitImages = false,
   } = options;
 
+  const routeLang = lang === "kr" ? "ht" : "fr";
   const canonicalPath = localizePath(path, lang);
   const fullTitle =
     absoluteTitle ??
     (title ? formatPageTitle(title) : t("seo.titreAccueil", lang));
-
-  const ogImage = image || "/assets/aistudio/rs_w_1280_e5a11620.webp";
+  const resolvedOgImage =
+    omitImages || image === null
+      ? null
+      : (image ?? `/${routeLang}/opengraph-image`);
+  const resolvedTwitterImage =
+    omitImages || twitterImage === null
+      ? null
+      : (twitterImage ?? image ?? `/${routeLang}/twitter-image`);
+  const resolvedAlt = imageAlt ?? t("seo.ogAlt", lang);
 
   return {
     title: absoluteTitle
@@ -72,20 +86,36 @@ export function buildLocalizedMetadata(options: {
       locale: appLangToOgLocale(lang),
       alternateLocale: lang === "fr" ? ["ht_HT"] : ["fr_FR"],
       url: canonicalPath,
-      images: [
-        {
-          url: ogImage,
-          width: 1280,
-          height: 720,
-          alt: fullTitle,
-        },
-      ],
+      ...(resolvedOgImage
+        ? {
+            images: [
+              {
+                url: resolvedOgImage,
+                width: 1200,
+                height: 630,
+                alt: resolvedAlt,
+                type: "image/png",
+              },
+            ],
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [ogImage],
+      ...(resolvedTwitterImage
+        ? {
+            images: [
+              {
+                url: resolvedTwitterImage,
+                width: 1200,
+                height: 630,
+                alt: resolvedAlt,
+              },
+            ],
+          }
+        : {}),
     },
   };
 }

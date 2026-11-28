@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import "@/styles/theme.css";
 import { fontClassNames } from "@/lib/layout/fonts";
@@ -21,9 +21,14 @@ import { t } from "@/lib/i18n";
 import {
   getSiteUrl,
   SITE_ALTERNATE_NAMES,
+  SITE_ICON_PATH,
   SITE_NAME,
   SITE_TITLE_TEMPLATE,
 } from "@/lib/site";
+
+export const viewport: Viewport = {
+  themeColor: "#080B14",
+};
 
 export async function generateStaticParams() {
   return [{ lang: "fr" }, { lang: "ht" }];
@@ -53,6 +58,8 @@ export async function generateMetadata({
   const defaultTitle = t("seo.titreAccueil", appLang);
   const defaultDescription = t("seo.description", appLang);
   const canonicalPath = localizePath("/", appLang);
+  const routeLang = appLang === "kr" ? "ht" : "fr";
+  const ogAlt = t("seo.ogAlt", appLang);
 
   return {
     metadataBase: new URL(siteUrl),
@@ -76,10 +83,11 @@ export async function generateMetadata({
       url: canonicalPath,
       images: [
         {
-          url: "/assets/aistudio/rs_w_1280_e5a11620.webp",
-          width: 1280,
-          height: 720,
-          alt: SITE_NAME,
+          url: `/${routeLang}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+          type: "image/png",
         },
       ],
     },
@@ -87,7 +95,14 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: defaultTitle,
       description: defaultDescription,
-      images: ["/assets/aistudio/rs_w_1280_e5a11620.webp"],
+      images: [
+        {
+          url: `/${routeLang}/twitter-image`,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+        },
+      ],
     },
   };
 }
@@ -111,9 +126,11 @@ export default async function RootLangLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
-    alternateName: SITE_ALTERNATE_NAMES,
+    ...(SITE_ALTERNATE_NAMES.length > 0
+      ? { alternateName: SITE_ALTERNATE_NAMES }
+      : {}),
     url: siteUrl,
-    inLanguage: htmlLang,
+    logo: `${siteUrl}${SITE_ICON_PATH}`,
   };
 
   return (

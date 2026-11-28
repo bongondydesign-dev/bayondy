@@ -2,8 +2,17 @@
 
 import Link from "next/link";
 import React from "react";
+import { Camera, MessageCircle, Music2, Share2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { SITE_NAME, SITE_SOCIAL_LINKS } from "@/lib/site";
+
+const SOCIAL_ICONS = {
+  tiktok: Music2,
+  instagram: Camera,
+  facebook: Share2,
+  whatsappCommunaute: MessageCircle,
+} as const;
 
 export function Footer() {
   const { t, localize } = useI18n();
@@ -15,10 +24,11 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Grille des colonnes de liens */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[var(--border-subtle)]">
-          {/* Colonne 1 : Marque, mission et langue */}
+          {/* Colonne 1 : Marque, mission, langue et réseaux sociaux */}
           <div className="md:col-span-2">
             <Link
               href={localize("/")}
+              aria-label={SITE_NAME}
               className="inline-flex items-center gap-2.5 font-display font-bold text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1"
             >
               <span
@@ -34,6 +44,35 @@ export function Footer() {
             </p>
             <div className="mt-5">
               <LanguageSwitcher variant="segmented" />
+            </div>
+
+            {/* Réseaux sociaux et communauté */}
+            <div className="mt-6">
+              <p className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/60 mb-3">
+                {t("footer.reseauxTitre")}
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5">
+                {SITE_SOCIAL_LINKS.map((item) => {
+                  const Icon = SOCIAL_ICONS[item.id];
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t(`footer.reseauxAria.${item.id}`)}
+                      className="inline-flex items-center gap-2 min-h-[44px] px-3.5 py-2 rounded-full surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/55 text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/85 hover:text-ice-white transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                    >
+                      <Icon
+                        className="w-4 h-4 text-[var(--home-orange-light)] shrink-0"
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                      <span>{t(`footer.reseaux.${item.id}`)}</span>
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
 

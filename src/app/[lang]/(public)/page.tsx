@@ -46,7 +46,9 @@ export default async function HomePage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
-    alternateName: SITE_ALTERNATE_NAMES,
+    ...(SITE_ALTERNATE_NAMES.length > 0
+      ? { alternateName: SITE_ALTERNATE_NAMES }
+      : {}),
     url: websiteUrl,
     description: t("seo.description", lang),
     inLanguage: appLangToHtmlLang(lang),

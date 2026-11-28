@@ -36,10 +36,12 @@
     "terminee": "Leçon terminée"
   },
   "seo": {
-    "nom": "Bayondy Akademi",
-    "titreAccueil": "Bayondy Akademi, formations vidéo en créole haïtien",
-    "description": "Bayondy Akademi est une plateforme de formations vidéo en créole haïtien pour acquérir des compétences modernes sur mobile avec paiement local.",
-    "llmsResume": "Plateforme de formations vidéo en créole haïtien, optimisée pour le mobile et le paiement local MonCash."
+    "nom": "BAYONDY",
+    "titreAccueil": "BAYONDY — Formations vidéo en créole haïtien",
+    "description": "BAYONDY est une plateforme de formations vidéo en créole haïtien à suivre sur votre téléphone, avec accès aux leçons après paiement.",
+    "llmsResume": "Plateforme de formations vidéo en créole haïtien, optimisée pour le mobile et le paiement local MonCash.",
+    "ogAlt": "BAYONDY — Formations vidéo en créole haïtien",
+    "ogFormationBadge": "Formation en créole"
   },
   "accueil": {
     "titre": "BAYONDY",
@@ -181,6 +183,19 @@
       "confidentialite": "Politique de confidentialité",
       "formations": "Formations",
       "apropos": "À propos"
+    },
+    "reseauxTitre": "Réseaux sociaux",
+    "reseaux": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "whatsappCommunaute": "Communauté WhatsApp"
+    },
+    "reseauxAria": {
+      "tiktok": "Suivre BAYONDY sur TikTok",
+      "instagram": "Suivre BAYONDY sur Instagram",
+      "facebook": "Suivre BAYONDY sur Facebook",
+      "whatsappCommunaute": "Rejoindre la communauté WhatsApp BAYONDY"
     }
   },
   "auth": {
@@ -303,6 +318,7 @@
     "boutonAcceder": "Accéder à la formation",
     "accesAdminGratuit": "Accès admin — gratuit sans paiement",
     "gadeFormasyon": "Voir la formation",
+    "couvertureAlt": "Image de couverture de la formation :",
     "lecons": "leçons",
     "leconSingulier": "leçon",
     "prixLabel": "Prix",

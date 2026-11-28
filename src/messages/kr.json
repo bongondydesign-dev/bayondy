@@ -36,10 +36,12 @@
     "terminee": "Leson fini"
   },
   "seo": {
-    "nom": "Bayondy Akademi",
-    "titreAccueil": "Bayondy Akademi, fòmasyon videyo an kreyòl ayisyen",
-    "description": "Bayondy Akademi se yon platfòm fòmasyon videyo an kreyòl ayisyen pou aprann konpetans dijital modèn sou telefòn ou, ak peman lokal fasil.",
-    "llmsResume": "Platfòm fòmasyon videyo an kreyòl ayisyen, optimize pou telefòn mobil ak peman lokal MonCash."
+    "nom": "BAYONDY",
+    "titreAccueil": "BAYONDY — Fòmasyon videyo an kreyòl ayisyen",
+    "description": "BAYONDY se yon platfòm fòmasyon videyo an kreyòl ayisyen pou w swiv sou telefòn ou, ak aksè nan leson yo tousuit apre peman an.",
+    "llmsResume": "Platfòm fòmasyon videyo an kreyòl ayisyen, optimize pou telefòn mobil ak peman lokal MonCash.",
+    "ogAlt": "BAYONDY — Fòmasyon videyo an kreyòl ayisyen",
+    "ogFormationBadge": "Fòmasyon an kreyòl"
   },
   "accueil": {
     "titre": "BAYONDY",
@@ -181,6 +183,19 @@
       "confidentialite": "Politik konfidansyalite",
       "formations": "Fòmasyon yo",
       "apropos": "Konsènan"
+    },
+    "reseauxTitre": "Rezo sosyal",
+    "reseaux": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "whatsappCommunaute": "Kominote WhatsApp"
+    },
+    "reseauxAria": {
+      "tiktok": "Swiv BAYONDY sou TikTok",
+      "instagram": "Swiv BAYONDY sou Instagram",
+      "facebook": "Swiv BAYONDY sou Facebook",
+      "whatsappCommunaute": "Antre nan kominote WhatsApp BAYONDY"
     }
   },
   "auth": {
@@ -303,6 +318,7 @@
     "boutonAcceder": "Aksede nan fòmasyon an",
     "accesAdminGratuit": "Aksè admin — gratis san peman",
     "gadeFormasyon": "Gade fòmasyon an",
+    "couvertureAlt": "Imaj kouvèti fòmasyon :",
     "lecons": "leson",
     "leconSingulier": "leson",
     "prixLabel": "Pri",

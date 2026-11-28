@@ -23,8 +23,6 @@ interface PageProps {
   params: Promise<{ lang: string; slug: string }>;
 }
 
-const DEFAULT_OG_IMAGE = "/assets/aistudio/rs_w_1280_e5a11620.webp";
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -46,17 +44,13 @@ export async function generateMetadata({
     course.shortDescription ||
     course.description ||
     t("catalogue.sousTitre", lang);
-  const ogImage =
-    isValidCoverUrl(course.coverUrl) && course.coverUrl
-      ? course.coverUrl
-      : DEFAULT_OG_IMAGE;
 
   return buildLocalizedMetadata({
     lang,
     path: `/formations/${course.slug}`,
     title: course.title,
     description,
-    image: ogImage,
+    omitImages: true,
   });
 }
 

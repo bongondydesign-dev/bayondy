@@ -2,12 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { PublicCourse } from "@/types/firestore";
 import { formatDuration } from "@/lib/courses/format";
 import { PriceTag } from "./PriceTag";
-import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { CoverImage } from "@/components/ui/CoverImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CourseCardProps {
@@ -46,35 +45,16 @@ export function CourseCard({ course }: CourseCardProps) {
         href={courseHref}
         tabIndex={-1}
         aria-hidden="true"
-        className="relative aspect-video w-full overflow-hidden bg-[var(--surface-well)] border-b border-[var(--border-subtle)] block"
+        className="border-b border-[var(--border-subtle)] block"
       >
-        {course.coverUrl ? (
-          <Image
-            src={course.coverUrl}
-            alt={course.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            referrerPolicy="no-referrer"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-well)]">
-            <div
-              className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-55 group-hover:opacity-75 dark:group-hover:opacity-80 transition-opacity duration-300"
-              style={{
-                background:
-                  "radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, var(--brand-glow-soft) 40%, transparent 64%)",
-              }}
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-noise opacity-35 dark:opacity-45" aria-hidden="true" />
-            <PortalSymbol
-              accent="brand"
-              size={60}
-              className="relative z-10 opacity-95 transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-        )}
+        <CoverImage
+          src={course.coverUrl}
+          alt={course.coverUrl ? `${t("catalogue.couvertureAlt")} ${course.title}` : ""}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          imageClassName="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          accent="ion"
+          symbolSize={60}
+        />
       </Link>
 
       {/* Contenu de la carte */}

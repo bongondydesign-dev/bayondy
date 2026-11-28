@@ -12,7 +12,9 @@ export async function GET() {
     `> ${t("seo.llmsResume", "fr")}`,
     "",
     `- Official name: ${SITE_NAME}`,
-    `- Alternate name: ${SITE_ALTERNATE_NAMES.join(", ")}`,
+    ...(SITE_ALTERNATE_NAMES.length > 0
+      ? [`- Alternate name: ${SITE_ALTERNATE_NAMES.join(", ")}`]
+      : []),
     "- Interface languages: French (fr, default at /), Haitian Creole (ht, at /ht)",
     "- Course instruction language: Haitian Creole (ht)",
     `- Base URL: ${siteUrl}`,

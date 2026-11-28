@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="bayondy-portal-grad" x1="18" y1="12" x2="98" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#37D6D0" />
+      <stop offset="52%" stop-color="#2864FF" />
+      <stop offset="100%" stop-color="#1947C6" />
+    </linearGradient>
+    <linearGradient id="bayondy-portal-inner" x1="36" y1="26" x2="80" y2="94" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#37D6D0" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#2864FF" stop-opacity="0.35" />
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="26" fill="#080B14" />
+  <g transform="translate(-3 0)">
+    <rect x="28" y="18" width="12" height="84" rx="6" fill="url(#bayondy-portal-grad)" />
+    <path d="M34 18 H65 C78.5 18 89 28.5 89 42 C89 55.5 78.5 66 65 66 H34" stroke="url(#bayondy-portal-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M34 54 H69 C83.5 54 95 65.5 95 80 C95 94.5 83.5 102 69 102 H34" stroke="url(#bayondy-portal-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="62" cy="42" r="6" fill="url(#bayondy-portal-inner)" />
+    <circle cx="65" cy="78" r="8" fill="url(#bayondy-portal-inner)" />
+    <line x1="62" y1="42" x2="65" y2="78" stroke="#37D6D0" stroke-width="2.5" stroke-dasharray="3 3" stroke-opacity="0.7" />
+  </g>
+</svg>
