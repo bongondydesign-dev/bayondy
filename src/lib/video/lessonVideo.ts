@@ -218,6 +218,7 @@ export interface YouTubeEmbedOptions {
   disableKeyboard?: boolean;
   fullscreenButton?: boolean;
   origin?: string;
+  startSeconds?: number;
 }
 
 export function buildYouTubeEmbedUrl(
@@ -241,6 +242,13 @@ export function buildYouTubeEmbedUrl(
   }
   if (options.origin && /^https?:\/\//i.test(options.origin)) {
     params.set("origin", options.origin);
+  }
+  if (
+    typeof options.startSeconds === "number" &&
+    Number.isFinite(options.startSeconds) &&
+    options.startSeconds > 0
+  ) {
+    params.set("start", String(Math.floor(options.startSeconds)));
   }
 
   return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(
@@ -268,7 +276,8 @@ export type VideoPlayerPhase =
   | "playing"
   | "paused"
   | "ended"
-  | "fallback";
+  | "fallback"
+  | "native";
 
 export function resolveYouTubePlayerState(
   ytState: number,

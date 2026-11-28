@@ -21,6 +21,7 @@ import {
   Play,
   RotateCcw,
   RotateCw,
+  Settings2,
   SlidersHorizontal,
   Video,
   Volume2,
@@ -387,6 +388,8 @@ export function VideoPlayer({
   const [qualityMenuOpen, setQualityMenuOpen] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isCssFullscreen, setIsCssFullscreen] = useState(false);
+  const [nativeStartSec, setNativeStartSec] = useState(0);
   const [isDraggingScrubber, setIsDraggingScrubber] = useState(false);
   const [hoverScrub, setHoverScrub] = useState<{ pct: number; timeSec: number } | null>(
     null
@@ -421,6 +424,8 @@ export function VideoPlayer({
   const selectedQualityRef = useRef<VideoQualityLevel>(selectedQuality);
   const qualityMenuOpenRef = useRef(isQualityMenuOpen);
   const stageMetricsRef = useRef(stageMetrics);
+  const qualitySwitchAtRef = useRef(0);
+  const resumeFromSecRef = useRef(0);
 
   useEffect(() => {
     onEndedRef.current = onEnded;
@@ -656,13 +661,16 @@ export function VideoPlayer({
   useEffect(() => {
     mountedRef.current = true;
     const handleFsChange = () => {
-      const fsEl = document.fullscreenElement;
+      const doc = document as Document & { webkitFullscreenElement?: Element | null };
+      const fsEl = doc.fullscreenElement || doc.webkitFullscreenElement;
       setIsFullscreen(Boolean(fsEl && containerRef.current && fsEl === containerRef.current));
     };
     document.addEventListener("fullscreenchange", handleFsChange);
+    document.addEventListener("webkitfullscreenchange", handleFsChange);
     return () => {
       mountedRef.current = false;
       document.removeEventListener("fullscreenchange", handleFsChange);
+      document.removeEventListener("webkitfullscreenchange", handleFsChange);
       if (hideControlsTimerRef.current !== null) {
         window.clearTimeout(hideControlsTimerRef.current);
       }
@@ -673,11 +681,28 @@ export function VideoPlayer({
     };
   }, []);
 
+  useEffect(() => {
+    if (!isCssFullscreen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsCssFullscreen(false);
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isCssFullscreen]);
+
   const shouldMountYouTubePlayer =
     playback.provider === "youtube" &&
     Boolean(playback.videoId) &&
     phase !== "poster" &&
-    phase !== "fallback";
+    phase !== "fallback" &&
+    phase !== "native";
 
   // Observe les dimensions réelles du cadre vidéo pour adapter l'échelle de qualité
   useEffect(() => {
@@ -795,16 +820,13 @@ export function VideoPlayer({
                 }
                 if (selectedQualityRef.current !== "auto") {
                   applyQualityToPlayer(event.target, selectedQualityRef.current);
-                  event.target.loadVideoById?.({
-                    videoId: playback.videoId,
-                    startSeconds: 0,
-                    suggestedQuality: toYouTubeSuggestedQuality(
-                      selectedQualityRef.current
-                    ),
-                  });
-                } else {
-                  event.target.playVideo();
                 }
+                if (resumeFromSecRef.current > 0) {
+                  const targetResume = resumeFromSecRef.current;
+                  resumeFromSecRef.current = 0;
+                  event.target.seekTo(targetResume, true);
+                }
+                event.target.playVideo();
                 syncQualityFromPlayer(event.target);
               } catch {
                 // ignore
@@ -875,6 +897,7 @@ export function VideoPlayer({
     const pollId = window.setInterval(() => {
       const player = ytPlayerRef.current;
       if (!player || !playerReadyRef.current) return;
+      if (Date.now() - qualitySwitchAtRef.current < 650) return;
       try {
         const state = player.getPlayerState();
         if (state === 1 || state === 2 || state === 0 || state === 5) {
@@ -1105,7 +1128,6 @@ export function VideoPlayer({
       persistVideoQualityPreference(nextQuality);
       setQualityMenuOpen(false);
       qualityMenuOpenRef.current = false;
-      setActiveQuality(null);
 
       const player = ytPlayerRef.current;
       if (player && playerReadyRef.current && playback.videoId) {
@@ -1124,6 +1146,7 @@ export function VideoPlayer({
               window.clearTimeout(settleTimerRef.current);
               settleTimerRef.current = null;
             }
+            qualitySwitchAtRef.current = Date.now();
             hasPlayedOnceRef.current = false;
             setIsSettling(true);
             player.loadVideoById({
@@ -1163,24 +1186,107 @@ export function VideoPlayer({
     ]
   );
 
+  const openNativeQualityMode = useCallback(() => {
+    setQualityMenuOpen(false);
+    qualityMenuOpenRef.current = false;
+    let resumeAt = currentTimeSec;
+    const player = ytPlayerRef.current;
+    if (player && playerReadyRef.current) {
+      try {
+        const cur = player.getCurrentTime();
+        if (Number.isFinite(cur) && cur >= 0) {
+          resumeAt = cur;
+        }
+      } catch {
+        // ignore
+      }
+    }
+    setNativeStartSec(Math.max(0, Math.floor(resumeAt)));
+    setIsSettling(false);
+    phaseRef.current = "native";
+    setPhase("native");
+  }, [currentTimeSec]);
+
+  const returnToBayondyPlayer = useCallback(() => {
+    resumeFromSecRef.current = nativeStartSec;
+    phaseRef.current = "loading";
+    setPhase("loading");
+  }, [nativeStartSec]);
+
   const toggleFullscreen = useCallback(async () => {
     scheduleHideControls();
-    const container = containerRef.current;
-    if (!container) return;
-    try {
-      if (document.fullscreenElement === container) {
-        await document.exitFullscreen();
-      } else if (container.requestFullscreen) {
-        await container.requestFullscreen();
-      }
-    } catch {
-      // Ignore fullscreen rejection
+    if (isCssFullscreen) {
+      setIsCssFullscreen(false);
+      return;
     }
-  }, [scheduleHideControls]);
+
+    const container = containerRef.current as
+      | (HTMLDivElement & {
+          webkitRequestFullscreen?: () => Promise<void> | void;
+        })
+      | null;
+    if (!container) return;
+
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void> | void;
+      webkitFullscreenEnabled?: boolean;
+    };
+
+    const activeFsEl = doc.fullscreenElement || doc.webkitFullscreenElement;
+    if (activeFsEl === container) {
+      try {
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen();
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen();
+        }
+      } catch {
+        setIsFullscreen(false);
+      }
+      return;
+    }
+
+    const canUseNativeFs =
+      doc.fullscreenEnabled !== false &&
+      doc.webkitFullscreenEnabled !== false &&
+      (typeof container.requestFullscreen === "function" ||
+        typeof container.webkitRequestFullscreen === "function");
+
+    if (canUseNativeFs) {
+      try {
+        if (typeof container.requestFullscreen === "function") {
+          await container.requestFullscreen();
+        } else if (typeof container.webkitRequestFullscreen === "function") {
+          await container.webkitRequestFullscreen();
+        }
+        const nowFs = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (nowFs === container) {
+          return;
+        }
+      } catch {
+        // Native fullscreen blocked (e.g. iframe preview or mobile Safari): use expanded viewport fullscreen below
+      }
+    }
+
+    setIsCssFullscreen(true);
+  }, [isCssFullscreen, scheduleHideControls]);
+
+  const isAnyFullscreen = isFullscreen || isCssFullscreen;
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (playback.provider !== "youtube" || phase === "poster" || phase === "fallback") {
+      if (e.key === "Escape" && isCssFullscreen) {
+        e.preventDefault();
+        setIsCssFullscreen(false);
+        return;
+      }
+      if (
+        playback.provider !== "youtube" ||
+        phase === "poster" ||
+        phase === "fallback" ||
+        phase === "native"
+      ) {
         return;
       }
       const key = e.key.toLowerCase();
@@ -1201,7 +1307,15 @@ export function VideoPlayer({
         toggleFullscreen();
       }
     },
-    [playback.provider, phase, togglePlay, seekBy, toggleMute, toggleFullscreen]
+    [
+      isCssFullscreen,
+      playback.provider,
+      phase,
+      togglePlay,
+      seekBy,
+      toggleMute,
+      toggleFullscreen,
+    ]
   );
 
   const progressPct = clampPlaybackProgress(currentTimeSec, durationSec);
@@ -1275,6 +1389,7 @@ export function VideoPlayer({
     <div className="space-y-3">
       <div
         ref={containerRef}
+        data-fullscreen={isAnyFullscreen ? "true" : "false"}
         tabIndex={playback.provider === "youtube" ? 0 : undefined}
         onKeyDown={handleKeyDown}
         onMouseMove={phase === "playing" ? scheduleHideControls : undefined}
@@ -1283,18 +1398,24 @@ export function VideoPlayer({
             setControlsVisible(false);
           }
         }}
-        className={`relative overflow-hidden bg-[#05070B] border border-[var(--border-subtle)] ring-1 ring-white/5 shadow-[var(--card-shadow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group/video ${
-          isFullscreen
-            ? "w-full h-full flex items-center justify-center rounded-none border-0"
-            : "aspect-video w-full rounded-2xl"
+        className={`overflow-hidden bg-[#05070B] border border-[var(--border-subtle)] ring-1 ring-white/5 shadow-[var(--card-shadow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group/video ${
+          isCssFullscreen
+            ? "fixed inset-0 z-[9999] w-screen h-dvh flex items-center justify-center rounded-none border-0"
+            : isFullscreen
+            ? "relative w-full h-full flex items-center justify-center rounded-none border-0"
+            : "relative aspect-video w-full rounded-2xl"
         }`}
       >
         <div
-          className={
-            isFullscreen
-              ? "relative w-full aspect-video max-h-full overflow-hidden"
-              : "relative w-full h-full overflow-hidden"
+          style={
+            isAnyFullscreen
+              ? {
+                  width: "min(100vw, calc(100dvh * 16 / 9))",
+                  height: "min(100dvh, calc(100vw * 9 / 16))",
+                }
+              : undefined
           }
+          className="relative w-full h-full overflow-hidden"
         >
           {!playback.provider ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#121622] via-[#0B0E17] to-[#121622]">
@@ -1382,12 +1503,33 @@ export function VideoPlayer({
                   <PortalSymbol size={16} className="shrink-0 opacity-90" />
                   <span className="truncate">{badgeLabel || t("hero.apercu.badge")}</span>
                 </div>
-                {formattedDuration && (
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-slate-200/85 tabular-nums shrink-0">
-                    <Clock className="w-3.5 h-3.5 text-[#FF885C]" aria-hidden="true" />
-                    {formattedDuration}
-                  </span>
-                )}
+                <div className="flex items-center gap-2 shrink-0">
+                  {formattedDuration && (
+                    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-slate-200/85 tabular-nums shrink-0">
+                      <Clock className="w-3.5 h-3.5 text-[#FF885C]" aria-hidden="true" />
+                      {formattedDuration}
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFullscreen();
+                    }}
+                    aria-label={
+                      isAnyFullscreen
+                        ? t("lecteur.quitterPleinEcran")
+                        : t("lecteur.pleinEcran")
+                    }
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 inline-flex items-center justify-center text-zinc-200 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                  >
+                    {isAnyFullscreen ? (
+                      <Minimize className="w-3.5 h-3.5" aria-hidden="true" />
+                    ) : (
+                      <Maximize className="w-3.5 h-3.5" aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Titre & bouton studio centré */}
@@ -1406,19 +1548,50 @@ export function VideoPlayer({
                 {t("lecteur.lancerVideo")}
               </p>
             </div>
-          ) : phase === "fallback" ? (
-            /* Repli iframe propre si le script YouTube IFrame API est bloqué */
-            <iframe
-              src={buildYouTubeEmbedUrl(playback.videoId, {
-                autoplay: true,
-                controls: true,
-                enableJsApi: false,
-              })}
-              title={lessonTitle || t("hero.apercu.badge")}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-              allowFullScreen
-              className="w-full h-full border-0"
-            />
+          ) : phase === "native" || phase === "fallback" ? (
+            /* Mode YouTube natif (contrôles directs pour forcer une résolution exacte via la roue YouTube) ou repli si JS API bloquée */
+            <div className="relative w-full h-full bg-[#05070B]">
+              <iframe
+                src={buildYouTubeEmbedUrl(playback.videoId, {
+                  autoplay: true,
+                  controls: true,
+                  enableJsApi: false,
+                  startSeconds: phase === "native" ? nativeStartSec : undefined,
+                })}
+                title={lessonTitle || t("hero.apercu.badge")}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+              <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5">
+                {phase === "native" && (
+                  <button
+                    type="button"
+                    onClick={returnToBayondyPlayer}
+                    className="min-h-[34px] px-3 py-1 rounded-lg bg-black/80 hover:bg-black/95 border border-white/20 text-xs font-sans font-medium text-white inline-flex items-center gap-1.5 backdrop-blur-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF885C]" aria-hidden="true" />
+                    <span>{t("lecteur.retourLecteurBayondy")}</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  aria-label={
+                    isAnyFullscreen
+                      ? t("lecteur.quitterPleinEcran")
+                      : t("lecteur.pleinEcran")
+                  }
+                  className="w-8 h-8 rounded-lg bg-black/80 hover:bg-black/95 border border-white/20 inline-flex items-center justify-center text-white backdrop-blur-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                >
+                  {isAnyFullscreen ? (
+                    <Minimize className="w-4 h-4" aria-hidden="true" />
+                  ) : (
+                    <Maximize className="w-4 h-4" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+            </div>
           ) : (
             /* Lecteur Bayondy sans aucun élément YouTube visible (bandeaux -16%/+132% recadrant le chrome) */
             <div className="relative w-full h-full bg-[#05070B]">
@@ -1741,7 +1914,7 @@ export function VideoPlayer({
                           <div
                             role="menu"
                             aria-label={t("lecteur.qualiteVideo")}
-                            className="absolute bottom-full right-0 mb-1.5 sm:mb-2 w-44 sm:w-48 max-h-[112px] sm:max-h-52 overflow-y-auto rounded-xl bg-[#0B0E17]/95 backdrop-blur-md border border-white/15 shadow-2xl p-1.5 z-40"
+                            className="absolute bottom-full right-0 mb-1.5 sm:mb-2 w-48 sm:w-52 max-h-[156px] sm:max-h-64 overflow-y-auto rounded-xl bg-[#0B0E17]/95 backdrop-blur-md border border-white/15 shadow-2xl p-1.5 z-40"
                           >
                             <div className="flex items-center justify-between px-2.5 py-1 mb-1 border-b border-white/10">
                               <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
@@ -1795,6 +1968,20 @@ export function VideoPlayer({
                                 </button>
                               );
                             })}
+
+                            <div className="mt-1 pt-1 border-t border-white/10">
+                              <button
+                                type="button"
+                                role="menuitem"
+                                onClick={openNativeQualityMode}
+                                className="w-full min-h-[32px] sm:min-h-[34px] px-2.5 py-1.5 rounded-lg flex items-center gap-2 text-left font-sans text-[11px] text-zinc-200 hover:bg-white/10 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                              >
+                                <Settings2 className="w-3.5 h-3.5 text-[#FF885C] shrink-0" aria-hidden="true" />
+                                <span className="truncate">
+                                  {t("lecteur.qualiteYouTubeNatif")}
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -1812,13 +1999,13 @@ export function VideoPlayer({
                         type="button"
                         onClick={toggleFullscreen}
                         aria-label={
-                          isFullscreen
+                          isAnyFullscreen
                             ? t("lecteur.quitterPleinEcran")
                             : t("lecteur.pleinEcran")
                         }
                         className="w-8 h-9 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
                       >
-                        {isFullscreen ? (
+                        {isAnyFullscreen ? (
                           <Minimize className="w-4 h-4" aria-hidden="true" />
                         ) : (
                           <Maximize className="w-4 h-4" aria-hidden="true" />

@@ -134,6 +134,16 @@ test("buildYouTubeEmbedUrl strips annotations and supports chromeless custom pla
   assert.equal(parsed.searchParams.get("enablejsapi"), "1");
   assert.equal(parsed.searchParams.get("origin"), "https://bayondy.com");
 
+  const resumedUrl = new URL(
+    buildYouTubeEmbedUrl("dQw4w9WgXcQ", {
+      autoplay: true,
+      controls: true,
+      startSeconds: 87.9,
+    })
+  );
+  assert.equal(resumedUrl.searchParams.get("start"), "87");
+  assert.equal(resumedUrl.searchParams.get("controls"), "1");
+
   assert.equal(getYouTubeThumbnailUrl("bad-id"), null);
 });
 

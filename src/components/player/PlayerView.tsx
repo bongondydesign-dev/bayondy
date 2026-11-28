@@ -394,7 +394,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 type="button"
                 onClick={() => setTheaterMode((prev) => !prev)}
                 aria-pressed={theaterMode}
-                className="hidden md:inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs font-sans font-medium text-slate-700 dark:text-ice-white/85 whitespace-nowrap shrink-0 transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="hidden lg:inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs font-sans font-medium text-slate-700 dark:text-ice-white/85 whitespace-nowrap shrink-0 transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {theaterMode ? (
                   <>

@@ -666,6 +666,8 @@
     "qualiteVideo": "Video quality",
     "qualiteAuto": "Auto",
     "qualiteBadge": "Quality",
+    "qualiteYouTubeNatif": "YouTube settings (force)",
+    "retourLecteurBayondy": "Bayondy player",
     "volume": "Volume",
     "barreProgressionVideo": "Video progress",
     "chargementVideo": "Loading player..."
