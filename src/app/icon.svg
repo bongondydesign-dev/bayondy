@@ -1,22 +1,55 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
   <defs>
-    <linearGradient id="bayondy-portal-grad" x1="18" y1="12" x2="98" y2="108" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#37D6D0" />
-      <stop offset="52%" stop-color="#2864FF" />
+    <linearGradient id="bg-obsidian" x1="16" y1="4" x2="104" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#121F38" />
+      <stop offset="52%" stop-color="#0B1222" />
+      <stop offset="100%" stop-color="#070A12" />
+    </linearGradient>
+
+    <radialGradient id="ambient-aurora" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(46 36) rotate(48) scale(84)">
+      <stop offset="0%" stop-color="#37D6D0" stop-opacity="0.26" />
+      <stop offset="46%" stop-color="#2864FF" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#080B14" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="rim-specular" x1="12" y1="0" x2="108" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8EDF5" stop-opacity="0.28" />
+      <stop offset="42%" stop-color="#37D6D0" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#2864FF" stop-opacity="0.06" />
+    </linearGradient>
+
+    <linearGradient id="portal-b-grad" x1="28" y1="20" x2="92" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6BF4EE" />
+      <stop offset="34%" stop-color="#37D6D0" />
+      <stop offset="70%" stop-color="#2864FF" />
       <stop offset="100%" stop-color="#1947C6" />
     </linearGradient>
-    <linearGradient id="bayondy-portal-inner" x1="36" y1="26" x2="80" y2="94" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#37D6D0" stop-opacity="0.92" />
-      <stop offset="100%" stop-color="#2864FF" stop-opacity="0.35" />
+
+    <linearGradient id="portal-b-highlight" x1="30" y1="22" x2="72" y2="66" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.34" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
     </linearGradient>
   </defs>
-  <rect width="120" height="120" rx="26" fill="#080B14" />
-  <g transform="translate(-3 0)">
-    <rect x="28" y="18" width="12" height="84" rx="6" fill="url(#bayondy-portal-grad)" />
-    <path d="M34 18 H65 C78.5 18 89 28.5 89 42 C89 55.5 78.5 66 65 66 H34" stroke="url(#bayondy-portal-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M34 54 H69 C83.5 54 95 65.5 95 80 C95 94.5 83.5 102 69 102 H34" stroke="url(#bayondy-portal-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-    <circle cx="62" cy="42" r="6" fill="url(#bayondy-portal-inner)" />
-    <circle cx="65" cy="78" r="8" fill="url(#bayondy-portal-inner)" />
-    <line x1="62" y1="42" x2="65" y2="78" stroke="#37D6D0" stroke-width="2.5" stroke-dasharray="3 3" stroke-opacity="0.7" />
-  </g>
+
+  <!-- Obsidian squircle container -->
+  <rect width="120" height="120" rx="28" fill="url(#bg-obsidian)" />
+  <rect width="120" height="120" rx="28" fill="url(#ambient-aurora)" />
+  <rect x="1.5" y="1.5" width="117" height="117" rx="26.5" stroke="url(#rim-specular)" stroke-width="1.5" />
+
+  <!-- Unified sculpted B-Portail mark (razor-sharp negative-space apertures at 16px-512px) -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M38 22H65C76.6 22 85 29.8 85 40.5C85 48.2 80.5 54 73.5 56.6C83.2 59.4 90 67.2 90 77.5C90 89.8 80.2 98 67 98H38C33.6 98 30 94.4 30 90V30C30 25.6 33.6 22 38 22ZM46 34.5V50.5H62C67.8 50.5 71.5 47.2 71.5 42.5C71.5 37.8 67.8 34.5 62 34.5H46ZM46 64V85.5H64.5C71.8 85.5 76.5 81.4 76.5 74.75C76.5 68.1 71.8 64 64.5 64H46Z"
+    fill="url(#portal-b-grad)"
+  />
+
+  <!-- Subtle top-left specular sheen for depth at larger sizes -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M38 22H65C76.6 22 85 29.8 85 40.5C85 48.2 80.5 54 73.5 56.6C83.2 59.4 90 67.2 90 77.5C90 89.8 80.2 98 67 98H38C33.6 98 30 94.4 30 90V30C30 25.6 33.6 22 38 22ZM46 34.5V50.5H62C67.8 50.5 71.5 47.2 71.5 42.5C71.5 37.8 67.8 34.5 62 34.5H46ZM46 64V85.5H64.5C71.8 85.5 76.5 81.4 76.5 74.75C76.5 68.1 71.8 64 64.5 64H46Z"
+    fill="url(#portal-b-highlight)"
+  />
 </svg>
