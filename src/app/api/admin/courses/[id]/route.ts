@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { validateCourseInput } from "@/lib/admin/validation";
+import {
+  chunkArray,
+  extractInternalCoverId,
+  isValidCourseDocId,
+} from "@/lib/admin/courseDeletion";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
@@ -180,6 +185,74 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     ]);
 
     return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
+  }
+}
+
+// DELETE /api/admin/courses/[id] — supprime définitivement une formation (admin uniquement)
+export async function DELETE(req: NextRequest, ctx: RouteContext) {
+  const auth = await requireAdmin(req);
+  if (!auth.ok) return auth.response;
+
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
+  const { id } = await ctx.params;
+  if (!isValidCourseDocId(id)) {
+    return NextResponse.json({ error: "Identifiant de formation invalide." }, { status: 400 });
+  }
+
+  const courseId = id.trim();
+
+  try {
+    const db = getAdminDb();
+    const courseRef = db.collection("courses").doc(courseId);
+    const courseDoc = await courseRef.get();
+    if (!courseDoc.exists) {
+      return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
+    }
+
+    const existing = courseDoc.data()!;
+    const slug = typeof existing.slug === "string" ? existing.slug : null;
+    const title = typeof existing.title === "string" ? existing.title : courseId;
+    const internalCoverId = extractInternalCoverId(existing.coverUrl);
+
+    const [lessonsSnap, enrollmentsSnap] = await Promise.all([
+      db.collection("lessons").where("courseId", "==", courseId).get(),
+      db.collection("enrollments").where("courseId", "==", courseId).get(),
+    ]);
+
+    const refsToDelete = [
+      ...lessonsSnap.docs.map((doc) => doc.ref),
+      ...enrollmentsSnap.docs.map((doc) => doc.ref),
+      ...(internalCoverId ? [db.collection("courseCovers").doc(internalCoverId)] : []),
+      courseRef,
+    ];
+
+    for (const batchRefs of chunkArray(refsToDelete, 450)) {
+      const batch = db.batch();
+      for (const ref of batchRefs) {
+        batch.delete(ref);
+      }
+      await batch.commit();
+    }
+
+    await writeAdminLog(
+      auth.user.uid,
+      "course.delete",
+      { type: "course", id: courseId },
+      `Formation supprimée: "${title}" (${lessonsSnap.size} leçon(s), ${enrollmentsSnap.size} inscription(s))`
+    );
+
+    revalidateCoursesCache(slug);
+
+    return NextResponse.json({
+      ok: true,
+      deletedLessonsCount: lessonsSnap.size,
+      deletedEnrollmentsCount: enrollmentsSnap.size,
+    });
   } catch {
     return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
   }

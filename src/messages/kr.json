@@ -444,7 +444,12 @@
         "brouillon": "Brouyon"
       },
       "champSlugPlaceholder": "fomasyon-mwen-01",
-      "champCoverUrlPlaceholder": "https://..."
+      "champCoverUrlPlaceholder": "https://...",
+      "supprimer": "Efase",
+      "suppression": "N ap efase...",
+      "confirmSupprimerTitre": "Efase fòmasyon sa a ?",
+      "confirmSupprimerDesc": "Aksyon sa a ap efase fòmasyon an ak tout leson li yo nèt ale. Li pa ka anile.",
+      "erreurSuppression": "Nou pa t kapab efase fòmasyon an. Tanpri reye."
     },
     "lecons": {
       "titre": "Leson yo",

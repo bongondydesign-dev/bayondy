@@ -9,6 +9,7 @@ export type AdminAction =
   | "course.update"
   | "course.publish"
   | "course.unpublish"
+  | "course.delete"
   | "lesson.create"
   | "lesson.update"
   | "lesson.archive"

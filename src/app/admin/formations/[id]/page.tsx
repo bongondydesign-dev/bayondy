@@ -6,9 +6,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { PlayCircle } from "lucide-react";
+import { PlayCircle, Trash2 } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { CoverImageField } from "@/components/admin/CoverImageField";
+import { DeleteCourseDialog } from "@/components/admin/DeleteCourseDialog";
 import { t } from "@/lib/i18n";
 
 // ─────────────────────────── Types ───────────────────────────
@@ -268,6 +269,11 @@ export default function AdminFormationDetailPage() {
   // Archivage
   const [archivingId, setArchivingId] = useState<string | null>(null);
 
+  // Suppression de formation
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingCourse, setDeletingCourse] = useState(false);
+  const [deleteCourseError, setDeleteCourseError] = useState<string | null>(null);
+
   const loadCourse = useCallback(async () => {
     if (isNew) return;
     try {
@@ -434,6 +440,27 @@ export default function AdminFormationDetailPage() {
     }
   };
 
+  const confirmDeleteCourse = async () => {
+    if (isNew || !course) return;
+    setDeletingCourse(true);
+    setDeleteCourseError(null);
+    try {
+      const res = await adminFetch(`/api/admin/courses/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as { error?: string } | null;
+        setDeleteCourseError(data?.error ?? t("admin.formations.erreurSuppression"));
+        return;
+      }
+      router.replace("/admin/formations");
+    } catch {
+      setDeleteCourseError(t("admin.formations.erreurSuppression"));
+    } finally {
+      setDeletingCourse(false);
+    }
+  };
+
   const moveLesson = async (lessonId: string, direction: "up" | "down") => {
     const idx = lessons.findIndex((l) => l.id === lessonId);
     if (idx < 0) return;
@@ -507,6 +534,18 @@ export default function AdminFormationDetailPage() {
                 : course.status === "published"
                 ? t("admin.formations.depublier")
                 : t("admin.formations.publier")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setDeleteCourseError(null);
+                setDeleteDialogOpen(true);
+              }}
+              disabled={saving || deletingCourse}
+              className="shrink-0 inline-flex items-center gap-2 min-h-[48px] px-4 py-2.5 rounded-full bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/25 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 font-sans font-medium text-sm transition-colors disabled:opacity-50 cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+            >
+              <Trash2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{t("admin.formations.supprimer")}</span>
             </button>
           </div>
         )}
@@ -762,6 +801,22 @@ export default function AdminFormationDetailPage() {
             </div>
           )}
         </div>
+      )}
+
+      {!isNew && course && (
+        <DeleteCourseDialog
+          open={deleteDialogOpen}
+          courseTitle={course.title}
+          deleting={deletingCourse}
+          error={deleteCourseError}
+          onCancel={() => {
+            if (!deletingCourse) {
+              setDeleteDialogOpen(false);
+              setDeleteCourseError(null);
+            }
+          }}
+          onConfirm={confirmDeleteCourse}
+        />
       )}
     </div>
   );

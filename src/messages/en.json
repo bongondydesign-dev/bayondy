@@ -444,7 +444,12 @@
         "brouillon": "Draft"
       },
       "champSlugPlaceholder": "my-course-01",
-      "champCoverUrlPlaceholder": "https://..."
+      "champCoverUrlPlaceholder": "https://...",
+      "supprimer": "Delete",
+      "suppression": "Deleting...",
+      "confirmSupprimerTitre": "Delete this course?",
+      "confirmSupprimerDesc": "This action will permanently delete the course and all its lessons. This cannot be undone.",
+      "erreurSuppression": "Unable to delete the course. Please try again."
     },
     "lecons": {
       "titre": "Lessons",

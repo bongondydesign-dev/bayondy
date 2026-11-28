@@ -444,7 +444,12 @@
         "brouillon": "Brouillon"
       },
       "champSlugPlaceholder": "ma-formation-01",
-      "champCoverUrlPlaceholder": "https://..."
+      "champCoverUrlPlaceholder": "https://...",
+      "supprimer": "Supprimer",
+      "suppression": "Suppression...",
+      "confirmSupprimerTitre": "Supprimer cette formation ?",
+      "confirmSupprimerDesc": "Cette action supprimera définitivement la formation et toutes ses leçons. Elle est irréversible.",
+      "erreurSuppression": "Impossible de supprimer la formation. Veuillez réessayer."
     },
     "lecons": {
       "titre": "Leçons",
