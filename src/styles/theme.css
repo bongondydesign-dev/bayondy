@@ -3,43 +3,42 @@
 
 /* Mode clair architectural et lumineux (par défaut sans classe .dark) */
 :root {
-  --obsidian: #FAFAF8;
+  --obsidian: #F4F4F6;
   --deep-navy: #FFFFFF;
-  --surface-subtle: #F4F3F0;
+  --surface-subtle: #EDEEF2;
   --surface-elevated: #FFFFFF;
-  --surface-well: #F6F5F2;
-  --surface-band: rgba(242, 240, 234, 0.58);
+  --surface-well: #F7F7F9;
+  --surface-band: rgba(244, 244, 246, 0.72);
   --surface-browser: #FFFFFF;
-  --surface-sidebar: #F9F8F6;
-  --surface-active: #FFF3ED;
-  --surface-nav: rgba(250, 250, 248, 0.92);
-  --surface-grid-line: rgba(15, 23, 42, 0.08);
-  --border-subtle: rgba(15, 23, 42, 0.095);
-  --border-faint: rgba(15, 23, 42, 0.065);
-  --border-strong: rgba(15, 23, 42, 0.16);
-  --track-muted: rgba(15, 23, 42, 0.09);
+  --surface-sidebar: #FFFFFF;
+  --surface-active: #FFF2EC;
+  --surface-nav: rgba(255, 255, 255, 0.88);
+  --surface-grid-line: rgba(15, 23, 42, 0.06);
+  --border-subtle: rgba(15, 23, 42, 0.075);
+  --border-faint: rgba(15, 23, 42, 0.05);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --track-muted: rgba(15, 23, 42, 0.08);
   --card-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 10px 26px -10px rgba(15, 23, 42, 0.07);
+    0 1px 2px rgba(15, 23, 42, 0.03),
+    0 8px 24px -10px rgba(15, 23, 42, 0.06);
   --card-shadow-hover:
-    0 2px 6px rgba(15, 23, 42, 0.05),
-    0 18px 38px -12px rgba(15, 23, 42, 0.12);
+    0 2px 6px rgba(15, 23, 42, 0.04),
+    0 16px 36px -12px rgba(15, 23, 42, 0.1);
   --canvas-ambient:
-    radial-gradient(ellipse 72% 40% at 50% -8%, rgba(229, 72, 19, 0.06) 0%, transparent 64%),
-    radial-gradient(ellipse 56% 36% at 88% 12%, rgba(245, 158, 11, 0.04) 0%, transparent 66%),
-    radial-gradient(ellipse 58% 40% at 12% 72%, rgba(229, 72, 19, 0.03) 0%, transparent 70%);
-  --canvas-grid: rgba(15, 23, 42, 0.032);
-  --surface-gloss: rgba(255, 255, 255, 0.8);
-  --canvas-vignette: rgba(228, 226, 220, 0.28);
+    radial-gradient(ellipse 72% 38% at 50% -6%, rgba(229, 72, 19, 0.045) 0%, transparent 62%),
+    radial-gradient(ellipse 52% 34% at 88% 12%, rgba(245, 158, 11, 0.025) 0%, transparent 64%);
+  --canvas-grid: rgba(15, 23, 42, 0.026);
+  --surface-gloss: rgba(255, 255, 255, 0.85);
+  --canvas-vignette: rgba(226, 228, 233, 0.22);
   --portal-shadow: drop-shadow(0 6px 14px rgba(229, 72, 19, 0.16));
 
-  --brand: #E54813;
+  --brand: #F04E18;
   --brand-fg: #FFFFFF;
   --brand-light: #C63A0B;
-  --brand-dark: #BA3408;
-  --brand-glow: rgba(229, 72, 19, 0.18);
-  --brand-glow-soft: rgba(229, 72, 19, 0.075);
-  --ice-white: #0F172A;
+  --brand-dark: #D63E0C;
+  --brand-glow: rgba(240, 78, 24, 0.18);
+  --brand-glow-soft: rgba(240, 78, 24, 0.075);
+  --ice-white: #111318;
 
   --home-orange: var(--brand);
   --home-orange-fg: var(--brand-fg);

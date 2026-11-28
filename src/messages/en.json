@@ -397,7 +397,17 @@
       "actionsRapides": "Quick actions",
       "actionNouvelleFormation": "Create a new course",
       "actionGererEleves": "Grant or revoke student access",
-      "actionVoirPaiements": "View payment ledger"
+      "actionVoirPaiements": "View payment ledger",
+      "bonjour": "Good morning,",
+      "revniKonfime": "Confirmed revenue",
+      "aktiviteMansyel": "Monthly activity",
+      "aktiviteMansyelSousTitre": "Transactions over the last 6 months",
+      "legendeKonfime": "Confirmed",
+      "legendeLot": "Other statuses",
+      "denyeTranzaksyon": "Recent transactions",
+      "weTout": "View all",
+      "pemanKonfime": "Confirmed payments",
+      "tranzaksyonTotal": "Transactions"
     },
     "formations": {
       "titre": "Courses",

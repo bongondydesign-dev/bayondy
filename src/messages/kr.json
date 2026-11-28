@@ -397,7 +397,17 @@
       "actionsRapides": "Aksyon rapid",
       "actionNouvelleFormation": "Kreye yon nouvo fòmasyon",
       "actionGererEleves": "Bay oswa retire aksè elèv",
-      "actionVoirPaiements": "Tcheke istorik peman yo"
+      "actionVoirPaiements": "Tcheke istorik peman yo",
+      "bonjour": "Bonjou,",
+      "revniKonfime": "Revni konfime",
+      "aktiviteMansyel": "Aktivite mansyèl",
+      "aktiviteMansyelSousTitre": "Tranzaksyon sou 6 dènye mwa yo",
+      "legendeKonfime": "Konfime",
+      "legendeLot": "Lòt estati",
+      "denyeTranzaksyon": "Dènye tranzaksyon yo",
+      "weTout": "Wè tout",
+      "pemanKonfime": "Peman konfime",
+      "tranzaksyonTotal": "Tranzaksyon"
     },
     "formations": {
       "titre": "Fòmasyon yo",

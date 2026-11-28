@@ -397,7 +397,17 @@
       "actionsRapides": "Actions rapides",
       "actionNouvelleFormation": "Créer une nouvelle formation",
       "actionGererEleves": "Accorder ou retirer un accès élève",
-      "actionVoirPaiements": "Consulter l'historique des paiements"
+      "actionVoirPaiements": "Consulter l'historique des paiements",
+      "bonjour": "Bonjour,",
+      "revniKonfime": "Revenus confirmés",
+      "aktiviteMansyel": "Activité mensuelle",
+      "aktiviteMansyelSousTitre": "Transactions sur les 6 derniers mois",
+      "legendeKonfime": "Confirmés",
+      "legendeLot": "Autres statuts",
+      "denyeTranzaksyon": "Transactions récentes",
+      "weTout": "Tout voir",
+      "pemanKonfime": "Paiements confirmés",
+      "tranzaksyonTotal": "Transactions"
     },
     "formations": {
       "titre": "Formations",

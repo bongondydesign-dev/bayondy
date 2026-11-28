@@ -269,100 +269,140 @@ export default function MesFormationsPage() {
           )}
         </div>
       ) : (
-        <div className="space-y-8 sm:space-y-10">
-          {/* Architectural Overview Frame: Single Elevation with Integrated 3-Metric Strip */}
-          <section className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] overflow-hidden">
-            <div className="p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
-              <div className="space-y-2 min-w-0">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand-light">
-                  {t("mesFormations.bonjour")}
-                </p>
-                <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ice-white truncate">
-                  {displayName}
-                </h1>
-                <p className="font-sans text-sm sm:text-base text-ice-white/70 max-w-xl leading-relaxed">
-                  {stats.resumeItem
-                    ? `${t("mesFormations.continuerCardTitre")} · ${stats.resumeItem.course.title}`
-                    : t("mesFormations.sousTitre")}
-                </p>
+        <div className="space-y-6 sm:space-y-8">
+          {/* Clean Canvas Greeting Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-1 min-w-0">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand-light">
+                {t("mesFormations.bonjour")}
+              </p>
+              <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-[2rem] tracking-tight text-ice-white truncate">
+                {displayName}
+              </h1>
+              <p className="font-sans text-sm sm:text-base text-slate-600 dark:text-ice-white/70 max-w-xl leading-relaxed">
+                {stats.resumeItem
+                  ? `${t("mesFormations.continuerCardTitre")} · ${stats.resumeItem.course.title}`
+                  : t("mesFormations.sousTitre")}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              {stats.resumeItem ? (
+                <Link
+                  href={`/mes-formations/${stats.resumeItem.course.slug}`}
+                  className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-xs transition-all active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
+                >
+                  <PlayCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  <span>{t("mesFormations.continuer")}</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+                </Link>
+              ) : (
+                <Link
+                  href="/formations"
+                  className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-xs transition-all active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
+                >
+                  <span>{t("mesFormations.boutonDecouvrir")}</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Finexy-inspired Bento KPI Row: Coral Anchor Card + 3 Crisp Metric Cards */}
+          <section className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+            {/* Hero KPI Tile: Global Progress */}
+            <div className="md:col-span-5 rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 text-white bg-gradient-to-br from-[#FF6A36] via-[#F04E18] to-[#D63E0C] shadow-[0_12px_28px_-10px_rgba(240,78,24,0.45)]">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/85 block">
+                    {t("mesFormations.kpiProgression")}
+                  </span>
+                  <span className="font-display font-bold text-3xl sm:text-4xl text-white tabular-nums mt-1.5 block leading-none">
+                    {stats.globalPercent}%
+                  </span>
+                </div>
+                <span className="w-10 h-10 rounded-full bg-white/18 flex items-center justify-center shrink-0">
+                  <TrendingUp className="w-5 h-5 text-white" aria-hidden="true" />
+                </span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
-                {stats.resumeItem ? (
-                  <Link
-                    href={`/mes-formations/${stats.resumeItem.course.slug}`}
-                    className="min-h-[46px] px-6 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-md shadow-[var(--brand-glow)] transition-all active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
-                  >
-                    <PlayCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
-                    <span>{t("mesFormations.continuer")}</span>
-                    <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
-                  </Link>
-                ) : (
-                  <Link
-                    href="/formations"
-                    className="min-h-[46px] px-6 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-md shadow-[var(--brand-glow)] transition-all active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
-                  >
-                    <span>{t("mesFormations.boutonDecouvrir")}</span>
-                    <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
-                  </Link>
-                )}
+              <div className="space-y-2">
+                <div className="w-full h-2 rounded-full bg-white/25 overflow-hidden">
+                  <div
+                    className="h-full bg-white rounded-full transition-all duration-300"
+                    style={{ width: `${stats.globalPercent}%` }}
+                  />
+                </div>
+                <p className="font-mono text-xs text-white/90 tabular-nums">
+                  {stats.totalCompletedLessons} / {stats.totalCourseLessons}{" "}
+                  {t("mesFormations.leconsCompletees")}
+                </p>
               </div>
             </div>
 
-            {/* Integrated Bottom 3-Column Metric Strip */}
-            <div className="border-t border-[var(--border-subtle)] bg-[var(--surface-well)] grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-subtle)]">
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
+            {/* 3 Crisp Secondary KPI Tiles */}
+            <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-5 flex flex-col justify-between gap-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75">
                     {t("mesFormations.kpiCours")}
                   </span>
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="font-display font-bold text-2xl text-ice-white tabular-nums">
-                      {stats.totalCourses}
-                    </span>
-                    <span className="font-mono text-xs text-ice-white/55 tabular-nums truncate">
-                      {stats.completedCoursesCount} {t("mesFormations.filtreTerminees").toLowerCase()}
-                    </span>
-                  </div>
+                  <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-brand flex items-center justify-center shrink-0">
+                    <BookOpen className="w-4 h-4" aria-hidden="true" />
+                  </span>
                 </div>
-                <BookOpen className="w-5 h-5 text-brand-light shrink-0" aria-hidden="true" />
+                <div>
+                  <span className="font-display font-bold text-3xl text-ice-white tabular-nums block leading-none">
+                    {stats.totalCourses}
+                  </span>
+                  <span className="mt-2 font-mono text-xs text-slate-500 dark:text-ice-white/55 tabular-nums block">
+                    {stats.completedCoursesCount} {t("mesFormations.filtreTerminees").toLowerCase()}
+                  </span>
+                </div>
               </div>
 
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-5 flex flex-col justify-between gap-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75">
                     {t("mesFormations.kpiLecons")}
                   </span>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="font-display font-bold text-2xl text-ice-white tabular-nums">
+                  <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-ice-white/75 flex items-center justify-center shrink-0">
+                    <PlayCircle className="w-4 h-4" aria-hidden="true" />
+                  </span>
+                </div>
+                <div>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-display font-bold text-3xl text-ice-white tabular-nums leading-none">
                       {stats.totalCompletedLessons}
                     </span>
-                    <span className="font-mono text-sm text-ice-white/55 tabular-nums">
+                    <span className="font-mono text-sm text-slate-500 dark:text-ice-white/55 tabular-nums">
                       / {stats.totalCourseLessons}
                     </span>
                   </div>
+                  <span className="mt-2 font-mono text-xs text-slate-500 dark:text-ice-white/55 block truncate">
+                    {t("mesFormations.leconsCompletees")}
+                  </span>
                 </div>
-                <PlayCircle className="w-5 h-5 text-ice-white/60 shrink-0" aria-hidden="true" />
               </div>
 
-              <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="min-w-0 flex-1">
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
-                    {t("mesFormations.kpiProgression")}
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-5 flex flex-col justify-between gap-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75">
+                    {t("mesFormations.filtreTerminees")}
                   </span>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="font-display font-bold text-2xl text-brand-light tabular-nums leading-none">
-                      {stats.globalPercent}%
-                    </span>
-                    <div className="flex-1 h-1.5 rounded-full bg-deep-navy border border-[var(--border-subtle)] overflow-hidden max-w-[120px]">
-                      <div
-                        className="h-full bg-brand rounded-full transition-all duration-300"
-                        style={{ width: `${stats.globalPercent}%` }}
-                      />
-                    </div>
-                  </div>
+                  <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+                  </span>
                 </div>
-                <TrendingUp className="w-5 h-5 text-brand-light shrink-0" aria-hidden="true" />
+                <div>
+                  <span className="font-display font-bold text-3xl text-ice-white tabular-nums block leading-none">
+                    {stats.completedCoursesCount}
+                  </span>
+                  <span className="mt-2 font-mono text-xs text-slate-500 dark:text-ice-white/55 tabular-nums block">
+                    {stats.totalCourses - stats.completedCoursesCount}{" "}
+                    {t("mesFormations.filtreEnCours").toLowerCase()}
+                  </span>
+                </div>
               </div>
             </div>
           </section>
@@ -418,8 +458,8 @@ export default function MesFormationsPage() {
                             aria-pressed={active}
                             className={`min-h-[38px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                               active
-                                ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
-                                : "text-ice-white/70 hover:text-ice-white"
+                                ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
+                                : "text-slate-600 dark:text-ice-white/70 hover:text-ice-white"
                             }`}
                           >
                             <span>{tab.label}</span>
@@ -572,7 +612,7 @@ export default function MesFormationsPage() {
 
                             <Link
                               href={`/mes-formations/${course.slug}`}
-                              className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-[var(--brand-glow)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"
+                              className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-xs transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"
                             >
                               <span>{t("mesFormations.continuer")}</span>
                               <ArrowRight

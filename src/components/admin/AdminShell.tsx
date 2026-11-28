@@ -24,7 +24,7 @@ function AccessDenied() {
           </span>
           <span>{t("accueil.titre")}</span>
         </Link>
-        <ThemeToggle />
+        <ThemeToggle variant="segmented" />
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center py-12">
@@ -153,22 +153,16 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
               aria-current={item.active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 item.active
-                  ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
+                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <span className="flex items-center gap-3 min-w-0 truncate">
-                <span className={item.active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"}>
+                <span className={item.active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"}>
                   {item.icon}
                 </span>
                 <span className="truncate">{item.label}</span>
               </span>
-              {item.active && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-[#FF5B22] dark:bg-[#07080A] shrink-0"
-                  aria-hidden="true"
-                />
-              )}
             </Link>
           ))}
         </div>
@@ -187,22 +181,16 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
               aria-current={item.active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 item.active
-                  ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
+                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <span className="flex items-center gap-3 min-w-0 truncate">
-                <span className={item.active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"}>
+                <span className={item.active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"}>
                   {item.icon}
                 </span>
                 <span className="truncate">{item.label}</span>
               </span>
-              {item.active && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-[#FF5B22] dark:bg-[#07080A] shrink-0"
-                  aria-hidden="true"
-                />
-              )}
             </Link>
           ))}
         </div>
@@ -355,7 +343,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
-            <ThemeToggle />
+            <ThemeToggle variant="segmented" />
             <Link
               href="/"
               className="min-h-[44px] px-4 py-2 rounded-full bg-deep-navy border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"

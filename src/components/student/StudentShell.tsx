@@ -90,13 +90,13 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
+                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <Icon
                 className={`w-4 h-4 shrink-0 ${
-                  active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"
+                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"
                 }`}
                 aria-hidden="true"
               />
@@ -119,13 +119,13 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
+                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
               <Icon
                 className={`w-4 h-4 shrink-0 ${
-                  active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"
+                  active ? "text-[#FF6A36] dark:text-[#07080A]" : "text-ice-white/55"
                 }`}
                 aria-hidden="true"
               />
@@ -284,7 +284,7 @@ export function StudentShell({
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
-            <ThemeToggle />
+            <ThemeToggle variant="segmented" />
             <Link
               href="/formations"
               className="min-h-[44px] px-4 py-2 rounded-full bg-deep-navy border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
