@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealItem, RevealStagger } from "@/components/ui/Reveal";
 import { t } from "@/lib/i18n";
 
 const PORTFOLIO_URL = "https://bayondy.web.app/";
@@ -77,7 +77,7 @@ export default function AProposPage() {
         {/* 1. Split Hero Éditorial : Bayondy Edouard */}
         <section className="relative w-full pt-12 pb-16 sm:pt-16 sm:pb-24 overflow-hidden bg-transparent">
           <div
-            className="absolute inset-x-0 top-0 h-[440px] pointer-events-none opacity-45 dark:opacity-90"
+            className="absolute inset-x-0 top-0 h-[440px] pointer-events-none opacity-50 dark:opacity-90"
             style={{
               background:
                 "radial-gradient(ellipse 65% 55% at 50% 0%, var(--brand-glow) 0%, var(--brand-glow-soft) 48%, transparent 78%)",
@@ -87,10 +87,10 @@ export default function AProposPage() {
 
           <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-              {/* Colonne gauche : Identité, Bio & Actions */}
+              {/* Colonne gauche */}
               <div className="lg:col-span-7 flex flex-col justify-between gap-8">
                 <div className="space-y-5">
-                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--home-orange-light)]">
+                  <div className="animate-hero-1 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--home-orange-light)]">
                     <span>{t("apropos.badge")}</span>
                     <span className="hidden sm:inline text-ice-white/30" aria-hidden="true">
                       ·
@@ -101,17 +101,17 @@ export default function AProposPage() {
                     </span>
                   </div>
 
-                  <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-[3.75rem] tracking-[-0.03em] text-ice-white leading-[1.05] text-balance">
+                  <h1 className="animate-hero-2 font-display font-bold text-4xl sm:text-5xl lg:text-[3.75rem] tracking-[-0.03em] text-ice-white leading-[1.05] text-balance">
                     <span className="block">{t("apropos.titreNom")}</span>
                     <span className="block">
                       {t("apropos.titreRolePrefix")}
-                      <span className="font-serif italic font-normal bg-gradient-to-r from-[#E54813] to-[#BA3408] dark:from-[#FF885C] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
+                      <span className="font-serif italic font-normal bg-gradient-to-r from-[#EB4A15] to-[#B83207] dark:from-[#FF8C61] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
                         {t("apropos.titreRoleAccent")}
                       </span>
                     </span>
                   </h1>
 
-                  <div className="space-y-3 max-w-2xl font-sans text-base sm:text-lg text-slate-600 dark:text-ice-white/75 leading-relaxed">
+                  <div className="animate-hero-2 space-y-3 max-w-2xl font-sans text-base sm:text-lg text-slate-600 dark:text-ice-white/75 leading-relaxed">
                     <p>{t("apropos.bio")}</p>
                     <p className="text-sm sm:text-base text-slate-600 dark:text-ice-white/65">
                       {t("apropos.bioSecondaire")}
@@ -119,11 +119,11 @@ export default function AProposPage() {
                   </div>
                 </div>
 
-                {/* Action principale unique + liens externes sobres */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                {/* Action principale + liens externes */}
+                <div className="animate-hero-3 flex flex-wrap items-center gap-3.5 pt-2">
                   <Link
                     href="/formations"
-                    className="group inline-flex items-center justify-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-sans font-semibold text-sm shadow-[0_6px_18px_-4px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                    className="group inline-flex items-center justify-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] hover:brightness-105 text-[var(--home-orange-fg)] font-sans font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                   >
                     <span>{t("apropos.ctaFormations")}</span>
                     <ArrowRight
@@ -137,7 +137,7 @@ export default function AProposPage() {
                     href={PORTFOLIO_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full border border-[var(--border-strong)] bg-deep-navy hover:border-[var(--home-orange)]/55 text-ice-white text-sm font-medium transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                    className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full border border-[var(--border-strong)] surface-glass hover:border-[var(--home-orange)]/55 text-ice-white text-sm font-medium transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                   >
                     <span>{t("apropos.ctaPortfolio")}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[var(--home-orange-light)]" aria-hidden="true" />
@@ -155,42 +155,41 @@ export default function AProposPage() {
                 </div>
               </div>
 
-              {/* Colonne droite : Fiche Studio du Fondateur */}
-              <div className="lg:col-span-5">
-                <div className="h-full rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden">
+              {/* Colonne droite : Fiche Studio Contraste Obsidienne */}
+              <div className="lg:col-span-5 animate-hero-4">
+                <div className="h-full rounded-2xl surface-contrast border border-white/10 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden">
                   <div
-                    className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none opacity-35 dark:opacity-55"
+                    className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none opacity-65"
                     style={{
                       background:
-                        "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
+                        "radial-gradient(circle, rgba(255, 91, 34, 0.24) 0%, transparent 68%)",
                     }}
                     aria-hidden="true"
                   />
                   <div
-                    className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-25"
+                    className="absolute inset-0 pointer-events-none opacity-30"
                     style={{
                       backgroundImage:
-                        "radial-gradient(var(--surface-grid-line) 1px, transparent 1px)",
+                        "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
                       backgroundSize: "18px 18px",
                     }}
                     aria-hidden="true"
                   />
 
                   <div className="relative z-10">
-                    {/* En-tête identité : Monogramme BE + lien portfolio direct */}
-                    <div className="flex items-center justify-between gap-3 pb-5 border-b border-[var(--border-faint)]">
+                    <div className="flex items-center justify-between gap-3 pb-5 border-b border-white/10">
                       <div className="flex items-center gap-3.5 min-w-0">
                         <span
-                          className="w-11 h-11 rounded-xl bg-[var(--home-orange)] text-[var(--home-orange-fg)] font-display font-bold text-base inline-flex items-center justify-center shadow-[0_8px_20px_-6px_var(--home-orange-glow)] shrink-0"
+                          className="w-11 h-11 rounded-xl bg-gradient-to-b from-[#FF652E] to-[#FF5B22] text-white font-display font-bold text-base inline-flex items-center justify-center shadow-[0_8px_20px_-6px_rgba(255,91,34,0.5)] shrink-0"
                           aria-hidden="true"
                         >
                           BE
                         </span>
                         <div className="min-w-0">
-                          <p className="font-display font-bold text-base sm:text-lg text-ice-white truncate leading-tight">
+                          <p className="font-display font-bold text-base sm:text-lg text-white truncate leading-tight">
                             {t("apropos.titreNom")}
                           </p>
-                          <p className="font-sans text-xs text-slate-600 dark:text-ice-white/65 truncate mt-0.5">
+                          <p className="font-sans text-xs text-zinc-400 truncate mt-0.5">
                             {t("apropos.carteLabel")} · {t("apropos.carteBaseValeur")}
                           </p>
                         </div>
@@ -200,7 +199,7 @@ export default function AProposPage() {
                         href={PORTFOLIO_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[var(--home-orange-light)] hover:text-ice-white transition-colors shrink-0 min-h-[36px] px-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded"
+                        className="inline-flex items-center gap-1 text-[#FF885C] hover:text-white transition-colors shrink-0 min-h-[36px] px-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
                         aria-label={t("apropos.ctaPortfolio")}
                         title={t("apropos.profilPortfolioUrl")}
                       >
@@ -209,33 +208,31 @@ export default function AProposPage() {
                       </a>
                     </div>
 
-                    {/* Rôle & Spécialité sur 2 colonnes équilibrées */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-b border-[var(--border-faint)]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-b border-white/10">
                       <div className="min-w-0">
-                        <p className="font-sans text-[11px] font-medium text-slate-500 dark:text-ice-white/50">
+                        <p className="font-sans text-[11px] font-medium text-zinc-400">
                           {t("apropos.carteRoleLabel")}
                         </p>
-                        <p className="font-sans text-[13px] font-medium text-ice-white mt-1 leading-snug">
+                        <p className="font-sans text-[13px] font-medium text-white mt-1 leading-snug">
                           {t("apropos.carteRoleValeur")}
                         </p>
                       </div>
-                      <div className="min-w-0 sm:border-l sm:border-[var(--border-faint)] sm:pl-4">
-                        <p className="font-sans text-[11px] font-medium text-slate-500 dark:text-ice-white/50">
+                      <div className="min-w-0 sm:border-l sm:border-white/10 sm:pl-4">
+                        <p className="font-sans text-[11px] font-medium text-zinc-400">
                           {t("apropos.carteFocusLabel")}
                         </p>
-                        <p className="font-sans text-[13px] font-medium text-ice-white mt-1 leading-snug">
+                        <p className="font-sans text-[13px] font-medium text-white mt-1 leading-snug">
                           {t("apropos.carteFocusValeur")}
                         </p>
                       </div>
                     </div>
 
-                    {/* Matrice 3×3 des 9 technologies principales (zéro pilules, zéro retours forcés) */}
-                    <div className="py-4 border-b border-[var(--border-faint)]">
+                    <div className="py-4 border-b border-white/10">
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="font-sans text-[11px] font-medium text-slate-500 dark:text-ice-white/50">
+                        <span className="font-sans text-[11px] font-medium text-zinc-400">
                           {t("apropos.stackTitre")}
                         </span>
-                        <span className="font-mono text-[11px] text-[var(--home-orange-light)] tabular-nums">
+                        <span className="font-mono text-[11px] text-[#FF885C] tabular-nums">
                           09
                         </span>
                       </div>
@@ -243,10 +240,10 @@ export default function AProposPage() {
                       <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-2">
                         {coreTechs.map((tech, idx) => (
                           <li key={tech} className="flex items-center gap-1.5 min-w-0">
-                            <span className="font-mono text-[10px] text-[var(--home-orange-light)]/80 tabular-nums shrink-0">
+                            <span className="font-mono text-[10px] text-[#FF885C] tabular-nums shrink-0">
                               0{idx + 1}
                             </span>
-                            <span className="font-sans text-[13px] font-medium text-ice-white truncate">
+                            <span className="font-sans text-[13px] font-medium text-zinc-100 truncate">
                               {tech}
                             </span>
                           </li>
@@ -254,9 +251,8 @@ export default function AProposPage() {
                       </ul>
                     </div>
 
-                    {/* Liens directs vers les profils en ligne */}
                     <div className="pt-4 flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-sans text-[11px] font-medium text-slate-500 dark:text-ice-white/50">
+                      <span className="font-sans text-[11px] font-medium text-zinc-400">
                         {t("apropos.cartePresenceLabel")}
                       </span>
                       <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
@@ -266,11 +262,11 @@ export default function AProposPage() {
                             href={profile.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group/link inline-flex items-center gap-1 text-xs font-medium text-ice-white hover:text-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0 min-h-[36px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded"
+                            className="group/link inline-flex items-center gap-1 text-xs font-medium text-zinc-200 hover:text-[#FF885C] transition-colors whitespace-nowrap shrink-0 min-h-[36px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
                           >
                             <span>{profile.label}</span>
                             <ArrowUpRight
-                              className="w-3 h-3 text-[var(--home-orange-light)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+                              className="w-3 h-3 text-[#FF885C] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
                               aria-hidden="true"
                             />
                           </a>
@@ -279,12 +275,11 @@ export default function AProposPage() {
                     </div>
                   </div>
 
-                  {/* Signature éditoriale basse */}
-                  <div className="relative z-10 pt-4 mt-4 border-t border-[var(--border-faint)] flex items-center justify-between gap-3">
-                    <span className="font-display text-xs font-semibold tracking-wider text-slate-500 dark:text-ice-white/55">
+                  <div className="relative z-10 pt-4 mt-4 border-t border-white/10 flex items-center justify-between gap-3">
+                    <span className="font-display text-xs font-semibold tracking-wider text-zinc-400">
                       BAYONDY
                     </span>
-                    <span className="font-serif italic text-sm text-[var(--home-orange-light)]">
+                    <span className="font-serif italic text-sm text-[#FF885C]">
                       {t("accueil.slogan")}
                     </span>
                   </div>
@@ -294,7 +289,7 @@ export default function AProposPage() {
           </div>
         </section>
 
-        {/* 2. Technologies Principales en 3 Piliers (Zéro pilules) */}
+        {/* 2. Technologies Principales en 3 Piliers */}
         <section className="w-full py-20 sm:py-24 bg-[var(--surface-band)] relative transition-colors duration-200">
           <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -312,15 +307,14 @@ export default function AProposPage() {
                   {t("apropos.stackSousTitre")}
                 </p>
               </div>
+            </Reveal>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {stackPillars.map((pillar) => {
-                  const PillarIcon = pillar.Icon;
-                  return (
-                    <article
-                      key={pillar.num}
-                      className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between"
-                    >
+            <RevealStagger className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {stackPillars.map((pillar) => {
+                const PillarIcon = pillar.Icon;
+                return (
+                  <RevealItem key={pillar.num} className="flex">
+                    <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
                           <span className="font-mono text-xs font-semibold text-[var(--home-orange-light)] tabular-nums">
@@ -357,10 +351,10 @@ export default function AProposPage() {
                         ))}
                       </ul>
                     </article>
-                  );
-                })}
-              </div>
-            </Reveal>
+                  </RevealItem>
+                );
+              })}
+            </RevealStagger>
           </div>
         </section>
 
@@ -382,7 +376,7 @@ export default function AProposPage() {
           </div>
         </section>
 
-        {/* 4. Profils en ligne (Portfolio, LinkedIn, Framer) */}
+        {/* 4. Profils en ligne */}
         <section className="w-full py-20 sm:py-24 bg-[var(--surface-band)] relative transition-colors duration-200">
           <div className="section-hairline absolute top-0 inset-x-0 h-px" aria-hidden="true" />
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -395,14 +389,16 @@ export default function AProposPage() {
                   {t("apropos.profilsTitre")}
                 </h2>
               </div>
+            </Reveal>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {/* Portfolio */}
+            <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {/* Portfolio */}
+              <RevealItem className="flex">
                 <a
                   href={PORTFOLIO_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                  className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
@@ -428,13 +424,15 @@ export default function AProposPage() {
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </a>
+              </RevealItem>
 
-                {/* LinkedIn */}
+              {/* LinkedIn */}
+              <RevealItem className="flex">
                 <a
                   href={LINKEDIN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                  className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
@@ -459,13 +457,15 @@ export default function AProposPage() {
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </a>
+              </RevealItem>
 
-                {/* Framer */}
+              {/* Framer */}
+              <RevealItem className="flex">
                 <a
                   href={PORTFOLIO_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+                  className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
@@ -490,13 +490,15 @@ export default function AProposPage() {
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </a>
+              </RevealItem>
 
-                {/* WhatsApp */}
+              {/* WhatsApp */}
+              <RevealItem className="flex">
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-emerald-500/55 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-emerald-500/55 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
@@ -522,8 +524,8 @@ export default function AProposPage() {
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </a>
-              </div>
-            </Reveal>
+              </RevealItem>
+            </RevealStagger>
           </div>
         </section>
       </main>

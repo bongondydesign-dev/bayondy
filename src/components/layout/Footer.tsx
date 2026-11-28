@@ -18,7 +18,7 @@ export function Footer() {
               className="inline-flex items-center gap-2.5 font-display font-bold text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1"
             >
               <span
-                className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-sm shadow-sm shadow-[var(--home-orange-glow)] shrink-0"
+                className="w-7 h-7 rounded-lg bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_-3px_var(--home-orange-glow)] shrink-0"
                 aria-hidden="true"
               >
                 B
@@ -108,7 +108,7 @@ export function Footer() {
         className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-end leading-none -mb-3 sm:-mb-6 md:-mb-10"
         aria-hidden="true"
       >
-        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-slate-900/[0.04] dark:text-white/[0.04] uppercase whitespace-nowrap block select-none">
+        <span className="font-display font-black text-6xl sm:text-9xl md:text-[13rem] lg:text-[16rem] tracking-tight text-slate-900/[0.045] dark:text-white/[0.04] uppercase whitespace-nowrap block select-none">
           {t("accueil.titre")}
         </span>
       </div>

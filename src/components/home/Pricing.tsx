@@ -1,5 +1,13 @@
 import React from "react";
-import { ArrowRight, Check, Clock, ShieldCheck, Smartphone } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Clock,
+  CreditCard,
+  ShieldCheck,
+  Smartphone,
+} from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
@@ -25,10 +33,10 @@ export function Pricing() {
             </h2>
           </div>
 
-          <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-300 p-6 sm:p-10 lg:p-12 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] relative overflow-hidden">
+          <div className="rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-300 p-6 sm:p-10 lg:p-12 relative overflow-hidden">
             {/* Halo ambiant discret */}
             <div
-              className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-35 dark:opacity-40"
+              className="absolute -top-20 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-35 dark:opacity-45"
               style={{
                 background:
                   "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
@@ -37,13 +45,10 @@ export function Pricing() {
             />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-              {/* Colonne gauche : Message transparence, avantages inclus & CTA */}
+              {/* Colonne gauche */}
               <div className="lg:col-span-7 text-left space-y-6">
                 <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--home-orange-light)]">
-                  <span
-                    className="w-1.5 h-1.5 rounded-full bg-[var(--home-orange)]"
-                    aria-hidden="true"
-                  />
+                  <CreditCard className="w-3.5 h-3.5 text-[var(--home-orange)]" aria-hidden="true" />
                   <span>{t("bento.badgeCreole")}</span>
                   <span aria-hidden="true">·</span>
                   <span>{t("tarifs.badge")}</span>
@@ -92,9 +97,8 @@ export function Pricing() {
 
                   <Button
                     href="/formations"
-                    variant="secondaire"
-                    accent="orange"
-                    className="px-5 py-2.5"
+                    variant="carbon"
+                    className="px-6 py-2.5"
                   >
                     <span>{t("hero.cta")}</span>
                   </Button>
@@ -104,7 +108,7 @@ export function Pricing() {
               {/* Colonne droite : Panneau structuré des moyens de paiement */}
               <div className="lg:col-span-5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-5 sm:p-6 space-y-4">
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subtle)]">
-                  <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-zinc-400">
                     {t("tarifs.moyensTitre")}
                   </p>
                   <ShieldCheck
@@ -125,20 +129,20 @@ export function Pricing() {
                         <p className="font-display font-semibold text-sm text-ice-white">
                           MonCash
                         </p>
-                        <p className="font-sans text-xs text-slate-500 dark:text-zinc-400 truncate">
+                        <p className="font-sans text-xs text-slate-600 dark:text-zinc-400 truncate">
                           {t("fonctionnalites.acces.titre")}
                         </p>
                       </div>
                     </div>
 
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/12 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-                      {t("tarifs.statutDisponible")}
+                    <span className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      <span>{t("tarifs.statutDisponible")}</span>
                     </span>
                   </div>
 
                   {/* NatCash — À venir */}
-                  <div className="p-3.5 rounded-xl bg-deep-navy/60 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-deep-navy/65 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className="w-9 h-9 rounded-lg bg-[var(--surface-well)] dark:bg-[#161A24] border border-[var(--border-subtle)] text-slate-500 dark:text-zinc-400 flex items-center justify-center shrink-0">
                         <Clock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
@@ -153,13 +157,13 @@ export function Pricing() {
                       </div>
                     </div>
 
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--surface-well)] dark:bg-[#161A24] border border-[var(--border-subtle)] text-slate-500 dark:text-zinc-400 font-mono text-[11px] font-medium shrink-0">
+                    <span className="font-mono text-[11px] font-medium text-slate-500 dark:text-zinc-400 shrink-0">
                       {t("tarifs.statutAvenir")}
                     </span>
                   </div>
                 </div>
 
-                <p className="pt-1 font-sans text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">
+                <p className="pt-1 font-sans text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                   {t("fonctionnalites.paiement.description")}
                 </p>
               </div>

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import { ArrowRight, Check, ChevronLeft, ExternalLink, Loader2 } from "lucide-react";
 import { useRequireAuth } from "@/lib/auth/useRequireAuth";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -224,7 +225,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
           </div>
         ) : notEnrolled ? (
           // État non inscrit ou accès révoqué
-          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] my-10 max-w-xl mx-auto">
+          <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl surface-glass my-10 max-w-xl mx-auto">
             <div className="w-16 h-16 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center justify-center mb-6 text-brand-light shadow-lg shadow-[var(--brand-glow-soft)]">
               <PortalSymbol size={36} className="opacity-85" />
             </div>
@@ -239,20 +240,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
               className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <span>{t("lecteur.boutonVoirFormation")}</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+              <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
             </Link>
           </div>
         ) : !currentLesson ? (
@@ -269,20 +257,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 href="/mes-formations"
                 className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
+                <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{t("lecteur.retourMesFormations")}</span>
               </Link>
               <span className="text-ice-white/30">/</span>
@@ -306,7 +281,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 />
 
                 {/* En-tête de la leçon et action "Leson fini" */}
-                <div className="p-6 sm:p-7 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-5">
+                <div className="p-6 sm:p-7 rounded-2xl surface-glass space-y-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       {currentLesson.moduleTitle && (
@@ -324,21 +299,8 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     <div className="flex-shrink-0">
                       {isCurrentCompleted ? (
                         <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand/15 border border-brand/40 text-brand-light font-sans font-medium text-sm select-none">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            aria-hidden="true"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>{t("lecon.terminee")} ✓</span>
+                          <Check className="w-4 h-4 shrink-0" strokeWidth={2.5} aria-hidden="true" />
+                          <span>{t("lecon.terminee")}</span>
                         </div>
                       ) : (
                         <button
@@ -350,44 +312,12 @@ export function PlayerView({ slug }: PlayerViewProps) {
                         >
                           {savingProgress ? (
                             <>
-                              <svg
-                                className="w-4 h-4 animate-spin"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                aria-hidden="true"
-                              >
-                                <circle
-                                  className="opacity-25"
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                  stroke="currentColor"
-                                  strokeWidth="4"
-                                />
-                                <path
-                                  className="opacity-75"
-                                  fill="currentColor"
-                                  d="M4 12a8 8 0 018-8v8H4z"
-                                />
-                              </svg>
+                              <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />
                               <span>{t("lecteur.enregistrement")}</span>
                             </>
                           ) : (
                             <>
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
+                              <Check className="w-4 h-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
                               <span>{t("lecon.terminee")}</span>
                             </>
                           )}
@@ -420,20 +350,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--surface-well)] border border-[var(--border-subtle)] text-xs text-brand-light hover:underline min-h-[44px]"
                             >
                               <span>{res.label}</span>
-                              <svg
-                                className="w-3.5 h-3.5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                />
-                              </svg>
+                              <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                             </a>
                           ))}
                         </div>
@@ -445,7 +362,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
               {/* Colonne Latérale (Progression + Liste des leçons) */}
               <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                 {/* Carte de progression globale */}
-                <div className="p-5 sm:p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-3">
+                <div className="p-5 sm:p-6 rounded-2xl surface-glass space-y-3">
                   <span className="font-mono text-xs uppercase tracking-wider text-ice-white/60 block">
                     {t("lecteur.progressionGlobale")}
                   </span>
@@ -457,7 +374,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 </div>
 
                 {/* Liste des leçons */}
-                <div className="p-5 sm:p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] max-h-[600px] overflow-y-auto">
+                <div className="p-5 sm:p-6 rounded-2xl surface-glass max-h-[600px] overflow-y-auto">
                   <LessonList
                     lessons={lessons}
                     currentLessonId={currentLesson.id}

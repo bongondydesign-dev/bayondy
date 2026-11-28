@@ -3,6 +3,7 @@
 import React, { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowLeft,
   BookOpen,
@@ -90,7 +91,7 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
+                  ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
@@ -119,7 +120,7 @@ function StudentSidebarLinks({
               aria-current={active ? "page" : undefined}
               className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 active
-                  ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
+                  ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-xs"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
@@ -170,7 +171,7 @@ export function StudentShell({
           className="inline-flex items-center gap-2.5 font-display font-bold text-lg tracking-tight text-ice-white hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg py-1"
         >
           <span
-            className="w-7 h-7 rounded-lg bg-brand text-[var(--brand-fg)] inline-flex items-center justify-center font-display font-bold text-sm shadow-sm shadow-[var(--brand-glow)] shrink-0"
+            className="w-7 h-7 rounded-lg bg-gradient-to-b from-[#FF652E] to-brand text-[var(--brand-fg)] inline-flex items-center justify-center font-display font-bold text-sm shadow-sm shadow-[var(--brand-glow)] shrink-0"
             aria-hidden="true"
           >
             B
@@ -228,46 +229,57 @@ export function StudentShell({
 
   return (
     <div className="min-h-screen flex bg-transparent text-ice-white overflow-x-clip">
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-[var(--surface-sidebar)] border-r border-[var(--border-subtle)] sticky top-0 h-screen">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-[var(--surface-sidebar)] backdrop-blur-xl border-r border-[var(--border-subtle)] sticky top-0 h-screen">
         {sidebarContent()}
       </aside>
 
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-50 lg:hidden flex"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("nav.menu")}
-        >
+      <AnimatePresence>
+        {mobileOpen && (
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-xs"
-            onClick={() => setMobileOpen(false)}
-            aria-hidden="true"
-          />
-          <aside className="relative z-10 w-72 max-w-[82vw] h-full bg-deep-navy border-r border-[var(--border-strong)] shadow-2xl flex flex-col">
-            <div className="absolute top-3 right-3 z-20">
-              <button
-                type="button"
-                onClick={() => setMobileOpen(false)}
-                aria-label={t("nav.fermer")}
-                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-              >
-                <X className="w-5 h-5" aria-hidden="true" />
-              </button>
-            </div>
-            {sidebarContent(() => setMobileOpen(false))}
-          </aside>
-        </div>
-      )}
+            className="fixed inset-0 z-50 lg:hidden flex"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("nav.menu")}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/55 backdrop-blur-xs"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden="true"
+            />
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 w-72 max-w-[82vw] h-full bg-deep-navy border-r border-[var(--border-strong)] shadow-2xl flex flex-col"
+            >
+              <div className="absolute top-3 right-3 z-20">
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label={t("nav.fermer")}
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                >
+                  <X className="w-5 h-5" aria-hidden="true" />
+                </button>
+              </div>
+              {sidebarContent(() => setMobileOpen(false))}
+            </motion.aside>
+          </div>
+        )}
+      </AnimatePresence>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="sticky top-0 z-30 h-16 px-4 sm:px-6 lg:px-8 bg-[var(--surface-nav)] backdrop-blur-md border-b border-[var(--border-subtle)] flex items-center justify-between gap-3">
+        <header className="sticky top-0 z-30 h-16 px-4 sm:px-6 lg:px-8 bg-[var(--surface-nav)] backdrop-blur-xl border-b border-[var(--border-subtle)] flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
               aria-label={t("nav.menu")}
-              className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
+              className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] bg-[var(--surface-glass)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
               <Menu className="w-5 h-5" aria-hidden="true" />
             </button>
@@ -287,7 +299,7 @@ export function StudentShell({
             <ThemeToggle variant="segmented" />
             <Link
               href="/formations"
-              className="min-h-[44px] px-4 py-2 rounded-full bg-deep-navy border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
+              className="min-h-[44px] px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
             >
               <BookOpen className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
               <span className="hidden sm:inline">{t("mesFormations.boutonDecouvrir")}</span>

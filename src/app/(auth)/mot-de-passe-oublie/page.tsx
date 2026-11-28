@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -28,11 +29,10 @@ export default function MotDePasseOubliePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-transparent text-ice-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white overflow-x-clip">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
-        <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)]">
-          {/* En-tête */}
+        <div className="animate-hero-1 w-full max-w-md mx-auto rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-8">
           <div className="text-center mb-8">
             <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white tracking-tight">
               {t("auth.titreMotDePasseOublie")}
@@ -42,27 +42,16 @@ export default function MotDePasseOubliePage() {
             </p>
           </div>
 
-          {/* Message de confirmation neutre */}
           {submitted ? (
             <div
               role="status"
               className="p-5 rounded-xl bg-brand/10 border border-brand/30 text-ice-white text-sm space-y-4"
             >
               <div className="flex items-start gap-3">
-                <svg
+                <CheckCircle2
                   className="w-5 h-5 shrink-0 text-brand-light mt-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
                   aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                />
                 <p className="font-sans leading-relaxed">
                   {t("auth.succesReinitialisation")}
                 </p>
@@ -94,14 +83,14 @@ export default function MotDePasseOubliePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("auth.emailPlaceholder")}
-                  className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+                  className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[#090B10] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base hover:bg-brand-dark dark:hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-lg shadow-[var(--brand-glow)]"
+                className="w-full min-h-[46px] px-6 py-3 rounded-full bg-gradient-to-b from-[#FF652E] to-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base hover:brightness-105 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)] cursor-pointer"
               >
                 {submitting
                   ? t("auth.chargement")

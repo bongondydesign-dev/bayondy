@@ -287,7 +287,7 @@ export default function ProfilPage() {
                         if (nameFeedback) setNameFeedback(null);
                       }}
                       placeholder={t("auth.nomPlaceholder")}
-                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[var(--surface-well)] border border-slate-300 dark:border-[var(--border-strong)] text-ice-white placeholder:text-slate-400 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white placeholder:text-slate-400 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                     />
                   </div>
 

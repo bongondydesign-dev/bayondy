@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Layers } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
@@ -13,7 +14,7 @@ export default function NotFound() {
       <main className="flex-1 flex flex-col items-center justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 py-16 text-center">
         {/* Symbole cinématique */}
         <div className="relative mb-8">
-          <div className="w-24 h-24 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] flex items-center justify-center shadow-[var(--card-shadow)]">
+          <div className="w-24 h-24 rounded-2xl surface-glass flex items-center justify-center">
             <PortalSymbol size={48} className="opacity-85" />
           </div>
           <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-brand text-[var(--brand-fg)] font-mono text-[11px] font-bold tracking-wider">
@@ -42,20 +43,7 @@ export default function NotFound() {
             href="/formations"
             className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
-            </svg>
+            <Layers className="w-4 h-4 shrink-0" aria-hidden="true" />
             <span>{t("erreur404.voirFormations")}</span>
           </Link>
 

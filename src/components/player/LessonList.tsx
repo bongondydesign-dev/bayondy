@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Check } from "lucide-react";
 import type { LessonWithId } from "@/lib/learning/queries";
 import { formatDuration } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
@@ -101,20 +102,7 @@ export function LessonList({
                           }`}
                         >
                           {isCompleted ? (
-                            <svg
-                              className="w-3.5 h-3.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth="3"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
+                            <Check className="w-3.5 h-3.5" strokeWidth={2.5} aria-hidden="true" />
                           ) : isCurrent ? (
                             <span className="w-2 h-2 rounded-full bg-[var(--brand-fg)]" />
                           ) : (

@@ -9,7 +9,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { t } from "@/lib/i18n";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealItem, RevealStagger } from "@/components/ui/Reveal";
 
 export function HowItWorks() {
   const steps = [
@@ -20,7 +20,6 @@ export function HowItWorks() {
       Icon: MonitorPlay,
       preview: (
         <div className="w-full space-y-2.5">
-          {/* Mini lecteur vidéo en haut */}
           <div className="p-2.5 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/35 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center gap-3 group-hover:translate-x-0.5 transition-transform duration-200">
             <span className="w-8 h-8 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] flex items-center justify-center shrink-0 shadow-xs">
               <Play className="w-3.5 h-3.5 translate-x-0.5 fill-current" aria-hidden="true" />
@@ -40,8 +39,7 @@ export function HowItWorks() {
             </div>
           </div>
 
-          {/* Prochaine leçon en attente */}
-          <div className="px-3 py-2 rounded-lg bg-deep-navy/70 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs text-slate-600 dark:text-zinc-400">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy/75 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs text-slate-600 dark:text-zinc-400">
             <span className="truncate">{t("hero.apercu.lecon2")}</span>
             <span className="font-mono text-[10px] text-slate-500 dark:text-zinc-500 tabular-nums shrink-0">
               {t("hero.apercu.lecon2Duree")}
@@ -57,7 +55,6 @@ export function HowItWorks() {
       Icon: Layers,
       preview: (
         <div className="w-full space-y-2.5">
-          {/* Carte atelier pratique */}
           <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] space-y-2.5">
             <div className="flex items-center justify-between gap-2">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--home-orange-light)]">
@@ -69,7 +66,6 @@ export function HowItWorks() {
               </span>
             </div>
 
-            {/* Blocs visuels modulaires représentant la création d'un projet */}
             <div className="grid grid-cols-3 gap-1.5">
               <div className="h-7 rounded-md bg-[var(--surface-active)] border border-[var(--home-orange)]/35 flex items-center justify-center">
                 <Check className="w-3.5 h-3.5 text-[var(--home-orange-light)]" strokeWidth={2.5} aria-hidden="true" />
@@ -78,13 +74,12 @@ export function HowItWorks() {
                 <Check className="w-3.5 h-3.5 text-[var(--home-orange-light)]" strokeWidth={2.5} aria-hidden="true" />
               </div>
               <div className="h-7 rounded-md bg-[var(--home-orange)]/15 border border-dashed border-[var(--home-orange)]/55 flex items-center justify-center group-hover:bg-[var(--home-orange)]/25 transition-colors">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--home-orange)]" aria-hidden="true" />
+                <Play className="w-3 h-3 text-[var(--home-orange)]" strokeWidth={2.4} aria-hidden="true" />
               </div>
             </div>
           </div>
 
-          {/* Ligne projet en cours */}
-          <div className="px-3 py-2 rounded-lg bg-deep-navy/70 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy/75 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
             <span className="font-medium text-ice-white truncate">
               {t("hero.apercu.lecon3")}
             </span>
@@ -102,7 +97,6 @@ export function HowItWorks() {
       Icon: TrendingUp,
       preview: (
         <div className="w-full space-y-2.5">
-          {/* En-tête de progression + barres ascendantes */}
           <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-zinc-400">
@@ -113,7 +107,6 @@ export function HowItWorks() {
               </p>
             </div>
 
-            {/* Graphique à barres ascendantes */}
             <div className="flex items-end gap-1.5 h-9" aria-hidden="true">
               <span className="w-2 h-3 rounded-xs bg-[var(--home-orange)]/35" />
               <span className="w-2 h-5 rounded-xs bg-[var(--home-orange)]/55" />
@@ -122,8 +115,7 @@ export function HowItWorks() {
             </div>
           </div>
 
-          {/* Confirmation de suivi */}
-          <div className="px-3 py-2 rounded-lg bg-deep-navy/70 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
+          <div className="px-3 py-2 rounded-lg bg-deep-navy/75 dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
             <span className="inline-flex items-center gap-2 font-medium text-ice-white truncate">
               <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" strokeWidth={2.5} aria-hidden="true" />
               <span className="truncate">{t("fonctionnalites.progression.titre")}</span>
@@ -156,16 +148,14 @@ export function HowItWorks() {
               {t("etapes.sousTitreSection")}
             </p>
           </div>
+        </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 relative">
-            {steps.map((step, idx) => {
-              const StepIcon = step.Icon;
-              return (
-                <div
-                  key={step.num}
-                  className="group relative rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] p-6 flex flex-col justify-between transition-all duration-300 min-w-0"
-                >
-                  {/* Flèche de flux discrète entre les cartes sur desktop */}
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 relative">
+          {steps.map((step, idx) => {
+            const StepIcon = step.Icon;
+            return (
+              <RevealItem key={step.num} className="flex">
+                <div className="group relative w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-1 p-6 flex flex-col justify-between transition-all duration-300 min-w-0">
                   {idx < steps.length - 1 && (
                     <span
                       className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] items-center justify-center text-slate-400 dark:text-zinc-500 shadow-xs pointer-events-none"
@@ -175,7 +165,6 @@ export function HowItWorks() {
                     </span>
                   )}
 
-                  {/* En-tête de carte : Numéro d'étape + Icône architecturale */}
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/12 border border-[var(--home-orange)]/25 font-mono text-xs font-semibold text-[var(--home-orange-light)] tabular-nums">
@@ -186,7 +175,6 @@ export function HowItWorks() {
                       </span>
                     </div>
 
-                    {/* Aperçu visuel à hauteur uniforme pour aligner toutes les rangées */}
                     <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-3.5 mb-6 min-h-[138px] flex items-center">
                       {step.preview}
                     </div>
@@ -201,10 +189,10 @@ export function HowItWorks() {
                     </p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </Reveal>
+              </RevealItem>
+            );
+          })}
+        </RevealStagger>
       </div>
     </section>
   );

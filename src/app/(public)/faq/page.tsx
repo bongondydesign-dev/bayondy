@@ -17,16 +17,15 @@ export const metadata: Metadata = {
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        {/* En-tête de la page */}
-        <header className="mb-10 sm:mb-12">
+        <header className="mb-10 sm:mb-12 animate-hero-1">
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand-light mb-4">
             {t("nav.faq")}
           </p>
-          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
+          <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight text-balance">
             {t("faqPage.titre")}
           </h1>
           <p className="mt-4 font-sans text-base sm:text-lg text-slate-600 dark:text-ice-white/75 leading-relaxed">
@@ -34,15 +33,13 @@ export default function FaqPage() {
           </p>
         </header>
 
-        {/* Liste des 5 questions réutilisées depuis FaqList (<details>/<summary>, sans JS) */}
-        <section aria-label={t("faqPage.titre")}>
+        <section aria-label={t("faqPage.titre")} className="animate-hero-2">
           <FaqList accent="orange" />
         </section>
 
-        {/* Bloc « Besoin d'aide ? » */}
         <section
           aria-labelledby="aide-titre"
-          className="mt-12 sm:mt-16 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)] space-y-4"
+          className="mt-12 sm:mt-16 rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-8 space-y-4 animate-hero-3"
         >
           <h2
             id="aide-titre"

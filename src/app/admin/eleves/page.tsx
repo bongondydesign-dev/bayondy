@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { Search } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { filterAdminStudents } from "@/lib/admin/filters";
 import { t } from "@/lib/i18n";
@@ -164,7 +165,7 @@ export default function AdminElevesPage() {
       </div>
 
       {/* Formulaire accès manuel */}
-      <div className="p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-5">
+      <div className="p-6 rounded-2xl surface-glass space-y-5">
         <h2 className="font-display font-semibold text-ice-white text-base">
           {t("admin.eleves.accesManuel")}
         </h2>
@@ -260,28 +261,22 @@ export default function AdminElevesPage() {
           {students.length > 0 && (
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="relative">
-                <svg
+                <Search
                   className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
                   aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+                />
                 <input
                   type="search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("admin.eleves.rechercher")}
                   aria-label={t("admin.eleves.rechercher")}
-                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-deep-navy border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl surface-glass text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                 />
               </div>
 
               <div
-                className="inline-flex items-center gap-1 p-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] self-start sm:self-auto"
+                className="inline-flex items-center gap-1 p-1 rounded-full surface-glass self-start sm:self-auto"
                 role="group"
                 aria-label={t("admin.eleves.liste")}
               >
@@ -301,7 +296,7 @@ export default function AdminElevesPage() {
                       aria-pressed={active}
                       className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         active
-                          ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
+                          ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                           : "text-ice-white/70 hover:text-ice-white"
                       }`}
                     >
@@ -326,15 +321,15 @@ export default function AdminElevesPage() {
         {loading && students.length === 0 ? (
           <div className="space-y-3 animate-pulse">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-16 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
+              <div key={i} className="h-16 rounded-2xl surface-glass" />
             ))}
           </div>
         ) : filteredStudents.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+          <div className="p-8 text-center rounded-2xl surface-glass">
             <p className="text-ice-white/55 text-sm">{t("admin.eleves.vide")}</p>
           </div>
         ) : (
-          <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-faint)] overflow-hidden">
+          <div className="rounded-2xl surface-glass divide-y divide-[var(--border-faint)] overflow-hidden">
             {filteredStudents.map((s) => {
               const label = s.displayName || s.email || "B";
               const initial = label.charAt(0).toUpperCase();

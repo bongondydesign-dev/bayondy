@@ -1,12 +1,18 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
-import { Sora, Inter, IBM_Plex_Mono, Playfair_Display } from "next/font/google";
+import {
+  Sora,
+  Plus_Jakarta_Sans,
+  IBM_Plex_Mono,
+  Playfair_Display,
+} from "next/font/google";
 import "@/styles/theme.css";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme";
 import { AmbientBackdrop } from "@/components/layout/AmbientBackdrop";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { MotionProvider } from "@/components/ui/MotionProvider";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -15,10 +21,10 @@ const sora = Sora({
   display: "swap",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -51,23 +57,25 @@ export default function RootLayout({
     <html
       lang="ht"
       suppressHydrationWarning
-      className={`dark ${sora.variable} ${inter.variable} ${ibmPlexMono.variable} ${playfair.variable}`}
+      className={`dark ${sora.variable} ${jakarta.variable} ${ibmPlexMono.variable} ${playfair.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col relative">
-        <ThemeProvider>
-          <AuthProvider>
-            <AmbientBackdrop />
-            <div className="relative z-10 min-h-screen flex flex-col">
-              {children}
-            </div>
-            <Suspense fallback={null}>
-              <WhatsAppButton />
-            </Suspense>
-          </AuthProvider>
-        </ThemeProvider>
+        <MotionProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <AmbientBackdrop />
+              <div className="relative z-10 min-h-screen flex flex-col">
+                {children}
+              </div>
+              <Suspense fallback={null}>
+                <WhatsAppButton />
+              </Suspense>
+            </AuthProvider>
+          </ThemeProvider>
+        </MotionProvider>
       </body>
     </html>
   );

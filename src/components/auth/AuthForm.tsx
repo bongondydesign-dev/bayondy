@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import {
   extractAuthErrorCode,
@@ -40,7 +41,6 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
     setErrorKey(null);
     setErrorDetail(null);
 
-    // Validation locale du mot de passe (minimum 8 caractères)
     if (motDePasse.length < 8) {
       setErrorKey("auth.motDePasseTropCourt");
       return;
@@ -71,8 +71,11 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
     router.push(safeRedirect);
   };
 
+  const inputClasses =
+    "w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[#090B10] border border-[var(--border-strong)] text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all";
+
   return (
-    <div className="w-full max-w-md mx-auto rounded-2xl bg-deep-navy border border-[var(--border-subtle)] p-6 sm:p-8 shadow-[var(--card-shadow)]">
+    <div className="animate-hero-1 w-full max-w-md mx-auto rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-8">
       {/* En-tête du formulaire */}
       <div className="text-center mb-8">
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white tracking-tight">
@@ -87,26 +90,16 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         </p>
       </div>
 
-      {/* Message d'erreur avec role="alert" */}
+      {/* Message d'erreur */}
       {errorKey && (
         <div
           role="alert"
           className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-800 dark:text-red-200 text-sm flex items-start gap-3"
         >
-          <svg
+          <AlertCircle
             className="w-5 h-5 shrink-0 text-red-600 dark:text-red-400 mt-0.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
             aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          />
           <div className="font-sans leading-relaxed">
             <span>{t(errorKey)}</span>
             {errorDetail && (
@@ -127,7 +120,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         onSuccess={handleGoogleSuccess}
       />
 
-      {/* Séparateur « Oswa » */}
+      {/* Séparateur */}
       <div className="my-6 flex items-center gap-3">
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
         <span className="font-mono text-xs uppercase tracking-wider text-slate-500 dark:text-ice-white/55">
@@ -136,9 +129,8 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         <div className="h-px bg-[var(--border-subtle)] flex-1" />
       </div>
 
-      {/* Formulaire E-mail & Mot de passe */}
+      {/* Formulaire */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Champ Nom (Inscription seulement) */}
         {mode === "inscription" && (
           <div>
             <label
@@ -156,12 +148,11 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               placeholder={t("auth.nomPlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className={inputClasses}
             />
           </div>
         )}
 
-        {/* Champ E-mail */}
         <div>
           <label
             htmlFor="auth-email"
@@ -178,11 +169,10 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("auth.emailPlaceholder")}
-            className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+            className={inputClasses}
           />
         </div>
 
-        {/* Champ Mot de passe */}
         <div>
           <div className="flex items-center justify-between mb-2">
             <label
@@ -213,9 +203,8 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
               value={motDePasse}
               onChange={(e) => setMotDePasse(e.target.value)}
               placeholder={t("auth.motDePassePlaceholder")}
-              className="w-full min-h-[44px] px-4 py-2.5 pr-12 rounded-xl bg-[#FAFAF8] dark:bg-[#090B10] border border-slate-300 dark:border-white/15 text-ice-white text-sm placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+              className={`${inputClasses} pr-12`}
             />
-            {/* Bouton d'affichage du mot de passe accessible */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -224,56 +213,21 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
                   ? t("auth.cacherMotDePasse")
                   : t("auth.afficherMotDePasse")
               }
-              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-slate-500 dark:text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
+              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-slate-500 dark:text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg cursor-pointer"
             >
               {showPassword ? (
-                /* Icône Oeil barré */
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"
-                  />
-                </svg>
+                <EyeOff className="w-4 h-4" aria-hidden="true" />
               ) : (
-                /* Icône Oeil */
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
+                <Eye className="w-4 h-4" aria-hidden="true" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Bouton de validation principal */}
         <button
           type="submit"
           disabled={submitting}
-          className="w-full min-h-[44px] px-6 py-3 rounded-full bg-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:bg-brand-dark dark:hover:bg-brand-light active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[0_6px_18px_-4px_var(--brand-glow)] cursor-pointer"
+          className="w-full min-h-[46px] px-6 py-3 rounded-full bg-gradient-to-b from-[#FF652E] to-brand text-[var(--brand-fg)] font-semibold text-sm sm:text-base mt-2 hover:brightness-105 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)] cursor-pointer"
         >
           {submitting
             ? t("auth.chargement")
@@ -282,7 +236,6 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             : t("auth.connexion")}
         </button>
 
-        {/* Liens vers les conditions et la politique de confidentialité sous le formulaire d'inscription */}
         {mode === "inscription" && (
           <p className="pt-2 text-xs text-center text-slate-600 dark:text-ice-white/65 font-sans leading-relaxed">
             {t("auth.acceptationTexte")}{" "}
@@ -304,7 +257,6 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
         )}
       </form>
 
-      {/* Liens d'orientation en bas */}
       <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] text-center text-sm text-slate-600 dark:text-ice-white/70">
         {mode === "inscription" ? (
           <p>

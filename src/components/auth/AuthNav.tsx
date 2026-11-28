@@ -25,7 +25,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
     }
     return (
       <div
-        className="hidden md:flex items-center gap-3 animate-pulse shrink-0"
+        className="hidden lg:flex items-center gap-3 animate-pulse shrink-0"
         aria-hidden="true"
       >
         <div className="h-9 w-16 rounded-lg bg-slate-200 dark:bg-white/5" />
@@ -33,6 +33,9 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
       </div>
     );
   }
+
+  const primaryBtnClasses =
+    "group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] hover:brightness-105 text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0";
 
   if (user) {
     if (mobile) {
@@ -59,7 +62,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
           <Link
             href="/mes-formations"
             onClick={onNavigate}
-            className="min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] transition-colors font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)]"
+            className="min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] transition-colors font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)]"
           >
             <span>{t("mesFormations.navTableau")}</span>
             <ArrowRight className="w-4 h-4" strokeWidth={2.2} aria-hidden="true" />
@@ -69,7 +72,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
     }
 
     return (
-      <div className="hidden md:flex items-center gap-4 shrink-0">
+      <div className="hidden lg:flex items-center gap-4 shrink-0">
         {isAdmin && (
           <>
             <Link
@@ -89,10 +92,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
         >
           {t("nav.profil")}
         </Link>
-        <Link
-          href="/mes-formations"
-          className="group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0"
-        >
+        <Link href="/mes-formations" className={primaryBtnClasses}>
           <span>{t("mesFormations.navTableau")}</span>
           <ArrowRight
             className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"
@@ -110,14 +110,14 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
         <Link
           href="/connexion"
           onClick={onNavigate}
-          className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] text-ice-white hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-medium text-sm"
+          className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] bg-[var(--surface-glass)] text-ice-white hover:bg-[var(--surface-subtle)] transition-colors font-medium text-sm"
         >
           {t("nav.connexion")}
         </Link>
         <Link
           href="/inscription"
           onClick={onNavigate}
-          className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] transition-all duration-200"
+          className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] transition-all duration-200"
         >
           <span>{t("nav.inscription")}</span>
           <ArrowRight
@@ -131,17 +131,14 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
   }
 
   return (
-    <div className="hidden md:flex items-center gap-4 shrink-0">
+    <div className="hidden lg:flex items-center gap-4 shrink-0">
       <Link
         href="/connexion"
         className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
       >
         {t("nav.connexion")}
       </Link>
-      <Link
-        href="/inscription"
-        className="group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian whitespace-nowrap shrink-0"
-      >
+      <Link href="/inscription" className={primaryBtnClasses}>
         <span>{t("nav.inscription")}</span>
         <ArrowRight
           className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"

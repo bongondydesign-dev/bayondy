@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   Check,
   Lock,
@@ -85,7 +86,7 @@ export function HeroPreview() {
     <div className="mt-12 sm:mt-16 w-full max-w-5xl relative animate-hero-4">
       {/* Halo ambiant sobre ancré en haut de la fenêtre */}
       <div
-        className="absolute -inset-6 -z-10 pointer-events-none opacity-35 dark:opacity-50"
+        className="absolute -inset-6 -z-10 pointer-events-none opacity-40 dark:opacity-55"
         style={{
           background:
             "radial-gradient(ellipse 68% 42% at 50% 8%, var(--home-orange-glow) 0%, var(--home-orange-glow-soft) 50%, transparent 76%)",
@@ -93,7 +94,7 @@ export function HeroPreview() {
         aria-hidden="true"
       />
 
-      <div className="rounded-2xl bg-[var(--surface-browser)] border border-[var(--border-strong)]/80 dark:border-white/[0.1] hover:border-[var(--border-strong)] dark:hover:border-white/[0.16] transition-colors duration-300 shadow-[var(--card-shadow-hover)] dark:shadow-[0_28px_72px_-20px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.06)] ring-1 ring-slate-900/[0.03] dark:ring-white/[0.03] overflow-hidden text-left">
+      <div className="rounded-2xl bg-[var(--surface-browser)] backdrop-blur-xl border border-[var(--border-strong)]/80 dark:border-white/[0.11] hover:border-[var(--border-strong)] dark:hover:border-white/[0.18] transition-colors duration-300 shadow-[var(--card-shadow-hover)] dark:shadow-[0_28px_72px_-20px_rgba(0,0,0,0.88),inset_0_1px_0_rgba(255,255,255,0.08)] ring-1 ring-slate-900/[0.03] dark:ring-white/[0.04] overflow-hidden text-left">
         {/* Barre supérieure navigateur */}
         <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--surface-sidebar)]">
           <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
@@ -102,7 +103,7 @@ export function HeroPreview() {
             <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/15 inline-block" />
           </div>
 
-          <div className="px-3 py-1 rounded-lg bg-deep-navy dark:bg-[#13161F] border border-[var(--border-subtle)] text-[11px] font-mono text-slate-600 dark:text-zinc-300 inline-flex items-center gap-1.5 truncate max-w-[230px] sm:max-w-none shadow-[0_1px_1px_rgba(15,23,42,0.03)] dark:shadow-none">
+          <div className="px-3 py-1 rounded-lg bg-deep-navy dark:bg-[#13161F] border border-[var(--border-subtle)] text-[11px] font-mono text-slate-600 dark:text-zinc-300 inline-flex items-center gap-1.5 truncate max-w-[230px] sm:max-w-none shadow-[0_1px_1px_rgba(17,19,24,0.04)] dark:shadow-none">
             <Lock
               className="w-3 h-3 text-[var(--home-orange-light)] shrink-0"
               strokeWidth={2.2}
@@ -115,24 +116,21 @@ export function HeroPreview() {
 
           <div className="hidden sm:inline-flex items-center gap-2 shrink-0">
             <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300">
-              <span
-                className="w-1.5 h-1.5 rounded-full bg-[var(--home-orange)]"
-                aria-hidden="true"
-              />
+              <MonitorPlay className="w-3 h-3 text-[var(--home-orange)]" aria-hidden="true" />
               HD
             </span>
           </div>
         </div>
 
-        {/* Corps unifié : Barre latérale (liste unique) + Scène vidéo cinéma */}
+        {/* Corps unifié : Barre latérale + Scène vidéo cinéma */}
         <div className="grid grid-cols-1 md:grid-cols-12">
-          {/* Barre latérale gauche — seule liste des leçons sur tablette/desktop */}
+          {/* Barre latérale gauche */}
           <aside className="hidden md:flex md:col-span-4 border-r border-[var(--border-subtle)] bg-[var(--surface-sidebar)] p-4 lg:p-5 flex-col justify-between min-w-0">
             <div>
               {/* En-tête formation */}
               <div className="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-[var(--border-faint)]">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="w-7 h-7 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-xs shadow-xs shrink-0">
+                  <span className="w-7 h-7 rounded-lg bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-xs shadow-xs shrink-0">
                     B
                   </span>
                   <div className="min-w-0">
@@ -153,7 +151,7 @@ export function HeroPreview() {
                 {t("hero.apercu.listeTitre")}
               </p>
 
-              {/* Liste interactive des 3 leçons */}
+              {/* Liste interactive des 3 leçons avec layoutId animé */}
               <div className="space-y-2">
                 {lessons.map((lesson, idx) => {
                   const isActive = idx === activeIdx;
@@ -164,14 +162,23 @@ export function HeroPreview() {
                       type="button"
                       onClick={() => handleSelectLesson(idx)}
                       aria-pressed={isActive}
-                      className={`w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] cursor-pointer ${
+                      className={`relative w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] cursor-pointer ${
                         isActive
-                          ? "bg-[var(--surface-active)] border border-[var(--home-orange)]/45 text-ice-white shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                          : "bg-deep-navy/70 dark:bg-[#12151E]/85 border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
+                          ? "text-ice-white"
+                          : "bg-deep-navy/75 dark:bg-[#12151E]/85 border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
                       }`}
                     >
+                      {isActive && (
+                        <motion.span
+                          layoutId="hero-lesson-active"
+                          transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                          className="absolute inset-0 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange)]/45 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                          aria-hidden="true"
+                        />
+                      )}
+
                       <span
-                        className={`w-6 h-6 rounded-lg font-mono text-[11px] font-semibold flex items-center justify-center shrink-0 tabular-nums transition-colors ${
+                        className={`relative z-10 w-6 h-6 rounded-lg font-mono text-[11px] font-semibold flex items-center justify-center shrink-0 tabular-nums transition-colors ${
                           isActive
                             ? "bg-[var(--home-orange)] text-[var(--home-orange-fg)]"
                             : isCompleted
@@ -187,7 +194,7 @@ export function HeroPreview() {
                         )}
                       </span>
 
-                      <div className="flex-1 min-w-0">
+                      <div className="relative z-10 flex-1 min-w-0">
                         <p
                           className={`text-xs leading-snug truncate ${
                             isActive ? "font-semibold text-ice-white" : "font-medium"
@@ -208,7 +215,7 @@ export function HeroPreview() {
             </div>
 
             {/* Carte de progression globale */}
-            <div className="mt-5 p-3.5 rounded-xl bg-deep-navy dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <div className="mt-5 p-3.5 rounded-xl bg-deep-navy dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(17,19,24,0.04)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="text-slate-600 dark:text-zinc-300 font-sans font-medium">
                   {t("hero.apercu.progression")}
@@ -218,16 +225,18 @@ export function HeroPreview() {
                 </span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-[var(--track-muted)] overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-[var(--home-orange-dark)] to-[var(--home-orange)] transition-all duration-300 ease-out"
-                  style={{ width: `${current.progressPct}%` }}
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-[var(--home-orange-dark)] to-[var(--home-orange)]"
+                  initial={false}
+                  animate={{ width: `${current.progressPct}%` }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
             </div>
           </aside>
 
           {/* Scène principale du lecteur vidéo */}
-          <div className="md:col-span-8 p-4 sm:p-5 lg:p-6 bg-[var(--surface-browser)] flex flex-col justify-between gap-4 min-w-0">
+          <div className="md:col-span-8 p-4 sm:p-5 lg:p-6 bg-transparent flex flex-col justify-between gap-4 min-w-0">
             {/* En-tête de la leçon active */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0">
@@ -240,23 +249,26 @@ export function HeroPreview() {
               </div>
 
               <div className="flex items-center gap-2 text-xs font-mono shrink-0">
-                <span className="px-2.5 py-1 rounded-md bg-[var(--surface-active)] dark:bg-[#141720] border border-[var(--home-orange)]/25 dark:border-white/10 text-[var(--home-orange-light)] font-medium">
+                <span className="text-[var(--home-orange-light)] font-medium">
                   {t("bento.badgeCreole")}
                 </span>
-                <span className="px-2.5 py-1 rounded-md bg-[var(--surface-well)] dark:bg-[#141720] border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-300 tabular-nums">
+                <span className="text-slate-400 dark:text-zinc-500" aria-hidden="true">
+                  ·
+                </span>
+                <span className="text-slate-600 dark:text-zinc-300 tabular-nums">
                   {current.duration}
                 </span>
               </div>
             </div>
 
-            {/* Écran vidéo cinéma avec visuel de diapositive intégré + contrôles authentiques */}
-            <div className="aspect-video rounded-xl bg-gradient-to-br from-[#161A25] via-[#0F121A] to-[#080A0F] border border-slate-900/20 dark:border-white/[0.1] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.55)] flex flex-col justify-between relative p-3.5 sm:p-5 overflow-hidden group/player">
+            {/* Écran vidéo cinéma avec contraste sombre élégant */}
+            <div className="aspect-video rounded-xl bg-gradient-to-br from-[#161A25] via-[#0F121A] to-[#080A0F] border border-slate-900/20 dark:border-white/[0.1] shadow-[0_18px_42px_-14px_rgba(17,19,24,0.45)] flex flex-col justify-between relative p-3.5 sm:p-5 overflow-hidden group/player">
               {/* Lueur orange focale discrète */}
               <div
                 className="absolute inset-0 pointer-events-none transition-opacity duration-500 opacity-80 group-hover/player:opacity-100"
                 style={{
                   background:
-                    "radial-gradient(circle at 50% 44%, rgba(255, 91, 34, 0.22) 0%, rgba(255, 91, 34, 0.06) 36%, transparent 64%)",
+                    "radial-gradient(circle at 50% 44%, rgba(255, 91, 34, 0.24) 0%, rgba(255, 91, 34, 0.06) 36%, transparent 64%)",
                 }}
                 aria-hidden="true"
               />
@@ -272,9 +284,9 @@ export function HeroPreview() {
                 aria-hidden="true"
               />
 
-              {/* Rangée supérieure du slide vidéo (donne une vraie profondeur éditoriale à l'écran) */}
+              {/* Rangée supérieure du slide vidéo */}
               <div className="relative z-10 flex items-start justify-between gap-3">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/[0.1] backdrop-blur-sm">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/[0.07] border border-white/[0.12] backdrop-blur-sm">
                   <MonitorPlay
                     className="w-3.5 h-3.5 text-[#FF885C]"
                     strokeWidth={2}
@@ -285,13 +297,13 @@ export function HeroPreview() {
                   </span>
                 </div>
 
-                <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/35 border border-white/[0.08] font-mono text-[10px] text-zinc-300">
+                <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/40 border border-white/[0.08] font-mono text-[10px] text-zinc-300">
                   <Smartphone className="w-3 h-3 text-[#FF885C]" aria-hidden="true" />
                   <span>{t("bento.badgeMobile")}</span>
                 </div>
               </div>
 
-              {/* Bouton central Lecture / Pause + aperçu typographique de la diapositive */}
+              {/* Bouton central Lecture / Pause + diapositive animée */}
               <div className="relative z-10 flex flex-col items-center justify-center text-center my-auto px-2">
                 <div className="relative flex items-center justify-center mb-3">
                   <span
@@ -300,11 +312,13 @@ export function HeroPreview() {
                     }`}
                     aria-hidden="true"
                   />
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ scale: 1.07 }}
+                    whileTap={{ scale: 0.94 }}
                     onClick={() => setIsPlaying((prev) => !prev)}
                     aria-label={isPlaying ? current.title : t("lecteur.lancerVideo")}
-                    className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FF5B22] hover:bg-[#FF7342] text-white flex items-center justify-center shadow-[0_10px_30px_rgba(255,91,34,0.45)] ring-4 ring-[#FF5B22]/15 group-hover/player:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] cursor-pointer"
+                    className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-b from-[#FF7342] to-[#FF5B22] text-white flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_12px_32px_rgba(255,91,34,0.48)] ring-4 ring-[#FF5B22]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] cursor-pointer"
                   >
                     {isPlaying ? (
                       <Pause
@@ -317,33 +331,44 @@ export function HeroPreview() {
                         aria-hidden="true"
                       />
                     )}
-                  </button>
+                  </motion.button>
                 </div>
 
-                <p className="hidden sm:block font-display font-semibold text-sm text-white/90 tracking-tight max-w-sm truncate">
-                  {current.cleanTitle}
-                </p>
-                <p className="hidden sm:block font-sans text-xs text-zinc-400 mt-0.5 max-w-xs truncate">
-                  {current.slideSubtitle}
-                </p>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={current.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="hidden sm:block"
+                  >
+                    <p className="font-display font-semibold text-sm text-white/95 tracking-tight max-w-sm truncate">
+                      {current.cleanTitle}
+                    </p>
+                    <p className="font-sans text-xs text-zinc-400 mt-0.5 max-w-xs truncate">
+                      {current.slideSubtitle}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
-              {/* Barre de transport vidéo réaliste en bas du lecteur */}
+              {/* Barre de transport vidéo */}
               <div className="relative z-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 px-3 py-2.5 space-y-2">
-                {/* Piste de lecture avec marqueurs de chapitres */}
                 <div className="relative h-1.5 bg-white/15 rounded-full overflow-visible">
-                  <div
-                    className="h-full bg-gradient-to-r from-[#E54813] to-[#FF885C] rounded-full transition-all duration-300 ease-out relative"
-                    style={{ width: `${current.progressPct}%` }}
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-[#E54813] to-[#FF885C] rounded-full relative"
+                    initial={false}
+                    animate={{ width: `${current.progressPct}%` }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <span
                       className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,91,34,0.9)] ring-2 ring-[#FF5B22]"
                       aria-hidden="true"
                     />
-                  </div>
+                  </motion.div>
                 </div>
 
-                {/* Contrôles inférieur gauche/droite */}
                 <div className="flex items-center justify-between gap-2 text-zinc-200">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <button
@@ -400,7 +425,7 @@ export function HeroPreview() {
               </div>
             </div>
 
-            {/* Sélecteur compact mobile (<md où la barre latérale est masquée) */}
+            {/* Sélecteur compact mobile (<md) */}
             <div className="md:hidden grid grid-cols-3 gap-2">
               {lessons.map((lesson, idx) => {
                 const isActive = idx === activeIdx;
@@ -427,7 +452,7 @@ export function HeroPreview() {
               })}
             </div>
 
-            {/* Pied du lecteur : 3 atouts concrets + accès rapide à la leçon suivante */}
+            {/* Pied du lecteur */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-[var(--border-faint)] text-xs">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-slate-600 dark:text-zinc-400">
                 <span className="inline-flex items-center gap-1.5">

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 export interface ButtonProps {
-  variant?: "principal" | "secondaire";
+  variant?: "principal" | "secondaire" | "carbon";
   accent?: "brand" | "orange";
   href?: string;
   children: React.ReactNode;
@@ -22,12 +22,14 @@ export function Button({
   ariaLabel,
 }: ButtonProps) {
   const baseStyles =
-    "group inline-flex items-center justify-center gap-2.5 font-medium text-sm px-5 py-2.5 rounded-full min-h-[44px] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.98] select-none whitespace-nowrap";
+    "group inline-flex items-center justify-center gap-2.5 font-medium text-sm px-5 py-2.5 rounded-full min-h-[44px] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian active:scale-[0.98] select-none whitespace-nowrap cursor-pointer";
 
   const variantStyles =
     variant === "principal"
-      ? "bg-brand text-[var(--brand-fg)] font-semibold hover:bg-brand-dark dark:hover:bg-brand-light hover:-translate-y-0.5 shadow-[0_6px_18px_-4px_var(--brand-glow)]"
-      : "border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-ice-white hover:border-brand/55 hover:bg-[var(--surface-subtle)] hover:-translate-y-0.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]";
+      ? "bg-gradient-to-b from-[#FF652E] to-brand dark:from-[#FF703D] dark:to-brand text-[var(--brand-fg)] font-semibold hover:brightness-105 hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)]"
+      : variant === "carbon"
+        ? "bg-[#12141B] hover:bg-[#1B1E28] text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-[#0B0D12] font-semibold hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_24px_-8px_rgba(17,19,24,0.35)]"
+        : "border border-[var(--border-strong)] bg-[var(--surface-glass)] backdrop-blur-md text-ice-white hover:border-brand/55 hover:bg-[var(--deep-navy)] hover:-translate-y-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_2px_8px_-2px_rgba(17,19,24,0.06)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]";
 
   const combinedClasses = `${baseStyles} ${variantStyles} ${className}`.trim();
 

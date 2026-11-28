@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 import { t } from "@/lib/i18n";
 
 export function NavLinks() {
@@ -33,7 +34,7 @@ export function NavLinks() {
 
   return (
     <nav
-      className="hidden md:flex items-center gap-7 lg:gap-9"
+      className="hidden lg:flex items-center gap-1 xl:gap-1.5 px-2 py-1 rounded-full bg-[var(--surface-glass)] border border-[var(--border-subtle)] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md"
       aria-label={t("nav.menu")}
     >
       {items.map((item) => (
@@ -41,13 +42,21 @@ export function NavLinks() {
           key={item.href}
           href={item.href}
           aria-current={item.isActive ? "page" : undefined}
-          className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:rounded-full after:transition-transform after:duration-200 after:origin-center ${
+          className={`relative px-3.5 lg:px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] ${
             item.isActive
-              ? "text-ice-white after:bg-[var(--home-orange)] after:scale-x-100"
-              : "text-slate-600 dark:text-ice-white/70 hover:text-ice-white after:bg-[var(--home-orange-light)]/75 after:scale-x-0 hover:after:scale-x-100"
+              ? "text-white dark:text-[#07080A] font-semibold"
+              : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white"
           }`}
         >
-          {item.label}
+          {item.isActive && (
+            <motion.span
+              layoutId="nav-active-pill"
+              transition={{ type: "spring", stiffness: 420, damping: 32 }}
+              className="absolute inset-0 rounded-full bg-[#12141B] dark:bg-[var(--home-orange)] shadow-xs"
+              aria-hidden="true"
+            />
+          )}
+          <span className="relative z-10">{item.label}</span>
         </Link>
       ))}
     </nav>

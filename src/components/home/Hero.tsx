@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Sparkles } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { HeroPreview } from "@/components/home/HeroPreview";
@@ -16,7 +16,7 @@ export function Hero() {
     <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-transparent transition-colors duration-200">
       {/* Lueur d'ambiance orange douce par dégradé radial */}
       <div
-        className="absolute inset-x-0 top-0 h-[520px] pointer-events-none opacity-55 dark:opacity-100"
+        className="absolute inset-x-0 top-0 h-[520px] pointer-events-none opacity-60 dark:opacity-100"
         style={{
           background:
             "radial-gradient(ellipse 62% 52% at 50% 6%, var(--home-orange-glow) 0%, var(--home-orange-glow-soft) 45%, transparent 75%)",
@@ -25,13 +25,14 @@ export function Hero() {
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
-        {/* Bandeau d'annonce cliquable */}
+        {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full bg-deep-navy border border-[var(--border-strong)]/85 hover:border-[var(--home-orange)]/55 shadow-[0_1px_3px_rgba(15,23,42,0.05)] dark:shadow-none transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)]/80 hover:border-[var(--home-orange)]/55 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
-          <span
-            className="w-2 h-2 rounded-full bg-[var(--home-orange)] shrink-0"
+          <Sparkles
+            className="w-3.5 h-3.5 text-[var(--home-orange)] shrink-0"
+            strokeWidth={2.2}
             aria-hidden="true"
           />
           <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
@@ -53,7 +54,7 @@ export function Hero() {
           <span className="block">{t("hero.titreLigne1")}</span>
           <span className="block">
             {t("hero.titreLigne2Prefix")}
-            <span className="font-serif italic font-normal bg-gradient-to-r from-[#E54813] to-[#BA3408] dark:from-[#FF885C] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
+            <span className="font-serif italic font-normal bg-gradient-to-r from-[#EB4A15] to-[#B83207] dark:from-[#FF8C61] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
               {t("hero.titreLigne2Gradient")}
             </span>
           </span>
@@ -64,7 +65,7 @@ export function Hero() {
           {t("hero.sousTitre")}
         </p>
 
-        {/* Boutons d'action pilules */}
+        {/* Boutons d'action haute lisibilité */}
         <div className="animate-hero-3 mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto justify-center">
           <Button
             href="/formations"
@@ -88,7 +89,7 @@ export function Hero() {
           >
             <span>{t("hero.ctaSecondaire")}</span>
             <span
-              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.07] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.08] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />

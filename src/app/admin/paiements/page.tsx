@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, Trash2 } from "lucide-react";
+import { CheckCircle2, CreditCard, Search, Trash2 } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { computePaymentSummary, filterAdminPayments } from "@/lib/admin/filters";
 import {
@@ -190,7 +190,7 @@ export default function AdminPaiementsPage() {
       {/* Real Payment Summary Strip */}
       {!loading && payments.length > 0 && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+          <div className="p-4 sm:p-5 rounded-2xl surface-glass">
             <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
               {t("admin.paiements.totalHTG")}
             </span>
@@ -198,7 +198,7 @@ export default function AdminPaiementsPage() {
               {summary.totalHTG.toLocaleString("fr-FR")} HTG
             </span>
           </div>
-          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+          <div className="p-4 sm:p-5 rounded-2xl surface-glass">
             <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
               {t("admin.paiements.totalUSD")}
             </span>
@@ -206,7 +206,7 @@ export default function AdminPaiementsPage() {
               {summary.totalUSD.toLocaleString("fr-FR")} USD
             </span>
           </div>
-          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+          <div className="p-4 sm:p-5 rounded-2xl surface-glass">
             <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
               {t("admin.paiements.payes")}
             </span>
@@ -214,7 +214,7 @@ export default function AdminPaiementsPage() {
               {summary.paidCount}
             </span>
           </div>
-          <div className="p-4 sm:p-5 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+          <div className="p-4 sm:p-5 rounded-2xl surface-glass">
             <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
               {t("admin.paiements.enAttente")}
             </span>
@@ -229,28 +229,22 @@ export default function AdminPaiementsPage() {
       {!loading && payments.length > 0 && (
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-md">
-            <svg
+            <Search
               className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
               aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            />
             <input
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("admin.paiements.rechercher")}
               aria-label={t("admin.paiements.rechercher")}
-              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-deep-navy border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl surface-glass text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
             />
           </div>
 
           <div
-            className="inline-flex flex-wrap items-center gap-1 p-1 rounded-2xl sm:rounded-full bg-deep-navy border border-[var(--border-subtle)] self-start lg:self-auto"
+            className="inline-flex flex-wrap items-center gap-1 p-1 rounded-2xl sm:rounded-full surface-glass self-start lg:self-auto"
             role="group"
             aria-label={t("admin.paiements.titre")}
           >
@@ -272,7 +266,7 @@ export default function AdminPaiementsPage() {
                   aria-pressed={active}
                   className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                     active
-                      ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
+                      ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                       : "text-ice-white/70 hover:text-ice-white"
                   }`}
                 >
@@ -293,21 +287,19 @@ export default function AdminPaiementsPage() {
       {loading && payments.length === 0 ? (
         <div className="space-y-3 animate-pulse">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-14 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
+            <div key={i} className="h-14 rounded-2xl surface-glass" />
           ))}
         </div>
       ) : filteredPayments.length === 0 ? (
-        <div className="p-10 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-3">
-          <svg className="w-12 h-12 text-ice-white/25 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-          </svg>
+        <div className="p-10 text-center rounded-2xl surface-glass space-y-3">
+          <CreditCard className="w-11 h-11 text-ice-white/25 mx-auto" strokeWidth={1.5} aria-hidden="true" />
           <p className="font-sans text-ice-white/60 text-sm">
             {t("admin.paiements.vide")}
           </p>
         </div>
       ) : (
         <>
-          <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] overflow-hidden">
+          <div className="rounded-2xl surface-glass overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm font-sans min-w-[700px]">
                 <thead>

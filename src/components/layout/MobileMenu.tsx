@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { AuthNav } from "@/components/auth/AuthNav";
 import { t } from "@/lib/i18n";
@@ -44,14 +45,14 @@ export function MobileMenu() {
   ];
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         aria-label={open ? t("nav.fermer") : t("nav.menu")}
-        className="flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl border border-[var(--border-subtle)] bg-deep-navy dark:bg-[var(--surface-subtle)] text-ice-white hover:border-[var(--home-orange)]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] active:scale-95 cursor-pointer"
+        className="flex items-center justify-center w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-glass)] backdrop-blur-md text-ice-white hover:border-[var(--home-orange)]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] active:scale-95 cursor-pointer shadow-2xs"
       >
         {open ? (
           <X
@@ -64,50 +65,60 @@ export function MobileMenu() {
         )}
       </button>
 
-      {open && (
-        <>
-          <div
-            className="fixed inset-x-0 top-16 bottom-0 z-40 bg-black/45 backdrop-blur-[2px]"
-            onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-          <nav
-            id="mobile-nav-drawer"
-            aria-label={t("nav.menu")}
-            className="fixed inset-x-0 top-16 z-50 border-b border-[var(--border-subtle)] bg-[var(--deep-navy)] px-4 pb-5 pt-3 shadow-[var(--card-shadow-hover)]"
-          >
-            <div className="divide-y divide-[var(--border-faint)]">
-              {links.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  aria-current={item.isActive ? "page" : undefined}
-                  className={`min-h-[48px] flex items-center justify-between px-2 font-medium text-sm transition-colors ${
-                    item.isActive
-                      ? "text-[var(--home-orange-light)] font-semibold"
-                      : "text-ice-white hover:text-[var(--home-orange-light)]"
-                  }`}
-                >
-                  <span>{item.label}</span>
-                  <ArrowRight
-                    className={`w-4 h-4 ${
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-0 top-16 bottom-0 z-40 bg-black/55 backdrop-blur-xs"
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+            />
+            <motion.nav
+              id="mobile-nav-drawer"
+              aria-label={t("nav.menu")}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-0 top-16 z-50 border-b border-[var(--border-subtle)] bg-[#FCFBF8] dark:bg-[#0D0F16] px-4 pb-6 pt-3 shadow-[var(--card-shadow-hover)]"
+            >
+              <div className="divide-y divide-[var(--border-faint)]">
+                {links.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={item.isActive ? "page" : undefined}
+                    className={`min-h-[48px] flex items-center justify-between px-2 font-medium text-sm transition-colors ${
                       item.isActive
-                        ? "text-[var(--home-orange-light)]"
-                        : "text-slate-400 dark:text-ice-white/40"
+                        ? "text-[var(--home-orange-light)] font-semibold"
+                        : "text-ice-white hover:text-[var(--home-orange-light)]"
                     }`}
-                    aria-hidden="true"
-                  />
-                </Link>
-              ))}
-            </div>
+                  >
+                    <span>{item.label}</span>
+                    <ArrowRight
+                      className={`w-4 h-4 ${
+                        item.isActive
+                          ? "text-[var(--home-orange-light)]"
+                          : "text-slate-400 dark:text-ice-white/40"
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </Link>
+                ))}
+              </div>
 
-            <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
-              <AuthNav mobile onNavigate={() => setOpen(false)} />
-            </div>
-          </nav>
-        </>
-      )}
+              <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
+                <AuthNav mobile onNavigate={() => setOpen(false)} />
+              </div>
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

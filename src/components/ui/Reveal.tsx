@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { motion } from "motion/react";
+
+const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface RevealProps {
   children: React.ReactNode;
@@ -9,76 +12,83 @@ interface RevealProps {
 }
 
 export function Reveal({ children, className = "", delayMs = 0 }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const revealNow = () => {
-      el.setAttribute("data-revealed", "true");
-    };
-
-    if (prefersReduced) {
-      revealNow();
-      return;
-    }
-
-    const rect = el.getBoundingClientRect();
-    const vh = window.innerHeight || 900;
-
-    if (rect.top <= vh * 0.92) {
-      revealNow();
-      return;
-    }
-
-    el.setAttribute("data-revealed", "pending");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting || entry.boundingClientRect.top <= (window.innerHeight || 900)) {
-            revealNow();
-            observer.disconnect();
-            window.removeEventListener("scroll", onScroll);
-            break;
-          }
-        }
-      },
-      { threshold: 0.06, rootMargin: "0px 0px -24px 0px" }
-    );
-
-    const onScroll = () => {
-      if (!ref.current) return;
-      const top = ref.current.getBoundingClientRect().top;
-      if (top <= (window.innerHeight || 900) * 0.96) {
-        revealNow();
-        observer.disconnect();
-        window.removeEventListener("scroll", onScroll);
-      }
-    };
-
-    observer.observe(el);
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      style={delayMs > 0 ? { transitionDelay: `${delayMs}ms` } : undefined}
-      className={`reveal-block ${className}`.trim()}
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{
+        duration: 0.5,
+        ease: EASE_OUT_EXPO,
+        delay: delayMs > 0 ? delayMs / 1000 : 0,
+      }}
+      onViewportEnter={(entry) => {
+        if (entry?.target instanceof HTMLElement) {
+          entry.target.setAttribute("data-revealed", "true");
+        }
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
+  );
+}
+
+export function RevealStagger({
+  children,
+  className = "",
+  staggerDelay = 0.06,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  staggerDelay?: number;
+}) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: staggerDelay,
+          },
+        },
+      }}
+      onViewportEnter={(entry) => {
+        if (entry?.target instanceof HTMLElement) {
+          entry.target.setAttribute("data-revealed", "true");
+        }
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function RevealItem({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 16 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.45, ease: EASE_OUT_EXPO },
+        },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import type { PublicCourse } from "@/types/firestore";
 import { formatDuration } from "@/lib/courses/format";
 import { PriceTag } from "./PriceTag";
@@ -27,7 +28,7 @@ export function CourseCard({ course }: CourseCardProps) {
   const metaParts = [levelLabel, durationText, lessonsLabel].filter(Boolean);
 
   return (
-    <article className="group relative flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/45 hover:-translate-y-0.5 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 overflow-hidden">
+    <article className="group relative flex flex-col rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-brand/45 hover:-translate-y-1 transition-all duration-200 overflow-hidden">
       {/* Couverture 16:9 avec repli BAYONDY */}
       <Link
         href={`/formations/${course.slug}`}
@@ -67,7 +68,6 @@ export function CourseCard({ course }: CourseCardProps) {
       {/* Contenu de la carte */}
       <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
         <div>
-          {/* Métadonnées sobres sans pastilles */}
           {metaParts.length > 0 && (
             <p className="font-mono text-xs text-slate-500 dark:text-ice-white/60 tabular-nums mb-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
               {metaParts.map((part, idx) => (
@@ -79,7 +79,6 @@ export function CourseCard({ course }: CourseCardProps) {
             </p>
           )}
 
-          {/* Titre du cours */}
           <h3 className="font-display font-bold text-lg sm:text-xl text-ice-white group-hover:text-brand-light transition-colors tracking-tight line-clamp-2">
             <Link
               href={`/formations/${course.slug}`}
@@ -89,7 +88,6 @@ export function CourseCard({ course }: CourseCardProps) {
             </Link>
           </h3>
 
-          {/* Description courte (2 lignes max) */}
           {course.shortDescription && (
             <p className="mt-2 text-sm text-slate-600 dark:text-ice-white/70 font-sans line-clamp-2 leading-relaxed">
               {course.shortDescription}
@@ -108,7 +106,7 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="flex items-center gap-2.5">
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-deep-navy dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 hover:border-brand/50 hover:bg-[var(--surface-subtle)] dark:hover:bg-[#1A1E29] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-[var(--surface-well)] dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 hover:border-brand/50 hover:bg-deep-navy dark:hover:bg-[#1A1E29] text-ice-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.gadeFormasyon")} — ${course.title}`}
             >
               {t("catalogue.gadeFormasyon")}
@@ -116,24 +114,15 @@ export function CourseCard({ course }: CourseCardProps) {
 
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] text-xs sm:text-sm font-semibold transition-all duration-200 shadow-[0_6px_18px_-4px_var(--brand-glow)] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-gradient-to-b from-[#FF652E] to-brand hover:brightness-105 text-[var(--brand-fg)] text-xs sm:text-sm font-semibold transition-all duration-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-4px_var(--brand-glow)] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.boutonInscrire")} — ${course.title}`}
             >
               <span>{t("catalogue.boutonInscrire")}</span>
-              <svg
+              <ArrowRight
                 className="w-3.5 h-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                strokeWidth={2.2}
                 aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.2}
-                  d="M5 12h14m-6-6l6 6-6 6"
-                />
-              </svg>
+              />
             </Link>
           </div>
         </div>

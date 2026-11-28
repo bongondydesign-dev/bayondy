@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { Check, Clock, CreditCard, LogIn } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { hasCourseAccess } from "@/lib/learning/access";
 import { getEnrollmentForCourse } from "@/lib/learning/queries";
@@ -78,20 +79,7 @@ export function EnrollButton({
         href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
         className={`w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian ${className}`}
       >
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-          />
-        </svg>
+        <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
         <span>{t("catalogue.boutonInscrireConnexion")}</span>
       </Link>
     );
@@ -110,8 +98,8 @@ export function EnrollButton({
           href={`/mes-formations/${courseSlug}`}
           className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
-          <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center text-xs" aria-hidden="true">
-            ✓
+          <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center" aria-hidden="true">
+            <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
           </span>
           <span>{t("catalogue.boutonAcceder")}</span>
         </Link>
@@ -136,20 +124,7 @@ export function EnrollButton({
         className={`w-full min-h-[48px] px-5 py-3.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] text-ice-white/85 font-sans font-medium text-sm flex items-center justify-center gap-2.5 text-center ${className}`}
         role="status"
       >
-        <svg
-          className="w-4 h-4 text-brand-light flex-shrink-0"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
+        <Clock className="w-4 h-4 text-brand-light flex-shrink-0" aria-hidden="true" />
         <span>{t("catalogue.peyemanBientot")}</span>
       </div>
     );
@@ -233,20 +208,7 @@ export function EnrollButton({
           </>
         ) : (
           <>
-            <svg
-              className="w-4 h-4 flex-shrink-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-              />
-            </svg>
+            <CreditCard className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
             <span>{t("paiement.payerMonCash")}</span>
           </>
         )}

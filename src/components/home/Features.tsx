@@ -10,7 +10,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import { t } from "@/lib/i18n";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealItem, RevealStagger } from "@/components/ui/Reveal";
 
 export function Features() {
   const milestones = [
@@ -75,13 +75,15 @@ export function Features() {
               </Link>
             </div>
           </div>
+        </Reveal>
 
-          {/* Grille Bento asymétrique */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* ── Carte 1 (col-span-2) : Leçons en créole ─────────────────────── */}
-            <article className="group md:col-span-2 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-w-0">
+        {/* Grille Bento asymétrique avec alternance verre clair & ancre obsidienne */}
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* ── Carte 1 (col-span-2) : Leçons en créole ─────────────────────── */}
+          <RevealItem className="md:col-span-2 flex">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-w-0">
               <div
-                className="absolute -top-24 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-35 dark:opacity-55 group-hover:opacity-75 transition-opacity duration-300"
+                className="absolute -top-24 -right-20 w-80 h-80 rounded-full pointer-events-none opacity-40 dark:opacity-55 group-hover:opacity-75 transition-opacity duration-300"
                 style={{
                   background:
                     "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
@@ -152,7 +154,6 @@ export function Features() {
                       stroke="var(--surface-grid-line)"
                     />
 
-                    {/* Repères verticaux exacts sous les 3 jalons */}
                     <line x1="56" y1="98" x2="56" y2="112" stroke="var(--border-strong)" />
                     <line x1="284" y1="62" x2="284" y2="112" stroke="var(--border-strong)" />
                     <line
@@ -164,13 +165,11 @@ export function Features() {
                       strokeOpacity="0.45"
                     />
 
-                    {/* Aire sous courbe */}
                     <path
                       d="M 16 104 C 30 102, 42 100, 56 98 C 130 88, 210 74, 284 62 C 365 49, 448 34, 528 22 L 528 106 L 16 106 Z"
                       fill="url(#bento-curve-fill)"
                     />
 
-                    {/* Tracé animé passant exactement par (56,98), (284,62) et (528,22) */}
                     <path
                       d="M 16 104 C 30 102, 42 100, 56 98 C 130 88, 210 74, 284 62 C 365 49, 448 34, 528 22"
                       fill="none"
@@ -239,101 +238,98 @@ export function Features() {
                 </p>
               </div>
             </article>
+          </RevealItem>
 
-            {/* ── Carte 2 (row-span-2) : Aksè otomatik ───────────────────────── */}
-            <article className="group md:col-span-1 md:row-span-2 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden min-w-0">
+          {/* ── Carte 2 (row-span-2) : Aksè otomatik — Ancre Contraste Obsidienne ── */}
+          <RevealItem className="md:col-span-1 md:row-span-2 flex">
+            <article className="group w-full rounded-2xl surface-contrast border border-white/10 hover:border-[#FF5B22]/50 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden min-w-0">
               <div
-                className="absolute -bottom-20 -right-16 w-64 h-64 rounded-full pointer-events-none opacity-25 dark:opacity-45 group-hover:opacity-70 transition-opacity duration-300"
+                className="absolute -bottom-24 -right-16 w-72 h-72 rounded-full pointer-events-none opacity-65 group-hover:opacity-90 transition-opacity duration-300"
                 style={{
                   background:
-                    "radial-gradient(circle, var(--home-orange-glow-soft) 0%, transparent 68%)",
+                    "radial-gradient(circle, rgba(255, 91, 34, 0.22) 0%, transparent 68%)",
                 }}
                 aria-hidden="true"
               />
 
               <div className="relative z-10 flex flex-col">
-                {/* En-tête de séquence */}
-                <div className="flex items-center justify-between gap-2 pb-4 mb-6 border-b border-[var(--border-faint)]">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-ice-white/60">
+                <div className="flex items-center justify-between gap-2 pb-4 mb-6 border-b border-white/10">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-400">
                     MonCash → {t("bento.badgeAcces")}
                   </span>
                   <LockOpen
-                    className="w-4 h-4 text-[var(--home-orange-light)] shrink-0"
+                    className="w-4 h-4 text-[#FF885C] shrink-0"
                     strokeWidth={2}
                     aria-hidden="true"
                   />
                 </div>
 
-                {/* Timeline 2 nœuds + connecteur net vers la liste de leçons */}
+                {/* Timeline 2 nœuds + connecteur net */}
                 <div className="relative pl-8 space-y-6">
-                  {/* Ligne verticale qui relie exactement les 3 pastilles (top 12px -> bottom de la 3e pastille) */}
                   <span
-                    className="absolute left-[11px] top-3 h-[116px] w-px bg-gradient-to-b from-emerald-500/60 via-[var(--home-orange)]/70 to-[var(--border-strong)]"
+                    className="absolute left-[11px] top-3 h-[116px] w-px bg-gradient-to-b from-emerald-400/70 via-[#FF5B22]/75 to-white/20"
                     aria-hidden="true"
                   />
 
-                  {/* Étape 1 : Paiement confirmé */}
                   <div className="relative">
                     <span
-                      className="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-deep-navy border border-emerald-500/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center"
+                      className="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-[#1B1F2A] border border-emerald-400/55 text-emerald-400 flex items-center justify-center"
                       aria-hidden="true"
                     >
                       <Check className="w-3 h-3" strokeWidth={2.6} />
                     </span>
-                    <p className="font-sans text-sm font-semibold text-ice-white leading-snug">
+                    <p className="font-sans text-sm font-semibold text-white leading-snug">
                       {t("paiement.reussi")}
                     </p>
-                    <p className="font-mono text-[11px] text-slate-500 dark:text-ice-white/55 mt-0.5">
+                    <p className="font-mono text-[11px] text-zinc-400 mt-0.5">
                       MonCash · {t("tarifs.statutDisponible")}
                     </p>
                   </div>
 
-                  {/* Étape 2 : Déblocage automatique */}
                   <div className="relative">
                     <span
-                      className="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-[var(--home-orange)] text-[var(--home-orange-fg)] flex items-center justify-center shadow-[0_0_16px_var(--home-orange-glow)] group-hover:scale-105 transition-transform duration-200"
+                      className="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-[#FF5B22] text-white flex items-center justify-center shadow-[0_0_18px_rgba(255,91,34,0.55)] group-hover:scale-105 transition-transform duration-200"
                       aria-hidden="true"
                     >
                       <LockOpen className="w-3 h-3" strokeWidth={2.4} />
                     </span>
-                    <p className="font-sans text-sm font-semibold text-ice-white leading-snug">
+                    <p className="font-sans text-sm font-semibold text-white leading-snug">
                       {t("fonctionnalites.acces.titre")}
                     </p>
-                    <p className="font-mono text-[11px] text-[var(--home-orange-light)] mt-0.5">
+                    <p className="font-mono text-[11px] text-[#FF885C] mt-0.5">
                       {t("bento.badgeAcces")}
                     </p>
                   </div>
 
-                  {/* Étape 3 : En-tête de la liste débloquée */}
                   <div className="relative">
                     <span
-                      className="absolute -left-8 top-0 w-6 h-6 rounded-full bg-deep-navy border border-[var(--border-strong)] text-[var(--home-orange-light)] flex items-center justify-center"
+                      className="absolute -left-8 top-0 w-6 h-6 rounded-full bg-[#1B1F2A] border border-white/20 text-[#FF885C] flex items-center justify-center"
                       aria-hidden="true"
                     >
                       <Play className="w-2.5 h-2.5 translate-x-[1px] fill-current" />
                     </span>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-500 dark:text-ice-white/60 leading-6">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-400 leading-6">
                       {t("hero.apercu.listeTitre")}
                     </p>
                   </div>
                 </div>
 
-                {/* Liste épurée des 3 leçons débloquées alignée pleine largeur */}
-                <div className="mt-5 divide-y divide-[var(--border-faint)] border-t border-b border-[var(--border-faint)]">
+                {/* Liste épurée des 3 leçons débloquées */}
+                <div className="mt-5 divide-y divide-white/10 border-t border-b border-white/10">
                   {unlockedLessons.map((lesson) => (
                     <div
                       key={lesson.num}
                       className="py-3 flex items-center justify-between gap-3 text-xs group-hover:translate-x-0.5 transition-transform duration-200"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="font-mono text-[11px] font-semibold text-[var(--home-orange-light)] tabular-nums shrink-0">
+                        <span className="font-mono text-[11px] font-semibold text-[#FF885C] tabular-nums shrink-0">
                           {lesson.num}
                         </span>
-                        <span className="font-sans text-ice-white/90 truncate">
+                        <span className="font-sans text-zinc-100 truncate">
                           {lesson.title}
                         </span>
                       </div>
-                      <span className="font-mono text-[10px] text-slate-500 dark:text-ice-white/50 tabular-nums shrink-0">
+                      <span className="font-mono text-[10px] text-zinc-400 tabular-nums shrink-0">
                         {lesson.duration}
                       </span>
                     </div>
@@ -341,18 +337,20 @@ export function Features() {
                 </div>
               </div>
 
-              <div className="relative z-10 pt-6 mt-6 border-t border-[var(--border-faint)]">
-                <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-1.5">
+              <div className="relative z-10 pt-6 mt-6 border-t border-white/10">
+                <h3 className="font-display font-semibold text-lg sm:text-xl text-white mb-1.5">
                   {t("fonctionnalites.acces.titre")}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
+                <p className="text-sm text-zinc-300 font-sans leading-relaxed">
                   {t("fonctionnalites.acces.description")}
                 </p>
               </div>
             </article>
+          </RevealItem>
 
-            {/* ── Carte 3 : Swiv pwogrè w ────────────────────────────────────── */}
-            <article className="group md:col-span-1 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
+          {/* ── Carte 3 : Swiv pwogrè w ────────────────────────────────────── */}
+          <RevealItem className="md:col-span-1 flex">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
               <div className="py-2 flex flex-col items-center justify-center gap-4">
                 <div className="relative w-32 h-32 flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-200">
                   <div
@@ -416,7 +414,6 @@ export function Features() {
                   </div>
                 </div>
 
-                {/* Repères de progression par chapitre */}
                 <div className="w-full max-w-[196px] space-y-1.5" aria-hidden="true">
                   <div className="grid grid-cols-3 gap-1.5">
                     <span className="h-1 rounded-full bg-[var(--home-orange)]" />
@@ -440,11 +437,13 @@ export function Features() {
                 </p>
               </div>
             </article>
+          </RevealItem>
 
-            {/* ── Carte 4 : Fèt pou telefòn ──────────────────────────────────── */}
-            <article className="group md:col-span-1 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
+          {/* ── Carte 4 : Fèt pou telefòn ──────────────────────────────────── */}
+          <RevealItem className="md:col-span-1 flex">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
               <div className="py-2 flex justify-center">
-                <div className="w-full max-w-[208px] rounded-2xl bg-gradient-to-b from-[#171B26] to-[#0B0D13] border border-slate-900/20 dark:border-white/[0.12] p-3.5 text-white shadow-[0_14px_30px_-14px_rgba(15,23,42,0.45)] group-hover:-translate-y-0.5 transition-transform duration-200 relative overflow-hidden">
+                <div className="w-full max-w-[208px] rounded-2xl bg-gradient-to-b from-[#171B26] to-[#0B0D13] border border-slate-900/20 dark:border-white/[0.12] p-3.5 text-white shadow-[0_14px_30px_-14px_rgba(17,19,24,0.45)] group-hover:-translate-y-0.5 transition-transform duration-200 relative overflow-hidden">
                   <div
                     className="absolute inset-0 pointer-events-none opacity-60"
                     style={{
@@ -501,9 +500,11 @@ export function Features() {
                 </p>
               </div>
             </article>
+          </RevealItem>
 
-            {/* ── Carte 5 : Gade yo tout tan ─────────────────────────────────── */}
-            <article className="group md:col-span-1 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
+          {/* ── Carte 5 : Gade yo tout tan ─────────────────────────────────── */}
+          <RevealItem className="md:col-span-1 flex">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between min-w-0">
               <div className="py-2 flex flex-col items-center justify-center gap-4">
                 <div
                   className="relative w-32 h-32 flex items-center justify-center"
@@ -546,7 +547,6 @@ export function Features() {
                   </div>
                 </div>
 
-                {/* Cadence chapitres complète + San limit */}
                 <div className="flex items-center gap-1.5 font-mono text-[11px] text-slate-600 dark:text-ice-white/65 tabular-nums">
                   <span>01</span>
                   <span className="text-slate-400 dark:text-ice-white/30" aria-hidden="true">·</span>
@@ -569,9 +569,11 @@ export function Features() {
                 </p>
               </div>
             </article>
+          </RevealItem>
 
-            {/* ── Carte 6 (col-span-2) : Peman lokal fasil ───────────────────── */}
-            <article className="group md:col-span-2 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between min-w-0">
+          {/* ── Carte 6 (col-span-2) : Peman lokal fasil ───────────────────── */}
+          <RevealItem className="md:col-span-2 flex">
+            <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between min-w-0">
               <div className="space-y-4 pb-6 mb-6 border-b border-[var(--border-faint)]">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-mono text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-ice-white/65">
@@ -622,7 +624,6 @@ export function Features() {
                   </div>
                 </div>
 
-                {/* Ligne de synthèse transactionnelle discrète */}
                 <div className="pt-2 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-slate-500 dark:text-ice-white/55">
                   <span>{t("paiement.reussi")} → {t("fonctionnalites.acces.titre")}</span>
                   <span className="text-ice-white/75 tabular-nums">HTG · USD</span>
@@ -638,8 +639,8 @@ export function Features() {
                 </p>
               </div>
             </article>
-          </div>
-        </Reveal>
+          </RevealItem>
+        </RevealStagger>
       </div>
     </section>
   );

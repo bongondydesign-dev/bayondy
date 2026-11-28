@@ -2,6 +2,7 @@
 
 import React, { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
+import { motion } from "motion/react";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { t } from "@/lib/i18n";
 
@@ -64,8 +65,8 @@ export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggl
 
   const variantClasses =
     variant === "ghost"
-      ? "w-11 h-11 md:w-9 md:h-9 min-w-[44px] min-h-[44px] md:min-w-[36px] md:min-h-[36px] rounded-xl border border-transparent hover:border-[var(--border-subtle)] bg-transparent hover:bg-slate-900/[0.05] dark:hover:bg-white/[0.06] text-slate-600 dark:text-ice-white/75 hover:text-ice-white"
-      : "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[var(--border-strong)] bg-deep-navy dark:bg-[var(--surface-subtle)] hover:border-[var(--home-orange)]/60 hover:bg-[var(--surface-subtle)] dark:hover:bg-[var(--surface-elevated)] text-ice-white hover:text-[var(--home-orange-light)] shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none";
+      ? "w-11 h-11 md:w-9 md:h-9 min-w-[44px] min-h-[44px] md:min-w-[36px] md:min-h-[36px] rounded-xl border border-transparent hover:border-[var(--border-subtle)] bg-transparent hover:bg-[var(--surface-glass)] text-slate-700 dark:text-ice-white/75 hover:text-ice-white"
+      : "w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[var(--border-strong)] bg-[var(--surface-glass)] backdrop-blur-md hover:border-[var(--home-orange)]/60 hover:bg-deep-navy text-ice-white hover:text-[var(--home-orange-light)] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] dark:shadow-none";
 
   return (
     <button
@@ -76,11 +77,19 @@ export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggl
       aria-pressed={isLight}
       className={`inline-flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] active:scale-95 shrink-0 cursor-pointer ${variantClasses} ${className}`.trim()}
     >
-      {isLight ? (
-        <Moon className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
-      ) : (
-        <Sun className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
-      )}
+      <motion.span
+        key={isLight ? "moon" : "sun"}
+        initial={{ rotate: -25, scale: 0.8, opacity: 0 }}
+        animate={{ rotate: 0, scale: 1, opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        className="inline-flex items-center justify-center"
+      >
+        {isLight ? (
+          <Moon className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
+        ) : (
+          <Sun className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
+        )}
+      </motion.span>
     </button>
   );
 }

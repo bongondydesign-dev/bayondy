@@ -127,12 +127,12 @@ export default function AdminFormationsPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("admin.formations.rechercher")}
               aria-label={t("admin.formations.rechercher")}
-              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-deep-navy border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl surface-glass text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
             />
           </div>
 
           <div
-            className="inline-flex items-center gap-1 p-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] self-start md:self-auto"
+            className="inline-flex items-center gap-1 p-1 rounded-full surface-glass self-start md:self-auto"
             role="group"
             aria-label={t("admin.formations.titre")}
           >
@@ -152,7 +152,7 @@ export default function AdminFormationsPage() {
                   aria-pressed={active}
                   className={`min-h-[38px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                     active
-                      ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
+                      ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                       : "text-ice-white/70 hover:text-ice-white"
                   }`}
                 >
@@ -172,7 +172,7 @@ export default function AdminFormationsPage() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="h-16 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]"
+              className="h-16 rounded-2xl surface-glass"
             />
           ))}
         </div>
@@ -181,15 +181,15 @@ export default function AdminFormationsPage() {
           {error}
         </div>
       ) : courses.length === 0 ? (
-        <div className="p-10 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] text-ice-white/60 text-sm">
+        <div className="p-10 text-center rounded-2xl surface-glass text-ice-white/60 text-sm">
           {t("admin.formations.vide")}
         </div>
       ) : filteredCourses.length === 0 ? (
-        <div className="p-10 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] text-ice-white/60 text-sm">
+        <div className="p-10 text-center rounded-2xl surface-glass text-ice-white/60 text-sm">
           {t("admin.formations.aucunResultat")}
         </div>
       ) : (
-        <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-faint)] overflow-hidden">
+        <div className="rounded-2xl surface-glass divide-y divide-[var(--border-faint)] overflow-hidden">
           {filteredCourses.map((c) => {
             const hasCover = isValidCoverUrl(c.coverUrl);
             return (

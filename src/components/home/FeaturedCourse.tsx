@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, BookOpen, Check } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
@@ -27,12 +27,12 @@ export function FeaturedCourse() {
           </div>
 
           {/* Carte divisée 2 colonnes */}
-          <div className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] transition-all duration-300 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative overflow-hidden">
+          <div className="group rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/40 transition-all duration-300 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative overflow-hidden">
             {/* Colonne gauche : texte, bénéfices et CTA */}
             <div className="lg:col-span-6 flex flex-col justify-between gap-6">
               <div>
                 <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--home-orange-light)] mb-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--home-orange)]" aria-hidden="true" />
+                  <BookOpen className="w-3.5 h-3.5 text-[var(--home-orange)]" aria-hidden="true" />
                   <span>{t("bento.badgeCreole")}</span>
                 </span>
                 <h3 className="font-display font-semibold text-2xl sm:text-3xl text-ice-white leading-snug mb-3 text-balance">
@@ -79,21 +79,21 @@ export function FeaturedCourse() {
               </div>
             </div>
 
-            {/* Colonne droite : Visuel architectural avec carte flottante */}
-            <div className="lg:col-span-6 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
+            {/* Colonne droite : Panneau visuel contraste obsidienne */}
+            <div className="lg:col-span-6 rounded-xl surface-contrast border border-white/10 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
               <div
-                className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-45 group-hover:opacity-65 dark:group-hover:opacity-65 transition-opacity duration-500"
+                className="absolute inset-0 pointer-events-none opacity-65 group-hover:opacity-90 transition-opacity duration-500"
                 style={{
                   background:
-                    "radial-gradient(circle at 82% 20%, var(--home-orange-glow-soft) 0%, transparent 52%)",
+                    "radial-gradient(circle at 82% 20%, rgba(255, 91, 34, 0.24) 0%, transparent 56%)",
                 }}
                 aria-hidden="true"
               />
               <div
-                className="absolute inset-0 pointer-events-none opacity-45 dark:opacity-40"
+                className="absolute inset-0 pointer-events-none opacity-35"
                 style={{
                   backgroundImage:
-                    "radial-gradient(var(--surface-grid-line) 1px, transparent 1px)",
+                    "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
                   backgroundSize: "18px 18px",
                 }}
                 aria-hidden="true"
@@ -101,16 +101,16 @@ export function FeaturedCourse() {
 
               <div className="relative z-10 flex items-center justify-between">
                 <PortalSymbol size={48} accent="orange" />
-                <span className="font-mono text-xs font-medium text-[var(--home-orange-light)] px-3 py-1 rounded-full bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                <span className="font-mono text-xs font-medium text-[#FF885C] px-3 py-1 rounded-full bg-white/[0.06] border border-white/10">
                   {t("bento.badgeCreole")}
                 </span>
               </div>
 
-              <div className="relative z-10 mt-10 p-4 rounded-xl bg-deep-navy dark:bg-[#13161E] border border-[var(--border-subtle)] group-hover:-translate-y-1 group-hover:border-[var(--home-orange)]/40 transition-all duration-300 shadow-[0_6px_18px_-6px_rgba(15,23,42,0.08)] dark:shadow-[var(--card-shadow)]">
-                <p className="font-display font-bold text-lg text-ice-white">
+              <div className="relative z-10 mt-10 p-4 rounded-xl bg-white/[0.06] backdrop-blur-md border border-white/12 group-hover:-translate-y-1 group-hover:border-[#FF5B22]/45 transition-all duration-300">
+                <p className="font-display font-bold text-lg text-white">
                   {t("hero.apercu.titre")}
                 </p>
-                <p className="mt-1 text-xs text-slate-600 dark:text-ice-white/70 font-sans">
+                <p className="mt-1 text-xs text-zinc-300 font-sans">
                   {t("affirmation.sousTexte")}
                 </p>
               </div>
