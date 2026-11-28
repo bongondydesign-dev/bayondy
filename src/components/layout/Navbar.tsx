@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { AuthNav } from "@/components/auth/AuthNav";
 import { NavLinks } from "@/components/layout/NavLinks";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { SITE_NAME } from "@/lib/site";
 
 export function Navbar() {
+  const { t, localize } = useI18n();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4 lg:gap-8">
         {/* Zone 1 : Marque */}
         <Link
-          href="/"
+          href={localize("/")}
           aria-label={SITE_NAME}
           className="inline-flex items-center gap-2.5 font-display font-bold text-lg sm:text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1 select-none whitespace-nowrap shrink-0"
         >
@@ -48,9 +50,10 @@ export function Navbar() {
         {/* Zone 2 : Navigation principale typographique */}
         <NavLinks />
 
-        {/* Zone 3 : Thème + Séparateur fin + Action / Menu mobile */}
-        <div className="flex items-center gap-2 sm:gap-3.5 shrink-0">
+        {/* Zone 3 : Thème + Langue + Séparateur fin + Action / Menu mobile */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <ThemeToggle variant="ghost" />
+          <LanguageSwitcher variant="dropdown" className="hidden lg:block" />
           <span
             className="hidden lg:block w-px h-5 bg-[var(--border-subtle)]"
             aria-hidden="true"

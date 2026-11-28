@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { filterAdminStudents } from "@/lib/admin/filters";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface EnrollmentRef {
   courseId: string;
@@ -25,6 +25,7 @@ interface CourseOption {
 }
 
 export default function AdminElevesPage() {
+  const { t } = useI18n();
   const [students, setStudents] = useState<StudentRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -94,7 +95,7 @@ export default function AdminElevesPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const handleAccessSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

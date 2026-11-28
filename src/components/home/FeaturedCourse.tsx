@@ -1,15 +1,17 @@
 import React from "react";
 import { ArrowRight, BookOpen, Check } from "lucide-react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routing";
 import { Button } from "@/components/ui/Button";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function FeaturedCourse() {
+export function FeaturedCourse({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
   const highlights = [
-    t("fonctionnalites.creole.titre"),
-    t("catalogue.atoutMobile"),
-    t("catalogue.atoutRythme"),
+    t("fonctionnalites.creole.titre", lang),
+    t("catalogue.atoutMobile", lang),
+    t("catalogue.atoutRythme", lang),
   ];
 
   return (
@@ -19,10 +21,10 @@ export function FeaturedCourse() {
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
-              {t("une.badge")}
+              {t("une.badge", lang)}
             </p>
             <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight leading-[1.08] text-balance">
-              {t("une.titre")}
+              {t("une.titre", lang)}
             </h2>
           </div>
 
@@ -33,13 +35,13 @@ export function FeaturedCourse() {
               <div>
                 <span className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)] mb-3">
                   <BookOpen className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]" aria-hidden="true" />
-                  <span>{t("bento.badgeCreole")}</span>
+                  <span>{t("catalogue.coursEnLangue.ht", lang)}</span>
                 </span>
                 <h3 className="font-display font-semibold text-2xl sm:text-3xl text-ice-white leading-snug mb-3 text-balance">
-                  {t("hero.apercu.titre")}
+                  {t("hero.apercu.titre", lang)}
                 </h3>
                 <p className="text-sm sm:text-base text-slate-700 dark:text-ice-white/70 leading-relaxed font-sans">
-                  {t("une.description")}
+                  {t("une.description", lang)}
                 </p>
               </div>
 
@@ -62,12 +64,12 @@ export function FeaturedCourse() {
 
                 <div className="pt-2">
                   <Button
-                    href="/formations"
+                    href={localizePath("/formations", lang)}
                     variant="principal"
                     accent="orange"
                     className="pl-6 pr-2.5 py-2"
                   >
-                    <span>{t("une.cta")}</span>
+                    <span>{t("une.cta", lang)}</span>
                     <span
                       className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                       aria-hidden="true"
@@ -102,16 +104,16 @@ export function FeaturedCourse() {
               <div className="relative z-10 flex items-center justify-between">
                 <PortalSymbol size={48} accent="orange" />
                 <span className="font-mono text-xs font-medium text-[#FF885C] px-3 py-1 rounded-full bg-white/[0.06] border border-white/10">
-                  {t("bento.badgeCreole")}
+                  {t("bento.badgeCreole", lang)}
                 </span>
               </div>
 
               <div className="relative z-10 mt-10 p-4 rounded-xl bg-white/[0.06] backdrop-blur-md border border-white/12 group-hover:-translate-y-1 group-hover:border-[#FF5B22]/45 transition-all duration-300">
                 <p className="font-display font-bold text-lg text-white">
-                  {t("hero.apercu.titre")}
+                  {t("hero.apercu.titre", lang)}
                 </p>
                 <p className="mt-1 text-xs text-zinc-300 font-sans">
-                  {t("affirmation.sousTexte")}
+                  {t("affirmation.sousTexte", lang)}
                 </p>
               </div>
             </div>

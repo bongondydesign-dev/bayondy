@@ -9,20 +9,27 @@ export async function GET() {
   const lines: string[] = [
     `# ${SITE_NAME}`,
     "",
-    `> ${t("seo.llmsResume")}`,
+    `> ${t("seo.llmsResume", "fr")}`,
     "",
     `- Official name: ${SITE_NAME}`,
     `- Alternate name: ${SITE_ALTERNATE_NAMES.join(", ")}`,
-    `- Primary language: Haitian Creole (ht)`,
+    "- Interface languages: French (fr, default at /), Haitian Creole (ht, at /ht)",
+    "- Course instruction language: Haitian Creole (ht)",
     `- Base URL: ${siteUrl}`,
     "",
-    "## Public Pages",
-    `- [Home](${siteUrl}/): ${t("seo.titreAccueil")}`,
-    `- [Courses Catalog](${siteUrl}/formations): ${t("catalogue.sousTitre")}`,
-    `- [FAQ](${siteUrl}/faq): ${t("faqPage.sousTitre")}`,
-    `- [About](${siteUrl}/a-propos): ${t("apropos.bioSecondaire")}`,
-    `- [Terms of Service](${siteUrl}/conditions): ${t("conditions.sousTitre")}`,
-    `- [Privacy Policy](${siteUrl}/confidentialite): ${t("confidentialite.sousTitre")}`,
+    "## Public Pages (French / Default)",
+    `- [Home](${siteUrl}/): ${t("seo.titreAccueil", "fr")}`,
+    `- [Courses Catalog](${siteUrl}/formations): ${t("catalogue.sousTitre", "fr")}`,
+    `- [FAQ](${siteUrl}/faq): ${t("faqPage.sousTitre", "fr")}`,
+    `- [About](${siteUrl}/a-propos): ${t("apropos.bioSecondaire", "fr")}`,
+    `- [Terms of Service](${siteUrl}/conditions): ${t("conditions.sousTitre", "fr")}`,
+    `- [Privacy Policy](${siteUrl}/confidentialite): ${t("confidentialite.sousTitre", "fr")}`,
+    "",
+    "## Pages publiques (Kreyòl ayisyen)",
+    `- [Akèy](${siteUrl}/ht): ${t("seo.titreAccueil", "kr")}`,
+    `- [Katalòg fòmasyon](${siteUrl}/ht/formations): ${t("catalogue.sousTitre", "kr")}`,
+    `- [FAQ](${siteUrl}/ht/faq): ${t("faqPage.sousTitre", "kr")}`,
+    `- [Konsènan](${siteUrl}/ht/a-propos): ${t("apropos.bioSecondaire", "kr")}`,
   ];
 
   if (courses.length > 0) {
@@ -31,7 +38,7 @@ export async function GET() {
       if (!course.slug) continue;
       const summary = course.shortDescription || course.description || "";
       lines.push(
-        `- [${course.title}](${siteUrl}/formations/${course.slug})${summary ? `: ${summary}` : ""}`
+        `- [${course.title}](${siteUrl}/formations/${course.slug}) | [Kreyòl](${siteUrl}/ht/formations/${course.slug})${summary ? `: ${summary}` : ""}`
       );
     }
   }

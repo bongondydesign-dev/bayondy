@@ -15,7 +15,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   clampSeekSeconds,
   computeCourseOverallPct,
@@ -51,6 +51,7 @@ function LessonStageVisual({
   lessonProgressPct: number;
   centerControl: React.ReactNode;
 }) {
+  const { t } = useI18n();
   return (
     <div className="w-full max-w-3xl mx-auto px-1 sm:px-3 grid grid-cols-1 sm:grid-cols-12 items-center gap-3 sm:gap-4">
       {/* Left editorial focal composition (5 cols on >=sm) */}
@@ -232,6 +233,7 @@ function LessonStageVisual({
 }
 
 export function HeroPreview() {
+  const { t } = useI18n();
   const lessons: PreviewLesson[] = [
     {
       id: 0,
@@ -729,7 +731,11 @@ export function HeroPreview() {
                       <button
                         type="button"
                         onClick={() => setIsMuted((prev) => !prev)}
-                        aria-label={isMuted ? "Son active" : "Koupe son"}
+                        aria-label={
+                          isMuted
+                            ? t("hero.apercu.sonActif")
+                            : t("hero.apercu.sonCoupe")
+                        }
                         aria-pressed={isMuted}
                         className="hidden sm:inline-flex w-7 h-7 rounded-lg items-center justify-center text-zinc-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
                       >
@@ -752,7 +758,7 @@ export function HeroPreview() {
                         onClick={() =>
                           setSpeedIdx((prev) => (prev + 1) % SPEEDS.length)
                         }
-                        aria-label={`Vitès lekti ${SPEEDS[speedIdx]}`}
+                        aria-label={`${t("hero.apercu.vitesseLecture")} ${SPEEDS[speedIdx]}`}
                         className="px-2 py-1 rounded-md bg-white/10 hover:bg-white/18 border border-white/12 font-mono text-[10px] font-medium text-zinc-100 transition-colors cursor-pointer tabular-nums whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
                       >
                         {SPEEDS[speedIdx]}
@@ -761,7 +767,11 @@ export function HeroPreview() {
                       <button
                         type="button"
                         onClick={() => setIsTheater((prev) => !prev)}
-                        aria-label={isTheater ? "Afiche lis leson yo" : "Elaji lektè a"}
+                        aria-label={
+                          isTheater
+                            ? t("hero.apercu.afficherListe")
+                            : t("hero.apercu.modeCinema")
+                        }
                         aria-pressed={isTheater}
                         className="hidden md:inline-flex w-7 h-7 rounded-lg items-center justify-center text-zinc-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
                       >

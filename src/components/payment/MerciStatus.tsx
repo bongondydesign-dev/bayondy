@@ -20,7 +20,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
-import { t } from "@/lib/i18n";
+import { AppLang } from "@/lib/i18n/config";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { SITE_NAME } from "@/lib/site";
 
 type VerificationState = "verifying" | "paid" | "pending" | "failed";
@@ -86,19 +87,27 @@ function humanizeSlug(slug: string): string {
     .join(" ");
 }
 
-function formatReceiptDate(iso: string | null): string {
-  return formatLocaleDate(iso, {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+function formatReceiptDate(iso: string | null, lang: AppLang): string {
+  return formatLocaleDate(
+    iso,
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    },
+    lang
+  );
 }
 
-function formatReceiptAmount(amount: number | null, currency: string): string | null {
+function formatReceiptAmount(
+  amount: number | null,
+  currency: string,
+  lang: AppLang
+): string | null {
   if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
     return null;
   }
-  return `${formatLocaleNumber(amount)} ${currency || "HTG"}`;
+  return `${formatLocaleNumber(amount, lang)} ${currency || "HTG"}`;
 }
 
 async function requestPaymentVerification(
@@ -125,6 +134,7 @@ async function requestPaymentVerification(
 }
 
 export function MerciStatus() {
+  const { lang, t, localize } = useI18n();
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
 
@@ -155,9 +165,9 @@ export function MerciStatus() {
     if (urlOrderId) params.set("orderId", urlOrderId);
     if (urlCourseSlug) params.set("courseSlug", urlCourseSlug);
     const query = params.toString();
-    const target = query ? `/merci?${query}` : "/merci";
-    return `/connexion?redirect=${encodeURIComponent(target)}`;
-  }, [urlOrderId, urlCourseSlug]);
+    const target = localize(query ? `/merci?${query}` : "/merci");
+    return `${localize("/connexion")}?redirect=${encodeURIComponent(target)}`;
+  }, [urlOrderId, urlCourseSlug, localize]);
 
   useEffect(() => {
     const stored = readStoredOrder();
@@ -379,8 +389,12 @@ export function MerciStatus() {
     humanizeSlug(resolvedCourseSlug) ||
     t("merci.formationDefaut");
 
-  const formattedAmount = formatReceiptAmount(resolvedAmount, resolvedCurrency);
-  const formattedDate = formatReceiptDate(resolvedDateIso);
+  const formattedAmount = formatReceiptAmount(
+    resolvedAmount,
+    resolvedCurrency,
+    lang
+  );
+  const formattedDate = formatReceiptDate(resolvedDateIso, lang);
 
   const statusConfig = {
     loading: {
@@ -452,12 +466,16 @@ export function MerciStatus() {
     return <Clock className={sizeClass} aria-hidden="true" />;
   };
 
-  const courseAccessHref = resolvedCourseSlug
-    ? `/mes-formations/${encodeURIComponent(resolvedCourseSlug)}`
-    : "/mes-formations";
-  const courseRetryHref = resolvedCourseSlug
-    ? `/formations/${encodeURIComponent(resolvedCourseSlug)}`
-    : "/formations";
+  const courseAccessHref = localize(
+    resolvedCourseSlug
+      ? `/mes-formations/${encodeURIComponent(resolvedCourseSlug)}`
+      : "/mes-formations"
+  );
+  const courseRetryHref = localize(
+    resolvedCourseSlug
+      ? `/formations/${encodeURIComponent(resolvedCourseSlug)}`
+      : "/formations"
+  );
 
   return (
     <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
@@ -614,7 +632,7 @@ export function MerciStatus() {
                 <span>{t("merci.boutonConnexion")}</span>
               </Link>
               <Link
-                href="/formations"
+                href={localize("/formations")}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <BookOpen className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -635,7 +653,9 @@ export function MerciStatus() {
                 <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
               </Link>
               <Link
-                href={resolvedCourseSlug ? "/mes-formations" : "/formations"}
+                href={localize(
+                  resolvedCourseSlug ? "/mes-formations" : "/formations"
+                )}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {resolvedCourseSlug
@@ -657,7 +677,7 @@ export function MerciStatus() {
                 <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
               </Link>
               <Link
-                href="/mes-formations"
+                href={localize("/mes-formations")}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonMesFormations")}
@@ -682,7 +702,7 @@ export function MerciStatus() {
                 </span>
               </button>
               <Link
-                href="/mes-formations"
+                href={localize("/mes-formations")}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonMesFormations")}
@@ -691,14 +711,14 @@ export function MerciStatus() {
           ) : (
             <>
               <Link
-                href="/mes-formations"
+                href={localize("/mes-formations")}
                 className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 whitespace-nowrap shrink-0 shadow-md shadow-[var(--brand-glow)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <span>{t("merci.boutonMesFormations")}</span>
                 <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
               </Link>
               <Link
-                href="/formations"
+                href={localize("/formations")}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonCatalogue")}
@@ -815,7 +835,7 @@ export function MerciStatus() {
             <span className="truncate">{t("merci.sekiriteNote")}</span>
           </span>
           <Link
-            href="/faq"
+            href={localize("/faq")}
             className="font-sans font-semibold text-slate-800 dark:text-ice-white/80 hover:text-brand-light whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
           >
             {t("merci.besoinAide")}

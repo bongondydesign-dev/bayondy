@@ -17,6 +17,14 @@
     "passerSombre": "Mòd nwa",
     "passerSysteme": "Otomatik (sistèm)"
   },
+  "langue": {
+    "label": "Lang",
+    "choisir": "Chwazi lang lan",
+    "fr": "Français",
+    "kr": "Kreyòl ayisyen",
+    "codeFr": "FR",
+    "codeKr": "KR"
+  },
   "paiement": {
     "payer": "Peye",
     "payerMonCash": "Peye ak MonCash",
@@ -56,7 +64,12 @@
       "lecon2Duree": "18:20",
       "lecon3": "03. Kreye premye pwojè w",
       "lecon3Duree": "24:10",
-      "progression": "Pwogrè"
+      "progression": "Pwogrè",
+      "sonActif": "Son aktive",
+      "sonCoupe": "Koupe son",
+      "vitesseLecture": "Vitès lekti",
+      "afficherListe": "Afiche lis leson yo",
+      "modeCinema": "Elaji lektè a"
     }
   },
   "affirmation": {
@@ -241,6 +254,7 @@
     "erreurMotDePasse": "Nou pa t ka voye imèl la kounye a.",
     "preferences": "Preferans ak aksè rapid",
     "themeActuel": "Tèm vizyèl",
+    "langueActuelle": "Lang afichaj",
     "compteCree": "Kont kreye",
     "dernierAcces": "Dènye koneksyon",
     "methodeConnexion": "Metòd koneksyon",
@@ -300,6 +314,12 @@
       "fr": "Fransè",
       "en": "Angle"
     },
+    "coursEnLangue": {
+      "ht": "Kou an kreyòl ayisyen",
+      "fr": "Kou an fransè",
+      "en": "Kou an angle"
+    },
+    "langueDuCours": "Lang kou a",
     "atoutLangue": "100% an",
     "atoutMobile": "Aksè sou nenpòt telefòn",
     "atoutRythme": "Swiv leson yo nan ritm pa w"
@@ -371,7 +391,7 @@
     "navSectionGestion": "Jesyon",
     "navSectionOperations": "Operasyon",
     "nav": {
-      "tableau": "Tableau de bò",
+      "tableau": "Tablo bò",
       "formations": "Fòmasyon yo",
       "eleves": "Elèv yo",
       "paiements": "Peman yo"
@@ -397,7 +417,8 @@
       "denyeTranzaksyon": "Dènye tranzaksyon yo",
       "weTout": "Wè tout",
       "pemanKonfime": "Peman konfime",
-      "tranzaksyonTotal": "Tranzaksyon"
+      "tranzaksyonTotal": "Tranzaksyon",
+      "devizAria": "Lajan"
     },
     "formations": {
       "titre": "Fòmasyon yo",
@@ -405,12 +426,12 @@
       "nouvelle": "Nouvo fòmasyon",
       "rechercher": "Chèche yon fòmasyon...",
       "filtreTout": "Tout",
-      "vide": "Pa gen okenn fòmasyon yo.",
+      "vide": "Pa gen okenn fòmasyon pou kounye a.",
       "aucunResultat": "Pa gen okenn fòmasyon ki koresponn ak rechèch la.",
       "infoGenerales": "Enfòmasyon jeneral",
       "champSlug": "Slug (URL)",
       "champTitre": "Tit",
-      "champTitrePlaceholder": "Ti Tit Fòmasyon an",
+      "champTitrePlaceholder": "Tit fòmasyon an",
       "champCourteDescription": "Deskripsyon kout",
       "champCourteDescriptionPlaceholder": "Yon fraz kout ki dekri fòmasyon an",
       "champDescription": "Deskripsyon konplè",
@@ -437,7 +458,7 @@
       "coverUploadError": "Nou pa ka voye foto a. Eseye ankò.",
       "coverPreviewError": "Imaj la pa ka afiche depi lyen sa a.",
       "publier": "Pibliye",
-      "depublier": "Depibliyen",
+      "depublier": "Depibliye",
       "succesEnregistrement": "Fòmasyon anrejistre ak siksè.",
       "statut": {
         "publie": "Pibliye",
@@ -456,7 +477,7 @@
     "lecons": {
       "titre": "Leson yo",
       "ajouter": "Ajoute leson",
-      "vide": "Pa gen leson yo.",
+      "vide": "Pa gen okenn leson pou kounye a.",
       "monter": "Monte leson an",
       "descendre": "Desann leson an"
     },
@@ -474,13 +495,13 @@
       "champDuree": "Dire (minit)",
       "champApercu": "Apèsi gratis (tout moun ka wè)",
       "champModuleIdPlaceholder": "modil-01",
-      "champVideoSource": "Lyen videyo TikTok (non répertorié) oswa YouTube",
+      "champVideoSource": "Lyen videyo TikTok (ki pa sou lis) oswa YouTube",
       "champVideoSourcePlaceholder": "https://www.tiktok.com/@kont/video/123456... oswa lyen YouTube",
       "champVideoSourceHint": "Kole lyen TikTok konplè (ki pa sou lis oswa piblik), lyen kout vm.tiktok.com, oswa lyen/ID YouTube.",
       "sourceDetecteeTikTok": "Videyo TikTok detekte",
       "sourceDetecteeYoutube": "Videyo YouTube detekte",
       "sourceLienCourt": "Lyen kout TikTok detekte (l ap rezoud lè w anrejistre)",
-      "modulesExistants": "Chwazi yon modil ki egziste",
+      "modulesExistants": "Modil ki egziste deja",
       "nouveauModule": "Nouvo modil"
     },
     "eleves": {
@@ -492,17 +513,17 @@
       "filtreTous": "Tout",
       "filtreInscrits": "Enskri",
       "filtreSans": "San enskripsyon",
-      "vide": "Pa gen elèv yo.",
+      "vide": "Pa gen okenn elèv pou kounye a.",
       "aucuneInscription": "Pa gen enskripsyon",
       "formation": "Fòmasyon",
       "action": "Aksyon",
       "donner": "Bay aksè",
       "retirer": "Retire aksè",
-      "appliquer": "Aplikye",
+      "appliquer": "Aplike",
       "accesBay": "Aksè bay ak siksè.",
       "accesRetire": "Aksè retire ak siksè.",
       "voirPlus": "Wè plis",
-      "placeholderEmail": "eleve@exemple.com"
+      "placeholderEmail": "elev@egzanp.com"
     },
     "paiements": {
       "titre": "Peman yo",
@@ -513,7 +534,7 @@
       "totalUSD": "Total peye (USD)",
       "payes": "Konfime",
       "enAttente": "An atant",
-      "vide": "Pa gen peman yo pou kounye a.",
+      "vide": "Pa gen okenn peman pou kounye a.",
       "colStatut": "Estati",
       "colMontant": "Montan",
       "colMethode": "Metòd",
@@ -557,10 +578,10 @@
     "limiteLeconsDepassee": "Kantite leson konplete pa ka depase 500.",
     "ouvrirTikTok": "Louvri sou TikTok",
     "regarderTikTok": "Gade videyo a sou TikTok",
-    "tikTokInfo": "Videyo TikTok sa a an mòd non répertorié. Si lektè a pa chaje, ouvri l dirèkteman sou TikTok."
+    "tikTokInfo": "Videyo TikTok sa a pa sou lis piblik. Si lektè a pa chaje, ouvri l dirèkteman sou TikTok."
   },
   "legal": {
-    "banniereProvisoire": "Tèks sa a pwovizwa. L ap relete anvan lansman.",
+    "banniereProvisoire": "Tèks sa a pwovizwa. N ap verifye l anvan lansman.",
     "banniereDetail": "Pwen ki make yo dwe valide pa yon moun ki kalifye anvan ouvèti ofisyèl la.",
     "aDecider": "Pou deside",
     "aConfirmer": "Pou konfime"
@@ -568,7 +589,8 @@
   "aide": {
     "titre": "Ou bezwen plis èd ?",
     "sousTitre": "Si w gen yon kesyon ki pa nan lis la, nou la pou reponn ou.",
-    "contactBientot": "Kontak la ap vini talè"
+    "contactBientot": "Kontak la ap vini talè",
+    "whatsappAria": "Kontakte sipò sou WhatsApp"
   },
   "faqPage": {
     "titre": "Kesyon yo poze souvan (FAQ)",
@@ -640,7 +662,7 @@
     "sousTitreConfirme": "Fòmasyon w lan debloke kounye a sou kont ou. Ou ka kòmanse aprann touswit.",
     "noteConfirme": "Tout leson ak resous fòmasyon an disponib imedyatman nan espas elèv ou a.",
     "titreEchoue": "Peman an pa t valide",
-    "sousTitreEchoue": "Nou pa t resevwa konfimasyon siksè pou peman sa a. Okenn lajan pa t valide pou kòmand sa a.",
+    "sousTitreEchoue": "Nou pa t resevwa konfimasyon siksè pou kòmand sa a.",
     "noteEchoue": "Si w te gen yon pwoblèm oswa si w te anile peman an, ou ka retounen sou paj fòmasyon an pou w eseye ankò.",
     "noteDelai": "Peman an poko afiche kòm konfime bò kote operatè a. Klike sou « Verifye ankò » oswa gade nan « Fòmasyon mwen yo ».",
     "connexionRequise": "Konekte sou kont ou pou n ka verifye peman w lan epi ouvri aksè fòmasyon an.",

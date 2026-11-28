@@ -16,7 +16,9 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { t } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { stripLocalePrefix } from "@/lib/i18n/routing";
 import { SITE_NAME } from "@/lib/site";
 
 interface StudentShellProps {
@@ -32,17 +34,19 @@ function StudentSidebarLinks({
   isAdmin: boolean;
   onNavigate?: () => void;
 }) {
-  const pathname = usePathname() || "/mes-formations";
+  const { t, localize } = useI18n();
+  const rawPathname = usePathname() || "/mes-formations";
+  const pathname = stripLocalePrefix(rawPathname);
 
   const learnLinks = [
     {
-      href: "/mes-formations",
+      href: localize("/mes-formations"),
       label: t("mesFormations.navTableau"),
       active: pathname === "/mes-formations" || pathname.startsWith("/mes-formations/"),
       Icon: LayoutDashboard,
     },
     {
-      href: "/formations",
+      href: localize("/formations"),
       label: t("mesFormations.navCatalogue"),
       active: pathname === "/formations" || pathname.startsWith("/formations/"),
       Icon: BookOpen,
@@ -51,7 +55,7 @@ function StudentSidebarLinks({
 
   const accountLinks = [
     {
-      href: "/profil",
+      href: localize("/profil"),
       label: t("mesFormations.navProfil"),
       active: pathname === "/profil",
       Icon: User,
@@ -67,7 +71,7 @@ function StudentSidebarLinks({
         ]
       : []),
     {
-      href: "/",
+      href: localize("/"),
       label: t("mesFormations.retourSite"),
       active: false,
       Icon: ArrowLeft,
@@ -146,6 +150,7 @@ export function StudentShell({
   pageSubtitle,
 }: StudentShellProps) {
   const router = useRouter();
+  const { t, localize } = useI18n();
   const { user, isAdmin, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -154,7 +159,7 @@ export function StudentShell({
     setSigningOut(true);
     try {
       await signOut();
-      router.push("/");
+      router.push(localize("/"));
     } catch {
       setSigningOut(false);
     }
@@ -167,7 +172,7 @@ export function StudentShell({
     <div className="flex flex-col h-full">
       <div className="px-5 h-16 flex items-center justify-between border-b border-[var(--border-subtle)] shrink-0">
         <Link
-          href="/"
+          href={localize("/")}
           onClick={onNavigate}
           className="inline-flex items-center gap-2.5 font-display font-bold text-lg tracking-tight text-ice-white hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg py-1"
         >
@@ -185,11 +190,19 @@ export function StudentShell({
         <StudentSidebarLinks isAdmin={isAdmin} onNavigate={onNavigate} />
       </Suspense>
 
+      <div className="px-3.5 pb-3 sm:hidden shrink-0">
+        <LanguageSwitcher
+          variant="segmented"
+          className="w-full"
+          onAfterSelect={onNavigate}
+        />
+      </div>
+
       <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0">
         {user ? (
           <div className="p-2.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center gap-2.5">
             <Link
-              href="/profil"
+              href={localize("/profil")}
               onClick={onNavigate}
               className="flex-1 min-w-0 flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
@@ -297,9 +310,10 @@ export function StudentShell({
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
+            <LanguageSwitcher variant="dropdown" className="hidden sm:block" />
             <ThemeToggle variant="segmented" />
             <Link
-              href="/formations"
+              href={localize("/formations")}
               className="min-h-[44px] px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
             >
               <BookOpen className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />

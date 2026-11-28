@@ -2,14 +2,16 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Check, ChevronRight, MonitorPlay } from "lucide-react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routing";
 import { Button } from "@/components/ui/Button";
 import { HeroPreview } from "@/components/home/HeroPreview";
 
-export function Hero() {
+export function Hero({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
   const trustPoints = [
-    t("bento.badgeCreole"),
-    t("bento.badgeMobile"),
-    t("bento.badgePaiement"),
+    t("bento.badgeCreole", lang),
+    t("bento.badgeMobile", lang),
+    t("bento.badgePaiement", lang),
   ];
 
   return (
@@ -27,7 +29,7 @@ export function Hero() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
         {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
-          href="/formations"
+          href={localizePath("/formations", lang)}
           className="animate-hero-1 inline-flex items-center gap-1.5 sm:gap-2.5 pl-2 pr-3 sm:pr-3.5 py-1.5 min-h-[40px] max-w-full rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
           <span
@@ -37,11 +39,11 @@ export function Hero() {
             <MonitorPlay className="w-3.5 h-3.5" strokeWidth={2.1} />
           </span>
           <span className="font-mono text-[11px] font-semibold tracking-wide text-[var(--home-orange-light)] whitespace-nowrap shrink-0">
-            {t("seo.nom")}
+            {t("seo.nom", lang)}
           </span>
           <span className="h-3.5 w-px bg-[var(--border-strong)]/60 shrink-0" aria-hidden="true" />
           <span className="font-sans text-[11px] sm:text-sm font-semibold text-slate-800 dark:text-ice-white/85 group-hover:text-ice-white transition-colors whitespace-nowrap truncate">
-            {t("hero.badge")}
+            {t("hero.badge", lang)}
           </span>
           <ChevronRight
             className="w-3.5 h-3.5 text-slate-600 dark:text-ice-white/60 group-hover:translate-x-0.5 group-hover:text-[var(--home-orange-light)] transition-all shrink-0"
@@ -52,29 +54,29 @@ export function Hero() {
 
         {/* Titre H1 unique */}
         <h1 className="animate-hero-2 font-display font-bold text-4xl sm:text-6xl lg:text-[4.5rem] tracking-[-0.03em] text-ice-white max-w-4xl leading-[1.04] text-balance">
-          <span className="block">{t("hero.titreLigne1")}</span>
+          <span className="block">{t("hero.titreLigne1", lang)}</span>
           <span className="block">
-            {t("hero.titreLigne2Prefix")}
+            {t("hero.titreLigne2Prefix", lang)}
             <span className="font-serif italic font-normal bg-gradient-to-r from-[#FF5618] to-[#D43302] dark:from-[#FF8C61] dark:to-[#FF5B22] bg-clip-text text-transparent pr-1.5">
-              {t("hero.titreLigne2Gradient")}
+              {t("hero.titreLigne2Gradient", lang)}
             </span>
           </span>
         </h1>
 
         {/* Sous-titre */}
         <p className="animate-hero-2 mt-5 text-base sm:text-lg text-slate-700 dark:text-ice-white/75 max-w-xl leading-relaxed font-sans text-balance">
-          {t("hero.sousTitre")}
+          {t("hero.sousTitre", lang)}
         </p>
 
         {/* Boutons d'action haute lisibilité */}
         <div className="animate-hero-3 mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto justify-center">
           <Button
-            href="/formations"
+            href={localizePath("/formations", lang)}
             variant="principal"
             accent="orange"
             className="w-full sm:w-auto pl-6 pr-2.5 py-2 justify-between sm:justify-center"
           >
-            <span>{t("hero.cta")}</span>
+            <span>{t("hero.cta", lang)}</span>
             <span
               className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
@@ -88,7 +90,7 @@ export function Hero() {
             accent="orange"
             className="w-full sm:w-auto pl-6 pr-3 py-2 justify-between sm:justify-center"
           >
-            <span>{t("hero.ctaSecondaire")}</span>
+            <span>{t("hero.ctaSecondaire", lang)}</span>
             <span
               className="w-6 h-6 rounded-full bg-slate-900/[0.09] dark:bg-white/[0.08] text-slate-800 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"

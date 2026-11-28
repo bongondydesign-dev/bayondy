@@ -23,13 +23,15 @@ function getNestedValue(obj: Messages, path: string): string | undefined {
   return typeof current === "string" ? current : undefined;
 }
 
-export function t(key: string, lang: "kr" | "fr" | "en" = "kr"): string {
+import type { DictionaryLang } from "./config";
+
+export function t(key: string, lang: DictionaryLang = "fr"): string {
   const dictionaryOrder: Messages[] =
     lang === "kr"
-      ? [krMessages, frMessages, enMessages]
+      ? [krMessages, frMessages]
       : lang === "fr"
-      ? [frMessages, krMessages, enMessages]
-      : [enMessages, frMessages, krMessages];
+      ? [frMessages]
+      : [enMessages, frMessages];
 
   for (const dict of dictionaryOrder) {
     const value = getNestedValue(dict, key);

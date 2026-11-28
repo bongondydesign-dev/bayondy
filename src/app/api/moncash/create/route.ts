@@ -9,6 +9,7 @@ import {
   validateMonCashSecretKeyForEnv,
 } from "@/lib/moncash/status";
 import {
+  buildLocalizedMonCashReturnUrl,
   buildMonCashCreateHeaders,
   isMonCashSuccessStatus,
   isSafePaymentRedirectUrl,
@@ -16,6 +17,7 @@ import {
   MAX_MONCASH_AMOUNT_HTG,
   validateMonCashCreateInput,
 } from "@/lib/moncash/validation";
+import { extractAppLangFromPathname } from "@/lib/i18n/routing";
 import {
   checkFirestoreUidRateLimit,
   readJsonBodyWithLimit,
@@ -234,6 +236,25 @@ export async function POST(req: NextRequest) {
     // Continuer vers une nouvelle session si la vérification préalable échoue transitoirement
   }
 
+  const requestOrigin = new URL(returnUrl).origin;
+  const rawBodyLocale =
+    bodyResult.data &&
+    typeof bodyResult.data === "object" &&
+    !Array.isArray(bodyResult.data)
+      ? (bodyResult.data as Record<string, unknown>).locale
+      : undefined;
+  const fallbackReturnLang = extractAppLangFromPathname(new URL(returnUrl).pathname);
+  const courseSlug =
+    typeof courseSnap.data()?.slug === "string"
+      ? (courseSnap.data()?.slug as string)
+      : undefined;
+  const serverReturnUrl = buildLocalizedMonCashReturnUrl({
+    origin: requestOrigin,
+    orderId,
+    courseSlug,
+    locale: rawBodyLocale ?? fallbackReturnLang,
+  });
+
   // 7. Enregistrer la commande en BDD avec le montant SERVEUR AVANT la redirection
   const paymentRef = db.collection("payments").doc(orderId);
   try {
@@ -246,7 +267,7 @@ export async function POST(req: NextRequest) {
       currency: "HTG",
       method: "moncash",
       status: "awaiting_payment",
-      returnUrl,
+      returnUrl: serverReturnUrl,
       paymentUrl: null,
       failureReason: null,
       createdAt: FieldValue.serverTimestamp(),
@@ -267,7 +288,6 @@ export async function POST(req: NextRequest) {
   }
 
   // 8. Appel serveur vers MonCashConnect (/v1/pay-create)
-  const requestOrigin = new URL(returnUrl).origin;
   let mccResponse: Response;
   try {
     mccResponse = await fetch(MONCASH_PAY_CREATE_URL, {
@@ -276,7 +296,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         amount: serverAmount,
         referenceId: orderId,
-        returnUrl,
+        returnUrl: serverReturnUrl,
         ...(customerName ? { customerName } : {}),
         ...(customerEmail ? { customerEmail } : {}),
       }),

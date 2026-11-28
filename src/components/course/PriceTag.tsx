@@ -1,12 +1,14 @@
 import React from "react";
 import { formatPrice } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 
 interface PriceTagProps {
   priceUSD: number | null | undefined;
   priceHTG: number | null | undefined;
   size?: "sm" | "lg";
   variant?: "brand" | "catalog";
+  lang?: AppLang;
   className?: string;
 }
 
@@ -14,9 +16,14 @@ export function PriceTag({
   priceUSD,
   priceHTG,
   size = "sm",
+  lang = DEFAULT_APP_LANG,
   className = "",
 }: PriceTagProps) {
-  const { hasPrice, formattedUSD, formattedHTG } = formatPrice(priceUSD, priceHTG);
+  const { hasPrice, formattedUSD, formattedHTG } = formatPrice(
+    priceUSD,
+    priceHTG,
+    lang
+  );
 
   if (!hasPrice) {
     return (
@@ -25,7 +32,7 @@ export function PriceTag({
           size === "lg" ? "text-sm sm:text-base px-3.5 py-1.5" : "text-xs px-2.5 py-1"
         } ${className}`}
       >
-        {t("catalogue.prixBientot")}
+        {t("catalogue.prixBientot", lang)}
       </span>
     );
   }

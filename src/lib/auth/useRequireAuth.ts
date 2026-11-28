@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
 import { getSafeRedirectPath } from "./redirect";
+import { extractAppLangFromPathname, localizePath } from "@/lib/i18n/routing";
 
 export function useRequireAuth() {
   const { user, loading, isAdmin } = useAuth();
@@ -12,11 +13,15 @@ export function useRequireAuth() {
 
   useEffect(() => {
     if (!loading && !user) {
+      const lang = extractAppLangFromPathname(pathname);
       const search =
         typeof window !== "undefined" ? window.location.search : "";
-      const rawTarget = `${pathname || "/mes-formations"}${search}`;
-      const safeTarget = getSafeRedirectPath(rawTarget);
-      router.push(`/connexion?redirect=${encodeURIComponent(safeTarget)}`);
+      const fallbackPath = localizePath("/mes-formations", lang);
+      const rawTarget = `${pathname || fallbackPath}${search}`;
+      const safeTarget = getSafeRedirectPath(rawTarget, fallbackPath);
+      router.push(
+        localizePath(`/connexion?redirect=${encodeURIComponent(safeTarget)}`, lang)
+      );
     }
   }, [user, loading, router, pathname]);
 

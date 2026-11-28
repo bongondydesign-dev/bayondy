@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check-i18n": "node scripts/check-i18n.mjs",
     "test:rules": "firebase emulators:exec --only firestore --project bayondy-rules-test \"jest --config jest.config.ts --forceExit\"",
     "set-admin": "tsx scripts/set-admin.ts"
   },

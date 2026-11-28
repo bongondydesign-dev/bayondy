@@ -6,7 +6,7 @@ import { AlertCircle, Check, Clock, LogIn } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { hasCourseAccess } from "@/lib/learning/access";
 import { getEnrollmentForCourse } from "@/lib/learning/queries";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   createMonCashOrderId,
   isSafePaymentRedirectUrl,
@@ -29,6 +29,7 @@ export function EnrollButton({
   priceHTG,
   className = "",
 }: EnrollButtonProps) {
+  const { lang, t, localize } = useI18n();
   const { user, loading: authLoading, isAdmin } = useAuth();
   const [enrollmentState, setEnrollmentState] = useState<{
     key: string;
@@ -96,7 +97,9 @@ export function EnrollButton({
     return (
       <div className={`space-y-3 ${className}`}>
         <Link
-          href={`/connexion?redirect=/formations/${encodeURIComponent(courseSlug)}`}
+          href={`${localize("/connexion")}?redirect=${encodeURIComponent(
+            localize(`/formations/${courseSlug}`)
+          )}`}
           className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
         >
           <LogIn className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -124,7 +127,7 @@ export function EnrollButton({
     return (
       <div className={`space-y-2.5 ${className}`}>
         <Link
-          href={`/mes-formations/${courseSlug}`}
+          href={localize(`/mes-formations/${courseSlug}`)}
           className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           <span className="w-5 h-5 rounded-full bg-[var(--brand-fg)]/15 flex items-center justify-center" aria-hidden="true">
@@ -165,9 +168,10 @@ export function EnrollButton({
     try {
       const token = await user.getIdToken();
       const orderId = createMonCashOrderId(courseId);
-      const returnUrl = `${window.location.origin}/merci?orderId=${encodeURIComponent(
-        orderId
-      )}&courseSlug=${encodeURIComponent(courseSlug)}`;
+      const returnPath = localize(
+        `/merci?orderId=${encodeURIComponent(orderId)}&courseSlug=${encodeURIComponent(courseSlug)}`
+      );
+      const returnUrl = `${window.location.origin}${returnPath}`;
 
       try {
         window.sessionStorage.setItem(
@@ -195,6 +199,7 @@ export function EnrollButton({
           orderId,
           returnUrl,
           courseId,
+          locale: lang,
         }),
         signal: controller.signal,
       });

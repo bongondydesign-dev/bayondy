@@ -6,11 +6,15 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { AuthNav } from "@/components/auth/AuthNav";
-import { t } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { stripLocalePrefix } from "@/lib/i18n/routing";
 
 export function MobileMenu() {
+  const { t, localize } = useI18n();
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname() || "/";
+  const cleanPath = stripLocalePrefix(pathname);
 
   useEffect(() => {
     if (!open) return;
@@ -23,24 +27,24 @@ export function MobileMenu() {
 
   const links = [
     {
-      href: "/formations",
+      href: localize("/formations"),
       label: t("nav.formations"),
-      isActive: pathname === "/formations" || pathname.startsWith("/formations/"),
+      isActive: cleanPath === "/formations" || cleanPath.startsWith("/formations/"),
     },
     {
-      href: "/#kijan",
+      href: localize("/#kijan"),
       label: t("nav.kijan"),
       isActive: false,
     },
     {
-      href: "/a-propos",
+      href: localize("/a-propos"),
       label: t("nav.apropos"),
-      isActive: pathname === "/a-propos",
+      isActive: cleanPath === "/a-propos",
     },
     {
-      href: "/faq",
+      href: localize("/faq"),
       label: t("nav.faq"),
-      isActive: pathname === "/faq",
+      isActive: cleanPath === "/faq",
     },
   ];
 
@@ -110,6 +114,14 @@ export function MobileMenu() {
                     />
                   </Link>
                 ))}
+              </div>
+
+              <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
+                <LanguageSwitcher
+                  variant="segmented"
+                  className="w-full"
+                  onAfterSelect={() => setOpen(false)}
+                />
               </div>
 
               <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">

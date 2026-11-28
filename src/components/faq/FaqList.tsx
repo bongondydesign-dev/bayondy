@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Plus } from "lucide-react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface FaqListProps {
   accent?: "brand" | "orange";
@@ -11,6 +11,7 @@ interface FaqListProps {
 
 export function FaqList({ accent = "brand" }: FaqListProps = {}) {
   void accent;
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [

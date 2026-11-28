@@ -10,7 +10,7 @@ import { removeCourseFromList } from "@/lib/admin/courseDeletion";
 import { filterAdminCourses } from "@/lib/admin/filters";
 import { DeleteCourseDialog } from "@/components/admin/DeleteCourseDialog";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CourseRow {
   id: string;
@@ -23,6 +23,7 @@ interface CourseRow {
 }
 
 export default function AdminFormationsPage() {
+  const { t } = useI18n();
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +55,7 @@ export default function AdminFormationsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const counts = useMemo(() => {
     let published = 0;

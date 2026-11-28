@@ -20,13 +20,14 @@ import {
   type LessonWithId,
 } from "@/lib/learning/queries";
 import { MAX_COMPLETED_LESSONS } from "@/types/firestore";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface PlayerViewProps {
   slug: string;
 }
 
 export function PlayerView({ slug }: PlayerViewProps) {
+  const { lang, t, localize } = useI18n();
   const { user, loading: authLoading, isAdmin } = useRequireAuth();
 
   const [course, setCourse] = useState<CourseWithId | null>(null);
@@ -132,7 +133,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
     return () => {
       cancelled = true;
     };
-  }, [slug, user, authLoading, isAdmin]);
+  }, [slug, user, authLoading, isAdmin, t]);
 
   // Leçon active courante
   const currentLesson = useMemo(() => {
@@ -191,10 +192,15 @@ export function PlayerView({ slug }: PlayerViewProps) {
 
     setSavingProgress(true);
     try {
-      await saveProgress(user.uid, course.id, {
-        completedLessonIds: newCompleted,
-        lastLessonId: currentLesson.id,
-      });
+      await saveProgress(
+        user.uid,
+        course.id,
+        {
+          completedLessonIds: newCompleted,
+          lastLessonId: currentLesson.id,
+        },
+        lang
+      );
     } catch (err: unknown) {
       // Rollback optimiste en cas d'erreur Firestore ou validation
       setCompletedLessonIds(previousCompleted);
@@ -236,7 +242,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
               {t("lecteur.nonInscritDescription")}
             </p>
             <Link
-              href={`/formations/${slug}`}
+              href={localize(`/formations/${slug}`)}
               className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <span>{t("lecteur.boutonVoirFormation")}</span>
@@ -254,7 +260,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
             {/* Fil d'Ariane & Retour */}
             <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70">
               <Link
-                href="/mes-formations"
+                href={localize("/mes-formations")}
                 className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -376,6 +382,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     completedCount={validCompletedCount}
                     totalCount={lessons.length}
                     size="md"
+                    lang={lang}
                   />
                 </div>
 

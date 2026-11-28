@@ -12,7 +12,7 @@ import {
 import { adminFetch } from "@/lib/admin/apiClient";
 import { isValidCoverUrl } from "@/lib/admin/cover";
 import { prepareCoverDataUrl } from "@/lib/admin/coverClient";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CoverImageFieldProps {
   courseId?: string;
@@ -29,6 +29,7 @@ export function CoverImageField({
   onChange,
   onPersisted,
 }: CoverImageFieldProps) {
+  const { t } = useI18n();
   const inputId = useId();
   const urlInputId = useId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);

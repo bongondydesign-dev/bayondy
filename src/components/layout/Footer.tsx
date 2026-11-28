@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 
 export function Footer() {
+  const { t, localize } = useI18n();
   const currentYear = 2026;
 
   return (
@@ -11,10 +15,10 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Grille des colonnes de liens */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[var(--border-subtle)]">
-          {/* Colonne 1 : Marque et mission */}
+          {/* Colonne 1 : Marque, mission et langue */}
           <div className="md:col-span-2">
             <Link
-              href="/"
+              href={localize("/")}
               className="inline-flex items-center gap-2.5 font-display font-bold text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1"
             >
               <span
@@ -28,6 +32,9 @@ export function Footer() {
             <p className="mt-4 text-sm text-slate-700 dark:text-ice-white/70 max-w-sm font-sans leading-relaxed">
               {t("footer.description")}
             </p>
+            <div className="mt-5">
+              <LanguageSwitcher variant="segmented" />
+            </div>
           </div>
 
           {/* Colonne 2 : Liens de navigation */}
@@ -38,7 +45,7 @@ export function Footer() {
             <ul className="space-y-1 text-sm text-slate-800 dark:text-ice-white/80 font-medium">
               <li>
                 <Link
-                  href="/formations"
+                  href={localize("/formations")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.formations")}
@@ -46,7 +53,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#kijan"
+                  href={localize("/#kijan")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("nav.kijan")}
@@ -54,7 +61,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/a-propos"
+                  href={localize("/a-propos")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.apropos")}
@@ -62,7 +69,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/faq"
+                  href={localize("/faq")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.faq")}
@@ -79,7 +86,7 @@ export function Footer() {
             <ul className="space-y-1 text-sm text-slate-800 dark:text-ice-white/80 font-medium">
               <li>
                 <Link
-                  href="/conditions"
+                  href={localize("/conditions")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.conditions")}
@@ -87,7 +94,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/confidentialite"
+                  href={localize("/confidentialite")}
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >
                   {t("footer.liens.confidentialite")}

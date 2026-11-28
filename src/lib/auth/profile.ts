@@ -34,8 +34,13 @@ export function getPrimaryAuthProviderLabel(providerIds: string[]): string {
   return "Email";
 }
 
-export function formatProfileDate(dateInput?: string | null): string {
-  return formatLocaleDate(dateInput);
+import type { AppLang } from "@/lib/i18n/config";
+
+export function formatProfileDate(
+  dateInput?: string | null,
+  lang: AppLang = "fr"
+): string {
+  return formatLocaleDate(dateInput, lang);
 }
 
 export function isDisplayNameDirty(

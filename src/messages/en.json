@@ -17,6 +17,14 @@
     "passerSombre": "Dark mode",
     "passerSysteme": "System (auto)"
   },
+  "langue": {
+    "label": "Language",
+    "choisir": "Choose language",
+    "fr": "Français",
+    "kr": "Kreyòl ayisyen",
+    "codeFr": "FR",
+    "codeKr": "KR"
+  },
   "paiement": {
     "payer": "Pay",
     "payerMonCash": "Pay with MonCash",
@@ -56,7 +64,12 @@
       "lecon2Duree": "18:20",
       "lecon3": "03. Building your first project",
       "lecon3Duree": "24:10",
-      "progression": "Progress"
+      "progression": "Progress",
+      "sonActif": "Sound on",
+      "sonCoupe": "Mute",
+      "vitesseLecture": "Playback speed",
+      "afficherListe": "Show lesson list",
+      "modeCinema": "Theater mode"
     }
   },
   "affirmation": {
@@ -241,6 +254,7 @@
     "erreurMotDePasse": "Unable to send the email right now.",
     "preferences": "Preferences & shortcuts",
     "themeActuel": "Appearance",
+    "langueActuelle": "Display language",
     "compteCree": "Account created",
     "dernierAcces": "Last sign-in",
     "methodeConnexion": "Sign-in method",
@@ -300,6 +314,12 @@
       "fr": "French",
       "en": "English"
     },
+    "coursEnLangue": {
+      "ht": "Course in Haitian Creole",
+      "fr": "Course in French",
+      "en": "Course in English"
+    },
+    "langueDuCours": "Course language",
     "atoutLangue": "100% in",
     "atoutMobile": "Access on any mobile phone",
     "atoutRythme": "Follow the lessons at your own pace"
@@ -397,7 +417,8 @@
       "denyeTranzaksyon": "Recent transactions",
       "weTout": "View all",
       "pemanKonfime": "Confirmed payments",
-      "tranzaksyonTotal": "Transactions"
+      "tranzaksyonTotal": "Transactions",
+      "devizAria": "Currency"
     },
     "formations": {
       "titre": "Courses",
@@ -568,7 +589,8 @@
   "aide": {
     "titre": "Need help?",
     "sousTitre": "If you have a question not listed here, we are here to help.",
-    "contactBientot": "Contact method coming soon"
+    "contactBientot": "Contact method coming soon",
+    "whatsappAria": "Contact support on WhatsApp"
   },
   "faqPage": {
     "titre": "Frequently Asked Questions (FAQ)",

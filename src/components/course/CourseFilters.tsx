@@ -8,13 +8,14 @@ import {
   filterCatalogCourses,
 } from "@/lib/courses/catalog";
 import { CourseCard } from "./CourseCard";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CourseFiltersProps {
   courses: PublicCourse[];
 }
 
 export function CourseFilters({ courses }: CourseFiltersProps) {
+  const { t } = useI18n();
   const [selectedLevel, setSelectedLevel] = useState<CourseLevel | "all">("all");
   const [selectedLanguage, setSelectedLanguage] = useState<CourseLanguage | "all">("all");
 

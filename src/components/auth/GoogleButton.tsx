@@ -8,7 +8,7 @@ import {
   getAuthErrorMessageKey,
   shouldIgnoreAuthError,
 } from "@/lib/auth/errors";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface GoogleButtonProps {
   onError?: (errorMessageKey: string | null, errorDetail?: string | null) => void;
@@ -17,6 +17,7 @@ interface GoogleButtonProps {
 
 export function GoogleButton({ onError, onSuccess }: GoogleButtonProps) {
   const { signInWithGoogle } = useAuth();
+  const { t } = useI18n();
   const [submitting, setSubmitting] = useState(false);
 
   const handleClick = async () => {

@@ -17,6 +17,14 @@
     "passerSombre": "Mode sombre",
     "passerSysteme": "Automatique (système)"
   },
+  "langue": {
+    "label": "Langue",
+    "choisir": "Choisir la langue",
+    "fr": "Français",
+    "kr": "Kreyòl ayisyen",
+    "codeFr": "FR",
+    "codeKr": "KR"
+  },
   "paiement": {
     "payer": "Payer",
     "payerMonCash": "Payer avec MonCash",
@@ -56,7 +64,12 @@
       "lecon2Duree": "18:20",
       "lecon3": "03. Créer votre premier projet",
       "lecon3Duree": "24:10",
-      "progression": "Progression"
+      "progression": "Progression",
+      "sonActif": "Son activé",
+      "sonCoupe": "Couper le son",
+      "vitesseLecture": "Vitesse de lecture",
+      "afficherListe": "Afficher la liste des leçons",
+      "modeCinema": "Mode cinéma"
     }
   },
   "affirmation": {
@@ -241,6 +254,7 @@
     "erreurMotDePasse": "Impossible d'envoyer l'e-mail pour le moment.",
     "preferences": "Préférences et raccourcis",
     "themeActuel": "Apparence",
+    "langueActuelle": "Langue d'affichage",
     "compteCree": "Compte créé le",
     "dernierAcces": "Dernière connexion",
     "methodeConnexion": "Méthode de connexion",
@@ -300,6 +314,12 @@
       "fr": "Français",
       "en": "Anglais"
     },
+    "coursEnLangue": {
+      "ht": "Cours en créole haïtien",
+      "fr": "Cours en français",
+      "en": "Cours en anglais"
+    },
+    "langueDuCours": "Langue du cours",
     "atoutLangue": "100% en",
     "atoutMobile": "Accès sur n'importe quel téléphone",
     "atoutRythme": "Suivez les leçons à votre propre rythme"
@@ -397,7 +417,8 @@
       "denyeTranzaksyon": "Transactions récentes",
       "weTout": "Tout voir",
       "pemanKonfime": "Paiements confirmés",
-      "tranzaksyonTotal": "Transactions"
+      "tranzaksyonTotal": "Transactions",
+      "devizAria": "Devise"
     },
     "formations": {
       "titre": "Formations",
@@ -545,7 +566,7 @@
     "nonInscrit": "Vous n'êtes pas inscrit à cette formation",
     "nonInscritDescription": "Pour visionner toutes les leçons, vous devez d'abord vous inscrire à cette formation.",
     "boutonVoirFormation": "Voir les détails de la formation",
-    "erreur": "Un problème est survenue lors du chargement des leçons.",
+    "erreur": "Un problème est survenu lors du chargement des leçons.",
     "videoIndisponible": "Cette vidéo n'est pas disponible actuellement.",
     "lancerVideo": "Cliquer pour regarder la vidéo",
     "enregistrement": "Enregistrement en cours...",
@@ -568,7 +589,8 @@
   "aide": {
     "titre": "Besoin d'aide ?",
     "sousTitre": "Si vous avez une question qui n'est pas dans cette liste, nous sommes là pour vous aider.",
-    "contactBientot": "Le moyen de contact arrive bientôt"
+    "contactBientot": "Le moyen de contact arrive bientôt",
+    "whatsappAria": "Contacter le support sur WhatsApp"
   },
   "faqPage": {
     "titre": "Foire aux questions (FAQ)",

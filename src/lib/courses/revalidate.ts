@@ -9,8 +9,13 @@ export function revalidateCoursesCache(
   slugs?: string | null | Array<string | null | undefined>
 ): void {
   revalidateTag("courses", { expire: 0 });
+  revalidatePath("/");
+  revalidatePath("/ht");
   revalidatePath("/formations");
-  revalidatePath("/formations/[slug]", "page");
+  revalidatePath("/fr/formations");
+  revalidatePath("/ht/formations");
+  revalidatePath("/[lang]/formations", "page");
+  revalidatePath("/[lang]/formations/[slug]", "page");
 
   const list = Array.isArray(slugs) ? slugs : slugs ? [slugs] : [];
   const seen = new Set<string>();
@@ -22,5 +27,7 @@ export function revalidateCoursesCache(
     seen.add(slug);
     revalidateTag(`course-${slug}`, { expire: 0 });
     revalidatePath(`/formations/${slug}`);
+    revalidatePath(`/fr/formations/${slug}`);
+    revalidatePath(`/ht/formations/${slug}`);
   }
 }

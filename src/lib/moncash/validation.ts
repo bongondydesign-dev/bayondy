@@ -220,3 +220,27 @@ export function mapMonCashUpstreamError(
     code,
   };
 }
+
+export type CheckoutLocale = "fr" | "kr";
+
+export function resolveCheckoutLocale(raw: unknown): CheckoutLocale {
+  if (raw === "kr" || raw === "ht") return "kr";
+  return "fr";
+}
+
+export function buildLocalizedMonCashReturnUrl(options: {
+  origin: string;
+  orderId: string;
+  courseSlug?: string | null;
+  locale?: unknown;
+}): string {
+  const locale = resolveCheckoutLocale(options.locale);
+  const basePath = locale === "kr" ? "/ht/merci" : "/merci";
+  const url = new URL(basePath, options.origin);
+  url.searchParams.set("orderId", options.orderId);
+  if (typeof options.courseSlug === "string" && options.courseSlug.trim()) {
+    url.searchParams.set("courseSlug", options.courseSlug.trim());
+  }
+  return url.toString();
+}
+

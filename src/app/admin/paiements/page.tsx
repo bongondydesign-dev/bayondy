@@ -10,7 +10,7 @@ import {
 } from "@/lib/admin/paymentDeletion";
 import { DeletePaymentsDialog } from "@/components/admin/DeletePaymentsDialog";
 import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface PaymentRow {
   id: string;
@@ -45,6 +45,7 @@ function statusColor(status: string) {
 }
 
 export default function AdminPaiementsPage() {
+  const { lang, t } = useI18n();
   const [payments, setPayments] = useState<PaymentRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +85,7 @@ export default function AdminPaiementsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   async function loadMore(cursor: string) {
     setLoading(true);
@@ -196,7 +197,7 @@ export default function AdminPaiementsPage() {
               {t("admin.paiements.totalHTG")}
             </span>
             <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
-              {formatLocaleNumber(summary.totalHTG)} HTG
+              {formatLocaleNumber(summary.totalHTG, lang)} HTG
             </span>
           </div>
           <div className="p-4 sm:p-5 rounded-2xl surface-glass border border-[var(--border-subtle)]">
@@ -204,7 +205,7 @@ export default function AdminPaiementsPage() {
               {t("admin.paiements.totalUSD")}
             </span>
             <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
-              {formatLocaleNumber(summary.totalUSD)} USD
+              {formatLocaleNumber(summary.totalUSD, lang)} USD
             </span>
           </div>
           <div className="p-4 sm:p-5 rounded-2xl surface-glass border border-[var(--border-subtle)]">
@@ -341,7 +342,7 @@ export default function AdminPaiementsPage() {
                           </span>
                         </td>
                         <td className="px-4 py-3.5 text-ice-white font-mono font-semibold tabular-nums whitespace-nowrap">
-                          {formatLocaleNumber(p.amount)} {p.currency}
+                          {formatLocaleNumber(p.amount, lang)} {p.currency}
                         </td>
                         <td className="px-4 py-3.5 text-slate-700 dark:text-ice-white/75 font-mono text-xs uppercase">
                           {p.method}
@@ -353,7 +354,7 @@ export default function AdminPaiementsPage() {
                           {p.merchantReference || "—"}
                         </td>
                         <td className="px-4 py-3.5 text-slate-600 dark:text-ice-white/60 font-mono text-xs whitespace-nowrap tabular-nums">
-                          {formatLocaleDate(p.createdAt)}
+                          {formatLocaleDate(p.createdAt, lang)}
                         </td>
                       </tr>
                     ))}

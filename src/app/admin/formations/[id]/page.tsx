@@ -3,7 +3,7 @@
 // ⚠️ NOTE SÉCURITÉ : Les liens/IDs vidéo ne sont affichés que dans cet espace admin,
 // jamais dans les pages publiques ni dans le syllabus côté client.
 
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { Suspense, useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import {
@@ -25,7 +25,7 @@ import {
 import { CoverImageField } from "@/components/admin/CoverImageField";
 import { DeleteCourseDialog } from "@/components/admin/DeleteCourseDialog";
 import { getLessonPlaybackInfo, parseLessonVideoInput } from "@/lib/video/lessonVideo";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 // ─────────────────────────── Types ───────────────────────────
 
@@ -91,6 +91,7 @@ function inputClass(error?: boolean) {
 }
 
 function StatusLabel({ status }: { status: "draft" | "published" }) {
+  const { t } = useI18n();
   return (
     <span
       className={`font-mono text-xs font-medium ${
@@ -121,6 +122,7 @@ function LessonForm({
   onSave: () => void;
   onCancel: () => void;
 }) {
+  const { t } = useI18n();
   const initialVideoSource =
     initial?.videoUrl || initial?.videoId || initial?.youtubeVideoId || "";
 
@@ -399,7 +401,8 @@ function LessonForm({
 
 // ─────────────────────────── Page principale ───────────────────────────
 
-export default function AdminFormationDetailPage() {
+function AdminFormationDetailContent() {
+  const { t, localize } = useI18n();
   const params = useParams<{ id: string }>();
   const id = params.id;
   const isNew = id === "new";
@@ -708,7 +711,7 @@ export default function AdminFormationDetailPage() {
           <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             {lessons.length > 0 && (
               <Link
-                href={`/mes-formations/${course.slug}`}
+                href={localize(`/mes-formations/${course.slug}`)}
                 className="inline-flex items-center gap-2 min-h-[48px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-slate-800 dark:text-ice-white/90 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/50 font-sans font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <PlayCircle className="w-4 h-4 text-brand-light" aria-hidden="true" />
@@ -1060,5 +1063,20 @@ export default function AdminFormationDetailPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function AdminFormationDetailPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="space-y-6 animate-pulse">
+          <div className="h-8 bg-[var(--surface-subtle)] rounded-xl w-64" />
+          <div className="h-48 bg-deep-navy rounded-2xl border border-[var(--border-subtle)]" />
+        </div>
+      }
+    >
+      <AdminFormationDetailContent />
+    </Suspense>
   );
 }

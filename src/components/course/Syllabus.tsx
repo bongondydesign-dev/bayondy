@@ -2,12 +2,14 @@ import React from "react";
 import { ChevronDown } from "lucide-react";
 import type { SyllabusModule } from "@/types/firestore";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 
 interface SyllabusProps {
   syllabus: SyllabusModule[];
+  lang?: AppLang;
 }
 
-export function Syllabus({ syllabus }: SyllabusProps) {
+export function Syllabus({ syllabus, lang = DEFAULT_APP_LANG }: SyllabusProps) {
   if (!syllabus || syllabus.length === 0) {
     return null;
   }
@@ -16,13 +18,13 @@ export function Syllabus({ syllabus }: SyllabusProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subtle)]">
         <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
-          {t("catalogue.programme")}
+          {t("catalogue.programme", lang)}
         </h2>
         <span className="font-mono text-xs text-slate-600 dark:text-ice-white/65 tabular-nums font-medium">
           {syllabus.length}{" "}
           {syllabus.length > 1
-            ? t("catalogue.modules")
-            : t("catalogue.moduleSingulier")}
+            ? t("catalogue.modules", lang)
+            : t("catalogue.moduleSingulier", lang)}
         </span>
       </div>
 
@@ -49,8 +51,8 @@ export function Syllabus({ syllabus }: SyllabusProps) {
                   <span className="font-mono text-xs text-slate-600 dark:text-ice-white/60 hidden sm:inline tabular-nums">
                     {lessonCount}{" "}
                     {lessonCount > 1
-                      ? t("catalogue.lecons")
-                      : t("catalogue.leconSingulier")}
+                      ? t("catalogue.lecons", lang)
+                      : t("catalogue.leconSingulier", lang)}
                   </span>
                   <ChevronDown
                     className="w-5 h-5 text-slate-600 dark:text-ice-white/60 transition-transform duration-200 group-open:rotate-180"

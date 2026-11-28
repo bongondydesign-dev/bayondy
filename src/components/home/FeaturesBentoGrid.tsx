@@ -12,7 +12,7 @@ import {
   RefreshCw,
   Smartphone,
 } from "lucide-react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { RevealItem, RevealStagger } from "@/components/ui/Reveal";
 import {
   computeMilestoneProgressPct,
@@ -26,6 +26,7 @@ const MOBILE_WAVEFORM_HEIGHTS = [35, 78, 52, 90, 62, 84, 48, 70];
 const DIAL_TICKS = Array.from({ length: 24 }, (_, idx) => idx * 15);
 
 export function FeaturesBentoGrid() {
+  const { t } = useI18n();
   const milestones = [
     {
       num: t("etapes.aprann.numero"),

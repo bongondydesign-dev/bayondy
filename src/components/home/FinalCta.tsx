@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routing";
 import { Button } from "@/components/ui/Button";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { Reveal } from "@/components/ui/Reveal";
@@ -14,13 +16,13 @@ function splitHeadlineAccent(text: string): { prefix: string; accent: string } {
   return { prefix: match[1], accent: match[2] };
 }
 
-export function FinalCta() {
-  const { prefix, accent } = splitHeadlineAccent(t("final.titre"));
+export function FinalCta({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
+  const { prefix, accent } = splitHeadlineAccent(t("final.titre", lang));
 
   const guarantees = [
-    t("bento.badgeCreole"),
-    t("bento.badgeMobile"),
-    `MonCash · ${t("bento.badgeAcces")}`,
+    t("bento.badgeCreole", lang),
+    t("bento.badgeMobile", lang),
+    `MonCash · ${t("bento.badgeAcces", lang)}`,
   ];
 
   return (
@@ -92,7 +94,7 @@ export function FinalCta() {
               </div>
 
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-[#FF885C] mb-4">
-                {t("final.badge")}
+                {t("final.badge", lang)}
               </p>
 
               <h2 className="font-display font-bold text-3xl sm:text-5xl lg:text-[3.5rem] text-white tracking-[-0.025em] leading-[1.06] text-balance">
@@ -103,18 +105,18 @@ export function FinalCta() {
               </h2>
 
               <p className="mt-5 text-base sm:text-lg text-zinc-300 max-w-lg leading-relaxed font-sans text-balance">
-                {t("final.sousTitre")}
+                {t("final.sousTitre", lang)}
               </p>
 
               {/* Boutons d'action */}
               <div className="mt-9 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto justify-center">
                 <Button
-                  href="/inscription"
+                  href={localizePath("/inscription", lang)}
                   variant="principal"
                   accent="orange"
                   className="w-full sm:w-auto pl-6 pr-2.5 py-2 justify-between sm:justify-center"
                 >
-                  <span>{t("final.cta")}</span>
+                  <span>{t("final.cta", lang)}</span>
                   <span
                     className="w-7 h-7 rounded-full bg-white text-[var(--brand)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                     aria-hidden="true"
@@ -124,10 +126,10 @@ export function FinalCta() {
                 </Button>
 
                 <Link
-                  href="/formations"
+                  href={localizePath("/formations", lang)}
                   className="group w-full sm:w-auto inline-flex items-center justify-between sm:justify-center gap-2.5 pl-6 pr-3 py-2 rounded-full min-h-[44px] border border-white/20 bg-white/[0.08] backdrop-blur-md text-white hover:bg-white/[0.14] hover:border-[#FF885C]/55 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 font-medium text-sm whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
                 >
-                  <span>{t("hero.cta")}</span>
+                  <span>{t("hero.cta", lang)}</span>
                   <span
                     className="w-6 h-6 rounded-full bg-white/12 text-white inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                     aria-hidden="true"

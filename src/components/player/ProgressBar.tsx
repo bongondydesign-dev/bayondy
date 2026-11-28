@@ -1,5 +1,6 @@
 import React from "react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 
 interface ProgressBarProps {
   completedCount: number;
@@ -7,6 +8,7 @@ interface ProgressBarProps {
   className?: string;
   showText?: boolean;
   size?: "sm" | "md";
+  lang?: AppLang;
 }
 
 export function ProgressBar({
@@ -15,6 +17,7 @@ export function ProgressBar({
   className = "",
   showText = true,
   size = "md",
+  lang = DEFAULT_APP_LANG,
 }: ProgressBarProps) {
   const safeTotal = Math.max(0, totalCount);
   const safeCompleted = Math.min(Math.max(0, completedCount), safeTotal);
@@ -27,7 +30,7 @@ export function ProgressBar({
     <div className={`w-full space-y-1.5 ${className}`}>
       {showText && (
         <div className="flex items-center justify-between text-xs font-mono text-slate-700 dark:text-ice-white/70">
-          <span>{t("mesFormations.progression")}</span>
+          <span>{t("mesFormations.progression", lang)}</span>
           <span className="font-semibold text-brand-light tabular-nums">
             {safeCompleted}/{safeTotal} ({percentage}%)
           </span>
@@ -40,7 +43,7 @@ export function ProgressBar({
         aria-valuenow={percentage}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={`${t("mesFormations.progression")}: ${percentage}%`}
+        aria-label={`${t("mesFormations.progression", lang)}: ${percentage}%`}
       >
         <div
           className="h-full bg-gradient-to-r from-brand-dark to-brand transition-all duration-300 rounded-full"

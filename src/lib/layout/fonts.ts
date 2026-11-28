@@ -1,0 +1,37 @@
+import {
+  Sora,
+  Plus_Jakarta_Sans,
+  IBM_Plex_Mono,
+  Playfair_Display,
+} from "next/font/google";
+
+export const sora = Sora({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+export const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+export const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
+});
+
+export const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["italic"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+export const fontClassNames = `${sora.variable} ${jakarta.variable} ${ibmPlexMono.variable} ${playfair.variable}`;

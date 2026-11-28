@@ -8,15 +8,17 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routing";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { MonCashMark } from "@/components/payment/MonCashPayButton";
 
-export function Pricing() {
+export function Pricing({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
   const highlights = [
-    t("fonctionnalites.acces.titre"),
-    t("fonctionnalites.revoir.titre"),
-    t("fonctionnalites.mobile.titre"),
+    t("fonctionnalites.acces.titre", lang),
+    t("fonctionnalites.revoir.titre", lang),
+    t("fonctionnalites.mobile.titre", lang),
   ];
 
   return (
@@ -26,10 +28,10 @@ export function Pricing() {
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
-              {t("tarifs.badge")}
+              {t("tarifs.badge", lang)}
             </p>
             <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight text-balance">
-              {t("tarifs.titreSection")}
+              {t("tarifs.titreSection", lang)}
             </h2>
           </div>
 
@@ -49,18 +51,18 @@ export function Pricing() {
               <div className="lg:col-span-7 text-left space-y-6">
                 <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
                   <CreditCard className="w-3.5 h-3.5 text-[var(--home-orange-vivid)]" aria-hidden="true" />
-                  <span>{t("bento.badgeCreole")}</span>
+                  <span>{t("bento.badgeCreole", lang)}</span>
                   <span aria-hidden="true">·</span>
-                  <span>{t("tarifs.badge")}</span>
+                  <span>{t("tarifs.badge", lang)}</span>
                 </div>
 
                 <div>
                   <h3 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-ice-white tracking-tight text-balance leading-[1.15]">
-                    {t("tarifs.titre")}
+                    {t("tarifs.titre", lang)}
                   </h3>
 
                   <p className="mt-4 text-sm sm:text-base text-slate-700 dark:text-ice-white/70 leading-relaxed font-sans max-w-xl">
-                    {t("tarifs.description")}
+                    {t("tarifs.description", lang)}
                   </p>
                 </div>
 
@@ -81,12 +83,12 @@ export function Pricing() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-3">
                   <Button
-                    href="/inscription"
+                    href={localizePath("/inscription", lang)}
                     variant="principal"
                     accent="orange"
                     className="pl-6 pr-2.5 py-2"
                   >
-                    <span>{t("final.cta")}</span>
+                    <span>{t("final.cta", lang)}</span>
                     <span
                       className="w-7 h-7 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                       aria-hidden="true"
@@ -96,11 +98,11 @@ export function Pricing() {
                   </Button>
 
                   <Button
-                    href="/formations"
+                    href={localizePath("/formations", lang)}
                     variant="carbon"
                     className="px-6 py-2.5"
                   >
-                    <span>{t("hero.cta")}</span>
+                    <span>{t("hero.cta", lang)}</span>
                   </Button>
                 </div>
               </div>
@@ -109,7 +111,7 @@ export function Pricing() {
               <div className="lg:col-span-5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-5 sm:p-6 space-y-4">
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-[var(--border-subtle)]">
                   <p className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-700 dark:text-zinc-400">
-                    {t("tarifs.moyensTitre")}
+                    {t("tarifs.moyensTitre", lang)}
                   </p>
                   <ShieldCheck
                     className="w-4 h-4 text-[var(--home-orange-vivid)] shrink-0"
@@ -129,7 +131,7 @@ export function Pricing() {
 
                       <span className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-semibold shrink-0">
                         <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                        <span>{t("tarifs.statutDisponible")}</span>
+                        <span>{t("tarifs.statutDisponible", lang)}</span>
                       </span>
                     </div>
 
@@ -138,7 +140,7 @@ export function Pricing() {
                         MonCash
                       </span>
                       <span className="font-sans text-slate-700 dark:text-zinc-400">
-                        {t("fonctionnalites.acces.titre")}
+                        {t("fonctionnalites.acces.titre", lang)}
                       </span>
                     </div>
                   </div>
@@ -154,19 +156,19 @@ export function Pricing() {
                           NatCash
                         </p>
                         <p className="font-sans text-xs text-slate-600 dark:text-zinc-500 truncate">
-                          {t("bento.badgePaiement")}
+                          {t("bento.badgePaiement", lang)}
                         </p>
                       </div>
                     </div>
 
                     <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-zinc-400 shrink-0">
-                      {t("tarifs.statutAvenir")}
+                      {t("tarifs.statutAvenir", lang)}
                     </span>
                   </div>
                 </div>
 
                 <p className="pt-1 font-sans text-xs text-slate-700 dark:text-zinc-400 leading-relaxed">
-                  {t("fonctionnalites.paiement.description")}
+                  {t("fonctionnalites.paiement.description", lang)}
                 </p>
               </div>
             </div>

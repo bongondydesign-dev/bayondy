@@ -1,12 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildLocalizedMonCashReturnUrl,
   buildMonCashCreateHeaders,
   createMonCashOrderId,
   isMonCashSuccessStatus,
   isSafePaymentRedirectUrl,
   mapMonCashUpstreamError,
   ORDER_ID_REGEX,
+  resolveCheckoutLocale,
   validateMonCashCreateInput,
 } from "./validation";
 
@@ -162,4 +164,41 @@ test("validateMonCashCreateInput rejects orderId longer than 100 characters", ()
   if (!res.ok) {
     assert.equal(res.code, "INVALID_ORDER_ID");
   }
+});
+
+test("buildLocalizedMonCashReturnUrl enforces whitelisted locale and pinned origin", () => {
+  assert.equal(resolveCheckoutLocale("kr"), "kr");
+  assert.equal(resolveCheckoutLocale("ht"), "kr");
+  assert.equal(resolveCheckoutLocale("fr"), "fr");
+  assert.equal(resolveCheckoutLocale("en"), "fr");
+  assert.equal(resolveCheckoutLocale("https://evil.com"), "fr");
+
+  assert.equal(
+    buildLocalizedMonCashReturnUrl({
+      origin: "https://bayondy.com",
+      orderId: "byd_123",
+      courseSlug: "react-bases",
+      locale: "fr",
+    }),
+    "https://bayondy.com/merci?orderId=byd_123&courseSlug=react-bases"
+  );
+
+  assert.equal(
+    buildLocalizedMonCashReturnUrl({
+      origin: "https://bayondy.com",
+      orderId: "byd_123",
+      courseSlug: "react-bases",
+      locale: "kr",
+    }),
+    "https://bayondy.com/ht/merci?orderId=byd_123&courseSlug=react-bases"
+  );
+
+  assert.equal(
+    buildLocalizedMonCashReturnUrl({
+      origin: "https://bayondy.com",
+      orderId: "byd_123",
+      locale: "evil://inject",
+    }),
+    "https://bayondy.com/merci?orderId=byd_123"
+  );
 });

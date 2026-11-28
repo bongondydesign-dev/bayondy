@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,15 +8,20 @@ import type { PublicCourse } from "@/types/firestore";
 import { formatDuration } from "@/lib/courses/format";
 import { PriceTag } from "./PriceTag";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface CourseCardProps {
   course: PublicCourse;
 }
 
 export function CourseCard({ course }: CourseCardProps) {
+  const { lang, t, localize } = useI18n();
+  const courseHref = localize(`/formations/${course.slug}`);
   const durationText = formatDuration(course.durationMinutes);
   const levelLabel = course.level ? t(`catalogue.niveaux.${course.level}`) : "";
+  const courseLanguageLabel = course.language
+    ? t(`catalogue.coursEnLangue.${course.language}`)
+    : "";
   const hasLessonsCount =
     typeof course.lessonsCount === "number" && course.lessonsCount > 0;
   const lessonsLabel = hasLessonsCount
@@ -25,13 +32,18 @@ export function CourseCard({ course }: CourseCardProps) {
       }`
     : "";
 
-  const metaParts = [levelLabel, durationText, lessonsLabel].filter(Boolean);
+  const metaParts = [
+    levelLabel,
+    courseLanguageLabel,
+    durationText,
+    lessonsLabel,
+  ].filter(Boolean);
 
   return (
     <article className="group relative flex flex-col rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-brand/45 hover:-translate-y-1 transition-all duration-200 overflow-hidden">
       {/* Couverture 16:9 avec repli BAYONDY */}
       <Link
-        href={`/formations/${course.slug}`}
+        href={courseHref}
         tabIndex={-1}
         aria-hidden="true"
         className="relative aspect-video w-full overflow-hidden bg-[var(--surface-well)] border-b border-[var(--border-subtle)] block"
@@ -81,7 +93,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
           <h3 className="font-display font-bold text-lg sm:text-xl text-ice-white group-hover:text-brand-light transition-colors tracking-tight line-clamp-2">
             <Link
-              href={`/formations/${course.slug}`}
+              href={courseHref}
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-md"
             >
               {course.title}
@@ -101,11 +113,12 @@ export function CourseCard({ course }: CourseCardProps) {
             priceUSD={course.priceUSD}
             priceHTG={course.priceHTG}
             size="sm"
+            lang={lang}
           />
 
           <div className="flex items-center gap-2.5">
             <Link
-              href={`/formations/${course.slug}`}
+              href={courseHref}
               className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-white dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.10)] dark:shadow-none hover:border-[var(--home-orange-vivid)]/70 hover:bg-slate-50 dark:hover:bg-[#1A1E29] text-ice-white text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.gadeFormasyon")} — ${course.title}`}
             >
@@ -113,7 +126,7 @@ export function CourseCard({ course }: CourseCardProps) {
             </Link>
 
             <Link
-              href={`/formations/${course.slug}`}
+              href={courseHref}
               className="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-full bg-gradient-to-b from-[#FF5E24] to-brand hover:brightness-105 text-[var(--brand-fg)] text-xs sm:text-sm font-semibold transition-all duration-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-4px_var(--brand-glow)] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.boutonInscrire")} — ${course.title}`}
             >

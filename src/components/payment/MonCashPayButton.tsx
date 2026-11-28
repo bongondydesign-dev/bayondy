@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   MONCASH_BUTTON_GRADIENT,
   MONCASH_BUTTON_IMAGE_SRC,
@@ -58,6 +58,7 @@ export function MonCashPayButton({
   amountHTG,
   className = "",
 }: MonCashPayButtonProps) {
+  const { t } = useI18n();
   const formattedAmount = formatMonCashAmountHTG(amountHTG);
 
   return (

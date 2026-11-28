@@ -18,15 +18,18 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { t } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 function AccessDenied() {
+  const { t, localize } = useI18n();
+
   return (
     <div className="min-h-screen bg-transparent text-ice-white flex flex-col px-4">
       <meta name="robots" content="noindex" />
-      <header className="h-16 max-w-6xl w-full mx-auto flex items-center justify-between">
+      <header className="h-16 max-w-6xl w-full mx-auto flex items-center justify-between gap-3">
         <Link
-          href="/"
+          href={localize("/")}
           className="inline-flex items-center gap-2.5 font-display font-bold text-lg tracking-tight text-ice-white hover:text-brand-light transition-colors rounded-lg py-1"
         >
           <span
@@ -37,7 +40,12 @@ function AccessDenied() {
           </span>
           <span>{t("accueil.titre")}</span>
         </Link>
-        <ThemeToggle variant="segmented" />
+        <div className="flex items-center gap-2">
+          <Suspense fallback={null}>
+            <LanguageSwitcher variant="dropdown" />
+          </Suspense>
+          <ThemeToggle variant="segmented" />
+        </div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center py-12">
@@ -54,7 +62,7 @@ function AccessDenied() {
             </p>
           </div>
           <Link
-            href="/"
+            href={localize("/")}
             className="inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-brand text-[var(--brand-fg)] hover:brightness-105 font-sans font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_8px_22px_-6px_var(--brand-glow)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {t("erreur404.retourAccueil")}
@@ -66,6 +74,7 @@ function AccessDenied() {
 }
 
 function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const { t, localize } = useI18n();
   const pathname = usePathname() || "/admin";
 
   const managementLinks = [
@@ -97,13 +106,13 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
       Icon: CreditCard,
     },
     {
-      href: "/mes-formations",
+      href: localize("/mes-formations"),
       label: t("nav.mesFormations"),
       active: false,
       Icon: PlayCircle,
     },
     {
-      href: "/",
+      href: localize("/"),
       label: t("mesFormations.retourSite"),
       active: false,
       Icon: ArrowLeft,
@@ -181,6 +190,7 @@ function AdminSidebarLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
+  const { t, localize } = useI18n();
   const { user, loading, isAdmin, signOut } = useAuth();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -203,7 +213,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     setSigningOut(true);
     try {
       await signOut();
-      router.push("/");
+      router.push(localize("/"));
     } catch {
       setSigningOut(false);
     }
@@ -237,7 +247,12 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <AdminSidebarLinks onNavigate={onNavigate} />
       </Suspense>
 
-      <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0">
+      <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0 space-y-2.5">
+        <div className="sm:hidden">
+          <Suspense fallback={null}>
+            <LanguageSwitcher variant="segmented" className="w-full" onAfterSelect={onNavigate} />
+          </Suspense>
+        </div>
         <div className="p-2.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-full bg-[var(--surface-active)] dark:bg-brand/15 border border-[var(--home-orange-vivid)]/40 dark:border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
             {initial}
@@ -329,9 +344,12 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-2.5 shrink-0">
+            <Suspense fallback={null}>
+              <LanguageSwitcher variant="dropdown" className="hidden sm:block" />
+            </Suspense>
             <ThemeToggle variant="segmented" />
             <Link
-              href="/"
+              href={localize("/")}
               className="min-h-[44px] px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"
             >
               <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />

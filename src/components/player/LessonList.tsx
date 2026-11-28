@@ -4,7 +4,7 @@ import React from "react";
 import { Check } from "lucide-react";
 import type { LessonWithId } from "@/lib/learning/queries";
 import { formatDuration } from "@/lib/courses/format";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface LessonListProps {
   lessons: LessonWithId[];
@@ -26,6 +26,7 @@ export function LessonList({
   onSelectLesson,
   className = "",
 }: LessonListProps) {
+  const { t } = useI18n();
   // Groupement des leçons par module tout en conservant l'ordre
   const modules: GroupedModule[] = [];
   const moduleMap = new Map<string, GroupedModule>();

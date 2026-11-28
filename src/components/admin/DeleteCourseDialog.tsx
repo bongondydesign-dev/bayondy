@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { AlertTriangle, Trash2, X } from "lucide-react";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface DeleteCourseDialogProps {
   open: boolean;
@@ -21,6 +21,8 @@ export function DeleteCourseDialog({
   onCancel,
   onConfirm,
 }: DeleteCourseDialogProps) {
+  const { t } = useI18n();
+
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {

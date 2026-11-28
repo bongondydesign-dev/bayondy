@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ExternalLink, Play, Video } from "lucide-react";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { getLessonPlaybackInfo } from "@/lib/video/lessonVideo";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface VideoPlayerProps {
   lessonTitle: string;
@@ -21,6 +21,7 @@ export function VideoPlayer({
   videoId,
   videoUrl,
 }: VideoPlayerProps) {
+  const { t } = useI18n();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playback = getLessonPlaybackInfo({

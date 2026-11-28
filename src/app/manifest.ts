@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE_NAME,
     short_name: SITE_SHORT_NAME,
-    description: t("seo.description"),
+    description: t("seo.description", "fr"),
     start_url: "/",
     display: "standalone",
     background_color: "#090B10",

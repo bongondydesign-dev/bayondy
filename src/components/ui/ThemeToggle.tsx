@@ -4,7 +4,7 @@ import React, { useSyncExternalStore } from "react";
 import { MonitorSmartphone, Moon, Sun } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "@/lib/theme/ThemeProvider";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface ThemeToggleProps {
   className?: string;
@@ -15,6 +15,7 @@ const emptySubscribe = () => () => {};
 
 export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggleProps) {
   const { theme, preference, toggleTheme, setPreference } = useTheme();
+  const { t } = useI18n();
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,

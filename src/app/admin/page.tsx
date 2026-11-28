@@ -25,7 +25,7 @@ import {
   type RecentAdminPayment,
 } from "@/lib/admin/stats";
 import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface StatsResponse {
   courses: { published: number; draft: number };
@@ -62,6 +62,7 @@ function barColor(status: string): string {
 }
 
 function TransactionStatus({ status }: { status: string }) {
+  const { t } = useI18n();
   const label = t(`mesFormations.paiementStatut.${status}`);
   const displayLabel = label.startsWith("mesFormations.paiementStatut.") ? status : label;
 
@@ -100,6 +101,7 @@ function TransactionStatus({ status }: { status: string }) {
 }
 
 export default function AdminDashboard() {
+  const { lang, t } = useI18n();
   const { user } = useAuth();
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -128,6 +130,7 @@ export default function AdminDashboard() {
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const paymentEntries = useMemo(() => {
@@ -218,7 +221,7 @@ export default function AdminDashboard() {
                 </span>
                 <div
                   role="group"
-                  aria-label="Deviz"
+                  aria-label={t("admin.tableau.devizAria")}
                   className="inline-flex items-center p-0.5 rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)]"
                 >
                   {(["HTG", "USD"] as const).map((curr) => {
@@ -244,7 +247,7 @@ export default function AdminDashboard() {
 
               <div>
                 <p className="font-display font-bold text-3xl sm:text-[2.125rem] tracking-tight text-ice-white tabular-nums leading-none">
-                  {formatLocaleNumber(displayedRevenue)}{" "}
+                  {formatLocaleNumber(displayedRevenue, lang)}{" "}
                   <span className="text-lg font-mono font-semibold text-slate-600 dark:text-ice-white/55">
                     {currencyView}
                   </span>
@@ -564,13 +567,13 @@ export default function AdminDashboard() {
                         {p.courseTitle}
                       </td>
                       <td className="px-5 py-3.5 font-mono font-semibold text-ice-white tabular-nums whitespace-nowrap">
-                        {formatLocaleNumber(p.amount)} {p.currency}
+                        {formatLocaleNumber(p.amount, lang)} {p.currency}
                       </td>
                       <td className="px-5 py-3.5">
                         <TransactionStatus status={p.status} />
                       </td>
                       <td className="px-5 py-3.5 font-mono text-xs text-slate-600 dark:text-ice-white/60 whitespace-nowrap tabular-nums">
-                        {formatLocaleDate(p.createdAt)}
+                        {formatLocaleDate(p.createdAt, lang)}
                       </td>
                     </tr>
                   ))}

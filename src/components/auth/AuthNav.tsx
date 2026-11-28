@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface AuthNavProps {
   mobile?: boolean;
@@ -13,6 +13,7 @@ interface AuthNavProps {
 
 export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
   const { user, loading, isAdmin } = useAuth();
+  const { t, localize } = useI18n();
 
   if (loading) {
     if (mobile) {
@@ -52,7 +53,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
             </Link>
           )}
           <Link
-            href="/profil"
+            href={localize("/profil")}
             onClick={onNavigate}
             className="min-h-[44px] flex items-center justify-between px-3 rounded-xl text-ice-white hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-medium text-sm"
           >
@@ -60,7 +61,7 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
             <ArrowRight className="w-4 h-4 text-slate-400 dark:text-ice-white/45" aria-hidden="true" />
           </Link>
           <Link
-            href="/mes-formations"
+            href={localize("/mes-formations")}
             onClick={onNavigate}
             className="min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] transition-colors font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)]"
           >
@@ -87,12 +88,12 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
           </>
         )}
         <Link
-          href="/profil"
+          href={localize("/profil")}
           className="text-sm font-medium text-slate-700 dark:text-ice-white/75 hover:text-ice-white py-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
         >
           {t("nav.profil")}
         </Link>
-        <Link href="/mes-formations" className={primaryBtnClasses}>
+        <Link href={localize("/mes-formations")} className={primaryBtnClasses}>
           <span>{t("mesFormations.navTableau")}</span>
           <ArrowRight
             className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"
@@ -108,14 +109,14 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
     return (
       <div className="flex flex-col gap-2.5 pt-2">
         <Link
-          href="/connexion"
+          href={localize("/connexion")}
           onClick={onNavigate}
           className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] bg-white dark:bg-[var(--surface-glass)] text-ice-white hover:bg-[var(--surface-well)] transition-colors font-semibold text-sm"
         >
           {t("nav.connexion")}
         </Link>
         <Link
-          href="/inscription"
+          href={localize("/inscription")}
           onClick={onNavigate}
           className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF5E24] to-[var(--home-orange)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-5px_var(--home-orange-glow)] transition-all duration-200"
         >
@@ -133,12 +134,12 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
   return (
     <div className="hidden lg:flex items-center gap-4 shrink-0">
       <Link
-        href="/connexion"
+        href={localize("/connexion")}
         className="text-sm font-medium text-slate-700 dark:text-ice-white/75 hover:text-ice-white py-2 px-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
       >
         {t("nav.connexion")}
       </Link>
-      <Link href="/inscription" className={primaryBtnClasses}>
+      <Link href={localize("/inscription")} className={primaryBtnClasses}>
         <span>{t("nav.inscription")}</span>
         <ArrowRight
           className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"

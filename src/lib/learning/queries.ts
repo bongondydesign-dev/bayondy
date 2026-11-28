@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { getFirebaseDb } from "@/lib/firebase/client";
 import { t } from "@/lib/i18n";
+import { type AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 import {
   MAX_COMPLETED_LESSONS,
   type CourseDoc,
@@ -185,7 +186,8 @@ export async function getCourseLessons(
 export async function saveProgress(
   uid: string,
   courseId: string,
-  progress: EnrollmentProgress
+  progress: EnrollmentProgress,
+  lang: AppLang = DEFAULT_APP_LANG
 ): Promise<void> {
   if (!uid || !courseId) {
     throw new Error("uid ak courseId obligatwa pou anrejistre pwogrè a.");
@@ -194,7 +196,7 @@ export async function saveProgress(
   // Dédoublonnage et vérification de la borne stricte (500)
   const uniqueIds = Array.from(new Set(progress.completedLessonIds || []));
   if (uniqueIds.length > MAX_COMPLETED_LESSONS) {
-    throw new Error(t("lecteur.limiteLeconsDepassee"));
+    throw new Error(t("lecteur.limiteLeconsDepassee", lang));
   }
   const sanitizedLastLessonId = (progress.lastLessonId || "").slice(0, 128);
 

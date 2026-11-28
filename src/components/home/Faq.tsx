@@ -1,11 +1,13 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routing";
 import { FaqList } from "@/components/faq/FaqList";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function Faq() {
+export function Faq({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
   return (
     <section
       id="faq"
@@ -18,21 +20,21 @@ export function Faq() {
             {/* Colonne gauche */}
             <div className="lg:col-span-4 text-left">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--home-orange-light)] mb-4">
-                {t("nav.faq")}
+                {t("nav.faq", lang)}
               </p>
               <h2 className="font-display font-bold text-3xl sm:text-5xl text-ice-white tracking-tight leading-[1.08] text-balance">
-                {t("faq.titreSection")}
+                {t("faq.titreSection", lang)}
               </h2>
               <p className="mt-4 text-sm sm:text-base text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
-                {t("faq.sousTitreSection")}
+                {t("faq.sousTitreSection", lang)}
               </p>
               <Button
-                href="/faq"
+                href={localizePath("/faq", lang)}
                 variant="secondaire"
                 accent="orange"
                 className="pl-5 pr-2.5 py-2"
               >
-                <span>{t("nav.faq")}</span>
+                <span>{t("nav.faq", lang)}</span>
                 <span
                   className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.06] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
                   aria-hidden="true"

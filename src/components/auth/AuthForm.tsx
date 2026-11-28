@@ -12,7 +12,8 @@ import {
 } from "@/lib/auth/errors";
 import { getSafeRedirectPath } from "@/lib/auth/redirect";
 import { GoogleButton } from "./GoogleButton";
-import { t } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { stripLocalePrefix } from "@/lib/i18n/routing";
 
 interface AuthFormProps {
   mode: "connexion" | "inscription";
@@ -22,9 +23,11 @@ interface AuthFormProps {
 export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   const router = useRouter();
   const { signInWithEmail, signUpWithEmail } = useAuth();
-  const safeRedirect = getSafeRedirectPath(redirectTo);
+  const { t, localize } = useI18n();
+  const defaultRedirect = localize("/mes-formations");
+  const safeRedirect = getSafeRedirectPath(redirectTo, defaultRedirect);
   const redirectQuery =
-    safeRedirect !== "/mes-formations"
+    stripLocalePrefix(safeRedirect) !== "/mes-formations"
       ? `?redirect=${encodeURIComponent(safeRedirect)}`
       : "";
 
@@ -183,7 +186,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
             </label>
             {mode === "connexion" && (
               <Link
-                href="/mot-de-passe-oublie"
+                href={localize("/mot-de-passe-oublie")}
                 className="text-xs text-brand-light hover:underline min-h-[44px] inline-flex items-center"
               >
                 {t("auth.lienMotDePasseOublie")}
@@ -240,14 +243,14 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <p className="pt-2 text-xs text-center text-slate-700 dark:text-ice-white/65 font-sans leading-relaxed">
             {t("auth.acceptationTexte")}{" "}
             <Link
-              href="/conditions"
+              href={localize("/conditions")}
               className="text-brand-light hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
             >
               {t("auth.lienConditions")}
             </Link>{" "}
             {t("auth.et")}{" "}
             <Link
-              href="/confidentialite"
+              href={localize("/confidentialite")}
               className="text-brand-light hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
             >
               {t("auth.lienConfidentialite")}
@@ -262,7 +265,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <p>
             {t("auth.dejaCompte")}{" "}
             <Link
-              href={`/connexion${redirectQuery}`}
+              href={localize(`/connexion${redirectQuery}`)}
               className="text-brand-light font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienConnexion")}
@@ -272,7 +275,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
           <p>
             {t("auth.pasDeCompte")}{" "}
             <Link
-              href={`/inscription${redirectQuery}`}
+              href={localize(`/inscription${redirectQuery}`)}
               className="text-brand-light font-medium hover:underline min-h-[44px] inline-flex items-center"
             >
               {t("auth.lienInscription")}

@@ -1,11 +1,12 @@
 import React from "react";
 import { LEGAL_DRAFT } from "@/lib/legal/config";
 import { t } from "@/lib/i18n";
+import { AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 
 /**
  * Bannière d'avertissement affichée en haut des pages juridiques tant que LEGAL_DRAFT = true.
  */
-export function LegalDraftNotice() {
+export function LegalDraftNotice({ lang = DEFAULT_APP_LANG }: { lang?: AppLang }) {
   if (!LEGAL_DRAFT) return null;
 
   return (
@@ -18,10 +19,10 @@ export function LegalDraftNotice() {
       </span>
       <div className="space-y-1">
         <p className="font-semibold text-amber-950 dark:text-amber-300">
-          {t("legal.banniereProvisoire")}
+          {t("legal.banniereProvisoire", lang)}
         </p>
         <p className="text-amber-800 dark:text-amber-200/80 text-xs leading-relaxed">
-          {t("legal.banniereDetail")}
+          {t("legal.banniereDetail", lang)}
         </p>
       </div>
     </div>
