@@ -519,7 +519,13 @@
       "colCours": "Fòmasyon",
       "colReference": "Referans",
       "colDate": "Dat",
-      "voirPlus": "Wè plis"
+      "voirPlus": "Wè plis",
+      "supprimerHistorique": "Efase istwa a",
+      "suppressionHistorique": "N ap efase...",
+      "confirmSupprimerTitre": "Efase tout istwa tranzaksyon yo ?",
+      "confirmSupprimerDesc": "Aksyon sa a ap efase tout dosye peman yo nèt ale nan baz done a. Aksè elèv ki deja enskri yo p ap efase, men istwa a pa ka retabli.",
+      "succesSuppression": "Istwa tranzaksyon yo efase ak siksè.",
+      "erreurSuppression": "Nou pa t kapab efase istwa tranzaksyon yo. Tanpri reye."
     },
     "statut": {
       "publie": "Pibliye",

@@ -14,10 +14,11 @@ export type AdminAction =
   | "lesson.update"
   | "lesson.archive"
   | "access.grant"
-  | "access.revoke";
+  | "access.revoke"
+  | "payments.clear";
 
 interface LogTarget {
-  type: "course" | "lesson" | "enrollment";
+  type: "course" | "lesson" | "enrollment" | "payment";
   id: string;
 }
 

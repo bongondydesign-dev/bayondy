@@ -519,7 +519,13 @@
       "colCours": "Formation",
       "colReference": "Référence",
       "colDate": "Date",
-      "voirPlus": "Voir plus"
+      "voirPlus": "Voir plus",
+      "supprimerHistorique": "Supprimer l'historique",
+      "suppressionHistorique": "Suppression...",
+      "confirmSupprimerTitre": "Supprimer tout l'historique des transactions ?",
+      "confirmSupprimerDesc": "Cette action supprimera définitivement tout l'historique des paiements de la base de données. Les accès des élèves déjà inscrits sont conservés, mais cette action est irréversible.",
+      "succesSuppression": "Historique des transactions supprimé avec succès.",
+      "erreurSuppression": "Impossible de supprimer l'historique des transactions. Veuillez réessayer."
     },
     "statut": {
       "publie": "Publié",

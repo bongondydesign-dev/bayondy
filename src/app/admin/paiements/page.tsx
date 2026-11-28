@@ -1,8 +1,14 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { CheckCircle2, Trash2 } from "lucide-react";
 import { adminFetch } from "@/lib/admin/apiClient";
 import { computePaymentSummary, filterAdminPayments } from "@/lib/admin/filters";
+import {
+  buildClearedPaymentsState,
+  isPaymentsClearAllowed,
+} from "@/lib/admin/paymentDeletion";
+import { DeletePaymentsDialog } from "@/components/admin/DeletePaymentsDialog";
 import { t } from "@/lib/i18n";
 
 interface PaymentRow {
@@ -45,6 +51,10 @@ export default function AdminPaiementsPage() {
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<PaymentFilter>("all");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deletingHistory, setDeletingHistory] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -103,16 +113,79 @@ export default function AdminPaiementsPage() {
     [payments, search, statusFilter]
   );
 
+  const canClearHistory = isPaymentsClearAllowed(
+    payments.length,
+    loading,
+    deletingHistory
+  );
+
+  async function handleConfirmClearHistory() {
+    if (!canClearHistory) return;
+    setDeletingHistory(true);
+    setDeleteError(null);
+    setDeleteSuccess(null);
+
+    try {
+      const res = await adminFetch("/api/admin/payments", {
+        method: "DELETE",
+        body: JSON.stringify({ confirm: true }),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as { error?: string } | null;
+        setDeleteError(data?.error ?? t("admin.paiements.erreurSuppression"));
+        return;
+      }
+
+      const cleared = buildClearedPaymentsState();
+      setPayments(cleared.payments);
+      setNextCursor(cleared.nextCursor);
+      setSearch(cleared.search);
+      setStatusFilter(cleared.statusFilter);
+      setConfirmOpen(false);
+      setDeleteSuccess(t("admin.paiements.succesSuppression"));
+    } catch {
+      setDeleteError(t("admin.paiements.erreurSuppression"));
+    } finally {
+      setDeletingHistory(false);
+    }
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white">
-          {t("admin.paiements.titre")}
-        </h1>
-        <p className="font-sans text-ice-white/65 text-sm mt-1">
-          {t("admin.paiements.sousTitre")}
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white">
+            {t("admin.paiements.titre")}
+          </h1>
+          <p className="font-sans text-ice-white/65 text-sm mt-1">
+            {t("admin.paiements.sousTitre")}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setDeleteError(null);
+            setConfirmOpen(true);
+          }}
+          disabled={!canClearHistory}
+          className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full border border-red-300 dark:border-red-500/35 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-500/20 font-sans font-semibold text-sm transition-colors cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 shrink-0 whitespace-nowrap self-start sm:self-auto"
+        >
+          <Trash2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>{t("admin.paiements.supprimerHistorique")}</span>
+        </button>
       </div>
+
+      {deleteSuccess && (
+        <div
+          role="status"
+          className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-sm flex items-center gap-2.5"
+        >
+          <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>{deleteSuccess}</span>
+        </div>
+      )}
 
       {/* Real Payment Summary Strip */}
       {!loading && payments.length > 0 && (
@@ -308,6 +381,20 @@ export default function AdminPaiementsPage() {
           )}
         </>
       )}
+      <DeletePaymentsDialog
+        open={confirmOpen}
+        paymentsCount={payments.length}
+        hasMore={Boolean(nextCursor)}
+        deleting={deletingHistory}
+        error={deleteError}
+        onCancel={() => {
+          if (!deletingHistory) {
+            setConfirmOpen(false);
+            setDeleteError(null);
+          }
+        }}
+        onConfirm={handleConfirmClearHistory}
+      />
     </div>
   );
 }

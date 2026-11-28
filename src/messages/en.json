@@ -519,7 +519,13 @@
       "colCours": "Course",
       "colReference": "Reference",
       "colDate": "Date",
-      "voirPlus": "Load more"
+      "voirPlus": "Load more",
+      "supprimerHistorique": "Clear history",
+      "suppressionHistorique": "Clearing...",
+      "confirmSupprimerTitre": "Delete all transaction history?",
+      "confirmSupprimerDesc": "This action will permanently delete all payment records from the database. Existing student enrollments remain active, but this action cannot be undone.",
+      "succesSuppression": "Transaction history cleared successfully.",
+      "erreurSuppression": "Unable to clear transaction history. Please try again."
     },
     "statut": {
       "publie": "Published",
