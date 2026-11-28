@@ -134,6 +134,74 @@ export function toYouTubeSuggestedQuality(level: VideoQualityLevel): string {
   return level === "auto" ? "default" : level;
 }
 
+const QUALITY_TARGET_WIDTHS: Record<KnownVideoQuality, number> = {
+  highres: 3840,
+  hd2160: 3840,
+  hd1440: 2560,
+  hd1080: 1920,
+  hd720: 1280,
+  large: 854,
+  medium: 640,
+  small: 426,
+  tiny: 256,
+};
+
+export interface YouTubeQualityViewport {
+  width: number;
+  height: number;
+  scale: number;
+}
+
+/**
+ * Calcule les dimensions CSS virtuelles de l'iframe YouTube et le facteur d'échelle
+ * afin d'orienter l'algorithme ABR de YouTube vers la résolution choisie tout en conservant
+ * exactement le cadrage visuel du lecteur (et le minimum 200x200 exigé par YouTube).
+ */
+export function computeYouTubeQualityViewport(
+  level: VideoQualityLevel,
+  stageWidth: number,
+  stageHeight: number,
+  devicePixelRatio = 1
+): YouTubeQualityViewport | null {
+  if (
+    level === "auto" ||
+    !Number.isFinite(stageWidth) ||
+    !Number.isFinite(stageHeight) ||
+    stageWidth <= 0 ||
+    stageHeight <= 0
+  ) {
+    return null;
+  }
+
+  const targetWidth = QUALITY_TARGET_WIDTHS[level];
+  const safeDpr =
+    Number.isFinite(devicePixelRatio) && devicePixelRatio > 0
+      ? Math.min(3, Math.max(1, devicePixelRatio))
+      : 1;
+
+  // Pour les qualités SD/basses (<= 480p), compense le devicePixelRatio pour que la taille effective
+  // (CSS * DPR) reste basse tout en respectant le minimum 270x200 de l'iframe YouTube.
+  // Pour les qualités HD (>= 720p), force au moins la largeur cible HD.
+  const rawWidth = isHdVideoQuality(level)
+    ? targetWidth
+    : Math.max(270, Math.round(targetWidth / safeDpr));
+
+  const aspect = stageHeight / stageWidth;
+  let width = rawWidth;
+  let height = Math.round(width * aspect);
+
+  if (height < 200) {
+    height = 200;
+    width = Math.max(270, Math.round(height / aspect));
+  }
+
+  return {
+    width,
+    height,
+    scale: stageWidth / width,
+  };
+}
+
 export interface LessonPlaybackInfo {
   provider: VideoProvider | null;
   playableInIframe: boolean;

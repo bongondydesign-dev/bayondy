@@ -225,4 +225,20 @@ test("video quality helpers normalize levels, labels, HD detection, and YouTube 
 
   assert.equal(toYouTubeSuggestedQuality("auto"), "default");
   assert.equal(toYouTubeSuggestedQuality("small"), "small");
+
+  const { computeYouTubeQualityViewport } = await import("./lessonVideo");
+  assert.equal(computeYouTubeQualityViewport("auto", 800, 594, 1), null);
+  assert.equal(computeYouTubeQualityViewport("hd1080", 0, 594, 1), null);
+
+  const hd1080 = computeYouTubeQualityViewport("hd1080", 640, 475, 2);
+  assert.ok(hd1080);
+  assert.equal(hd1080.width, 1920);
+  assert.ok(hd1080.height >= 1400);
+  assert.ok(Math.abs(hd1080.width * hd1080.scale - 640) < 0.01);
+
+  const sd144 = computeYouTubeQualityViewport("tiny", 800, 594, 2);
+  assert.ok(sd144);
+  assert.ok(sd144.width >= 270);
+  assert.ok(sd144.height >= 200);
+  assert.ok(Math.abs(sd144.width * sd144.scale - 800) < 0.01);
 });

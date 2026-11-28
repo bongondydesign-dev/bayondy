@@ -35,6 +35,7 @@ import {
   buildYouTubeEmbedUrl,
   clampPlaybackProgress,
   computeSeekTarget,
+  computeYouTubeQualityViewport,
   formatPlaybackTime,
   getLessonPlaybackInfo,
   getVideoQualityLabel,
@@ -45,12 +46,23 @@ import {
   toYouTubeSuggestedQuality,
   type VideoPlayerPhase,
   type VideoQualityLevel,
+  type YouTubeQualityViewport,
 } from "@/lib/video/lessonVideo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface YTPlayerInstance {
   playVideo(): void;
   pauseVideo(): void;
+  loadVideoById?: (options: {
+    videoId: string;
+    startSeconds?: number;
+    suggestedQuality?: string;
+  }) => void;
+  cueVideoById?: (options: {
+    videoId: string;
+    startSeconds?: number;
+    suggestedQuality?: string;
+  }) => void;
   seekTo(seconds: number, allowSeekAhead?: boolean): void;
   mute(): void;
   unMute(): void;
@@ -61,10 +73,10 @@ interface YTPlayerInstance {
   getDuration(): number;
   getVideoLoadedFraction(): number;
   setPlaybackRate(rate: number): void;
+  setSize?: (width: number, height: number) => void;
   getAvailableQualityLevels?: () => string[];
   getPlaybackQuality?: () => string;
   setPlaybackQuality?: (suggestedQuality: string) => void;
-  setPlaybackQualityRange?: (minQuality: string, maxQuality?: string) => void;
   getPlayerState(): number;
   getIframe?: () => HTMLIFrameElement;
   destroy(): void;
@@ -380,11 +392,18 @@ export function VideoPlayer({
     null
   );
 
+  const [stageMetrics, setStageMetrics] = useState<{
+    width: number;
+    height: number;
+    dpr: number;
+  }>({ width: 0, height: 0, dpr: 1 });
+
   const canShowControls =
     phase === "playing" || phase === "paused" || phase === "ended";
   const isQualityMenuOpen = qualityMenuOpen && canShowControls;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const ytHostRef = useRef<HTMLDivElement | null>(null);
   const ytPlayerRef = useRef<YTPlayerInstance | null>(null);
   const playerReadyRef = useRef(false);
@@ -398,8 +417,10 @@ export function VideoPlayer({
   const endedNotifiedRef = useRef(false);
   const onEndedRef = useRef(onEnded);
   const initialAudioRef = useRef({ volume: 100, isMuted: false });
+  const playbackSpeedRef = useRef(1);
   const selectedQualityRef = useRef<VideoQualityLevel>(selectedQuality);
   const qualityMenuOpenRef = useRef(isQualityMenuOpen);
+  const stageMetricsRef = useRef(stageMetrics);
 
   useEffect(() => {
     onEndedRef.current = onEnded;
@@ -414,12 +435,20 @@ export function VideoPlayer({
   }, [volume, isMuted]);
 
   useEffect(() => {
+    playbackSpeedRef.current = playbackSpeed;
+  }, [playbackSpeed]);
+
+  useEffect(() => {
     selectedQualityRef.current = selectedQuality;
   }, [selectedQuality]);
 
   useEffect(() => {
     qualityMenuOpenRef.current = isQualityMenuOpen;
   }, [isQualityMenuOpen]);
+
+  useEffect(() => {
+    stageMetricsRef.current = stageMetrics;
+  }, [stageMetrics]);
 
   const scheduleHideControls = useCallback(() => {
     if (hideControlsTimerRef.current !== null) {
@@ -476,22 +505,50 @@ export function VideoPlayer({
     }
   }, []);
 
+  const syncPlayerViewportSize = useCallback(
+    (
+      player: YTPlayerInstance,
+      quality: VideoQualityLevel,
+      metrics = stageMetricsRef.current
+    ) => {
+      if (metrics.width <= 0 || metrics.height <= 0) return;
+      const vp: YouTubeQualityViewport | null = computeYouTubeQualityViewport(
+        quality,
+        metrics.width,
+        metrics.height,
+        metrics.dpr
+      );
+      try {
+        if (vp) {
+          player.setSize?.(vp.width, vp.height);
+        } else {
+          player.setSize?.(Math.round(metrics.width), Math.round(metrics.height));
+        }
+        const iframe = player.getIframe?.();
+        if (iframe) {
+          iframe.style.width = "100%";
+          iframe.style.height = "100%";
+          iframe.style.display = "block";
+          iframe.style.border = "0";
+        }
+      } catch {
+        // ignore transient iframe error
+      }
+    },
+    []
+  );
+
   const applyQualityToPlayer = useCallback(
     (player: YTPlayerInstance, quality: VideoQualityLevel) => {
       try {
+        syncPlayerViewportSize(player, quality);
         const target = toYouTubeSuggestedQuality(quality);
-        if (quality === "auto") {
-          player.setPlaybackQualityRange?.("tiny", "highres");
-          player.setPlaybackQuality?.(target);
-        } else {
-          player.setPlaybackQualityRange?.(target, target);
-          player.setPlaybackQuality?.(target);
-        }
+        player.setPlaybackQuality?.(target);
       } catch {
         // ignore if unsupported by embed build
       }
     },
-    []
+    [syncPlayerViewportSize]
   );
 
   const clearSettlingCurtainSoon = useCallback((delayMs = 260) => {
@@ -523,8 +580,21 @@ export function VideoPlayer({
         if (ytState === 1 || ytState === 3 || ytState === 5) {
           syncQualityFromPlayer(target);
         }
-        if ((ytState === 1 || ytState === 5) && selectedQualityRef.current !== "auto") {
-          applyQualityToPlayer(target, selectedQualityRef.current);
+        if (ytState === 1 || ytState === 5) {
+          if (selectedQualityRef.current !== "auto") {
+            applyQualityToPlayer(target, selectedQualityRef.current);
+          }
+          try {
+            if (playbackSpeedRef.current !== 1) {
+              target.setPlaybackRate(playbackSpeedRef.current);
+            }
+            target.setVolume(initialAudioRef.current.volume);
+            if (initialAudioRef.current.isMuted) {
+              target.mute();
+            }
+          } catch {
+            // ignore transient iframe error
+          }
         }
       }
 
@@ -609,6 +679,42 @@ export function VideoPlayer({
     phase !== "poster" &&
     phase !== "fallback";
 
+  // Observe les dimensions réelles du cadre vidéo pour adapter l'échelle de qualité
+  useEffect(() => {
+    if (!shouldMountYouTubePlayer) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const measure = () => {
+      const rect = stage.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+      const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+      setStageMetrics((prev) =>
+        Math.abs(prev.width - rect.width) < 0.5 &&
+        Math.abs(prev.height - rect.height) < 0.5 &&
+        prev.dpr === dpr
+          ? prev
+          : { width: rect.width, height: rect.height, dpr }
+      );
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(stage);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [shouldMountYouTubePlayer]);
+
+  // Synchronise les dimensions internes de l'iframe YouTube si le conteneur ou la qualité change
+  useEffect(() => {
+    const player = ytPlayerRef.current;
+    if (!player || !playerReadyRef.current || stageMetrics.width <= 0) return;
+    syncPlayerViewportSize(player, selectedQuality, stageMetrics);
+  }, [selectedQuality, stageMetrics, syncPlayerViewportSize]);
+
   // Montage unique du lecteur YouTube IFrame API (sans recréer ni annuler lors des transitions loading -> playing -> paused)
   useEffect(() => {
     if (!shouldMountYouTubePlayer || !playback.videoId) return;
@@ -627,10 +733,18 @@ export function VideoPlayer({
       .then((YT) => {
         if (cancelled || !mountedRef.current || !mountNode.isConnected) return;
 
+        const m = stageMetricsRef.current;
+        const initViewport = computeYouTubeQualityViewport(
+          selectedQualityRef.current,
+          m.width,
+          m.height,
+          m.dpr
+        );
+
         const player = new YT.Player(mountNode, {
           host: "https://www.youtube-nocookie.com",
-          width: "100%",
-          height: "100%",
+          width: initViewport ? initViewport.width : "100%",
+          height: initViewport ? initViewport.height : "100%",
           videoId: playback.videoId,
           playerVars: {
             autoplay: 1,
@@ -681,9 +795,17 @@ export function VideoPlayer({
                 }
                 if (selectedQualityRef.current !== "auto") {
                   applyQualityToPlayer(event.target, selectedQualityRef.current);
+                  event.target.loadVideoById?.({
+                    videoId: playback.videoId,
+                    startSeconds: 0,
+                    suggestedQuality: toYouTubeSuggestedQuality(
+                      selectedQualityRef.current
+                    ),
+                  });
+                } else {
+                  event.target.playVideo();
                 }
                 syncQualityFromPlayer(event.target);
-                event.target.playVideo();
               } catch {
                 // ignore
               }
@@ -983,18 +1105,62 @@ export function VideoPlayer({
       persistVideoQualityPreference(nextQuality);
       setQualityMenuOpen(false);
       qualityMenuOpenRef.current = false;
+      setActiveQuality(null);
 
       const player = ytPlayerRef.current;
-      if (player && playerReadyRef.current) {
-        applyQualityToPlayer(player, nextQuality);
-        syncQualityFromPlayer(player);
+      if (player && playerReadyRef.current && playback.videoId) {
+        try {
+          const resumeAt = Math.max(
+            0,
+            Number.isFinite(player.getCurrentTime())
+              ? player.getCurrentTime()
+              : currentTimeSec
+          );
+          const suggested = toYouTubeSuggestedQuality(nextQuality);
+          applyQualityToPlayer(player, nextQuality);
+
+          if (phaseRef.current === "playing" && player.loadVideoById) {
+            if (settleTimerRef.current !== null) {
+              window.clearTimeout(settleTimerRef.current);
+              settleTimerRef.current = null;
+            }
+            hasPlayedOnceRef.current = false;
+            setIsSettling(true);
+            player.loadVideoById({
+              videoId: playback.videoId,
+              startSeconds: resumeAt,
+              suggestedQuality: suggested,
+            });
+            settleTimerRef.current = window.setTimeout(() => {
+              settleTimerRef.current = null;
+              if (mountedRef.current) {
+                setIsSettling(false);
+              }
+            }, 3500);
+          } else if (phaseRef.current === "paused" && player.cueVideoById) {
+            player.cueVideoById({
+              videoId: playback.videoId,
+              startSeconds: resumeAt,
+              suggestedQuality: suggested,
+            });
+          }
+          syncQualityFromPlayer(player);
+        } catch {
+          // ignore transient iframe error
+        }
       }
 
       if (phaseRef.current === "playing") {
         scheduleHideControls();
       }
     },
-    [applyQualityToPlayer, scheduleHideControls, syncQualityFromPlayer]
+    [
+      applyQualityToPlayer,
+      currentTimeSec,
+      playback.videoId,
+      scheduleHideControls,
+      syncQualityFromPlayer,
+    ]
   );
 
   const toggleFullscreen = useCallback(async () => {
@@ -1043,6 +1209,12 @@ export function VideoPlayer({
     canShowControls
       ? controlsVisible || phase !== "playing" || isDraggingScrubber || isQualityMenuOpen
       : false;
+  const virtualViewport = computeYouTubeQualityViewport(
+    selectedQuality,
+    stageMetrics.width,
+    stageMetrics.height,
+    stageMetrics.dpr
+  );
   const qualityBadgeLabel = getVideoQualityLabel(
     selectedQuality,
     t("lecteur.qualiteAuto")
@@ -1254,12 +1426,23 @@ export function VideoPlayer({
                   les barres noires YouTube absorbent 100% du titre/Partager/Regarder plus tard en haut
                   et du logo YouTube en bas hors de la zone visible, sans rogner l'image 16:9. */}
               <div
+                ref={stageRef}
                 className="absolute inset-x-0 -top-[16%] h-[132%] pointer-events-none select-none overflow-hidden"
                 aria-hidden="true"
               >
                 <div
                   ref={ytHostRef}
-                  className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:block"
+                  style={
+                    virtualViewport
+                      ? {
+                          width: `${virtualViewport.width}px`,
+                          height: `${virtualViewport.height}px`,
+                          transform: `scale(${virtualViewport.scale})`,
+                          transformOrigin: "top left",
+                        }
+                      : { width: "100%", height: "100%" }
+                  }
+                  className="[&_iframe]:w-full [&_iframe]:h-full [&_iframe]:block"
                 />
               </div>
 
