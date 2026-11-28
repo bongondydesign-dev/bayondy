@@ -394,6 +394,8 @@
     "statutAccesAdmin": "Admin access",
     "boutonAcheterVoir": "View & buy",
     "boutonContinuerCours": "Open course",
+    "boutonProgramme": "Syllabus",
+    "navMesCoursShort": "My courses",
     "retourCatalogueClient": "Back to catalog",
     "introuvable": "Course not found",
     "introuvableDescription": "This course is currently unavailable in your client catalog.",

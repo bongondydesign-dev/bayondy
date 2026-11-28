@@ -394,6 +394,8 @@
     "statutAccesAdmin": "Accès admin",
     "boutonAcheterVoir": "Voir et acheter",
     "boutonContinuerCours": "Ouvrir la formation",
+    "boutonProgramme": "Programme",
+    "navMesCoursShort": "Mes cours",
     "retourCatalogueClient": "Retour au catalogue",
     "introuvable": "Formation introuvable",
     "introuvableDescription": "Cette formation n'est pas disponible actuellement dans votre catalogue client.",

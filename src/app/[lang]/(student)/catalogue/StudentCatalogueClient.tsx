@@ -260,10 +260,10 @@ export function StudentCatalogueClient({
           {courses.length > 0 && (
             <section
               aria-label={t("catalogueClient.titre")}
-              className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5"
+              className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-3.5 sm:p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-3.5 min-w-0"
             >
               <div
-                className="inline-flex items-center gap-1 p-1 rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] self-start overflow-x-auto max-w-full"
+                className="grid grid-cols-3 sm:inline-flex items-center gap-1 p-1 rounded-2xl sm:rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] w-full sm:w-auto sm:self-start shrink-0"
                 role="group"
                 aria-label={t("catalogueClient.titre")}
               >
@@ -297,14 +297,14 @@ export function StudentCatalogueClient({
                       type="button"
                       onClick={() => setAvailability(tab.key)}
                       aria-pressed={active}
-                      className={`min-h-[40px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                      className={`min-h-[40px] px-2 sm:px-3.5 py-1.5 rounded-xl sm:rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center justify-center gap-1.5 sm:gap-2 transition-colors cursor-pointer min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         active
                           ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                           : "text-slate-600 dark:text-ice-white/70 hover:text-ice-white"
                       }`}
                     >
-                      <span>{tab.label}</span>
-                      <span className="font-mono text-[11px] opacity-80 tabular-nums">
+                      <span className="truncate">{tab.label}</span>
+                      <span className="font-mono text-[11px] opacity-80 tabular-nums shrink-0">
                         {tab.count}
                       </span>
                     </button>
@@ -312,8 +312,8 @@ export function StudentCatalogueClient({
                 })}
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 flex-1 xl:justify-end">
-                <div className="relative w-full sm:max-w-xs">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 flex-1 xl:justify-end min-w-0">
+                <div className="relative w-full sm:flex-1 sm:min-w-[180px] sm:max-w-xs">
                   <Search
                     className="w-4 h-4 text-slate-500 dark:text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                     aria-hidden="true"
@@ -335,7 +335,7 @@ export function StudentCatalogueClient({
                       setSelectedLevel(e.target.value as CourseLevel | "all")
                     }
                     aria-label={t("catalogue.filtreNiveau")}
-                    className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light cursor-pointer"
+                    className="w-full sm:w-auto min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light cursor-pointer"
                   >
                     <option value="all">{t("catalogueClient.tousNiveaux")}</option>
                     {levels.map((level) => (
@@ -353,7 +353,7 @@ export function StudentCatalogueClient({
                       setSelectedLanguage(e.target.value as CourseLanguage | "all")
                     }
                     aria-label={t("catalogue.filtreLangue")}
-                    className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light cursor-pointer"
+                    className="w-full sm:w-auto min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light cursor-pointer"
                   >
                     <option value="all">{t("catalogueClient.toutesLangues")}</option>
                     {languages.map((language) => (
@@ -429,7 +429,7 @@ export function StudentCatalogueClient({
                 return (
                   <article
                     key={course.id}
-                    className="group flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/45 shadow-[var(--card-shadow)] transition-all duration-200 overflow-hidden"
+                    className="group min-w-0 flex flex-col rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-brand/45 shadow-[var(--card-shadow)] transition-all duration-200 overflow-hidden"
                   >
                     <Link
                       href={detailHref}
@@ -464,44 +464,41 @@ export function StudentCatalogueClient({
                       )}
                     </Link>
 
-                    <div className="flex-1 p-5 flex flex-col justify-between space-y-5">
-                      <div className="space-y-2">
-                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-slate-600 dark:text-ice-white/60 tabular-nums">
-                          {metaParts.map((part, idx) => (
-                            <React.Fragment key={`${course.id}-${part}-${idx}`}>
-                              {idx > 0 && <span aria-hidden="true">·</span>}
-                              <span
-                                className={
-                                  idx === 0
-                                    ? "uppercase tracking-wider text-brand-light font-semibold"
-                                    : undefined
-                                }
-                              >
-                                {part}
-                              </span>
-                            </React.Fragment>
-                          ))}
-                          {owned && (
-                            <>
-                              {metaParts.length > 0 && (
-                                <span aria-hidden="true">·</span>
-                              )}
-                              <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-300 font-semibold">
-                                <CheckCircle2
-                                  className="w-3.5 h-3.5 shrink-0"
-                                  aria-hidden="true"
-                                />
-                                <span>
-                                  {isAdmin && !enrolledSpecifically
-                                    ? t("catalogueClient.statutAccesAdmin")
-                                    : t("catalogueClient.statutAccesActif")}
+                    <div className="flex-1 min-w-0 p-4 sm:p-5 flex flex-col justify-between space-y-4 sm:space-y-5">
+                      <div className="space-y-2 min-w-0">
+                        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 font-mono text-xs text-slate-600 dark:text-ice-white/60 tabular-nums">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
+                            {metaParts.map((part, idx) => (
+                              <React.Fragment key={`${course.id}-${part}-${idx}`}>
+                                {idx > 0 && <span aria-hidden="true">·</span>}
+                                <span
+                                  className={
+                                    idx === 0
+                                      ? "uppercase tracking-wider text-brand-light font-semibold"
+                                      : undefined
+                                  }
+                                >
+                                  {part}
                                 </span>
+                              </React.Fragment>
+                            ))}
+                          </div>
+                          {owned && (
+                            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-300 font-semibold whitespace-nowrap shrink-0">
+                              <CheckCircle2
+                                className="w-3.5 h-3.5 shrink-0"
+                                aria-hidden="true"
+                              />
+                              <span>
+                                {isAdmin && !enrolledSpecifically
+                                  ? t("catalogueClient.statutAccesAdmin")
+                                  : t("catalogueClient.statutAccesActif")}
                               </span>
-                            </>
+                            </span>
                           )}
                         </div>
 
-                        <h2 className="font-display font-bold text-lg text-ice-white group-hover:text-brand-light transition-colors line-clamp-2 leading-snug">
+                        <h2 className="font-display font-bold text-lg text-ice-white group-hover:text-brand-light transition-colors line-clamp-2 leading-snug break-words">
                           <Link
                             href={detailHref}
                             className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
@@ -517,7 +514,7 @@ export function StudentCatalogueClient({
                         )}
                       </div>
 
-                      <div className="pt-4 border-t border-[var(--border-subtle)] space-y-3.5">
+                      <div className="pt-4 border-t border-[var(--border-subtle)] space-y-3 min-w-0">
                         {!owned && (
                           <PriceTag
                             priceUSD={course.priceUSD}
@@ -528,34 +525,38 @@ export function StudentCatalogueClient({
                         )}
 
                         {owned ? (
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 min-w-0">
                             <Link
                               href={playerHref}
-                              className="flex-1 min-h-[44px] px-4 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-2 shadow-xs transition-all whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                              className="flex-1 min-w-0 min-h-[44px] px-4 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-2 shadow-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                             >
                               <PlayCircle
                                 className="w-4 h-4 shrink-0"
                                 aria-hidden="true"
                               />
-                              <span>{t("catalogueClient.boutonContinuerCours")}</span>
+                              <span className="truncate">
+                                {t("catalogueClient.boutonContinuerCours")}
+                              </span>
                             </Link>
                             <Link
                               href={detailHref}
-                              className="min-h-[44px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                              className="min-h-[44px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
                             >
-                              {t("catalogue.programme")}
+                              {t("catalogueClient.boutonProgramme")}
                             </Link>
                           </div>
                         ) : (
                           <Link
                             href={detailHref}
-                            className="w-full min-h-[46px] px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-brand hover:brightness-105 text-[var(--brand-fg)] font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-4px_var(--brand-glow)] transition-all whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="w-full min-w-0 min-h-[46px] px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-b from-[#FF652E] to-brand hover:brightness-105 text-[var(--brand-fg)] font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_18px_-4px_var(--brand-glow)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
                             <ShoppingBag
                               className="w-4 h-4 shrink-0"
                               aria-hidden="true"
                             />
-                            <span>{t("catalogueClient.boutonAcheterVoir")}</span>
+                            <span className="truncate">
+                              {t("catalogueClient.boutonAcheterVoir")}
+                            </span>
                             <ArrowRight
                               className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5"
                               aria-hidden="true"

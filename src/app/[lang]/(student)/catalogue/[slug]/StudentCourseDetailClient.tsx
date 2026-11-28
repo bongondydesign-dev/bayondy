@@ -131,10 +131,10 @@ export function StudentCourseDetailClient({
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             {/* Colonne principale : En-tête + Aperçu vidéo + Description + Programme */}
-            <div className="lg:col-span-8 space-y-7">
-              <div className="space-y-3">
+            <div className="lg:col-span-8 min-w-0 space-y-6 sm:space-y-7">
+              <div className="space-y-3 min-w-0">
                 <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-xs uppercase tracking-wider text-slate-600 dark:text-ice-white/70 tabular-nums">
                   <span className="text-brand-light font-semibold">
                     {t(levelKey)}
@@ -174,7 +174,7 @@ export function StudentCourseDetailClient({
                   )}
                 </div>
 
-                <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ice-white leading-tight text-balance">
+                <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ice-white leading-tight text-balance break-words">
                   {course.title}
                 </h1>
 
@@ -192,7 +192,7 @@ export function StudentCourseDetailClient({
               />
 
               {course.description && (
-                <section className="p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-3">
+                <section className="p-5 sm:p-6 rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-3">
                   <h2 className="font-display font-semibold text-xl text-ice-white">
                     {t("catalogue.aPropos")}
                   </h2>
@@ -212,8 +212,8 @@ export function StudentCourseDetailClient({
             </div>
 
             {/* Colonne achat directe MonCash dans l'espace client */}
-            <aside className="lg:col-span-4 lg:sticky lg:top-24">
-              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-6 space-y-6">
+            <aside className="lg:col-span-4 min-w-0 lg:sticky lg:top-24">
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-5 sm:p-6 space-y-6">
                 <div className="space-y-3 pb-5 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-zinc-400 uppercase tracking-[0.14em]">

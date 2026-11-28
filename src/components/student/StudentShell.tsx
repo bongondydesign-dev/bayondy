@@ -291,8 +291,8 @@ export function StudentShell({
       </AnimatePresence>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="sticky top-0 z-30 h-16 px-4 sm:px-6 lg:px-8 bg-[var(--surface-nav)] backdrop-blur-xl border-b border-[var(--border-subtle)] flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 min-w-0">
+        <header className="sticky top-0 z-30 h-16 px-3 sm:px-6 lg:px-8 bg-[var(--surface-nav)] backdrop-blur-xl border-b border-[var(--border-subtle)] flex items-center justify-between gap-2 sm:gap-3 min-w-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
@@ -301,30 +301,31 @@ export function StudentShell({
             >
               <Menu className="w-5 h-5" aria-hidden="true" />
             </button>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               {pageSubtitle && (
                 <p className="hidden sm:block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/50 truncate">
                   {pageSubtitle}
                 </p>
               )}
-              <p className="font-display font-bold text-base sm:text-lg text-ice-white truncate">
+              <p className="font-display font-bold text-sm sm:text-lg text-ice-white truncate">
                 {pageTitle || t("mesFormations.titre")}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <LanguageSwitcher variant="dropdown" className="hidden sm:block" />
-            <ThemeToggle variant="segmented" />
+            <ThemeToggle variant="bordered" className="sm:hidden" />
+            <ThemeToggle variant="segmented" className="hidden sm:inline-flex" />
             <Link
               href={localize(inStudentCatalog ? "/mes-formations" : "/catalogue")}
-              className="min-h-[44px] px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
+              className="min-h-[44px] px-3 sm:px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-1.5 sm:gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
             >
               {inStudentCatalog ? (
                 <>
                   <LayoutDashboard className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
                   <span className="hidden sm:inline">{t("mesFormations.navTableau")}</span>
-                  <span className="sm:hidden">{t("mesFormations.navTableau")}</span>
+                  <span className="sm:hidden">{t("catalogueClient.navMesCoursShort")}</span>
                 </>
               ) : (
                 <>
@@ -337,7 +338,7 @@ export function StudentShell({
           </div>
         </header>
 
-        <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <main className="flex-1 w-full min-w-0 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {children}
         </main>
       </div>
