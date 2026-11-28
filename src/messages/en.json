@@ -384,6 +384,27 @@
     "terminee": "Completed",
     "rechercher": "Search courses..."
   },
+  "catalogueClient": {
+    "titre": "Course catalog",
+    "sousTitre": "Browse, watch free previews, and purchase courses directly inside your client portal.",
+    "filtreToutes": "All",
+    "filtreDisponibles": "Available",
+    "filtreMesAcces": "My access",
+    "statutAccesActif": "Active access",
+    "statutAccesAdmin": "Admin access",
+    "boutonAcheterVoir": "View & buy",
+    "boutonContinuerCours": "Open course",
+    "retourCatalogueClient": "Back to catalog",
+    "introuvable": "Course not found",
+    "introuvableDescription": "This course is currently unavailable in your client catalog.",
+    "erreurChargement": "Unable to load the catalog right now.",
+    "reessayer": "Try again",
+    "paiementDirectInfo": "Secure MonCash checkout · Instant unlock",
+    "disponiblesCount": "to explore",
+    "dejaAcquises": "in your access",
+    "tousNiveaux": "All levels",
+    "toutesLangues": "All languages"
+  },
   "admin": {
     "akseRefize": "Access denied",
     "akseRefizeDescription": "You must be signed in with an admin account to access this area.",

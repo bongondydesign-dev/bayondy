@@ -384,6 +384,27 @@
     "terminee": "Fini",
     "rechercher": "Chèche yon fòmasyon..."
   },
+  "catalogueClient": {
+    "titre": "Katalòg fòmasyon yo",
+    "sousTitre": "Eksplore, gade yon apèsi epi achte fòmasyon w yo dirèkteman nan espas kliyan w lan.",
+    "filtreToutes": "Tout",
+    "filtreDisponibles": "Pou achte",
+    "filtreMesAcces": "Aksè mwen yo",
+    "statutAccesActif": "Aksè aktif",
+    "statutAccesAdmin": "Aksè admin",
+    "boutonAcheterVoir": "Wè epi achte",
+    "boutonContinuerCours": "Louvri fòmasyon an",
+    "retourCatalogueClient": "Retounen nan katalòg la",
+    "introuvable": "Nou pa jwenn fòmasyon sa a",
+    "introuvableDescription": "Fòmasyon sa a pa disponib nan katalòg kliyan w lan pou kounye a.",
+    "erreurChargement": "Nou pa t kapab chaje katalòg la pou kounye a.",
+    "reessayer": "Reye",
+    "paiementDirectInfo": "Peman sekirize MonCash · Aksè imedya",
+    "disponiblesCount": "pou dekouvri",
+    "dejaAcquises": "nan aksè w yo",
+    "tousNiveaux": "Tout nivo yo",
+    "toutesLangues": "Tout lang yo"
+  },
   "admin": {
     "akseRefize": "Aksè refize",
     "akseRefizeDescription": "Ou dwe konekte ak yon kont admin pou w ka antre nan espas sa a.",

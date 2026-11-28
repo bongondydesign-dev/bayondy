@@ -343,7 +343,7 @@ export function MesFormationsClient() {
                 </Link>
               ) : (
                 <Link
-                  href={localize("/formations")}
+                  href={localize("/catalogue")}
                   className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#111318] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-xs transition-all active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
                 >
                   <span>{t("mesFormations.boutonDecouvrir")}</span>
@@ -555,7 +555,7 @@ export function MesFormationsClient() {
                     {t("mesFormations.videDescription")}
                   </p>
                   <Link
-                    href={localize("/formations")}
+                    href={localize("/catalogue")}
                     className="min-h-[44px] px-6 py-2.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center gap-2 shadow-md shadow-[var(--brand-glow)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"
                   >
                     <span>{t("mesFormations.boutonDecouvrir")}</span>
@@ -815,7 +815,7 @@ export function MesFormationsClient() {
                   />
                 </Link>
                 <Link
-                  href={localize("/formations")}
+                  href={localize("/catalogue")}
                   className="px-5 py-3.5 min-h-[48px] flex items-center justify-between gap-3 hover:bg-[var(--surface-subtle)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <span className="flex items-center gap-3 font-sans text-sm font-medium text-ice-white min-w-0">

@@ -46,9 +46,9 @@ function StudentSidebarLinks({
       Icon: LayoutDashboard,
     },
     {
-      href: localize("/formations"),
+      href: localize("/catalogue"),
       label: t("mesFormations.navCatalogue"),
-      active: pathname === "/formations" || pathname.startsWith("/formations/"),
+      active: pathname === "/catalogue" || pathname.startsWith("/catalogue/"),
       Icon: BookOpen,
     },
   ];
@@ -150,6 +150,10 @@ export function StudentShell({
   pageSubtitle,
 }: StudentShellProps) {
   const router = useRouter();
+  const rawPathname = usePathname() || "/mes-formations";
+  const cleanPathname = stripLocalePrefix(rawPathname);
+  const inStudentCatalog =
+    cleanPathname === "/catalogue" || cleanPathname.startsWith("/catalogue/");
   const { t, localize } = useI18n();
   const { user, isAdmin, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -313,12 +317,22 @@ export function StudentShell({
             <LanguageSwitcher variant="dropdown" className="hidden sm:block" />
             <ThemeToggle variant="segmented" />
             <Link
-              href={localize("/formations")}
+              href={localize(inStudentCatalog ? "/mes-formations" : "/catalogue")}
               className="min-h-[44px] px-4 py-2 rounded-full surface-glass border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
             >
-              <BookOpen className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
-              <span className="hidden sm:inline">{t("mesFormations.boutonDecouvrir")}</span>
-              <span className="sm:hidden">{t("nav.formations")}</span>
+              {inStudentCatalog ? (
+                <>
+                  <LayoutDashboard className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
+                  <span className="hidden sm:inline">{t("mesFormations.navTableau")}</span>
+                  <span className="sm:hidden">{t("mesFormations.navTableau")}</span>
+                </>
+              ) : (
+                <>
+                  <BookOpen className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
+                  <span className="hidden sm:inline">{t("mesFormations.boutonDecouvrir")}</span>
+                  <span className="sm:hidden">{t("nav.formations")}</span>
+                </>
+              )}
             </Link>
           </div>
         </header>

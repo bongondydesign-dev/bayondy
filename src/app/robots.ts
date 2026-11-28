@@ -13,6 +13,8 @@ export default function robots(): MetadataRoute.Robots {
         "/api/",
         "/mes-formations",
         "/ht/mes-formations",
+        "/catalogue",
+        "/ht/catalogue",
         "/profil",
         "/ht/profil",
         "/merci",

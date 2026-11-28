@@ -19,6 +19,7 @@ interface EnrollButtonProps {
   courseTitle?: string;
   priceUSD?: number | null;
   priceHTG?: number | null;
+  redirectBasePath?: "/formations" | "/catalogue";
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export function EnrollButton({
   courseSlug,
   courseTitle,
   priceHTG,
+  redirectBasePath = "/formations",
   className = "",
 }: EnrollButtonProps) {
   const { lang, t, localize } = useI18n();
@@ -98,7 +100,7 @@ export function EnrollButton({
       <div className={`space-y-3 ${className}`}>
         <Link
           href={`${localize("/connexion")}?redirect=${encodeURIComponent(
-            localize(`/formations/${courseSlug}`)
+            localize(`${redirectBasePath}/${courseSlug}`)
           )}`}
           className="w-full min-h-[48px] px-6 py-3.5 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
         >

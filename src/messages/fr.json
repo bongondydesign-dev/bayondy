@@ -384,6 +384,27 @@
     "terminee": "Terminé",
     "rechercher": "Rechercher une formation..."
   },
+  "catalogueClient": {
+    "titre": "Catalogue des formations",
+    "sousTitre": "Parcourez, testez un aperçu et achetez vos formations directement depuis votre espace client.",
+    "filtreToutes": "Toutes",
+    "filtreDisponibles": "À acheter",
+    "filtreMesAcces": "Mes accès",
+    "statutAccesActif": "Accès actif",
+    "statutAccesAdmin": "Accès admin",
+    "boutonAcheterVoir": "Voir et acheter",
+    "boutonContinuerCours": "Ouvrir la formation",
+    "retourCatalogueClient": "Retour au catalogue",
+    "introuvable": "Formation introuvable",
+    "introuvableDescription": "Cette formation n'est pas disponible actuellement dans votre catalogue client.",
+    "erreurChargement": "Impossible de charger le catalogue pour le moment.",
+    "reessayer": "Réessayer",
+    "paiementDirectInfo": "Paiement sécurisé MonCash · Déblocage immédiat",
+    "disponiblesCount": "à découvrir",
+    "dejaAcquises": "dans vos accès",
+    "tousNiveaux": "Tous les niveaux",
+    "toutesLangues": "Toutes les langues"
+  },
   "admin": {
     "akseRefize": "Accès refusé",
     "akseRefizeDescription": "Vous devez être connecté avec un compte administrateur pour accéder à cet espace.",

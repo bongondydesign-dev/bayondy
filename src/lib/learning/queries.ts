@@ -30,6 +30,8 @@ import {
   type EnrollmentDoc,
   type EnrollmentProgress,
   type PaymentDoc,
+  type PublicCourse,
+  type PublicPreviewLesson,
 } from "@/types/firestore";
 
 export interface EnrollmentWithId extends EnrollmentDoc {
@@ -137,6 +139,112 @@ export async function getAllCoursesForAdmin(): Promise<CourseWithId[]> {
     id: d.id,
     ...(d.data() as CourseDoc),
   }));
+}
+
+function mapDocToPublicCourseClient(id: string, data: Partial<CourseDoc>): PublicCourse {
+  return {
+    id,
+    slug: typeof data.slug === "string" ? data.slug : "",
+    title: typeof data.title === "string" ? data.title : "",
+    shortDescription: typeof data.shortDescription === "string" ? data.shortDescription : "",
+    description: typeof data.description === "string" ? data.description : "",
+    priceUSD: typeof data.priceUSD === "number" ? data.priceUSD : null,
+    priceHTG: typeof data.priceHTG === "number" ? data.priceHTG : null,
+    coverUrl: typeof data.coverUrl === "string" && data.coverUrl ? data.coverUrl : null,
+    level: data.level ?? "debutant",
+    language: data.language ?? "ht",
+    durationMinutes: typeof data.durationMinutes === "number" ? data.durationMinutes : 0,
+    lessonsCount: typeof data.lessonsCount === "number" ? data.lessonsCount : 0,
+    syllabus: Array.isArray(data.syllabus)
+      ? data.syllabus.map((m) => ({
+          title: typeof m.title === "string" ? m.title : "",
+          lessons: Array.isArray(m.lessons)
+            ? m.lessons.map((l) => ({
+                title: typeof l.title === "string" ? l.title : "",
+              }))
+            : [],
+        }))
+      : [],
+  };
+}
+
+/**
+ * Récupère les formations publiées côté client pour le catalogue intégré à l'espace élève.
+ */
+export async function getPublishedCoursesClient(): Promise<PublicCourse[]> {
+  const db = getFirebaseDb();
+  const q = query(
+    collection(db, "courses"),
+    where("status", "==", "published"),
+    limit(200)
+  );
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) =>
+    mapDocToPublicCourseClient(d.id, d.data() as Partial<CourseDoc>)
+  );
+}
+
+/**
+ * Récupère une formation publiée (ou brouillon pour admin) par son slug côté client.
+ */
+export async function getPublishedCourseBySlugClient(
+  slug: string,
+  allowDraft = false
+): Promise<PublicCourse | null> {
+  if (!slug) return null;
+  const db = getFirebaseDb();
+  const q = allowDraft
+    ? query(collection(db, "courses"), where("slug", "==", slug), limit(1))
+    : query(
+        collection(db, "courses"),
+        where("slug", "==", slug),
+        where("status", "==", "published"),
+        limit(1)
+      );
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) return null;
+  const d = snapshot.docs[0];
+  return mapDocToPublicCourseClient(d.id, d.data() as Partial<CourseDoc>);
+}
+
+/**
+ * Récupère les leçons en aperçu gratuit côté client pour un cours donné.
+ * Respecte firestore.rules : filtre strictement where("courseId", "==", courseId).
+ */
+export async function getCourseFreePreviewLessonsClient(
+  courseId: string
+): Promise<PublicPreviewLesson[]> {
+  if (!courseId) return [];
+  const db = getFirebaseDb();
+  const q = query(
+    collection(db, "lessons"),
+    where("courseId", "==", courseId),
+    limit(200)
+  );
+  const snapshot = await getDocs(q);
+  const previews: PublicPreviewLesson[] = [];
+
+  for (const d of snapshot.docs) {
+    const data = d.data() as Partial<LessonDoc>;
+    if (data.isFreePreview !== true || data.archived === true) continue;
+    previews.push({
+      id: d.id,
+      title: typeof data.title === "string" ? data.title : "",
+      moduleTitle: typeof data.moduleTitle === "string" ? data.moduleTitle : "",
+      order: typeof data.order === "number" ? data.order : 0,
+      durationMinutes: typeof data.durationMinutes === "number" ? data.durationMinutes : 0,
+      youtubeVideoId: typeof data.youtubeVideoId === "string" ? data.youtubeVideoId : "",
+      videoProvider:
+        data.videoProvider === "tiktok" || data.videoProvider === "youtube"
+          ? data.videoProvider
+          : undefined,
+      videoId: typeof data.videoId === "string" ? data.videoId : undefined,
+      videoUrl: typeof data.videoUrl === "string" ? data.videoUrl : undefined,
+    });
+  }
+
+  previews.sort((a, b) => a.order - b.order);
+  return previews;
 }
 
 import { normalizeProgress } from "@/lib/learning/progress";

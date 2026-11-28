@@ -359,7 +359,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
               {t("lecteur.nonInscritDescription")}
             </p>
             <Link
-              href={localize(`/formations/${slug}`)}
+              href={localize(`/catalogue/${slug}`)}
               className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <span>{t("lecteur.boutonVoirFormation")}</span>

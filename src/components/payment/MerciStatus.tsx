@@ -471,10 +471,11 @@ export function MerciStatus() {
       ? `/mes-formations/${encodeURIComponent(resolvedCourseSlug)}`
       : "/mes-formations"
   );
+  const catalogRoot = user ? "/catalogue" : "/formations";
   const courseRetryHref = localize(
     resolvedCourseSlug
-      ? `/formations/${encodeURIComponent(resolvedCourseSlug)}`
-      : "/formations"
+      ? `${catalogRoot}/${encodeURIComponent(resolvedCourseSlug)}`
+      : catalogRoot
   );
 
   return (
@@ -654,7 +655,7 @@ export function MerciStatus() {
               </Link>
               <Link
                 href={localize(
-                  resolvedCourseSlug ? "/mes-formations" : "/formations"
+                  resolvedCourseSlug ? "/mes-formations" : catalogRoot
                 )}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
@@ -718,7 +719,7 @@ export function MerciStatus() {
                 <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
               </Link>
               <Link
-                href={localize("/formations")}
+                href={localize(catalogRoot)}
                 className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonCatalogue")}
