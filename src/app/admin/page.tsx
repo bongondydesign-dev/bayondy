@@ -90,7 +90,7 @@ function TransactionStatus({ status }: { status: string }) {
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-ice-white/70 whitespace-nowrap">
+        <span className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-slate-700 dark:text-ice-white/70 whitespace-nowrap">
           <Receipt className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>{displayLabel}</span>
         </span>
@@ -209,7 +209,7 @@ export default function AdminDashboard() {
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
           {/* Col 1 (4 cols): Revenue & Catalog Summary Card */}
-          <section className="xl:col-span-4 rounded-2xl surface-glass p-5 sm:p-6 flex flex-col justify-between gap-5">
+          <section className="xl:col-span-4 rounded-2xl surface-glass border border-[var(--border-subtle)] p-5 sm:p-6 flex flex-col justify-between gap-5">
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-3">
                 <span className="font-sans font-medium text-sm text-slate-600 dark:text-ice-white/70">
@@ -230,8 +230,8 @@ export default function AdminDashboard() {
                         aria-pressed={active}
                         className={`px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
                           active
-                            ? "bg-deep-navy dark:bg-[var(--surface-elevated)] text-ice-white shadow-2xs"
-                            : "text-ice-white/55 hover:text-ice-white"
+                            ? "bg-white dark:bg-[var(--surface-elevated)] text-slate-900 dark:text-ice-white shadow-2xs"
+                            : "text-slate-600 dark:text-ice-white/55 hover:text-slate-900 dark:hover:text-ice-white"
                         }`}
                       >
                         {curr}
@@ -244,7 +244,7 @@ export default function AdminDashboard() {
               <div>
                 <p className="font-display font-bold text-3xl sm:text-[2.125rem] tracking-tight text-ice-white tabular-nums leading-none">
                   {displayedRevenue.toLocaleString("fr-FR")}{" "}
-                  <span className="text-lg font-mono font-semibold text-ice-white/55">
+                  <span className="text-lg font-mono font-semibold text-slate-600 dark:text-ice-white/55">
                     {currencyView}
                   </span>
                 </p>
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
                 </Link>
                 <Link
                   href="/admin/eleves"
-                  className="min-h-[42px] px-4 py-2 rounded-full bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-ice-white font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="min-h-[42px] px-4 py-2 rounded-full bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <Users className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   <span>{t("admin.nav.eleves")}</span>
@@ -273,7 +273,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Integrated 3-column recessed strip */}
-            <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] grid grid-cols-3 divide-x divide-[var(--border-faint)]">
+            <div className="rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] grid grid-cols-3 divide-x divide-[var(--border-subtle)]">
               <div className="p-3">
                 <span className="block font-sans text-[11px] text-slate-600 dark:text-ice-white/55 truncate">
                   {t("admin.statut.publie")}
@@ -330,13 +330,13 @@ export default function AdminDashboard() {
             {/* Tile 2: Unique Students */}
             <Link
               href="/admin/eleves"
-              className="group rounded-2xl surface-glass hover:border-brand/40 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="group rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-brand/50 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <div className="flex items-start justify-between gap-2">
                 <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75 leading-snug">
                   {t("admin.tableau.elevesUniques")}
                 </span>
-                <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-ice-white/75 flex items-center justify-center shrink-0">
+                <span className="w-9 h-9 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/75 flex items-center justify-center shrink-0">
                   <UserCheck className="w-4 h-4" aria-hidden="true" />
                 </span>
               </div>
@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                 <span className="font-display font-bold text-3xl text-ice-white tabular-nums block leading-none">
                   {stats?.students.unique ?? 0}
                 </span>
-                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-500 dark:text-ice-white/55">
+                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-600 dark:text-ice-white/55">
                   <span>{t("admin.eleves.filtreInscrits")}</span>
                 </span>
               </div>
@@ -353,13 +353,13 @@ export default function AdminDashboard() {
             {/* Tile 3: Published Courses */}
             <Link
               href="/admin/formations"
-              className="group rounded-2xl surface-glass hover:border-brand/40 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="group rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-brand/50 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <div className="flex items-start justify-between gap-2">
                 <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75 leading-snug">
                   {t("admin.tableau.formationsPubliees")}
                 </span>
-                <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-ice-white/75 flex items-center justify-center shrink-0">
+                <span className="w-9 h-9 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/75 flex items-center justify-center shrink-0">
                   <BookOpen className="w-4 h-4" aria-hidden="true" />
                 </span>
               </div>
@@ -367,7 +367,7 @@ export default function AdminDashboard() {
                 <span className="font-display font-bold text-3xl text-ice-white tabular-nums block leading-none">
                   {stats?.courses.published ?? 0}
                 </span>
-                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-500 dark:text-ice-white/55 tabular-nums">
+                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-600 dark:text-ice-white/55 tabular-nums">
                   <span>{stats?.courses.draft ?? 0} {t("admin.tableau.formationsDraft").toLowerCase()}</span>
                 </span>
               </div>
@@ -376,13 +376,13 @@ export default function AdminDashboard() {
             {/* Tile 4: Confirmed Payments */}
             <Link
               href="/admin/paiements"
-              className="group rounded-2xl surface-glass hover:border-brand/40 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="group rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-brand/50 p-5 flex flex-col justify-between gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
               <div className="flex items-start justify-between gap-2">
                 <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75 leading-snug">
                   {t("admin.tableau.pemanKonfime")}
                 </span>
-                <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <span className="w-9 h-9 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                   <CreditCard className="w-4 h-4" aria-hidden="true" />
                 </span>
               </div>
@@ -390,7 +390,7 @@ export default function AdminDashboard() {
                 <span className="font-display font-bold text-3xl text-ice-white tabular-nums block leading-none">
                   {paidCount}
                 </span>
-                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-500 dark:text-ice-white/55 tabular-nums">
+                <span className="mt-2 inline-flex items-center gap-1 font-sans text-[11px] text-slate-600 dark:text-ice-white/55 tabular-nums">
                   <span>{pendingCount} {t("admin.paiements.enAttente").toLowerCase()}</span>
                 </span>
               </div>
@@ -398,7 +398,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Col 3 (4 cols): Monthly Activity Stacked Bar Chart */}
-          <section className="xl:col-span-4 rounded-2xl surface-glass p-5 sm:p-6 flex flex-col justify-between gap-4">
+          <section className="xl:col-span-4 rounded-2xl surface-glass border border-[var(--border-subtle)] p-5 sm:p-6 flex flex-col justify-between gap-4">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 className="font-display font-semibold text-base text-ice-white">
@@ -421,8 +421,8 @@ export default function AdminDashboard() {
             </div>
 
             {!hasAnyMonthlyData ? (
-              <div className="flex-1 flex flex-col items-center justify-center rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] p-6 text-center min-h-[168px]">
-                <p className="font-sans text-xs sm:text-sm text-ice-white/60">
+              <div className="flex-1 flex flex-col items-center justify-center rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] p-6 text-center min-h-[168px]">
+                <p className="font-sans text-xs sm:text-sm text-slate-600 dark:text-ice-white/60">
                   {t("admin.tableau.aucunPaiementStat")}
                 </p>
               </div>
@@ -452,10 +452,10 @@ export default function AdminDashboard() {
                       className="flex-1 flex flex-col items-center gap-2 h-full justify-end"
                       title={`${bucket.label}: ${bucket.paidCount} ${t("admin.tableau.legendeKonfime").toLowerCase()}, ${bucket.otherCount} ${t("admin.tableau.legendeLot").toLowerCase()}`}
                     >
-                      <span className="font-mono text-[11px] text-ice-white/55 tabular-nums">
+                      <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-ice-white/55 tabular-nums">
                         {bucket.totalCount > 0 ? bucket.totalCount : ""}
                       </span>
-                      <div className="w-full max-w-[34px] h-28 flex flex-col justify-end gap-1 rounded-lg bg-[var(--surface-well)] p-1 overflow-hidden">
+                      <div className="w-full max-w-[34px] h-28 flex flex-col justify-end gap-1 rounded-lg bg-[var(--surface-well)] border border-[var(--border-faint)] p-1 overflow-hidden">
                         {bucket.paidCount > 0 && (
                           <div
                             className="w-full rounded-md bg-gradient-to-t from-[#E54813] to-[#FF7442] transition-all duration-300"
@@ -484,8 +484,8 @@ export default function AdminDashboard() {
       {/* Bottom Workspace Grid (8 cols Recent Transactions + 4 cols Status Breakdown & Quick Actions) */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
         {/* Recent Transactions (8 cols) */}
-        <section className="xl:col-span-8 rounded-2xl surface-glass overflow-hidden">
-          <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-faint)]">
+        <section className="xl:col-span-8 rounded-2xl surface-glass border border-[var(--border-subtle)] overflow-hidden">
+          <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-subtle)]">
             <h2 className="font-display font-semibold text-lg text-ice-white">
               {t("admin.tableau.denyeTranzaksyon")}
             </h2>
@@ -493,7 +493,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <div className="relative flex-1 sm:w-56">
                 <Search
-                  className="w-3.5 h-3.5 text-ice-white/45 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="w-3.5 h-3.5 text-slate-500 dark:text-ice-white/45 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
                   aria-hidden="true"
                 />
                 <input
@@ -502,7 +502,7 @@ export default function AdminDashboard() {
                   onChange={(e) => setRecentSearch(e.target.value)}
                   placeholder={t("admin.paiements.rechercher")}
                   aria-label={t("admin.paiements.rechercher")}
-                  className="w-full min-h-[38px] pl-8 pr-3 py-1.5 rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] text-ice-white placeholder:text-ice-white/45 font-sans text-xs focus:outline-none focus:ring-2 focus:ring-brand-light"
+                  className="w-full min-h-[38px] pl-8 pr-3 py-1.5 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-xs focus:outline-none focus:ring-2 focus:ring-brand-light"
                 />
               </div>
 
@@ -524,7 +524,7 @@ export default function AdminDashboard() {
             </div>
           ) : recentPayments.length === 0 ? (
             <div className="p-10 text-center space-y-2">
-              <p className="font-sans text-sm text-ice-white/60">
+              <p className="font-sans text-sm text-slate-600 dark:text-ice-white/60">
                 {t("admin.tableau.aucunPaiementStat")}
               </p>
             </div>
@@ -532,31 +532,31 @@ export default function AdminDashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm font-sans min-w-[580px]">
                 <thead>
-                  <tr className="bg-[var(--surface-well)] border-b border-[var(--border-faint)]">
-                    <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                  <tr className="bg-[var(--surface-well)] border-b border-[var(--border-subtle)]">
+                    <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("admin.paiements.colReference")}
                     </th>
-                    <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                    <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("admin.paiements.colCours")}
                     </th>
-                    <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                    <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("admin.paiements.colMontant")}
                     </th>
-                    <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                    <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("admin.paiements.colStatut")}
                     </th>
-                    <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                    <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("admin.paiements.colDate")}
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[var(--border-faint)]">
+                <tbody className="divide-y divide-[var(--border-subtle)]">
                   {recentPayments.map((p) => (
                     <tr
                       key={p.id}
                       className="hover:bg-[var(--surface-well)]/70 transition-colors"
                     >
-                      <td className="px-5 py-3.5 font-mono text-xs text-ice-white/70 truncate max-w-[140px]">
+                      <td className="px-5 py-3.5 font-mono text-xs text-slate-700 dark:text-ice-white/70 truncate max-w-[140px]">
                         {p.merchantReference || p.id.slice(0, 10)}
                       </td>
                       <td className="px-5 py-3.5 font-medium text-ice-white truncate max-w-[200px]">
@@ -568,7 +568,7 @@ export default function AdminDashboard() {
                       <td className="px-5 py-3.5">
                         <TransactionStatus status={p.status} />
                       </td>
-                      <td className="px-5 py-3.5 font-mono text-xs text-ice-white/60 whitespace-nowrap tabular-nums">
+                      <td className="px-5 py-3.5 font-mono text-xs text-slate-600 dark:text-ice-white/60 whitespace-nowrap tabular-nums">
                         {p.createdAt
                           ? new Date(p.createdAt).toLocaleDateString("fr-FR")
                           : "—"}
@@ -583,7 +583,7 @@ export default function AdminDashboard() {
 
         {/* Status Breakdown + Quick Actions (4 cols) */}
         <div className="xl:col-span-4 space-y-5">
-          <section className="rounded-2xl surface-glass p-5 sm:p-6 space-y-4">
+          <section className="rounded-2xl surface-glass border border-[var(--border-subtle)] p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between gap-3">
               <h2 className="font-display font-semibold text-base text-ice-white">
                 {t("admin.tableau.repartitionPaiements")}
@@ -603,7 +603,7 @@ export default function AdminDashboard() {
                 ))}
               </div>
             ) : paymentEntries.length === 0 ? (
-              <p className="font-sans text-xs sm:text-sm text-ice-white/60 py-3 text-center">
+              <p className="font-sans text-xs sm:text-sm text-slate-600 dark:text-ice-white/60 py-3 text-center">
                 {t("admin.tableau.aucunPaiementStat")}
               </p>
             ) : (
@@ -614,14 +614,14 @@ export default function AdminDashboard() {
                   return (
                     <div key={status} className="space-y-1.5">
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="uppercase tracking-wider text-ice-white/75">
+                        <span className="uppercase tracking-wider text-slate-700 dark:text-ice-white/75 font-medium">
                           {status}
                         </span>
                         <span className="text-ice-white font-semibold tabular-nums">
                           {count} ({pct}%)
                         </span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-[var(--surface-well)] overflow-hidden">
+                      <div className="w-full h-2 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-300 ${barColor(
                             status
@@ -636,25 +636,25 @@ export default function AdminDashboard() {
             )}
           </section>
 
-          <section className="rounded-2xl surface-glass p-5 sm:p-6 space-y-3">
+          <section className="rounded-2xl surface-glass border border-[var(--border-subtle)] p-5 sm:p-6 space-y-3">
             <h2 className="font-display font-semibold text-base text-ice-white">
               {t("admin.tableau.actionsRapides")}
             </h2>
 
-            <div className="divide-y divide-[var(--border-faint)]">
+            <div className="divide-y divide-[var(--border-subtle)]">
               <Link
                 href="/admin/formations/new"
                 className="group py-3 first:pt-1 last:pb-1 flex items-center justify-between gap-3 min-h-[46px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
               >
                 <span className="flex items-center gap-3 min-w-0">
-                  <span className="w-8 h-8 rounded-lg bg-[var(--surface-well)] border border-[var(--border-faint)] text-brand flex items-center justify-center shrink-0">
+                  <span className="w-8 h-8 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-brand flex items-center justify-center shrink-0">
                     <Plus className="w-4 h-4" aria-hidden="true" />
                   </span>
                   <span className="font-sans font-medium text-sm text-ice-white group-hover:text-brand-light transition-colors truncate">
                     {t("admin.tableau.actionNouvelleFormation")}
                   </span>
                 </span>
-                <ChevronRight className="w-4 h-4 text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
+                <ChevronRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
               </Link>
 
               <Link
@@ -662,14 +662,14 @@ export default function AdminDashboard() {
                 className="group py-3 first:pt-1 last:pb-1 flex items-center justify-between gap-3 min-h-[46px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
               >
                 <span className="flex items-center gap-3 min-w-0">
-                  <span className="w-8 h-8 rounded-lg bg-[var(--surface-well)] border border-[var(--border-faint)] text-brand flex items-center justify-center shrink-0">
+                  <span className="w-8 h-8 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-brand flex items-center justify-center shrink-0">
                     <Users className="w-4 h-4" aria-hidden="true" />
                   </span>
                   <span className="font-sans font-medium text-sm text-ice-white group-hover:text-brand-light transition-colors truncate">
                     {t("admin.tableau.actionGererEleves")}
                   </span>
                 </span>
-                <ChevronRight className="w-4 h-4 text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
+                <ChevronRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
               </Link>
 
               <Link
@@ -677,14 +677,14 @@ export default function AdminDashboard() {
                 className="group py-3 first:pt-1 last:pb-1 flex items-center justify-between gap-3 min-h-[46px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg"
               >
                 <span className="flex items-center gap-3 min-w-0">
-                  <span className="w-8 h-8 rounded-lg bg-[var(--surface-well)] border border-[var(--border-faint)] text-ice-white/75 flex items-center justify-center shrink-0">
+                  <span className="w-8 h-8 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-faint)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/75 flex items-center justify-center shrink-0">
                     <CreditCard className="w-4 h-4" aria-hidden="true" />
                   </span>
                   <span className="font-sans font-medium text-sm text-ice-white group-hover:text-brand-light transition-colors truncate">
                     {t("admin.tableau.actionVoirPaiements")}
                   </span>
                 </span>
-                <ChevronRight className="w-4 h-4 text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
+                <ChevronRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 group-hover:text-brand-light shrink-0" aria-hidden="true" />
               </Link>
             </div>
           </section>

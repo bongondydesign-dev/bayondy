@@ -92,7 +92,7 @@ export default function AProposPage() {
                 <div className="space-y-5">
                   <div className="animate-hero-1 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-xs uppercase tracking-[0.16em] text-[var(--home-orange-light)]">
                     <span>{t("apropos.badge")}</span>
-                    <span className="hidden sm:inline text-ice-white/30" aria-hidden="true">
+                    <span className="hidden sm:inline text-slate-500 dark:text-ice-white/30" aria-hidden="true">
                       ·
                     </span>
                     <span className="inline-flex items-center gap-1.5 text-slate-600 dark:text-ice-white/65">
@@ -316,12 +316,12 @@ export default function AProposPage() {
                   <RevealItem key={pillar.num} className="flex">
                     <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between">
                       <div>
-                        <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
+                        <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-subtle)]">
                           <span className="font-mono text-xs font-semibold text-[var(--home-orange-light)] tabular-nums">
                             {pillar.num}
                           </span>
                           <PillarIcon
-                            className="w-4 h-4 text-slate-500 dark:text-ice-white/60 group-hover:text-[var(--home-orange-light)] transition-colors"
+                            className="w-4 h-4 text-slate-600 dark:text-ice-white/60 group-hover:text-[var(--home-orange-light)] transition-colors"
                             strokeWidth={1.9}
                             aria-hidden="true"
                           />
@@ -330,12 +330,12 @@ export default function AProposPage() {
                         <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-2">
                           {pillar.title}
                         </h3>
-                        <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
+                        <p className="text-sm text-slate-700 dark:text-ice-white/70 font-sans leading-relaxed mb-6">
                           {pillar.desc}
                         </p>
                       </div>
 
-                      <ul className="divide-y divide-[var(--border-faint)] border-t border-[var(--border-faint)]">
+                      <ul className="divide-y divide-[var(--border-subtle)] border-t border-[var(--border-subtle)]">
                         {pillar.items.map((tech, idx) => (
                           <li
                             key={tech}
@@ -344,7 +344,7 @@ export default function AProposPage() {
                             <span className="font-sans font-medium text-ice-white">
                               {tech}
                             </span>
-                            <span className="font-mono text-[11px] text-slate-500 dark:text-ice-white/45 tabular-nums">
+                            <span className="font-mono text-[11px] text-slate-600 dark:text-ice-white/45 tabular-nums">
                               0{idx + 1}
                             </span>
                           </li>
@@ -401,13 +401,13 @@ export default function AProposPage() {
                   className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
+                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-subtle)]">
                       <span className="inline-flex items-center gap-2 font-mono text-xs text-[var(--home-orange-light)]">
                         <Globe className="w-4 h-4" aria-hidden="true" />
                         <span>{t("apropos.profilPortfolioUrl")}</span>
                       </span>
                       <ArrowUpRight
-                        className="w-4 h-4 text-slate-400 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                        className="w-4 h-4 text-slate-600 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                         aria-hidden="true"
                       />
                     </div>
@@ -435,12 +435,12 @@ export default function AProposPage() {
                   className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
+                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-subtle)]">
                       <span className="font-mono text-xs text-[var(--home-orange-light)]">
                         {t("apropos.profilLinkedinHandle")}
                       </span>
                       <ArrowUpRight
-                        className="w-4 h-4 text-slate-400 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                        className="w-4 h-4 text-slate-600 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                         aria-hidden="true"
                       />
                     </div>
@@ -468,12 +468,12 @@ export default function AProposPage() {
                   className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange)]/45 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
+                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-subtle)]">
                       <span className="font-mono text-xs text-[var(--home-orange-light)]">
                         {t("apropos.profilFramerHandle")}
                       </span>
                       <ArrowUpRight
-                        className="w-4 h-4 text-slate-400 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                        className="w-4 h-4 text-slate-600 dark:text-ice-white/50 group-hover:text-[var(--home-orange-light)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                         aria-hidden="true"
                       />
                     </div>
@@ -501,13 +501,13 @@ export default function AProposPage() {
                   className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-emerald-500/55 hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
-                      <span className="inline-flex items-center gap-2 font-mono text-xs text-emerald-600 dark:text-emerald-400 tabular-nums">
+                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-subtle)]">
+                      <span className="inline-flex items-center gap-2 font-mono text-xs text-emerald-700 dark:text-emerald-400 tabular-nums">
                         <MessageCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                         <span>{t("apropos.profilWhatsappNum")}</span>
                       </span>
                       <ArrowUpRight
-                        className="w-4 h-4 text-slate-400 dark:text-ice-white/50 group-hover:text-emerald-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                        className="w-4 h-4 text-slate-600 dark:text-ice-white/50 group-hover:text-emerald-600 dark:group-hover:text-emerald-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                         aria-hidden="true"
                       />
                     </div>

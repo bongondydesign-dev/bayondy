@@ -21,7 +21,7 @@ export function PriceTag({
   if (!hasPrice) {
     return (
       <span
-        className={`inline-flex items-center font-mono font-medium rounded-lg border text-brand-light bg-brand/10 border-brand/25 ${
+        className={`inline-flex items-center font-mono font-medium rounded-lg border text-brand-light bg-[var(--surface-active)] border-[var(--home-orange-vivid)]/40 ${
           size === "lg" ? "text-sm sm:text-base px-3.5 py-1.5" : "text-xs px-2.5 py-1"
         } ${className}`}
       >
@@ -43,7 +43,7 @@ export function PriceTag({
       )}
       {formattedUSD && (
         <span
-          className={`font-mono text-ice-white/65 ${
+          className={`font-mono text-slate-700 dark:text-ice-white/65 ${
             size === "lg" ? "text-sm sm:text-base" : "text-xs"
           }`}
         >

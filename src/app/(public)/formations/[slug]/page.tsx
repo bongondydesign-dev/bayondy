@@ -134,7 +134,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   />
                   <div className="absolute inset-0 bg-noise opacity-35 dark:opacity-50" aria-hidden="true" />
                   <PortalSymbol size={80} className="relative z-10 opacity-90" />
-                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider uppercase text-slate-500 dark:text-slate-300/60">
+                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider uppercase text-slate-600 dark:text-slate-300/60">
                     BAYONDY
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
             <div className="rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-7 space-y-6">
               <div>
-                <span className="block font-mono text-xs text-slate-500 dark:text-ice-white/60 uppercase tracking-wider mb-2">
+                <span className="block font-mono text-xs font-medium text-slate-600 dark:text-ice-white/60 uppercase tracking-wider mb-2">
                   Pri
                 </span>
                 <PriceTag

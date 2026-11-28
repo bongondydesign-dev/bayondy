@@ -232,7 +232,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
             <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white mb-3">
               {t("lecteur.nonInscrit")}
             </h1>
-            <p className="font-sans text-sm sm:text-base text-ice-white/70 mb-8 max-w-md leading-relaxed">
+            <p className="font-sans text-sm sm:text-base text-slate-700 dark:text-ice-white/70 mb-8 max-w-md leading-relaxed">
               {t("lecteur.nonInscritDescription")}
             </p>
             <Link
@@ -245,14 +245,14 @@ export function PlayerView({ slug }: PlayerViewProps) {
           </div>
         ) : !currentLesson ? (
           // Aucune leçon disponible
-          <div className="p-8 text-center text-ice-white/60">
+          <div className="p-8 text-center text-slate-600 dark:text-ice-white/60">
             <p>{t("catalogue.vide")}</p>
           </div>
         ) : (
           // Lecteur complet (Vidéo + Contrôles + Liste des leçons)
           <div className="space-y-6">
             {/* Fil d'Ariane & Retour */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-ice-white/70">
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70">
               <Link
                 href="/mes-formations"
                 className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
@@ -260,8 +260,8 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{t("lecteur.retourMesFormations")}</span>
               </Link>
-              <span className="text-ice-white/30">/</span>
-              <span className="text-ice-white/90 truncate max-w-xs sm:max-w-md">
+              <span className="text-slate-500 dark:text-ice-white/30">/</span>
+              <span className="text-ice-white font-medium truncate max-w-xs sm:max-w-md">
                 {course?.title}
               </span>
             </div>
@@ -281,7 +281,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 />
 
                 {/* En-tête de la leçon et action "Leson fini" */}
-                <div className="p-6 sm:p-7 rounded-2xl surface-glass space-y-5">
+                <div className="p-6 sm:p-7 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       {currentLesson.moduleTitle && (
@@ -298,7 +298,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     {/* Bouton "Leson fini" */}
                     <div className="flex-shrink-0">
                       {isCurrentCompleted ? (
-                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand/15 border border-brand/40 text-brand-light font-sans font-medium text-sm select-none">
+                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 text-brand-light font-sans font-semibold text-sm select-none">
                           <Check className="w-4 h-4 shrink-0" strokeWidth={2.5} aria-hidden="true" />
                           <span>{t("lecon.terminee")}</span>
                         </div>
@@ -336,8 +336,8 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   {/* Ressources de la leçon si existantes */}
                   {currentLesson.resources &&
                     currentLesson.resources.length > 0 && (
-                      <div className="pt-4 border-t border-[var(--border-faint)] space-y-2">
-                        <span className="font-mono text-xs text-ice-white/60 block">
+                      <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2">
+                        <span className="font-mono text-xs font-medium text-slate-600 dark:text-ice-white/60 block">
                           {t("lecteur.ressources")} :
                         </span>
                         <div className="flex flex-wrap gap-2">
@@ -347,7 +347,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                               href={res.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--surface-well)] border border-[var(--border-subtle)] text-xs text-brand-light hover:underline min-h-[44px]"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-xs font-medium text-brand-light hover:underline min-h-[44px]"
                             >
                               <span>{res.label}</span>
                               <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -362,8 +362,8 @@ export function PlayerView({ slug }: PlayerViewProps) {
               {/* Colonne Latérale (Progression + Liste des leçons) */}
               <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                 {/* Carte de progression globale */}
-                <div className="p-5 sm:p-6 rounded-2xl surface-glass space-y-3">
-                  <span className="font-mono text-xs uppercase tracking-wider text-ice-white/60 block">
+                <div className="p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-3">
+                  <span className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/60 block">
                     {t("lecteur.progressionGlobale")}
                   </span>
                   <ProgressBar
@@ -374,7 +374,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 </div>
 
                 {/* Liste des leçons */}
-                <div className="p-5 sm:p-6 rounded-2xl surface-glass max-h-[600px] overflow-y-auto">
+                <div className="p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] max-h-[600px] overflow-y-auto">
                   <LessonList
                     lessons={lessons}
                     currentLessonId={currentLesson.id}

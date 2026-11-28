@@ -69,7 +69,7 @@ function PaymentStatusIndicator({ status }: { status: string }) {
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-ice-white/70 whitespace-nowrap">
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-slate-700 dark:text-ice-white/70 whitespace-nowrap">
           <Receipt className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>{label}</span>
         </span>
@@ -256,7 +256,7 @@ export default function MesFormationsPage() {
           <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
             <AlertTriangle className="w-6 h-6" aria-hidden="true" />
           </div>
-          <p className="font-sans text-sm text-ice-white/80 mb-6">{error}</p>
+          <p className="font-sans text-sm text-slate-700 dark:text-ice-white/80 mb-6">{error}</p>
           {user?.uid && (
             <button
               type="button"
@@ -366,7 +366,7 @@ export default function MesFormationsPage() {
                   <span className="font-sans font-medium text-xs sm:text-sm text-slate-600 dark:text-ice-white/75">
                     {t("mesFormations.kpiLecons")}
                   </span>
-                  <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-faint)] text-ice-white/75 flex items-center justify-center shrink-0">
+                  <span className="w-9 h-9 rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/75 flex items-center justify-center shrink-0">
                     <PlayCircle className="w-4 h-4" aria-hidden="true" />
                   </span>
                 </div>
@@ -418,7 +418,7 @@ export default function MesFormationsPage() {
                       01
                     </span>
                     <span className="w-6 h-px bg-brand/50" aria-hidden="true" />
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/55">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55">
                       {t("mesFormations.sectionParcours")}
                     </span>
                   </div>
@@ -430,7 +430,7 @@ export default function MesFormationsPage() {
                 {items.length > 0 && (
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div
-                      className="inline-flex items-center gap-1 p-1 rounded-full bg-deep-navy border border-[var(--border-subtle)] self-start"
+                      className="inline-flex items-center gap-1 p-1 rounded-full bg-white dark:bg-deep-navy border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none self-start"
                       role="group"
                       aria-label={t("mesFormations.sectionParcoursTitre")}
                     >
@@ -473,7 +473,7 @@ export default function MesFormationsPage() {
 
                     <div className="relative w-full sm:w-64">
                       <Search
-                        className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                        className="w-4 h-4 text-slate-500 dark:text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                         aria-hidden="true"
                       />
                       <input
@@ -482,7 +482,7 @@ export default function MesFormationsPage() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder={t("mesFormations.rechercher")}
                         aria-label={t("mesFormations.rechercher")}
-                        className="w-full min-h-[42px] pl-10 pr-4 py-2 rounded-full bg-deep-navy border border-[var(--border-subtle)] text-ice-white placeholder:text-ice-white/45 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                        className="w-full min-h-[42px] pl-10 pr-4 py-2 rounded-full bg-white dark:bg-deep-navy border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                       />
                     </div>
                   </div>
@@ -497,7 +497,7 @@ export default function MesFormationsPage() {
                   <h3 className="font-display font-semibold text-lg sm:text-xl text-ice-white mb-2">
                     {t("mesFormations.vide")}
                   </h3>
-                  <p className="font-sans text-sm text-ice-white/65 mb-6 max-w-md leading-relaxed">
+                  <p className="font-sans text-sm text-slate-700 dark:text-ice-white/65 mb-6 max-w-md leading-relaxed">
                     {t("mesFormations.videDescription")}
                   </p>
                   <Link
@@ -510,7 +510,7 @@ export default function MesFormationsPage() {
                 </div>
               ) : filteredItems.length === 0 ? (
                 <div className="p-8 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] space-y-4">
-                  <p className="font-sans text-sm text-ice-white/65">
+                  <p className="font-sans text-sm text-slate-700 dark:text-ice-white/65">
                     {t("mesFormations.aucunePourFiltre")}
                   </p>
                   <button
@@ -571,7 +571,7 @@ export default function MesFormationsPage() {
 
                         <div className="flex-1 p-5 flex flex-col justify-between space-y-5">
                           <div className="space-y-2">
-                            <div className="flex items-center gap-2 font-mono text-xs text-ice-white/60 flex-wrap">
+                            <div className="flex items-center gap-2 font-mono text-xs text-slate-600 dark:text-ice-white/60 flex-wrap">
                               <span className="uppercase tracking-wider text-brand-light font-semibold">
                                 {t(levelKey)}
                               </span>
@@ -597,13 +597,13 @@ export default function MesFormationsPage() {
                             </h3>
 
                             {course.shortDescription && (
-                              <p className="font-sans text-xs sm:text-sm text-ice-white/65 line-clamp-2 leading-relaxed">
+                              <p className="font-sans text-xs sm:text-sm text-slate-700 dark:text-ice-white/65 line-clamp-2 leading-relaxed">
                                 {course.shortDescription}
                               </p>
                             )}
                           </div>
 
-                          <div className="space-y-4 pt-3 border-t border-[var(--border-faint)]">
+                          <div className="space-y-4 pt-3 border-t border-[var(--border-subtle)]">
                             <ProgressBar
                               completedCount={completedCount}
                               totalCount={totalCount}
@@ -637,7 +637,7 @@ export default function MesFormationsPage() {
                     02
                   </span>
                   <span className="w-6 h-px bg-brand/50" aria-hidden="true" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/55">
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55">
                     {t("mesFormations.sectionProgression")}
                   </span>
                 </div>
@@ -649,13 +649,13 @@ export default function MesFormationsPage() {
               <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-5 sm:p-6 space-y-5">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                    <p className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                       {t("mesFormations.progressionGlobale")}
                     </p>
                     <p className="font-display font-bold text-3xl text-ice-white tabular-nums mt-1">
                       {stats.globalPercent}%
                     </p>
-                    <p className="font-mono text-xs text-ice-white/60 tabular-nums mt-1">
+                    <p className="font-mono text-xs text-slate-600 dark:text-ice-white/60 tabular-nums mt-1">
                       {stats.totalCompletedLessons} / {stats.totalCourseLessons}{" "}
                       {t("mesFormations.leconsCompletees")}
                     </p>
@@ -688,13 +688,13 @@ export default function MesFormationsPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[var(--border-faint)]">
+                <div className="pt-4 border-t border-[var(--border-subtle)]">
                   {items.length === 0 ? (
-                    <p className="font-sans text-sm text-ice-white/60 leading-relaxed">
+                    <p className="font-sans text-sm text-slate-700 dark:text-ice-white/60 leading-relaxed">
                       {t("mesFormations.aucunCoursProgression")}
                     </p>
                   ) : (
-                    <div className="divide-y divide-[var(--border-faint)]">
+                    <div className="divide-y divide-[var(--border-subtle)]">
                       {items.map(({ enrollment, course }) => {
                         const completed =
                           enrollment.progress?.completedLessonIds?.length || 0;
@@ -721,7 +721,7 @@ export default function MesFormationsPage() {
                               <span className="font-semibold text-ice-white block">
                                 {pct}%
                               </span>
-                              <span className="text-ice-white/55">
+                              <span className="text-slate-600 dark:text-ice-white/55">
                                 {completed}/{total}
                               </span>
                             </div>
@@ -734,7 +734,7 @@ export default function MesFormationsPage() {
               </div>
 
               {/* Compact Quick Links */}
-              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-faint)] overflow-hidden">
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-subtle)] overflow-hidden">
                 <Link
                   href="/profil"
                   className="px-5 py-3.5 min-h-[48px] flex items-center justify-between gap-3 hover:bg-[var(--surface-subtle)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
@@ -743,7 +743,7 @@ export default function MesFormationsPage() {
                     <User className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
                     <span className="truncate">{t("mesFormations.navProfil")}</span>
                   </span>
-                  <ArrowRight className="w-4 h-4 text-ice-white/45 shrink-0" aria-hidden="true" />
+                  <ArrowRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 shrink-0" aria-hidden="true" />
                 </Link>
                 <Link
                   href="/formations"
@@ -753,7 +753,7 @@ export default function MesFormationsPage() {
                     <BookOpen className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
                     <span className="truncate">{t("mesFormations.navCatalogue")}</span>
                   </span>
-                  <ArrowRight className="w-4 h-4 text-ice-white/45 shrink-0" aria-hidden="true" />
+                  <ArrowRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 shrink-0" aria-hidden="true" />
                 </Link>
               </div>
             </aside>
@@ -767,7 +767,7 @@ export default function MesFormationsPage() {
                   03
                 </span>
                 <span className="w-6 h-px bg-brand/50" aria-hidden="true" />
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/55">
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55">
                   {t("mesFormations.sectionPaiements")}
                 </span>
               </div>
@@ -778,7 +778,7 @@ export default function MesFormationsPage() {
 
             {payments.length === 0 ? (
               <div className="p-8 text-center rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
-                <p className="font-sans text-sm text-ice-white/60">
+                <p className="font-sans text-sm text-slate-700 dark:text-ice-white/60">
                   {t("mesFormations.aucunPaiement")}
                 </p>
               </div>
@@ -787,25 +787,25 @@ export default function MesFormationsPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm font-sans min-w-[560px]">
                     <thead>
-                      <tr className="border-b border-[var(--border-subtle)] bg-[var(--surface-well)]/60">
-                        <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                      <tr className="border-b border-[var(--border-subtle)] bg-[var(--surface-well)]">
+                        <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                           {t("admin.paiements.colStatut")}
                         </th>
-                        <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                        <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                           {t("admin.paiements.colCours")}
                         </th>
-                        <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                        <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                           {t("admin.paiements.colMontant")}
                         </th>
-                        <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                        <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                           {t("admin.paiements.colMethode")}
                         </th>
-                        <th className="text-left px-5 py-3 font-mono text-[11px] uppercase tracking-wider text-ice-white/55">
+                        <th className="text-left px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-ice-white/55">
                           {t("admin.paiements.colDate")}
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[var(--border-faint)]">
+                    <tbody className="divide-y divide-[var(--border-subtle)]">
                       {payments.map((p) => {
                         const formattedDate = p.createdAt?.toDate
                           ? p.createdAt.toDate().toLocaleDateString("fr-FR")
@@ -824,10 +824,10 @@ export default function MesFormationsPage() {
                             <td className="px-5 py-3 font-mono font-semibold text-ice-white tabular-nums whitespace-nowrap">
                               {p.amount} {p.currency}
                             </td>
-                            <td className="px-5 py-3 font-mono text-xs text-ice-white/70 uppercase">
+                            <td className="px-5 py-3 font-mono text-xs text-slate-700 dark:text-ice-white/70 uppercase">
                               {p.method}
                             </td>
-                            <td className="px-5 py-3 font-mono text-xs text-ice-white/60 whitespace-nowrap tabular-nums">
+                            <td className="px-5 py-3 font-mono text-xs text-slate-600 dark:text-ice-white/60 whitespace-nowrap tabular-nums">
                               {formattedDate}
                             </td>
                           </tr>

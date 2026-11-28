@@ -104,7 +104,7 @@ export function EnrollButton({
           <span>{t("catalogue.boutonAcceder")}</span>
         </Link>
         {isAdmin && !enrolled && (
-          <p className="text-center font-mono text-[11px] text-brand-light/90">
+          <p className="text-center font-mono text-[11px] font-medium text-brand-light">
             {t("catalogue.accesAdminGratuit")}
           </p>
         )}
@@ -121,7 +121,7 @@ export function EnrollButton({
   if (amountHTG <= 0) {
     return (
       <div
-        className={`w-full min-h-[48px] px-5 py-3.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] text-ice-white/85 font-sans font-medium text-sm flex items-center justify-center gap-2.5 text-center ${className}`}
+        className={`w-full min-h-[48px] px-5 py-3.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm flex items-center justify-center gap-2.5 text-center ${className}`}
         role="status"
       >
         <Clock className="w-4 h-4 text-brand-light flex-shrink-0" aria-hidden="true" />

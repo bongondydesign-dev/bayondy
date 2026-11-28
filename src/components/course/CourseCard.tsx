@@ -96,7 +96,7 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
 
         {/* Pied de carte : Prix et hiérarchie d'action claire */}
-        <div className="mt-6 pt-4 border-t border-[var(--border-faint)] space-y-4">
+        <div className="mt-6 pt-4 border-t border-[var(--border-subtle)] space-y-4">
           <PriceTag
             priceUSD={course.priceUSD}
             priceHTG={course.priceHTG}
@@ -106,7 +106,7 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="flex items-center gap-2.5">
             <Link
               href={`/formations/${course.slug}`}
-              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-[var(--surface-well)] dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 hover:border-[var(--home-orange-vivid)]/65 hover:bg-white dark:hover:bg-[#1A1E29] text-ice-white text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full bg-white dark:bg-[#141720] border border-[var(--border-strong)] dark:border-white/15 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.10)] dark:shadow-none hover:border-[var(--home-orange-vivid)]/70 hover:bg-slate-50 dark:hover:bg-[#1A1E29] text-ice-white text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${t("catalogue.gadeFormasyon")} — ${course.title}`}
             >
               {t("catalogue.gadeFormasyon")}

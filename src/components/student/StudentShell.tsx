@@ -200,7 +200,7 @@ export function StudentShell({
                   {displayName}
                 </p>
                 {user.email && (
-                  <p className="font-mono text-[11px] text-ice-white/55 truncate">
+                  <p className="font-mono text-[11px] text-slate-600 dark:text-ice-white/55 truncate">
                     {user.email}
                   </p>
                 )}
@@ -212,7 +212,7 @@ export function StudentShell({
               disabled={signingOut}
               aria-label={t("profil.boutonDeconnexion")}
               title={t("profil.boutonDeconnexion")}
-              className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-subtle)] bg-deep-navy hover:border-red-400/50 text-ice-white/70 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
+              className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 text-slate-700 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
               <LogOut className="w-4 h-4" aria-hidden="true" />
             </button>

@@ -67,7 +67,7 @@ export function Features() {
               >
                 <span>{t("hero.cta")}</span>
                 <span
-                  className="w-6 h-6 rounded-full bg-slate-900/[0.07] dark:bg-white/[0.08] inline-flex items-center justify-center group-hover:translate-x-0.5 group-hover:bg-[var(--home-orange-vivid)]/15 group-hover:text-[var(--home-orange-light)] transition-all duration-200"
+                  className="w-6 h-6 rounded-full bg-slate-900/[0.09] dark:bg-white/[0.08] inline-flex items-center justify-center group-hover:translate-x-0.5 group-hover:bg-[var(--home-orange-vivid)]/15 group-hover:text-[var(--home-orange-light)] transition-all duration-200"
                   aria-hidden="true"
                 >
                   <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
@@ -91,7 +91,7 @@ export function Features() {
                 aria-hidden="true"
               />
 
-              <div className="relative z-10 pb-6 mb-6 border-b border-[var(--border-faint)]">
+              <div className="relative z-10 pb-6 mb-6 border-b border-[var(--border-subtle)]">
                 <div className="flex flex-wrap items-baseline justify-between gap-3 mb-5">
                   <div>
                     <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55 block mb-1">
@@ -428,7 +428,7 @@ export function Features() {
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[var(--border-faint)]">
+              <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.progression.titre")}
                 </h3>
@@ -491,7 +491,7 @@ export function Features() {
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[var(--border-faint)]">
+              <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.mobile.titre")}
                 </h3>
@@ -549,18 +549,18 @@ export function Features() {
 
                 <div className="flex items-center gap-1.5 font-mono text-[11px] text-slate-700 dark:text-ice-white/65 tabular-nums font-medium">
                   <span>01</span>
-                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-slate-600 dark:text-ice-white/30" aria-hidden="true">·</span>
                   <span>02</span>
-                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-slate-600 dark:text-ice-white/30" aria-hidden="true">·</span>
                   <span>03</span>
-                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">·</span>
+                  <span className="text-slate-600 dark:text-ice-white/30" aria-hidden="true">·</span>
                   <span className="text-[var(--home-orange-light)] font-semibold">
                     {t("bento.badgeRevoir")}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[var(--border-faint)]">
+              <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
                 <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
                   {t("fonctionnalites.revoir.titre")}
                 </h3>
@@ -574,7 +574,7 @@ export function Features() {
           {/* ── Carte 6 (col-span-2) : Peman lokal fasil ───────────────────── */}
           <RevealItem className="md:col-span-2 flex">
             <article className="group w-full rounded-2xl surface-glass border border-[var(--border-subtle)] hover:border-[var(--home-orange-vivid)]/60 transition-all duration-200 p-6 sm:p-8 flex flex-col justify-between min-w-0">
-              <div className="space-y-4 pb-6 mb-6 border-b border-[var(--border-faint)]">
+              <div className="space-y-4 pb-6 mb-6 border-b border-[var(--border-subtle)]">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/65">
                     {t("tarifs.moyensTitre")}
@@ -586,7 +586,7 @@ export function Features() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* MonCash — Disponible */}
-                  <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/50 flex items-center justify-between gap-3 group-hover:-translate-y-0.5 transition-transform duration-200">
+                  <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/55 shadow-[0_2px_8px_-2px_rgba(220,56,4,0.12)] dark:shadow-none flex items-center justify-between gap-3 group-hover:-translate-y-0.5 transition-transform duration-200">
                     <div className="flex items-center gap-3.5 min-w-0">
                       <span className="w-10 h-10 rounded-lg bg-emerald-500/15 border border-emerald-600/30 text-emerald-700 dark:text-emerald-400 inline-flex items-center justify-center shrink-0">
                         <Check className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
@@ -609,7 +609,7 @@ export function Features() {
                   {/* NatCash — À venir */}
                   <div className="p-4 sm:p-5 rounded-xl bg-[var(--surface-well)] border border-dashed border-[var(--border-strong)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <span className="w-10 h-10 rounded-lg bg-white dark:bg-deep-navy border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-400 inline-flex items-center justify-center shrink-0">
+                      <span className="w-10 h-10 rounded-lg bg-white dark:bg-deep-navy border border-[var(--border-subtle)] text-slate-700 dark:text-zinc-400 shadow-2xs dark:shadow-none inline-flex items-center justify-center shrink-0">
                         <Clock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
                       </span>
                       <div className="min-w-0">

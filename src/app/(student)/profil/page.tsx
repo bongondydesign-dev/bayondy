@@ -158,7 +158,7 @@ export default function ProfilPage() {
                     <span>{t("profil.badge")}</span>
                     {isAdmin && (
                       <>
-                        <span className="text-ice-white/40" aria-hidden="true">
+                        <span className="text-slate-500 dark:text-ice-white/40" aria-hidden="true">
                           ·
                         </span>
                         <span className="text-amber-700 dark:text-amber-300 font-semibold">
@@ -172,11 +172,11 @@ export default function ProfilPage() {
                     {resolvedName}
                   </h1>
 
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm font-sans text-ice-white/70">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm font-sans text-slate-700 dark:text-ice-white/70">
                     <span className="truncate">{user.email || t("profil.nonDefini")}</span>
                     {user.email && (
                       <>
-                        <span className="text-ice-white/35" aria-hidden="true">
+                        <span className="text-slate-500 dark:text-ice-white/35" aria-hidden="true">
                           ·
                         </span>
                         {user.emailVerified ? (
@@ -212,31 +212,31 @@ export default function ProfilPage() {
             <dl className="border-t border-[var(--border-subtle)] bg-[var(--surface-well)] grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-subtle)]">
               <div className="px-6 py-4 flex items-center justify-between gap-4">
                 <div className="min-w-0">
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
+                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/55">
                     {t("profil.compteCree")}
                   </dt>
                   <dd className="font-mono text-base sm:text-lg font-semibold text-ice-white mt-1 tabular-nums">
                     {createdAtLabel}
                   </dd>
                 </div>
-                <Calendar className="w-5 h-5 text-ice-white/45 shrink-0" aria-hidden="true" />
+                <Calendar className="w-5 h-5 text-slate-500 dark:text-ice-white/45 shrink-0" aria-hidden="true" />
               </div>
 
               <div className="px-6 py-4 flex items-center justify-between gap-4">
                 <div className="min-w-0">
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
+                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/55">
                     {t("profil.dernierAcces")}
                   </dt>
                   <dd className="font-mono text-base sm:text-lg font-semibold text-ice-white mt-1 tabular-nums">
                     {lastSignInLabel}
                   </dd>
                 </div>
-                <Clock className="w-5 h-5 text-ice-white/45 shrink-0" aria-hidden="true" />
+                <Clock className="w-5 h-5 text-slate-500 dark:text-ice-white/45 shrink-0" aria-hidden="true" />
               </div>
 
               <div className="px-6 py-4 flex items-center justify-between gap-4">
                 <div className="min-w-0">
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-ice-white/55">
+                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-slate-600 dark:text-ice-white/55">
                     {t("profil.methodeConnexion")}
                   </dt>
                   <dd className="font-mono text-base sm:text-lg font-semibold text-ice-white mt-1 truncate">
@@ -258,7 +258,7 @@ export default function ProfilPage() {
                     01
                   </span>
                   <span className="w-6 h-px bg-brand/50" aria-hidden="true" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/55">
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55">
                     {t("profil.badge")}
                   </span>
                 </div>
@@ -272,7 +272,7 @@ export default function ProfilPage() {
                   <div className="space-y-2">
                     <label
                       htmlFor="profil-display-name"
-                      className="font-mono text-xs uppercase tracking-wider text-ice-white/60 flex items-center gap-2"
+                      className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/60 flex items-center gap-2"
                     >
                       <UserIcon className="w-3.5 h-3.5 text-brand-light" aria-hidden="true" />
                       <span>{t("profil.nom")}</span>
@@ -287,16 +287,16 @@ export default function ProfilPage() {
                         if (nameFeedback) setNameFeedback(null);
                       }}
                       placeholder={t("auth.nomPlaceholder")}
-                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white placeholder:text-slate-400 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <label
                       htmlFor="profil-email"
-                      className="font-mono text-xs uppercase tracking-wider text-ice-white/60 flex items-center gap-2"
+                      className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/60 flex items-center gap-2"
                     >
-                      <Mail className="w-3.5 h-3.5 text-ice-white/55" aria-hidden="true" />
+                      <Mail className="w-3.5 h-3.5 text-slate-600 dark:text-ice-white/55" aria-hidden="true" />
                       <span>{t("profil.email")}</span>
                     </label>
                     <div className="flex items-center gap-2">
@@ -305,7 +305,7 @@ export default function ProfilPage() {
                         type="email"
                         readOnly
                         value={user.email || t("profil.nonDefini")}
-                        className="flex-1 min-w-0 min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-ice-white/70 text-sm cursor-default focus:outline-none"
+                        className="flex-1 min-w-0 min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/70 text-sm cursor-default focus:outline-none"
                       />
                       {user.email && (
                         <button
@@ -313,7 +313,7 @@ export default function ProfilPage() {
                           onClick={handleCopyEmail}
                           aria-label={t("profil.copierEmail")}
                           title={t("profil.copierEmail")}
-                          className="min-h-[46px] px-3.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-well)] hover:border-brand/50 text-ice-white/80 hover:text-ice-white font-mono text-xs inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                          className="min-h-[46px] px-3.5 rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none hover:border-brand/55 text-slate-800 dark:text-ice-white/80 hover:text-ice-white font-mono text-xs inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                         >
                           {emailCopied ? (
                             <>
@@ -375,7 +375,7 @@ export default function ProfilPage() {
                       02
                     </span>
                     <span className="w-6 h-px bg-brand/50" aria-hidden="true" />
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ice-white/55">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-slate-600 dark:text-ice-white/55">
                       {t("profil.methodeConnexion")} · {providerLabel}
                     </span>
                   </div>
@@ -387,7 +387,7 @@ export default function ProfilPage() {
                 <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-6 space-y-5">
                   <div className="flex items-start gap-3">
                     <Lock className="w-4 h-4 text-brand-light mt-1 shrink-0" aria-hidden="true" />
-                    <p className="font-sans text-sm text-ice-white/75 leading-relaxed">
+                    <p className="font-sans text-sm text-slate-700 dark:text-ice-white/75 leading-relaxed">
                       {t("profil.securiteDescription")}
                     </p>
                   </div>
@@ -410,13 +410,13 @@ export default function ProfilPage() {
                     </div>
                   )}
 
-                  <div className="pt-4 border-t border-[var(--border-faint)] flex flex-col gap-3">
+                  <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col gap-3">
                     {user.email && (
                       <button
                         type="button"
                         onClick={handleResetPassword}
                         disabled={resetSending}
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-sm inline-flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 text-ice-white font-sans font-medium text-sm inline-flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                       >
                         <KeyRound className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
                         <span className="truncate">
@@ -448,9 +448,9 @@ export default function ProfilPage() {
                   {t("profil.preferences")}
                 </h2>
 
-                <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-faint)] overflow-hidden">
+                <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] divide-y divide-[var(--border-subtle)] overflow-hidden">
                   <div className="px-5 py-3.5 flex items-center justify-between gap-4">
-                    <span className="font-sans text-sm font-medium text-ice-white/85">
+                    <span className="font-sans text-sm font-medium text-slate-800 dark:text-ice-white/85">
                       {t("profil.themeActuel")}
                     </span>
                     <ThemeToggle />
@@ -467,7 +467,7 @@ export default function ProfilPage() {
                       />
                       <span className="truncate">{t("profil.mesFormations")}</span>
                     </span>
-                    <ArrowRight className="w-4 h-4 text-ice-white/45 shrink-0" aria-hidden="true" />
+                    <ArrowRight className="w-4 h-4 text-slate-500 dark:text-ice-white/45 shrink-0" aria-hidden="true" />
                   </Link>
 
                   {isAdmin && (

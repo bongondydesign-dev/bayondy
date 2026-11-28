@@ -239,7 +239,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
       <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0">
         <div className="p-2.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-full bg-brand/15 border border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[var(--surface-active)] dark:bg-brand/15 border border-[var(--home-orange-vivid)]/40 dark:border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
             {initial}
           </div>
           <div className="flex-1 min-w-0">
@@ -256,7 +256,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             disabled={signingOut}
             aria-label={t("profil.boutonDeconnexion")}
             title={t("profil.boutonDeconnexion")}
-            className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-subtle)] bg-deep-navy hover:border-red-400/50 text-ice-white/70 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 text-slate-700 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <LogOut className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -301,7 +301,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   type="button"
                   onClick={() => setMobileOpen(false)}
                   aria-label={t("nav.fermer")}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <X className="w-5 h-5" aria-hidden="true" />
                 </button>

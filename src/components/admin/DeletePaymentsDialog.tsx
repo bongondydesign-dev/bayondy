@@ -61,7 +61,7 @@ export function DeletePaymentsDialog({
             onClick={onCancel}
             disabled={deleting}
             aria-label={t("nav.fermer")}
-            className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-well)] text-ice-white/70 hover:text-ice-white flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -79,7 +79,7 @@ export function DeletePaymentsDialog({
               {paymentsCount}{hasMore ? "+" : ""} {t("admin.paiements.titre").toLowerCase()}
             </p>
           )}
-          <p className="font-sans text-sm text-ice-white/70 leading-relaxed">
+          <p className="font-sans text-sm text-slate-700 dark:text-ice-white/70 leading-relaxed">
             {t("admin.paiements.confirmSupprimerDesc")}
           </p>
         </div>
@@ -93,12 +93,12 @@ export function DeletePaymentsDialog({
           </div>
         )}
 
-        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 pt-2 border-t border-[var(--border-faint)]">
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 pt-2 border-t border-[var(--border-subtle)]">
           <button
             type="button"
             onClick={onCancel}
             disabled={deleting}
-            className="min-h-[44px] px-5 py-2 rounded-full bg-[var(--surface-well)] border border-[var(--border-strong)] hover:border-brand/40 text-ice-white font-sans font-medium text-sm transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="min-h-[44px] px-5 py-2 rounded-full bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] hover:border-brand/40 text-ice-white font-sans font-medium text-sm transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {t("admin.annuler")}
           </button>

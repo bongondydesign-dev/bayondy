@@ -49,7 +49,7 @@ export function LessonList({
         <h3 className="font-sans font-semibold text-base sm:text-lg text-ice-white">
           {t("lecteur.listeLecons")}
         </h3>
-        <span className="font-mono text-xs text-ice-white/60">
+        <span className="font-mono text-xs font-medium text-slate-600 dark:text-ice-white/60">
           {lessons.length}{" "}
           {lessons.length > 1
             ? t("catalogue.lecons")
@@ -65,8 +65,8 @@ export function LessonList({
               <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-light">
                 Modil {modIdx + 1}
               </span>
-              <span className="text-ice-white/30">•</span>
-              <h4 className="font-sans font-medium text-xs sm:text-sm text-ice-white/80 truncate">
+              <span className="text-slate-500 dark:text-ice-white/30">•</span>
+              <h4 className="font-sans font-medium text-xs sm:text-sm text-slate-700 dark:text-ice-white/80 truncate">
                 {mod.title}
               </h4>
             </div>
@@ -84,10 +84,10 @@ export function LessonList({
                       type="button"
                       onClick={() => onSelectLesson(lesson.id)}
                       aria-current={isCurrent ? "true" : undefined}
-                      className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 text-left transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                      className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 text-left transition-all duration-200 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light cursor-pointer ${
                         isCurrent
-                          ? "bg-[var(--surface-active)] border border-brand/50 text-ice-white shadow-md shadow-[var(--brand-glow-soft)]"
-                          : "bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-faint)] hover:border-[var(--border-strong)] text-ice-white/80"
+                          ? "bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/55 text-ice-white shadow-sm shadow-[var(--brand-glow-soft)]"
+                          : "bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] shadow-2xs dark:shadow-none text-slate-800 dark:text-ice-white/80"
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -95,10 +95,10 @@ export function LessonList({
                         <span
                           className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-mono transition-colors ${
                             isCompleted
-                              ? "bg-brand/15 text-brand-light border border-brand/35"
+                              ? "bg-[var(--surface-active)] text-brand-light border border-[var(--home-orange-vivid)]/45"
                               : isCurrent
                               ? "bg-brand text-[var(--brand-fg)] font-bold"
-                              : "bg-deep-navy border border-[var(--border-subtle)] text-ice-white/60"
+                              : "bg-[var(--surface-well)] dark:bg-deep-navy border border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/60"
                           }`}
                         >
                           {isCompleted ? (
@@ -115,8 +115,8 @@ export function LessonList({
                             isCurrent
                               ? "font-semibold text-ice-white"
                               : isCompleted
-                              ? "text-ice-white/90"
-                              : "text-ice-white/75"
+                              ? "text-slate-900 dark:text-ice-white/90 font-medium"
+                              : "text-slate-700 dark:text-ice-white/75"
                           }`}
                         >
                           {lesson.title}
@@ -125,7 +125,7 @@ export function LessonList({
 
                       {/* Durée de la leçon */}
                       {duration && (
-                        <span className="font-mono text-[11px] text-ice-white/55 flex-shrink-0">
+                        <span className="font-mono text-[11px] text-slate-600 dark:text-ice-white/55 flex-shrink-0">
                           {duration}
                         </span>
                       )}

@@ -20,7 +20,7 @@ export function HowItWorks() {
       Icon: MonitorPlay,
       preview: (
         <div className="w-full space-y-2.5">
-          <div className="p-2.5 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/35 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center gap-3 group-hover:translate-x-0.5 transition-transform duration-200">
+          <div className="p-2.5 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--home-orange)]/40 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.10)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center gap-3 group-hover:translate-x-0.5 transition-transform duration-200">
             <span className="w-8 h-8 rounded-lg bg-[var(--home-orange)] text-[var(--home-orange-fg)] flex items-center justify-center shrink-0 shadow-xs">
               <Play className="w-3.5 h-3.5 translate-x-0.5 fill-current" aria-hidden="true" />
             </span>
@@ -39,9 +39,9 @@ export function HowItWorks() {
             </div>
           </div>
 
-          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-zinc-400">
+          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_4px_rgba(15,23,42,0.06)] dark:shadow-none flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-zinc-400">
             <span className="truncate font-medium">{t("hero.apercu.lecon2")}</span>
-            <span className="font-mono text-[10px] text-slate-600 dark:text-zinc-500 tabular-nums shrink-0">
+            <span className="font-mono text-[10px] text-slate-700 dark:text-zinc-500 tabular-nums shrink-0">
               {t("hero.apercu.lecon2Duree")}
             </span>
           </div>
@@ -55,7 +55,7 @@ export function HowItWorks() {
       Icon: Layers,
       preview: (
         <div className="w-full space-y-2.5">
-          <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] space-y-2.5">
+          <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.10)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] space-y-2.5">
             <div className="flex items-center justify-between gap-2">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--home-orange-light)]">
                 {t("etapes.kreye.numero")} · {t("etapes.kreye.titre")}
@@ -79,7 +79,7 @@ export function HowItWorks() {
             </div>
           </div>
 
-          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
+          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_4px_rgba(15,23,42,0.06)] dark:shadow-none flex items-center justify-between gap-2 text-xs">
             <span className="font-medium text-ice-white truncate">
               {t("hero.apercu.lecon3")}
             </span>
@@ -97,7 +97,7 @@ export function HowItWorks() {
       Icon: TrendingUp,
       preview: (
         <div className="w-full space-y-2.5">
-          <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center justify-between gap-3">
+          <div className="p-3 rounded-lg bg-deep-navy dark:bg-[#141720] border border-[var(--border-subtle)] dark:border-white/10 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.10)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-wider text-slate-600 dark:text-zinc-400">
                 {t("hero.apercu.progression")}
@@ -115,7 +115,7 @@ export function HowItWorks() {
             </div>
           </div>
 
-          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-2 text-xs">
+          <div className="px-3 py-2 rounded-lg bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] shadow-[0_1px_4px_rgba(15,23,42,0.06)] dark:shadow-none flex items-center justify-between gap-2 text-xs">
             <span className="inline-flex items-center gap-2 font-medium text-ice-white truncate">
               <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500 shrink-0" strokeWidth={2.5} aria-hidden="true" />
               <span className="truncate">{t("fonctionnalites.progression.titre")}</span>

@@ -112,7 +112,7 @@ export function VideoPlayer({
       {playback.provider === "tiktok" &&
         playback.playableInIframe &&
         playback.externalUrl && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] text-xs text-ice-white/70">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] text-xs text-slate-700 dark:text-ice-white/70">
             <span>{t("lecteur.tikTokInfo")}</span>
             <a
               href={playback.externalUrl}

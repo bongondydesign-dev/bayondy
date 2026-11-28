@@ -28,7 +28,7 @@ export function Hero() {
         {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
           <Sparkles
             className="w-3.5 h-3.5 text-[var(--home-orange-vivid)] shrink-0"
@@ -89,7 +89,7 @@ export function Hero() {
           >
             <span>{t("hero.ctaSecondaire")}</span>
             <span
-              className="w-6 h-6 rounded-full bg-slate-900/[0.06] dark:bg-white/[0.08] text-slate-700 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
+              className="w-6 h-6 rounded-full bg-slate-900/[0.09] dark:bg-white/[0.08] text-slate-800 dark:text-ice-white/80 inline-flex items-center justify-center shrink-0 group-hover:translate-x-0.5 transition-transform duration-200"
               aria-hidden="true"
             >
               <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />

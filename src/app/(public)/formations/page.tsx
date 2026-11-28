@@ -90,7 +90,7 @@ async function CatalogContent() {
             )}
 
             {(totalCourses > 0 || totalLessons > 0) && (
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ice-white/75 font-sans tabular-nums">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-700 dark:text-ice-white/75 font-sans font-medium tabular-nums">
                 {totalCourses > 0 && (
                   <div className="inline-flex items-baseline gap-2">
                     <span className="font-mono font-semibold text-brand-light">
@@ -105,7 +105,7 @@ async function CatalogContent() {
                 )}
 
                 {totalCourses > 0 && totalLessons > 0 && (
-                  <span className="text-ice-white/30" aria-hidden="true">
+                  <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">
                     ·
                   </span>
                 )}

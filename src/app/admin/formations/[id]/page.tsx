@@ -75,19 +75,19 @@ function FieldGroup({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block">
+      <label className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/65 block">
         {label}
       </label>
       {children}
-      {hint && <p className="text-xs text-ice-white/50">{hint}</p>}
+      {hint && <p className="text-xs text-slate-600 dark:text-ice-white/50">{hint}</p>}
     </div>
   );
 }
 
 function inputClass(error?: boolean) {
-  return `w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border ${
+  return `w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border ${
     error ? "border-red-500 dark:border-red-400" : "border-[var(--border-strong)]"
-  } text-ice-white placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
+  } text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
 }
 
 function StatusLabel({ status }: { status: "draft" | "published" }) {
@@ -96,7 +96,7 @@ function StatusLabel({ status }: { status: "draft" | "published" }) {
       className={`font-mono text-xs font-medium ${
         status === "published"
           ? "text-emerald-700 dark:text-emerald-300"
-          : "text-ice-white/60"
+          : "text-slate-600 dark:text-ice-white/60"
       }`}
     >
       {status === "published" ? t("admin.statut.publie") : t("admin.statut.brouillon")}
@@ -221,7 +221,7 @@ function LessonForm({
 
       {existingModules.length > 0 && (
         <div className="space-y-1.5">
-          <span className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block">
+          <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/55 block">
             {t("admin.lecon.modulesExistants")}
           </span>
           <div className="flex flex-wrap gap-2">
@@ -236,7 +236,7 @@ function LessonForm({
                   className={`min-h-[36px] px-3 py-1.5 rounded-lg border text-xs font-sans transition-colors cursor-pointer ${
                     selected
                       ? "bg-brand text-[var(--brand-fg)] border-brand font-semibold"
-                      : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] text-ice-white/80 hover:border-brand/40"
+                      : "bg-white dark:bg-[var(--surface-elevated)] border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-slate-800 dark:text-ice-white/80 hover:border-brand/40"
                   }`}
                 >
                   {mod.moduleTitle}
@@ -249,7 +249,7 @@ function LessonForm({
                 setModuleIdTouched(false);
                 setForm((prev) => ({ ...prev, moduleId: "", moduleTitle: "" }));
               }}
-              className="min-h-[36px] px-3 py-1.5 rounded-lg border border-dashed border-[var(--border-strong)] text-xs font-sans text-ice-white/70 hover:text-ice-white hover:border-brand/40 cursor-pointer"
+              className="min-h-[36px] px-3 py-1.5 rounded-lg border border-dashed border-[var(--border-strong)] bg-white/75 dark:bg-transparent text-xs font-sans font-medium text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40 cursor-pointer"
             >
               + {t("admin.lecon.nouveauModule")}
             </button>
@@ -324,7 +324,7 @@ function LessonForm({
           >
             <div className="relative">
               <Link2
-                className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="w-4 h-4 text-slate-500 dark:text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                 aria-hidden="true"
               />
               <input
@@ -370,7 +370,7 @@ function LessonForm({
           }
           className="w-5 h-5 rounded border-[var(--border-strong)] bg-[var(--surface-elevated)] accent-brand"
         />
-        <span className="font-sans text-sm text-ice-white/80">
+        <span className="font-sans text-sm text-slate-800 dark:text-ice-white/80">
           {t("admin.lecon.champApercu")}
         </span>
       </label>
@@ -388,7 +388,7 @@ function LessonForm({
           type="button"
           onClick={onCancel}
           disabled={saving}
-          className="min-h-[48px] px-5 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/80 font-sans text-sm hover:text-ice-white hover:border-brand/40 disabled:opacity-50 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+          className="min-h-[48px] px-5 py-2.5 rounded-full bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-slate-800 dark:text-ice-white/80 font-sans font-medium text-sm hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40 disabled:opacity-50 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
         >
           {t("admin.annuler")}
         </button>
@@ -699,8 +699,8 @@ export default function AdminFormationDetailPage() {
           {course && (
             <div className="flex items-center gap-2 mt-1 flex-wrap">
               <StatusLabel status={course.status} />
-              <span aria-hidden="true" className="text-ice-white/30">·</span>
-              <span className="font-mono text-xs text-ice-white/55">/{course.slug}</span>
+              <span aria-hidden="true" className="text-slate-400 dark:text-ice-white/30">·</span>
+              <span className="font-mono text-xs text-slate-600 dark:text-ice-white/55">/{course.slug}</span>
             </div>
           )}
         </div>
@@ -709,7 +709,7 @@ export default function AdminFormationDetailPage() {
             {lessons.length > 0 && (
               <Link
                 href={`/mes-formations/${course.slug}`}
-                className="inline-flex items-center gap-2 min-h-[48px] px-4 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/90 hover:text-ice-white hover:border-brand/50 font-sans font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="inline-flex items-center gap-2 min-h-[48px] px-4 py-2.5 rounded-full bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-slate-800 dark:text-ice-white/90 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/50 font-sans font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <PlayCircle className="w-4 h-4 text-brand-light" aria-hidden="true" />
                 <span>{t("catalogue.boutonAcceder")}</span>
@@ -721,7 +721,7 @@ export default function AdminFormationDetailPage() {
               disabled={saving}
               className={`shrink-0 min-h-[48px] px-5 py-2.5 rounded-full font-sans font-semibold text-sm transition-all duration-200 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                 course.status === "published"
-                  ? "bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/85 hover:text-ice-white hover:border-brand/40"
+                  ? "bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-slate-800 dark:text-ice-white/85 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40"
                   : "bg-brand text-[var(--brand-fg)] hover:bg-brand-dark dark:hover:bg-brand-light"
               }`}
             >
@@ -748,7 +748,7 @@ export default function AdminFormationDetailPage() {
       </div>
 
       {!isNew && justCreated && (
-        <div className="p-4 rounded-2xl bg-brand/10 border border-brand/30 text-ice-white text-sm flex items-center gap-3">
+        <div className="p-4 rounded-2xl bg-[var(--surface-active)] dark:bg-brand/10 border border-[var(--home-orange-vivid)]/40 dark:border-brand/30 text-ice-white text-sm flex items-center gap-3">
           <CheckCircle2 className="w-5 h-5 text-brand-light shrink-0" aria-hidden="true" />
           <span>{t("admin.formations.creeeBanniere")}</span>
         </div>
@@ -791,7 +791,7 @@ export default function AdminFormationDetailPage() {
           )}
 
           {lessons.length === 0 && !addingLesson ? (
-            <p className="text-ice-white/55 text-sm text-center py-6">
+            <p className="text-slate-600 dark:text-ice-white/55 text-sm text-center py-6">
               {t("admin.lecons.vide")}
             </p>
           ) : (
@@ -813,14 +813,14 @@ export default function AdminFormationDetailPage() {
                         onCancel={() => setEditingLessonId(null)}
                       />
                     ) : (
-                      <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--surface-well)] border border-[var(--border-faint)] hover:border-[var(--border-subtle)] transition-colors">
+                      <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] transition-colors">
                         <div className="flex flex-col gap-1 shrink-0">
                           <button
                             type="button"
                             onClick={() => moveLesson(lesson.id, "up")}
                             disabled={idx === 0 || movingId === lesson.id}
                             aria-label={t("admin.lecons.monter")}
-                            className="w-7 h-7 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-ice-white/60 hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="w-7 h-7 rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
                             <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
                           </button>
@@ -829,7 +829,7 @@ export default function AdminFormationDetailPage() {
                             onClick={() => moveLesson(lesson.id, "down")}
                             disabled={idx === lessons.length - 1 || movingId === lesson.id}
                             aria-label={t("admin.lecons.descendre")}
-                            className="w-7 h-7 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-ice-white/60 hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="w-7 h-7 rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
                             <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
                           </button>
@@ -849,14 +849,14 @@ export default function AdminFormationDetailPage() {
                               </span>
                             )}
                           </div>
-                          <span className="font-mono text-xs text-ice-white/55 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                          <span className="font-mono text-xs text-slate-600 dark:text-ice-white/55 mt-0.5 flex items-center gap-1.5 flex-wrap">
                             <span>{lesson.moduleTitle}</span>
                             <span aria-hidden="true">·</span>
                             <span>{lesson.durationMinutes} min</span>
                             {playback.provider && (
                               <>
                                 <span aria-hidden="true">·</span>
-                                <span className="inline-flex items-center gap-1 text-ice-white/75">
+                                <span className="inline-flex items-center gap-1 text-slate-800 dark:text-ice-white/75">
                                   <Video className="w-3 h-3" aria-hidden="true" />
                                   {playback.provider === "tiktok" ? "TikTok" : "YouTube"}
                                 </span>
@@ -873,7 +873,7 @@ export default function AdminFormationDetailPage() {
                               setAddingLesson(false);
                             }}
                             aria-label={t("admin.lecon.modifier")}
-                            className="min-h-[44px] px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-ice-white/80 hover:text-ice-white hover:bg-[var(--surface-subtle)] font-sans text-xs cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="min-h-[44px] px-3 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/80 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] font-sans font-medium text-xs cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
                             {t("admin.modifier")}
                           </button>
@@ -911,7 +911,7 @@ export default function AdminFormationDetailPage() {
           </div>
         )}
         {courseSuccess && (
-          <div className="p-3 rounded-xl bg-brand/15 border border-brand/30 text-brand-light text-xs">
+          <div className="p-3 rounded-xl bg-[var(--surface-active)] dark:bg-brand/15 border border-[var(--home-orange-vivid)]/40 dark:border-brand/30 text-brand-light text-xs">
             {t("admin.formations.succesEnregistrement")}
           </div>
         )}

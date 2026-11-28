@@ -30,12 +30,12 @@ export default function ConfidentialitePage() {
           <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
             {t("confidentialite.titre")}
           </h1>
-          <p className="mt-4 font-sans text-base sm:text-lg text-ice-white/75 leading-relaxed">
+          <p className="mt-4 font-sans text-base sm:text-lg text-slate-700 dark:text-ice-white/75 leading-relaxed">
             {t("confidentialite.sousTitre")}
           </p>
         </header>
 
-        <article className="space-y-8 font-sans text-sm sm:text-base text-ice-white/80 leading-relaxed">
+        <article className="space-y-8 font-sans text-sm sm:text-base text-slate-800 dark:text-ice-white/80 leading-relaxed">
           {/* 1. Qui sommes-nous */}
           <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
             <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
@@ -51,7 +51,7 @@ export default function ConfidentialitePage() {
             <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("confidentialite.s2_titre")}
             </h2>
-            <ul className="list-disc pl-5 space-y-2.5 text-ice-white/80">
+            <ul className="list-disc pl-5 space-y-2.5 text-slate-800 dark:text-ice-white/80">
               <li>{t("confidentialite.s2_compte")}</li>
               <li>{t("confidentialite.s2_progression")}</li>
               <li>{t("confidentialite.s2_paiement")}</li>
@@ -71,7 +71,7 @@ export default function ConfidentialitePage() {
             <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">
               {t("confidentialite.s4_titre")}
             </h2>
-            <ul className="list-disc pl-5 space-y-2.5 text-ice-white/80">
+            <ul className="list-disc pl-5 space-y-2.5 text-slate-800 dark:text-ice-white/80">
               <li>{t("confidentialite.s4_firebase")}</li>
               <li>
                 {t("confidentialite.s4_paiement")}{" "}

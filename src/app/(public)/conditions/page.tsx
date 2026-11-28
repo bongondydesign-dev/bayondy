@@ -30,12 +30,12 @@ export default function ConditionsPage() {
           <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ice-white leading-tight">
             {t("conditions.titre")}
           </h1>
-          <p className="mt-4 font-sans text-base sm:text-lg text-ice-white/75 leading-relaxed">
+          <p className="mt-4 font-sans text-base sm:text-lg text-slate-700 dark:text-ice-white/75 leading-relaxed">
             {t("conditions.sousTitre")}
           </p>
         </header>
 
-        <article className="space-y-8 font-sans text-sm sm:text-base text-ice-white/80 leading-relaxed">
+        <article className="space-y-8 font-sans text-sm sm:text-base text-slate-800 dark:text-ice-white/80 leading-relaxed">
           {/* 1. Objet du service */}
           <section className="space-y-3 pt-6 border-t border-[var(--border-subtle)]">
             <h2 className="font-display font-semibold text-xl sm:text-2xl text-ice-white">

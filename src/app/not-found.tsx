@@ -14,7 +14,7 @@ export default function NotFound() {
       <main className="flex-1 flex flex-col items-center justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 py-16 text-center">
         {/* Symbole cinématique */}
         <div className="relative mb-8">
-          <div className="w-24 h-24 rounded-2xl surface-glass flex items-center justify-center">
+          <div className="w-24 h-24 rounded-2xl surface-glass border border-[var(--border-subtle)] flex items-center justify-center">
             <PortalSymbol size={48} className="opacity-85" />
           </div>
           <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-brand text-[var(--brand-fg)] font-mono text-[11px] font-bold tracking-wider">
@@ -33,7 +33,7 @@ export default function NotFound() {
         </h1>
 
         {/* Description */}
-        <p className="font-sans text-base sm:text-lg text-ice-white/70 max-w-md mx-auto mb-8 leading-relaxed">
+        <p className="font-sans text-base sm:text-lg text-slate-700 dark:text-ice-white/70 max-w-md mx-auto mb-8 leading-relaxed">
           {t("erreur404.description")}
         </p>
 

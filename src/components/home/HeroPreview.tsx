@@ -98,9 +98,9 @@ export function HeroPreview() {
         {/* Barre supérieure navigateur */}
         <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--surface-sidebar)]">
           <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/15 inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/15 inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/15 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/90 dark:bg-white/15 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/90 dark:bg-white/15 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/90 dark:bg-white/15 inline-block" />
           </div>
 
           <div className="px-3 py-1 rounded-lg bg-deep-navy dark:bg-[#13161F] border border-[var(--border-subtle)] text-[11px] font-mono text-slate-700 dark:text-zinc-300 inline-flex items-center gap-1.5 truncate max-w-[230px] sm:max-w-none shadow-[0_1px_1px_rgba(15,23,42,0.04)] dark:shadow-none">
@@ -128,7 +128,7 @@ export function HeroPreview() {
           <aside className="hidden md:flex md:col-span-4 border-r border-[var(--border-subtle)] bg-[var(--surface-sidebar)] p-4 lg:p-5 flex-col justify-between min-w-0">
             <div>
               {/* En-tête formation */}
-              <div className="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-[var(--border-faint)]">
+              <div className="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <span className="w-7 h-7 rounded-lg bg-gradient-to-b from-[#FF652E] to-[var(--home-orange)] text-[var(--home-orange-fg)] inline-flex items-center justify-center font-display font-bold text-xs shadow-xs shrink-0">
                     B
@@ -165,7 +165,7 @@ export function HeroPreview() {
                       className={`relative w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] cursor-pointer ${
                         isActive
                           ? "text-ice-white"
-                          : "bg-white dark:bg-[#12151E]/85 border border-[var(--border-subtle)] text-slate-700 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
+                          : "bg-white dark:bg-[#12151E]/85 border border-[var(--border-subtle)] shadow-[0_1px_2px_rgba(15,23,42,0.05)] dark:shadow-none text-slate-700 dark:text-zinc-300 hover:border-[var(--border-strong)] hover:text-ice-white dark:hover:bg-[#171B26]"
                       }`}
                     >
                       {isActive && (
@@ -252,7 +252,7 @@ export function HeroPreview() {
                 <span className="text-[var(--home-orange-light)] font-semibold">
                   {t("bento.badgeCreole")}
                 </span>
-                <span className="text-slate-500 dark:text-zinc-500" aria-hidden="true">
+                <span className="text-slate-600 dark:text-zinc-500" aria-hidden="true">
                   ·
                 </span>
                 <span className="text-slate-700 dark:text-zinc-300 tabular-nums font-medium">
@@ -453,7 +453,7 @@ export function HeroPreview() {
             </div>
 
             {/* Pied du lecteur */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-[var(--border-faint)] text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border-subtle)] text-xs">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-slate-700 dark:text-zinc-400 font-medium">
                 <span className="inline-flex items-center gap-1.5">
                   <Check

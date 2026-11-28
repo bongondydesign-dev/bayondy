@@ -11,7 +11,7 @@ interface TodoMarkProps {
  */
 export function TodoMark({ label }: TodoMarkProps) {
   return (
-    <span className="inline-flex items-center px-2.5 py-0.5 my-0.5 rounded-full text-xs font-mono font-medium bg-brand/15 text-brand-light border border-brand/30 align-middle select-none">
+    <span className="inline-flex items-center px-2.5 py-0.5 my-0.5 rounded-full text-xs font-mono font-medium bg-[var(--surface-active)] text-brand-light border border-[var(--home-orange-vivid)]/40 align-middle select-none">
       <span>{label || t("legal.aDecider")}</span>
     </span>
   );

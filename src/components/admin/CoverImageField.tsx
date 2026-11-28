@@ -158,14 +158,14 @@ export function CoverImageField({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <label
           htmlFor={inputId}
-          className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block"
+          className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/65 block"
         >
           {t("admin.formations.champCover")}
         </label>
         <button
           type="button"
           onClick={() => setShowUrlInput((prev) => !prev)}
-          className="inline-flex items-center gap-1.5 font-sans text-xs text-ice-white/65 hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-md px-1.5 py-0.5 cursor-pointer"
+          className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-slate-600 dark:text-ice-white/65 hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-md px-1.5 py-0.5 cursor-pointer"
         >
           <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
           <span>{t("admin.formations.coverUrlToggle")}</span>
@@ -195,7 +195,7 @@ export function CoverImageField({
                 onError={() => setFailedPreviewUrl(trimmed)}
               />
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center text-xs text-ice-white/55">
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center text-xs text-slate-600 dark:text-ice-white/55">
                 <span>{t("admin.formations.coverPreviewError")}</span>
               </div>
             )}
@@ -209,7 +209,7 @@ export function CoverImageField({
           </div>
 
           <div className="space-y-3 min-w-0">
-            <p className="font-sans text-xs text-ice-white/65 leading-relaxed">
+            <p className="font-sans text-xs text-slate-600 dark:text-ice-white/65 leading-relaxed">
               {t("admin.formations.coverUploadHint")}
             </p>
             <div className="flex flex-wrap items-center gap-2.5">
@@ -217,7 +217,7 @@ export function CoverImageField({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/50 text-ice-white text-xs sm:text-sm font-sans font-medium transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] hover:border-brand/50 text-ice-white text-xs sm:text-sm font-sans font-medium transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <RefreshCw className="w-4 h-4" aria-hidden="true" />
                 <span>{t("admin.formations.coverChange")}</span>
@@ -255,7 +255,7 @@ export function CoverImageField({
             disabled={uploading}
             className="w-full min-h-[148px] px-5 py-6 flex flex-col items-center justify-center gap-2.5 text-center cursor-pointer disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-2xl"
           >
-            <div className="w-11 h-11 rounded-2xl bg-brand/15 border border-brand/30 text-brand-light flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-[var(--surface-active)] dark:bg-brand/15 border border-[var(--home-orange-vivid)]/40 dark:border-brand/30 text-brand-light flex items-center justify-center">
               {uploading ? (
                 <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
               ) : (
@@ -267,7 +267,7 @@ export function CoverImageField({
                 ? t("admin.formations.coverUploadLoading")
                 : t("admin.formations.coverUploadCta")}
             </span>
-            <span className="font-sans text-xs text-ice-white/55">
+            <span className="font-sans text-xs text-slate-600 dark:text-ice-white/55">
               {t("admin.formations.coverUploadHint")}
             </span>
           </button>
@@ -278,7 +278,7 @@ export function CoverImageField({
         <div className="space-y-1.5">
           <label
             htmlFor={urlInputId}
-            className="font-mono text-[11px] uppercase tracking-wider text-ice-white/55 block"
+            className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/55 block"
           >
             {t("admin.formations.champCoverUrl")}
           </label>
@@ -293,7 +293,7 @@ export function CoverImageField({
               onChange(e.target.value);
             }}
             placeholder={t("admin.formations.champCoverUrlPlaceholder")}
-            className="w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[46px]"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[46px]"
           />
         </div>
       )}
@@ -308,7 +308,7 @@ export function CoverImageField({
       )}
 
       {statusMessage && !error && (
-        <div className="p-3 rounded-xl bg-brand/15 border border-brand/30 text-brand-light text-xs">
+        <div className="p-3 rounded-xl bg-[var(--surface-active)] dark:bg-brand/15 border border-[var(--home-orange-vivid)]/40 dark:border-brand/30 text-brand-light text-xs">
           {statusMessage}
         </div>
       )}

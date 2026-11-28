@@ -26,7 +26,7 @@ export function ProgressBar({
   return (
     <div className={`w-full space-y-1.5 ${className}`}>
       {showText && (
-        <div className="flex items-center justify-between text-xs font-mono text-ice-white/70">
+        <div className="flex items-center justify-between text-xs font-mono text-slate-700 dark:text-ice-white/70">
           <span>{t("mesFormations.progression")}</span>
           <span className="font-semibold text-brand-light tabular-nums">
             {safeCompleted}/{safeTotal} ({percentage}%)

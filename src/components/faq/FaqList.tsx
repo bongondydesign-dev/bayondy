@@ -51,8 +51,8 @@ export function FaqList({ accent = "brand" }: FaqListProps = {}) {
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 border ${
                   isOpen
-                    ? "bg-[var(--surface-active)] border-[var(--home-orange-vivid)]/45 text-brand-light"
-                    : "bg-[var(--surface-well)] border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/75"
+                    ? "bg-[var(--surface-active)] border-[var(--home-orange-vivid)]/50 text-brand-light"
+                    : "bg-[var(--surface-well)] border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/75"
                 }`}
                 aria-hidden="true"
               >

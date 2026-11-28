@@ -159,13 +159,13 @@ export default function AdminElevesPage() {
         <h1 className="font-display font-bold text-2xl sm:text-3xl text-ice-white">
           {t("admin.eleves.titre")}
         </h1>
-        <p className="font-sans text-ice-white/65 text-sm mt-1">
+        <p className="font-sans text-slate-600 dark:text-ice-white/65 text-sm mt-1">
           {t("admin.eleves.sousTitre")}
         </p>
       </div>
 
       {/* Formulaire accès manuel */}
-      <div className="p-6 rounded-2xl surface-glass space-y-5">
+      <div className="p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-5">
         <h2 className="font-display font-semibold text-ice-white text-base">
           {t("admin.eleves.accesManuel")}
         </h2>
@@ -175,7 +175,7 @@ export default function AdminElevesPage() {
             <div className="space-y-1.5">
               <label
                 htmlFor="admin-access-email"
-                className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block"
+                className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/65 block"
               >
                 {t("auth.email")}
               </label>
@@ -186,13 +186,13 @@ export default function AdminElevesPage() {
                 value={accessEmail}
                 onChange={(e) => setAccessEmail(e.target.value)}
                 placeholder={t("admin.eleves.placeholderEmail")}
-                className="w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               />
             </div>
             <div className="space-y-1.5">
               <label
                 htmlFor="admin-access-course"
-                className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block"
+                className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/65 block"
               >
                 {t("admin.eleves.formation")}
               </label>
@@ -200,7 +200,7 @@ export default function AdminElevesPage() {
                 id="admin-access-course"
                 value={accessCourseId}
                 onChange={(e) => setAccessCourseId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 {courses.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -212,7 +212,7 @@ export default function AdminElevesPage() {
             <div className="space-y-1.5">
               <label
                 htmlFor="admin-access-action"
-                className="font-mono text-xs uppercase tracking-wider text-ice-white/65 block"
+                className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/65 block"
               >
                 {t("admin.eleves.action")}
               </label>
@@ -220,7 +220,7 @@ export default function AdminElevesPage() {
                 id="admin-access-action"
                 value={accessAction}
                 onChange={(e) => setAccessAction(e.target.value as "grant" | "revoke")}
-                className="w-full px-4 py-3 rounded-xl bg-[var(--surface-well)] border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 <option value="grant">{t("admin.eleves.donner")}</option>
                 <option value="revoke">{t("admin.eleves.retirer")}</option>
@@ -262,7 +262,7 @@ export default function AdminElevesPage() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="relative">
                 <Search
-                  className="w-4 h-4 text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="w-4 h-4 text-slate-500 dark:text-ice-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
                   aria-hidden="true"
                 />
                 <input
@@ -271,12 +271,12 @@ export default function AdminElevesPage() {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("admin.eleves.rechercher")}
                   aria-label={t("admin.eleves.rechercher")}
-                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl surface-glass text-ice-white placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                 />
               </div>
 
               <div
-                className="inline-flex items-center gap-1 p-1 rounded-full surface-glass self-start sm:self-auto"
+                className="inline-flex items-center gap-1 p-1 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none self-start sm:self-auto"
                 role="group"
                 aria-label={t("admin.eleves.liste")}
               >
@@ -297,7 +297,7 @@ export default function AdminElevesPage() {
                       className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         active
                           ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
-                          : "text-ice-white/70 hover:text-ice-white"
+                          : "text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white"
                       }`}
                     >
                       <span>{tab.label}</span>
@@ -321,15 +321,15 @@ export default function AdminElevesPage() {
         {loading && students.length === 0 ? (
           <div className="space-y-3 animate-pulse">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-16 rounded-2xl surface-glass" />
+              <div key={i} className="h-16 rounded-2xl surface-glass border border-[var(--border-subtle)]" />
             ))}
           </div>
         ) : filteredStudents.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl surface-glass">
-            <p className="text-ice-white/55 text-sm">{t("admin.eleves.vide")}</p>
+          <div className="p-8 text-center rounded-2xl surface-glass border border-[var(--border-subtle)]">
+            <p className="text-slate-600 dark:text-ice-white/55 text-sm">{t("admin.eleves.vide")}</p>
           </div>
         ) : (
-          <div className="rounded-2xl surface-glass divide-y divide-[var(--border-faint)] overflow-hidden">
+          <div className="rounded-2xl surface-glass border border-[var(--border-subtle)] divide-y divide-[var(--border-subtle)] overflow-hidden">
             {filteredStudents.map((s) => {
               const label = s.displayName || s.email || "B";
               const initial = label.charAt(0).toUpperCase();
@@ -346,14 +346,14 @@ export default function AdminElevesPage() {
                       <span className="font-sans font-medium text-ice-white text-sm block truncate">
                         {s.displayName || s.email}
                       </span>
-                      <span className="font-mono text-xs text-ice-white/55 block truncate">
+                      <span className="font-mono text-xs text-slate-600 dark:text-ice-white/55 block truncate">
                         {s.email}
                       </span>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-1.5 shrink-0">
                     {s.enrollments.length === 0 ? (
-                      <span className="text-xs text-ice-white/45 font-mono">
+                      <span className="text-xs text-slate-600 dark:text-ice-white/45 font-mono">
                         {t("admin.eleves.aucuneInscription")}
                       </span>
                     ) : (
@@ -365,7 +365,7 @@ export default function AdminElevesPage() {
                             className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-mono border max-w-[220px] truncate ${
                               e.status === "active"
                                 ? "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300 border-emerald-500/25"
-                                : "bg-[var(--surface-well)] text-ice-white/60 border-[var(--border-subtle)]"
+                                : "bg-[var(--surface-well)] text-slate-700 dark:text-ice-white/60 border-[var(--border-subtle)]"
                             }`}
                             title={`${courseName} (${e.status})`}
                           >
@@ -386,7 +386,7 @@ export default function AdminElevesPage() {
             type="button"
             onClick={() => loadStudents(nextCursor)}
             disabled={loading}
-            className="w-full min-h-[46px] py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white/80 hover:text-ice-white hover:border-brand/40 font-sans text-sm transition-colors disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-full min-h-[46px] py-2.5 rounded-full bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-slate-800 dark:text-ice-white/80 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40 font-sans font-medium text-sm transition-colors disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {loading ? t("admin.chargement") : t("admin.eleves.voirPlus")}
           </button>

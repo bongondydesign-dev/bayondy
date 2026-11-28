@@ -478,10 +478,10 @@ export function MerciStatus() {
                 <span className={`font-semibold whitespace-nowrap ${statusConfig.statusColor}`}>
                   {statusConfig.statusText}
                 </span>
-                <span className="text-ice-white/30" aria-hidden="true">
+                <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">
                   ·
                 </span>
-                <span className="font-mono text-ice-white/70 whitespace-nowrap">
+                <span className="font-mono text-slate-700 dark:text-ice-white/70 whitespace-nowrap">
                   {resolvedMethod}
                 </span>
               </div>
@@ -492,13 +492,13 @@ export function MerciStatus() {
             <h1 className="font-display font-bold text-2xl sm:text-3xl lg:text-[34px] tracking-tight leading-[1.16] text-ice-white text-balance">
               {statusConfig.title}
             </h1>
-            <p className="font-sans text-sm sm:text-base text-ice-white/75 leading-relaxed max-w-xl">
+            <p className="font-sans text-sm sm:text-base text-slate-700 dark:text-ice-white/75 leading-relaxed max-w-xl">
               {statusConfig.subtitle}
             </p>
           </div>
 
           <p
-            className={`pt-4 border-t border-[var(--border-faint)] font-sans text-xs sm:text-sm leading-relaxed ${
+            className={`pt-4 border-t border-[var(--border-subtle)] font-sans text-xs sm:text-sm leading-relaxed ${
               uiMode === "pending" && verificationError
                 ? "text-amber-800 dark:text-amber-300 font-medium"
                 : "text-slate-700 dark:text-ice-white/60"
@@ -608,7 +608,7 @@ export function MerciStatus() {
               </Link>
               <Link
                 href="/formations"
-                className="min-h-[48px] px-5 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center gap-2 whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 <BookOpen className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{t("merci.boutonCatalogue")}</span>
@@ -629,7 +629,7 @@ export function MerciStatus() {
               </Link>
               <Link
                 href={resolvedCourseSlug ? "/mes-formations" : "/formations"}
-                className="min-h-[48px] px-5 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {resolvedCourseSlug
                   ? t("merci.boutonMesFormations")
@@ -651,7 +651,7 @@ export function MerciStatus() {
               </Link>
               <Link
                 href="/mes-formations"
-                className="min-h-[48px] px-5 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonMesFormations")}
               </Link>
@@ -676,7 +676,7 @@ export function MerciStatus() {
               </button>
               <Link
                 href="/mes-formations"
-                className="min-h-[48px] px-5 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonMesFormations")}
               </Link>
@@ -692,7 +692,7 @@ export function MerciStatus() {
               </Link>
               <Link
                 href="/formations"
-                className="min-h-[48px] px-5 py-3 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] hover:border-brand/45 text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="min-h-[48px] px-5 py-3 rounded-full bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 hover:bg-slate-50 dark:hover:bg-[var(--surface-elevated)] text-slate-800 dark:text-ice-white/85 font-sans font-medium text-sm inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {t("merci.boutonCatalogue")}
               </Link>
@@ -711,14 +711,14 @@ export function MerciStatus() {
               {t("merci.resiTitre")}
             </span>
           </div>
-          <span className="font-mono text-xs text-ice-white/55 shrink-0">
+          <span className="font-mono text-xs font-medium text-slate-600 dark:text-ice-white/55 shrink-0">
             BAYONDY
           </span>
         </div>
 
         {/* Résumé formation & montant */}
-        <div className="px-6 py-6 border-b border-[var(--border-faint)] space-y-2">
-          <p className="font-sans text-xs text-ice-white/55">
+        <div className="px-6 py-6 border-b border-[var(--border-subtle)] space-y-2">
+          <p className="font-sans text-xs font-medium text-slate-600 dark:text-ice-white/55">
             {t("admin.paiements.colCours")}
           </p>
           <p className="font-display font-semibold text-lg text-ice-white leading-snug line-clamp-2">
@@ -732,9 +732,9 @@ export function MerciStatus() {
         </div>
 
         {/* Tableau de détails (lignes hairline) */}
-        <dl className="px-6 py-2 divide-y divide-[var(--border-faint)] flex-1 text-sm">
+        <dl className="px-6 py-2 divide-y divide-[var(--border-subtle)] flex-1 text-sm">
           <div className="py-3.5 flex items-center justify-between gap-4">
-            <dt className="font-sans text-ice-white/60 shrink-0">
+            <dt className="font-sans text-slate-600 dark:text-ice-white/60 shrink-0">
               {t("merci.estatiLabel")}
             </dt>
             <dd
@@ -746,7 +746,7 @@ export function MerciStatus() {
           </div>
 
           <div className="py-3.5 flex items-center justify-between gap-4">
-            <dt className="font-sans text-ice-white/60 shrink-0">
+            <dt className="font-sans text-slate-600 dark:text-ice-white/60 shrink-0">
               {t("merci.metodLabel")}
             </dt>
             <dd className="font-mono text-xs sm:text-sm font-medium text-ice-white">
@@ -755,11 +755,11 @@ export function MerciStatus() {
           </div>
 
           <div className="py-3.5 flex items-center justify-between gap-3">
-            <dt className="font-sans text-ice-white/60 shrink-0">
+            <dt className="font-sans text-slate-600 dark:text-ice-white/60 shrink-0">
               {t("merci.referenceLabel")}
             </dt>
             <dd className="flex items-center gap-2 min-w-0">
-              <span className="font-mono text-xs text-ice-white/85 truncate max-w-[170px] tabular-nums">
+              <span className="font-mono text-xs font-medium text-slate-800 dark:text-ice-white/85 truncate max-w-[170px] tabular-nums">
                 {resolvedOrderId || "—"}
               </span>
               {resolvedOrderId && (
@@ -767,7 +767,7 @@ export function MerciStatus() {
                   type="button"
                   onClick={handleCopyOrderId}
                   aria-label={t("merci.kopyeReferans")}
-                  className="min-h-[32px] px-2.5 py-1 rounded-lg bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-ice-white/75 hover:text-ice-white font-sans text-xs font-medium inline-flex items-center gap-1 shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="min-h-[32px] px-2.5 py-1 rounded-lg bg-white dark:bg-[var(--surface-well)] hover:bg-slate-50 dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/75 hover:text-ice-white font-sans text-xs font-medium inline-flex items-center gap-1 shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   {copiedRef ? (
                     <>
@@ -789,17 +789,17 @@ export function MerciStatus() {
           </div>
 
           <div className="py-3.5 flex items-center justify-between gap-4">
-            <dt className="font-sans text-ice-white/60 shrink-0">
+            <dt className="font-sans text-slate-600 dark:text-ice-white/60 shrink-0">
               {t("merci.datLabel")}
             </dt>
-            <dd className="font-mono text-xs sm:text-sm text-ice-white/80 tabular-nums">
+            <dd className="font-mono text-xs sm:text-sm text-slate-800 dark:text-ice-white/80 tabular-nums">
               {formattedDate}
             </dd>
           </div>
         </dl>
 
         {/* Pied sécurité & assistance */}
-        <div className="px-6 py-4 bg-[var(--surface-well)] border-t border-[var(--border-subtle)] flex items-center justify-between gap-3 text-xs text-ice-white/60">
+        <div className="px-6 py-4 bg-[var(--surface-well)] border-t border-[var(--border-subtle)] flex items-center justify-between gap-3 text-xs text-slate-700 dark:text-ice-white/60">
           <span className="inline-flex items-center gap-2 min-w-0">
             <ShieldCheck
               className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0"
@@ -809,7 +809,7 @@ export function MerciStatus() {
           </span>
           <Link
             href="/faq"
-            className="font-sans font-medium text-ice-white/80 hover:text-brand-light whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
+            className="font-sans font-semibold text-slate-800 dark:text-ice-white/80 hover:text-brand-light whitespace-nowrap shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded"
           >
             {t("merci.besoinAide")}
           </Link>

@@ -120,7 +120,7 @@ export function Pricing() {
 
                 <div className="space-y-3">
                   {/* MonCash — Opérationnel */}
-                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#141720] border border-[var(--home-orange-vivid)]/50 shadow-2xs dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#141720] border border-[var(--home-orange-vivid)]/55 shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className="w-9 h-9 rounded-lg bg-[var(--surface-active)] dark:bg-[var(--home-orange)]/15 border border-[var(--home-orange-vivid)]/45 text-[var(--home-orange-vivid)] dark:text-[var(--home-orange-light)] flex items-center justify-center shrink-0">
                         <Smartphone className="w-4 h-4" strokeWidth={2} aria-hidden="true" />
@@ -142,7 +142,7 @@ export function Pricing() {
                   </div>
 
                   {/* NatCash — À venir */}
-                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#11141C] border border-[var(--border-subtle)] flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#11141C] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] dark:shadow-none flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className="w-9 h-9 rounded-lg bg-[var(--surface-well)] dark:bg-[#161A24] border border-[var(--border-subtle)] text-slate-600 dark:text-zinc-400 flex items-center justify-center shrink-0">
                         <Clock className="w-4 h-4" strokeWidth={2} aria-hidden="true" />

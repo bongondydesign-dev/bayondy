@@ -5,27 +5,29 @@
 :root {
   --obsidian: #FAFCFF;
   --deep-navy: #FFFFFF;
-  --surface-subtle: #EAEFF8;
+  --surface-subtle: #DCE5F4;
   --surface-elevated: #FFFFFF;
   --surface-glass: #FFFFFF;
   --surface-contrast: #0F1219;
-  --surface-well: #F1F5FB;
-  --surface-band: rgba(241, 245, 252, 0.72);
+  --surface-well: #E6EDF7;
+  --surface-band: rgba(235, 241, 250, 0.78);
   --surface-browser: #FFFFFF;
-  --surface-sidebar: #F7F9FD;
-  --surface-active: #FFF0E9;
-  --surface-nav: rgba(255, 255, 255, 0.92);
-  --surface-grid-line: rgba(15, 23, 42, 0.085);
-  --border-subtle: rgba(15, 23, 42, 0.11);
-  --border-faint: rgba(15, 23, 42, 0.065);
-  --border-strong: rgba(15, 23, 42, 0.22);
-  --track-muted: rgba(15, 23, 42, 0.11);
+  --surface-sidebar: #EEF3FA;
+  --surface-active: #FFEBE2;
+  --surface-nav: rgba(255, 255, 255, 0.94);
+  --surface-grid-line: rgba(15, 23, 42, 0.14);
+  --border-subtle: rgba(15, 23, 42, 0.17);
+  --border-faint: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(15, 23, 42, 0.30);
+  --track-muted: rgba(15, 23, 42, 0.17);
   --card-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.045),
-    0 14px 34px -14px rgba(15, 23, 42, 0.10);
+    0 0 0 1px rgba(15, 23, 42, 0.05),
+    0 2px 4px rgba(15, 23, 42, 0.06),
+    0 16px 36px -14px rgba(15, 23, 42, 0.14);
   --card-shadow-hover:
-    0 4px 12px rgba(15, 23, 42, 0.075),
-    0 24px 48px -14px rgba(15, 23, 42, 0.14);
+    0 0 0 1px rgba(15, 23, 42, 0.08),
+    0 6px 14px rgba(15, 23, 42, 0.09),
+    0 26px 50px -14px rgba(15, 23, 42, 0.18);
   --contrast-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.10),
     0 20px 44px -14px rgba(15, 23, 42, 0.34);
