@@ -8,12 +8,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LegalDraftNotice } from "@/components/legal/LegalDraftNotice";
 import { TodoMark } from "@/components/legal/TodoMark";
+import { LEGAL_DRAFT } from "@/lib/legal/config";
 import { t } from "@/lib/i18n";
 import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: t("conditions.titre"),
   description: t("conditions.sousTitre"),
+  alternates: {
+    canonical: "/conditions",
+  },
+  ...(LEGAL_DRAFT
+    ? {
+        robots: {
+          index: false,
+          follow: true,
+        },
+      }
+    : {}),
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

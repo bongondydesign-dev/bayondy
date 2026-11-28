@@ -83,7 +83,7 @@ export default function MotDePasseOubliePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("auth.emailPlaceholder")}
-                  className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#090B10] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white text-sm placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
+                  className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#090B10] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white text-base sm:text-sm placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all"
                 />
               </div>
 

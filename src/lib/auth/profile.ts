@@ -1,3 +1,5 @@
+import { formatLocaleDate } from "@/lib/courses/format";
+
 export function getUserInitials(
   displayName?: string | null,
   email?: string | null
@@ -33,10 +35,7 @@ export function getPrimaryAuthProviderLabel(providerIds: string[]): string {
 }
 
 export function formatProfileDate(dateInput?: string | null): string {
-  if (!dateInput) return "—";
-  const parsed = new Date(dateInput);
-  if (Number.isNaN(parsed.getTime())) return "—";
-  return parsed.toLocaleDateString("fr-FR");
+  return formatLocaleDate(dateInput);
 }
 
 export function isDisplayNameDirty(

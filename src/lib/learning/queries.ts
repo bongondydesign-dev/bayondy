@@ -46,7 +46,8 @@ export async function getMyEnrollments(uid: string): Promise<EnrollmentWithId[]>
   const q = query(
     collection(db, "enrollments"),
     where("uid", "==", uid),
-    where("status", "==", "active")
+    where("status", "==", "active"),
+    limit(100)
   );
   const snapshot = await getDocs(q);
   return snapshot.docs.map((d) => ({
@@ -119,7 +120,7 @@ export async function getCourseBySlugForStudent(
  */
 export async function getAllCoursesForAdmin(): Promise<CourseWithId[]> {
   const db = getFirebaseDb();
-  const snapshot = await getDocs(collection(db, "courses"));
+  const snapshot = await getDocs(query(collection(db, "courses"), limit(200)));
   return snapshot.docs.map((d) => ({
     id: d.id,
     ...(d.data() as CourseDoc),
@@ -162,7 +163,8 @@ export async function getCourseLessons(
   const q = query(
     collection(db, "lessons"),
     where("courseId", "==", courseId),
-    orderBy("order", "asc")
+    orderBy("order", "asc"),
+    limit(500)
   );
   const snapshot = await getDocs(q);
   return snapshot.docs

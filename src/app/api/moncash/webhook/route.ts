@@ -5,23 +5,28 @@ import {
   fulfillPaidOrderTransaction,
   markFailedOrderTransaction,
 } from "@/lib/moncash/fulfillment";
-import { normalizeMonCashWebhookEvent } from "@/lib/moncash/status";
+import {
+  isAllowedMonCashCurrency,
+  normalizeMonCashWebhookEvent,
+} from "@/lib/moncash/status";
 import {
   parseMonCashWebhookEvent,
   verifyMonCashWebhookSignature,
+  verifyMonCashWebhookSignatureV2,
   verifyMonCashWebhookTimestamp,
 } from "@/lib/moncash/webhook";
-
-export async function GET() {
-  return NextResponse.json(
-    { ok: true, endpoint: "moncash-webhook" },
-    { status: 200 }
-  );
-}
+import { readRawTextWithLimit } from "@/lib/server/requestGuards";
 
 export async function POST(req: NextRequest) {
-  // 1. Lire le corps brut (raw body) AVANT toute désérialisation JSON
-  const rawBody = await req.text();
+  // 1. Lire le corps brut (raw body) borné (<= 64 Ko) AVANT toute désérialisation JSON
+  const rawResult = await readRawTextWithLimit(req, 64 * 1024);
+  if (!rawResult.ok) {
+    return NextResponse.json(
+      { error: rawResult.error, code: rawResult.code },
+      { status: rawResult.status }
+    );
+  }
+  const rawBody = rawResult.rawText;
 
   // 2. Récupérer le secret webhook uniquement depuis process.env
   const webhookSecret = process.env.MCC_WEBHOOK_SECRET
@@ -35,8 +40,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 3. Récupérer les headers MonCashConnect
-  const signatureHeader =
+  // 3. Récupérer les headers MonCashConnect (V2 recommandé + horodatage)
+  const signatureV2Header = req.headers.get("x-mcc-signature-v2");
+  const signatureV1Header =
     req.headers.get("x-mcc-signature") ??
     req.headers.get("x-moncashconnect-signature");
   const timestampHeader = req.headers.get("x-mcc-timestamp");
@@ -50,12 +56,25 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 5. Vérifier la signature HMAC-SHA256 sur le corps brut
-  const signatureValid = verifyMonCashWebhookSignature(
-    rawBody,
-    signatureHeader,
-    webhookSecret
-  );
+  // 5. Vérifier la signature HMAC-SHA256 en temps constant :
+  //    - Si X-MCC-Signature-V2 est présent, exiger strictement V2 (`${timestamp}.${rawBody}`).
+  //    - Sinon, autoriser V1 uniquement si MCC_WEBHOOK_ALLOW_V1 === "true" (évite le downgrade anti-rejeu).
+  let signatureValid = false;
+  if (signatureV2Header) {
+    signatureValid = verifyMonCashWebhookSignatureV2(
+      rawBody,
+      timestampHeader,
+      signatureV2Header,
+      webhookSecret
+    );
+  } else if (process.env.MCC_WEBHOOK_ALLOW_V1 === "true") {
+    signatureValid = verifyMonCashWebhookSignature(
+      rawBody,
+      signatureV1Header,
+      webhookSecret
+    );
+  }
+
   if (!signatureValid) {
     return NextResponse.json(
       { error: "Invalid webhook signature", code: "INVALID_SIGNATURE" },
@@ -72,7 +91,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { event, reference, amount, status, completedAt } = parsed.data;
+  const { event, reference, amount, currency, status, completedAt } = parsed.data;
 
   if (!hasAdminCredentials()) {
     return NextResponse.json(
@@ -86,6 +105,17 @@ export async function POST(req: NextRequest) {
   // Ignorer proprement en 200 les événements non gérés (retries MCC idempotents)
   if (action === "ignored") {
     return NextResponse.json({ ok: true, ignored: true, event }, { status: 200 });
+  }
+
+  if (action === "completed" && !isAllowedMonCashCurrency(currency)) {
+    console.warn("[moncash/webhook] Currency mismatch rejected", {
+      event,
+      reference,
+    });
+    return NextResponse.json(
+      { ok: true, event, reference, outcome: "currency_mismatch" },
+      { status: 200 }
+    );
   }
 
   try {
@@ -118,6 +148,13 @@ export async function POST(req: NextRequest) {
             paymentRef,
             failureReason: status || event,
           });
+
+    if (outcome === "amount_mismatch") {
+      console.warn("[moncash/webhook] Amount mismatch detected — access withheld", {
+        event,
+        reference,
+      });
+    }
 
     // 9. Répondre 200 toujours pour garantir l'idempotence des retries MCC
     return NextResponse.json(

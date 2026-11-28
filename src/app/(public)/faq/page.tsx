@@ -14,6 +14,9 @@ import { formatPageTitle, SITE_NAME } from "@/lib/site";
 export const metadata: Metadata = {
   title: t("faqPage.titre"),
   description: t("faqPage.sousTitre"),
+  alternates: {
+    canonical: "/faq",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -23,9 +26,28 @@ export const metadata: Metadata = {
   },
 };
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: ([1, 2, 3, 4, 5] as const).map((n) => ({
+    "@type": "Question",
+    name: t(`faq.q${n}`),
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: t(`faq.r${n}`),
+    },
+  })),
+};
+
 export default function FaqPage() {
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <Navbar />
 
       <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">

@@ -577,3 +577,108 @@ describe("10. adminLogs — aucune lecture ni écriture côté client", () => {
     );
   });
 });
+
+// ─── 11. Leçons archivées ─────────────────────────────────────────────────────
+describe("11. Leçons archivées — masquées aux visiteurs et élèves", () => {
+  const ARCHIVED_LESSON_ID = "lesson-archived-001";
+
+  beforeEach(async () => {
+    await seedAll();
+    await seedData("lessons", ARCHIVED_LESSON_ID, {
+      courseId: PUBLISHED_COURSE_ID,
+      isFreePreview: true,
+      archived: true,
+      title: "Leçon archivée",
+      order: 99,
+    });
+    await seedData("enrollments", `${USER_A}_${PUBLISHED_COURSE_ID}`, {
+      uid: USER_A,
+      courseId: PUBLISHED_COURSE_ID,
+      status: "active",
+      source: "payment",
+      paymentId: PAYMENT_ID,
+      grantedAt: serverTimestamp(),
+      progress: { completedLessonIds: [], lastLessonId: "" },
+    });
+  });
+
+  it("visiteur ne peut pas lire une leçon archivée même en aperçu gratuit", async () => {
+    const db = unauthenticatedCtx().firestore();
+    await assertFails(getDoc(doc(db, "lessons", ARCHIVED_LESSON_ID)));
+  });
+
+  it("élève inscrit ne peut pas lire une leçon archivée", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(getDoc(doc(db, "lessons", ARCHIVED_LESSON_ID)));
+  });
+
+  it("admin peut lire une leçon archivée", async () => {
+    const db = adminCtx("admin-001").firestore();
+    await assertSucceeds(getDoc(doc(db, "lessons", ARCHIVED_LESSON_ID)));
+  });
+});
+
+// ─── 12. courseCovers — aucun accès client ────────────────────────────────────
+describe("12. courseCovers — aucune lecture ni écriture côté client", () => {
+  const COVER_ID = "cover-001";
+
+  beforeEach(async () => {
+    await seedData("courseCovers", COVER_ID, {
+      mimeType: "image/webp",
+      sizeBytes: 1024,
+    });
+  });
+
+  it("visiteur ne peut pas lire courseCovers", async () => {
+    const db = unauthenticatedCtx().firestore();
+    await assertFails(getDoc(doc(db, "courseCovers", COVER_ID)));
+  });
+
+  it("élève ne peut pas lire ni écrire courseCovers", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(getDoc(doc(db, "courseCovers", COVER_ID)));
+    await assertFails(setDoc(doc(db, "courseCovers", "cover-new"), { sizeBytes: 1 }));
+  });
+
+  it("admin ne peut pas écrire courseCovers côté client", async () => {
+    const db = adminCtx("admin-001").firestore();
+    await assertFails(setDoc(doc(db, "courseCovers", "cover-admin"), { sizeBytes: 1 }));
+  });
+});
+
+// ─── 13. users/{uid} — lecture croisée et bornes de validation ────────────────
+describe("13. users/{uid} — confidentialité et bornes de champs", () => {
+  beforeEach(async () => {
+    await seedData("users", USER_A, {
+      displayName: "Alice",
+      email: "alice@test.com",
+      photoURL: null,
+      createdAt: serverTimestamp(),
+      lastLoginAt: serverTimestamp(),
+    });
+  });
+
+  it("un autre élève ne peut pas lire le profil de USER_A", async () => {
+    const db = userCtx(USER_B).firestore();
+    await assertFails(getDoc(doc(db, "users", USER_A)));
+  });
+
+  it("élève ne peut pas écrire un displayName dépassant 120 caractères", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(
+      updateDoc(doc(db, "users", USER_A), {
+        displayName: "A".repeat(121),
+      })
+    );
+  });
+
+  it("élève ne peut pas écrire un photoURL dépassant 1000 caractères", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(
+      updateDoc(doc(db, "users", USER_A), {
+        photoURL: `https://example.com/${"x".repeat(1000)}`,
+      })
+    );
+  });
+});
+

@@ -24,6 +24,7 @@ import {
   type MonthlyActivityPoint,
   type RecentAdminPayment,
 } from "@/lib/admin/stats";
+import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
 
 interface StatsResponse {
@@ -228,7 +229,7 @@ export default function AdminDashboard() {
                         type="button"
                         onClick={() => setCurrencyView(curr)}
                         aria-pressed={active}
-                        className={`px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
+                        className={`min-h-[44px] sm:min-h-[36px] px-3 sm:px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold transition-colors cursor-pointer ${
                           active
                             ? "bg-white dark:bg-[var(--surface-elevated)] text-slate-900 dark:text-ice-white shadow-2xs"
                             : "text-slate-600 dark:text-ice-white/55 hover:text-slate-900 dark:hover:text-ice-white"
@@ -243,7 +244,7 @@ export default function AdminDashboard() {
 
               <div>
                 <p className="font-display font-bold text-3xl sm:text-[2.125rem] tracking-tight text-ice-white tabular-nums leading-none">
-                  {displayedRevenue.toLocaleString("fr-FR")}{" "}
+                  {formatLocaleNumber(displayedRevenue)}{" "}
                   <span className="text-lg font-mono font-semibold text-slate-600 dark:text-ice-white/55">
                     {currencyView}
                   </span>
@@ -257,14 +258,14 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   href="/admin/formations"
-                  className="min-h-[42px] px-4 py-2 rounded-full bg-[#12141B] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="min-h-[44px] px-4 py-2 rounded-full bg-[#12141B] hover:bg-[#1E222B] dark:bg-brand dark:hover:bg-brand-light text-white dark:text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <BookOpen className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   <span>{t("admin.nav.formations")}</span>
                 </Link>
                 <Link
                   href="/admin/eleves"
-                  className="min-h-[42px] px-4 py-2 rounded-full bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="min-h-[44px] px-4 py-2 rounded-full bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white font-sans font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <Users className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   <span>{t("admin.nav.eleves")}</span>
@@ -502,13 +503,13 @@ export default function AdminDashboard() {
                   onChange={(e) => setRecentSearch(e.target.value)}
                   placeholder={t("admin.paiements.rechercher")}
                   aria-label={t("admin.paiements.rechercher")}
-                  className="w-full min-h-[38px] pl-8 pr-3 py-1.5 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-xs focus:outline-none focus:ring-2 focus:ring-brand-light"
+                  className="w-full min-h-[44px] pl-8 pr-3 py-1.5 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-base sm:text-xs focus:outline-none focus:ring-2 focus:ring-brand-light"
                 />
               </div>
 
               <Link
                 href="/admin/paiements"
-                className="font-sans text-xs font-semibold text-brand-light hover:underline whitespace-nowrap shrink-0 inline-flex items-center gap-1 min-h-[38px]"
+                className="font-sans text-xs font-semibold text-brand-light hover:underline whitespace-nowrap shrink-0 inline-flex items-center gap-1 min-h-[44px]"
               >
                 <span>{t("admin.tableau.weTout")}</span>
                 <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -563,15 +564,13 @@ export default function AdminDashboard() {
                         {p.courseTitle}
                       </td>
                       <td className="px-5 py-3.5 font-mono font-semibold text-ice-white tabular-nums whitespace-nowrap">
-                        {p.amount.toLocaleString("fr-FR")} {p.currency}
+                        {formatLocaleNumber(p.amount)} {p.currency}
                       </td>
                       <td className="px-5 py-3.5">
                         <TransactionStatus status={p.status} />
                       </td>
                       <td className="px-5 py-3.5 font-mono text-xs text-slate-600 dark:text-ice-white/60 whitespace-nowrap tabular-nums">
-                        {p.createdAt
-                          ? new Date(p.createdAt).toLocaleDateString("fr-FR")
-                          : "—"}
+                        {formatLocaleDate(p.createdAt)}
                       </td>
                     </tr>
                   ))}
@@ -590,7 +589,7 @@ export default function AdminDashboard() {
               </h2>
               <Link
                 href="/admin/paiements"
-                className="font-mono text-xs text-brand-light hover:underline"
+                className="font-mono text-xs text-brand-light hover:underline min-h-[44px] inline-flex items-center"
               >
                 {t("admin.nav.paiements")} →
               </Link>

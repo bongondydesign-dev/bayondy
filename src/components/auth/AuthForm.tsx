@@ -72,7 +72,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   };
 
   const inputClasses =
-    "w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#090B10] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white text-sm placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all";
+    "w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#090B10] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white text-base sm:text-sm placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:border-transparent transition-all";
 
   return (
     <div className="animate-hero-1 w-full max-w-md mx-auto rounded-2xl surface-glass border border-[var(--border-subtle)] p-6 sm:p-8">
@@ -213,7 +213,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
                   ? t("auth.cacherMotDePasse")
                   : t("auth.afficherMotDePasse")
               }
-              className="absolute right-1 top-1 bottom-1 px-3 flex items-center justify-center text-slate-600 dark:text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg cursor-pointer"
+              className="absolute right-0.5 top-0.5 bottom-0.5 min-w-[44px] px-3 flex items-center justify-center text-slate-600 dark:text-ice-white/50 hover:text-ice-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-lg cursor-pointer"
             >
               {showPassword ? (
                 <EyeOff className="w-4 h-4" aria-hidden="true" />

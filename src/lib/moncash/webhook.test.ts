@@ -129,3 +129,42 @@ test("parseMonCashWebhookEvent parses payment.completed and payment.failed event
   const badJson = parseMonCashWebhookEvent("{broken");
   assert.equal(badJson.ok, false);
 });
+
+import {
+  signMonCashWebhookPayloadV2,
+  verifyMonCashWebhookSignatureV2,
+} from "./webhook";
+
+test("verifyMonCashWebhookSignatureV2 prevents timestamp substitution replay", () => {
+  const rawBody = JSON.stringify({
+    event: "payment.completed",
+    reference: "byd_course_999",
+    amount: 2500,
+    currency: "HTG",
+    status: "completed",
+  });
+  const ts1 = "1700000000";
+  const ts2 = "1700000100";
+  const sigV2 = signMonCashWebhookPayloadV2(rawBody, ts1, TEST_SECRET);
+
+  assert.equal(
+    verifyMonCashWebhookSignatureV2(rawBody, ts1, sigV2, TEST_SECRET),
+    true
+  );
+  // Substituting timestamp must invalidate V2 signature
+  assert.equal(
+    verifyMonCashWebhookSignatureV2(rawBody, ts2, sigV2, TEST_SECRET),
+    false
+  );
+  // Altered body must invalidate V2 signature
+  assert.equal(
+    verifyMonCashWebhookSignatureV2(rawBody + " ", ts1, sigV2, TEST_SECRET),
+    false
+  );
+
+  const parsed = parseMonCashWebhookEvent(rawBody);
+  assert.equal(parsed.ok, true);
+  if (parsed.ok) {
+    assert.equal(parsed.data.currency, "HTG");
+  }
+});

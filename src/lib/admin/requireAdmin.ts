@@ -56,11 +56,8 @@ export async function requireAdmin(
   let adminAuth;
   try {
     adminAuth = getAdminAuth();
-  } catch (err) {
-    console.error(
-      "[requireAdmin] Firebase Admin init error:",
-      err instanceof Error ? err.message : err
-    );
+  } catch {
+    console.error("[requireAdmin] Firebase Admin init error.");
     return {
       ok: false,
       response: new Response(
@@ -93,8 +90,8 @@ export async function requireAdmin(
     return { ok: true, user: { uid: decoded.uid } };
   } catch (err) {
     const code = (err as { code?: string })?.code ?? "unknown";
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error("[requireAdmin] verifyIdToken failed:", code, msg);
+    const msg = err instanceof Error ? err.message : "";
+    console.error("[requireAdmin] verifyIdToken failed:", code);
 
     if (
       code === "app/invalid-credential" ||

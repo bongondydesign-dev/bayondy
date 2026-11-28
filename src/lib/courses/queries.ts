@@ -51,10 +51,7 @@ export async function getPublishedCourses(): Promise<PublicCourse[]> {
 
   if (!hasAdminCredentials()) {
     if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[Firebase Admin Config Warning] Variab anviwònman sèvè sa yo manke nan .env.local : " +
-          "FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_ADMIN_PRIVATE_KEY"
-      );
+      console.warn("[getPublishedCourses] Firebase Admin credentials missing.");
     }
     return [];
   }
@@ -103,10 +100,7 @@ export async function getPublishedCourseBySlug(
 
   if (!hasAdminCredentials()) {
     if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[Firebase Admin Config Warning] Variab anviwònman sèvè sa yo manke nan .env.local : " +
-          "FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_ADMIN_PRIVATE_KEY"
-      );
+      console.warn("[getPublishedCourseBySlug] Firebase Admin credentials missing.");
     }
     return null;
   }
@@ -128,7 +122,10 @@ export async function getPublishedCourseBySlug(
     return mapDocToPublicCourse(doc.id, doc.data() as Partial<CourseDoc>);
   } catch (error) {
     if (process.env.NODE_ENV === "development") {
-      console.error(`[getPublishedCourseBySlug error for slug ${slug}]`, error);
+      console.error(
+        "[getPublishedCourseBySlug error]",
+        error instanceof Error ? error.name : "unknown"
+      );
     }
     return null;
   }

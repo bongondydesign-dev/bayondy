@@ -186,7 +186,7 @@ export default function AdminElevesPage() {
                 value={accessEmail}
                 onChange={(e) => setAccessEmail(e.target.value)}
                 placeholder={t("admin.eleves.placeholderEmail")}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               />
             </div>
             <div className="space-y-1.5">
@@ -200,7 +200,7 @@ export default function AdminElevesPage() {
                 id="admin-access-course"
                 value={accessCourseId}
                 onChange={(e) => setAccessCourseId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 {courses.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -220,7 +220,7 @@ export default function AdminElevesPage() {
                 id="admin-access-action"
                 value={accessAction}
                 onChange={(e) => setAccessAction(e.target.value as "grant" | "revoke")}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light min-h-[48px]"
               >
                 <option value="grant">{t("admin.eleves.donner")}</option>
                 <option value="revoke">{t("admin.eleves.retirer")}</option>
@@ -271,7 +271,7 @@ export default function AdminElevesPage() {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("admin.eleves.rechercher")}
                   aria-label={t("admin.eleves.rechercher")}
-                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                  className="w-full sm:w-64 min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                 />
               </div>
 
@@ -294,7 +294,7 @@ export default function AdminElevesPage() {
                       type="button"
                       onClick={() => setEnrollmentFilter(tab.key)}
                       aria-pressed={active}
-                      className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                      className={`min-h-[44px] px-3 py-1.5 rounded-full font-sans text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                         active
                           ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                           : "text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white"

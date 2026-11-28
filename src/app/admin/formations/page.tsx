@@ -127,7 +127,7 @@ export default function AdminFormationsPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("admin.formations.rechercher")}
               aria-label={t("admin.formations.rechercher")}
-              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function AdminFormationsPage() {
                   type="button"
                   onClick={() => setStatusFilter(tab.key)}
                   aria-pressed={active}
-                  className={`min-h-[38px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                  className={`min-h-[44px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                     active
                       ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                       : "text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white"
@@ -249,14 +249,14 @@ export default function AdminFormationsPage() {
                     }}
                     aria-label={`${t("admin.formations.supprimer")} ${c.title}`}
                     title={t("admin.formations.supprimer")}
-                    className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl border border-red-200 dark:border-red-500/25 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 flex items-center justify-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-red-200 dark:border-red-500/25 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 flex items-center justify-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                   >
                     <Trash2 className="w-4 h-4" aria-hidden="true" />
                   </button>
                   <Link
                     href={`/admin/formations/${c.id}`}
                     aria-label={`${t("admin.modifier")} ${c.title}`}
-                    className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/60 hover:text-brand-light hover:border-brand/50 flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/60 hover:text-brand-light hover:border-brand/50 flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                   >
                     <ChevronRight className="w-4 h-4" aria-hidden="true" />
                   </Link>

@@ -22,10 +22,7 @@
     "payerMonCash": "Peye ak MonCash",
     "redirection": "Redireksyon nan MonCash...",
     "erreurCreation": "Nou pa t kapab lanse peman MonCash la. Tanpri reye.",
-    "continuer": "Kontinye",
-    "enCours": "N ap verifye peman an",
-    "reussi": "Peman an pase",
-    "echoue": "Peman an pa pase"
+    "reussi": "Peman an pase"
   },
   "lecon": {
     "terminee": "Leson fini"
@@ -38,11 +35,7 @@
   },
   "accueil": {
     "titre": "BAYONDY",
-    "slogan": "Aprann. Kreye. Avanse.",
-    "description": "Platfòm fòmasyon videyo an kreyòl ayisyen pou devlope konpetans ou.",
-    "detail": "Vèsyon 0.1.0 • Aksè bonè",
-    "boutonPrincipal": "Kreye kont",
-    "boutonSecondaire": "Fòmasyon mwen yo"
+    "slogan": "Aprann. Kreye. Avanse."
   },
   "hero": {
     "badge": "Fòmasyon an kreyòl",
@@ -56,7 +49,6 @@
     "apercu": {
       "badge": "Lektè videyo",
       "titre": "Leson 01 : Entwodiksyon ak baz yo",
-      "duree": "12:45",
       "listeTitre": "Pwogram leson yo",
       "lecon1": "01. Entwodiksyon ak baz yo",
       "lecon1Duree": "12:45",
@@ -64,8 +56,7 @@
       "lecon2Duree": "18:20",
       "lecon3": "03. Kreye premye pwojè w",
       "lecon3Duree": "24:10",
-      "progression": "Pwogrè",
-      "progressionZero": "0%"
+      "progression": "Pwogrè"
     }
   },
   "affirmation": {
@@ -105,8 +96,6 @@
     }
   },
   "fonctionnalites": {
-    "titreSection": "Poukisa chwazi Bayondy Akademi",
-    "sousTitreSection": "Yon eksperyans aprantisaj ki fèt espesyalman pou ou.",
     "creole": {
       "titre": "Leson an kreyòl",
       "description": "Tout eksplikasyon yo klè, nan lang manman w, pou w konprann chak detay fasilman."
@@ -184,7 +173,6 @@
   "auth": {
     "connexion": "Konekte",
     "inscription": "Kreye kont",
-    "deconnexion": "Dekonekte",
     "titreConnexion": "Konekte sou kont ou",
     "sousTitreConnexion": "Kontinye aprann kote w te rete a.",
     "titreInscription": "Kreye kont pa w",
@@ -225,7 +213,6 @@
       "configManquante": "Variab anviwònman Firebase yo manke nan deplwaman an.",
       "cleApiInvalide": "Kle API Firebase la pa valid oswa li manke.",
       "appNonAutorisee": "Domèn oswa aplikasyon sa a pa otorize pou itilize kle Firebase la.",
-      "configurationInvalide": "Konfigirasyon Firebase la enkonplè oswa li pa valid. Kontakte administratè a.",
       "erreurReseau": "Gen yon pwoblèm koneksyon entènèt. Tanpri verifye rezo w la.",
       "generique": "Gen yon erè ki pase. Tanpri reye ankò."
     },
@@ -236,14 +223,12 @@
   },
   "profil": {
     "titre": "Pwofil mwen",
-    "sousTitre": "Enfòmasyon sou kont ou ak sekirite.",
     "badge": "Kont mwen",
     "nom": "Non",
     "email": "Imèl",
     "nonDefini": "Pa defini",
     "boutonDeconnexion": "Dekonekte",
     "mesFormations": "Fòmasyon mwen yo",
-    "chargement": "N ap chaje enfòmasyon yo...",
     "infoPersonnelles": "Enfòmasyon pèsonèl",
     "enregistrer": "Anrejistre",
     "enregistrement": "Anrejistreman...",
@@ -289,17 +274,13 @@
     "peyemanBientot": "Peman an ap disponib talè",
     "boutonInscrireConnexion": "Konekte pou w enskri",
     "boutonInscrire": "Enskri",
-    "boutonAcheter": "Achte fòmasyon an",
     "boutonAcceder": "Aksede nan fòmasyon an",
     "accesAdminGratuit": "Aksè admin — gratis san peman",
-    "modalTitre": "Chwazi mwayen peman ou",
-    "payerAvec": "Peye ak",
-    "traitementEnCours": "N ap prepare peman an...",
-    "fermer": "Fèmen",
     "gadeFormasyon": "Gade fòmasyon an",
     "lecons": "leson",
     "leconSingulier": "leson",
-    "duree": "Dire",
+    "prixLabel": "Pri",
+    "moduleLabel": "Modil",
     "niveau": "Nivo",
     "langue": "Lang",
     "programme": "Pwogram fòmasyon an",
@@ -330,6 +311,13 @@
     "retourAccueil": "Retounen nan akèy",
     "voirFormations": "Gade fòmasyon yo"
   },
+  "erreurPage": {
+    "badge": "Erè",
+    "titre": "Gen yon erè ki pase",
+    "description": "Nou pa t kapab chaje paj sa a pou kounye a. Tanpri reye ankò.",
+    "reessayer": "Reye",
+    "retourAccueil": "Retounen nan akèy"
+  },
   "mesFormations": {
     "titre": "Tablo bò elèv",
     "sousTitre": "Kontinye aprann kote w te rete a.",
@@ -345,7 +333,6 @@
     "kpiLecons": "Leson",
     "kpiProgression": "Pwogrè",
     "continuerCardTitre": "Kontinye aprann",
-    "aucuneLeconDemarree": "Ou poko kòmanse okenn leson.",
     "sectionParcours": "Pakou mwen",
     "sectionParcoursTitre": "Fòmasyon mwen yo",
     "filtreToutes": "Tout",
@@ -371,12 +358,9 @@
     "vide": "Ou poko gen okenn fòmasyon.",
     "videDescription": "Eksplore tout fòmasyon ki disponib nan katalòg la pou w ka kòmanse aprann jodi a.",
     "boutonDecouvrir": "Dekouvri fòmasyon yo",
-    "chargement": "N ap chaje fòmasyon w yo...",
     "erreur": "Gen yon erè ki pase pandan n ap chaje fòmasyon w yo.",
     "continuer": "Kontinye",
     "progression": "Pwogrè",
-    "leconCourante": "Dènye leson gade",
-    "aucuneLecon": "Poko kòmanse",
     "terminee": "Fini",
     "rechercher": "Chèche yon fòmasyon..."
   },
@@ -393,7 +377,6 @@
       "paiements": "Peman yo"
     },
     "tableau": {
-      "titre": "Tableau de bò",
       "sousTitre": "Rezime aktivite ak operasyon Bayondy Akademi.",
       "formationsPubliees": "Fòmasyon pibliye",
       "formationsDraft": "Brouyon",
@@ -473,7 +456,9 @@
     "lecons": {
       "titre": "Leson yo",
       "ajouter": "Ajoute leson",
-      "vide": "Pa gen leson yo."
+      "vide": "Pa gen leson yo.",
+      "monter": "Monte leson an",
+      "descendre": "Desann leson an"
     },
     "lecon": {
       "ajouter": "Ajoute leson",
@@ -485,7 +470,6 @@
       "champModuleTitrePlaceholder": "Modil 1 : Entwodiksyon",
       "champTitre": "Tit Leson",
       "champTitrePlaceholder": "Leson 1 : Prezantasyon",
-      "champVideoId": "YouTube Video ID (11 karaktè)",
       "champOrdre": "Lòd",
       "champDuree": "Dire (minit)",
       "champApercu": "Apèsi gratis (tout moun ka wè)",
@@ -561,12 +545,9 @@
     "nonInscrit": "Ou pa enskri nan fòmasyon sa a",
     "nonInscritDescription": "Pou w ka gade tout leson yo, ou dwe enskri nan fòmasyon an anvan.",
     "boutonVoirFormation": "Gade detay fòmasyon an",
-    "chargement": "N ap chaje leson yo...",
     "erreur": "Gen yon pwoblèm ki pase pandan n ap chaje leson yo.",
     "videoIndisponible": "Videyo sa a pa disponib kounye a.",
     "lancerVideo": "Klike pou w gade videyo a",
-    "lesonTerminee": "Leson fini",
-    "dejaTerminee": "Fini ✓",
     "enregistrement": "N ap anrejistre...",
     "erreurEnregistrement": "Nou pa t ka anrejistre pwogrè w la. Tanpri reye.",
     "listeLecons": "Lis leson yo",
@@ -649,7 +630,6 @@
     "s10_texte": "Pou nenpòt kesyon sou kondisyon sa yo, kontak ofisyèl ak dat dènye mizajou :"
   },
   "merci": {
-    "badge": "MonCash",
     "titre": "Mèsi pou kòmand ou a",
     "sousTitre": "Ou tounen soti sou paj peman MonCash la. N ap tann konfimasyon final operatè a sou sèvè nou an.",
     "noteWebhook": "Kou sistèm nan resevwa konfimasyon final la, aksè w nan fòmasyon an ap aktive otomatikman sou kont ou.",
@@ -677,7 +657,6 @@
     "etapeAcces": "Aksè fòmasyon an",
     "resiTitre": "Resi tranzaksyon",
     "formationDefaut": "Fòmasyon Bayondy Akademi",
-    "montanLabel": "Montan",
     "metodLabel": "Metòd",
     "estatiLabel": "Estati",
     "datLabel": "Dat",
@@ -704,16 +683,13 @@
     "ctaFormations": "Gade fòmasyon yo",
     "ctaPortfolio": "Wè pòtfolyo a",
     "ctaLinkedin": "Pwofil LinkedIn",
-    "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Pwofil pwofesyonèl",
     "carteRoleLabel": "Wòl",
     "carteRoleValeur": "Devlopè Web Freelance & Fondatè Bayondy Akademi",
-    "carteBaseLabel": "Baz",
     "carteBaseValeur": "Ayiti",
     "carteFocusLabel": "Espesyalite",
     "carteFocusValeur": "Sit entènèt & Aplikasyon web modèn",
     "cartePresenceLabel": "Prezans an liy",
-    "cartePresenceValeur": "Portfolio · LinkedIn · Framer",
     "stackBadge": "Konpetans & Teknoloji",
     "stackTitre": "Teknoloji prensipal yo",
     "stackSousTitre": "Yon baz teknik solid pou konstwi pwodui web modèn, fyab epi fasil pou itilize.",

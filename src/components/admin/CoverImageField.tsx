@@ -165,7 +165,7 @@ export function CoverImageField({
         <button
           type="button"
           onClick={() => setShowUrlInput((prev) => !prev)}
-          className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-slate-600 dark:text-ice-white/65 hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-md px-1.5 py-0.5 cursor-pointer"
+          className="inline-flex items-center gap-1.5 min-h-[44px] font-sans text-xs font-medium text-slate-600 dark:text-ice-white/65 hover:text-brand-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light rounded-md px-2 py-1 cursor-pointer"
         >
           <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
           <span>{t("admin.formations.coverUrlToggle")}</span>
@@ -293,7 +293,7 @@ export function CoverImageField({
               onChange(e.target.value);
             }}
             placeholder={t("admin.formations.champCoverUrlPlaceholder")}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[46px]"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[46px]"
           />
         </div>
       )}

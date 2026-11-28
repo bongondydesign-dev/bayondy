@@ -10,13 +10,16 @@ import {
   formatPageTitle,
 } from "./site";
 
-function flattenKeys(obj: Record<string, unknown>, prefix = ""): string[] {
+function flattenEntries(
+  obj: Record<string, unknown>,
+  prefix = ""
+): Array<[string, unknown]> {
   return Object.entries(obj).flatMap(([key, value]) => {
     const nextKey = prefix ? `${prefix}.${key}` : key;
     if (value && typeof value === "object" && !Array.isArray(value)) {
-      return flattenKeys(value as Record<string, unknown>, nextKey);
+      return flattenEntries(value as Record<string, unknown>, nextKey);
     }
-    return [nextKey];
+    return [[nextKey, value] as [string, unknown]];
   });
 }
 
@@ -33,13 +36,35 @@ test("site constants match official Bayondy Akademi branding", () => {
   assert.equal(formatPageTitle("FAQ"), "FAQ | Bayondy Akademi");
 });
 
-test("kr, fr, and en translation dictionaries share identical keys", () => {
-  const kr = flattenKeys(readLocale("kr")).sort();
-  const fr = flattenKeys(readLocale("fr")).sort();
-  const en = flattenKeys(readLocale("en")).sort();
+test("kr, fr, and en translation dictionaries share identical non-empty keys", () => {
+  const krEntries = flattenEntries(readLocale("kr"));
+  const frEntries = flattenEntries(readLocale("fr"));
+  const enEntries = flattenEntries(readLocale("en"));
+
+  const kr = krEntries.map(([k]) => k).sort();
+  const fr = frEntries.map(([k]) => k).sort();
+  const en = enEntries.map(([k]) => k).sort();
 
   assert.deepEqual(fr, kr);
   assert.deepEqual(en, kr);
+
+  for (const [locale, entries] of [
+    ["kr", krEntries],
+    ["fr", frEntries],
+    ["en", enEntries],
+  ] as const) {
+    for (const [key, val] of entries) {
+      assert.equal(
+        typeof val,
+        "string",
+        `${locale} translation key ${key} must be a string`
+      );
+      assert.ok(
+        typeof val === "string" && val.trim().length > 0,
+        `${locale} translation key ${key} must not be empty`
+      );
+    }
+  }
 });
 
 test("SEO metadata strings meet length and naming requirements in all locales", () => {

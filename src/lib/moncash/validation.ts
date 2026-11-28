@@ -1,4 +1,4 @@
-export const MAX_MONCASH_AMOUNT_HTG = 1_000_000;
+export const MAX_MONCASH_AMOUNT_HTG = 100_000;
 export const MAX_MONCASH_ORDER_ID_LENGTH = 100;
 export const ORDER_ID_REGEX = /^[A-Za-z0-9_-]{3,100}$/;
 const COURSE_ID_REGEX = /^[A-Za-z0-9_-]{1,128}$/;
@@ -8,6 +8,10 @@ export interface ValidatedMonCashCreateInput {
   orderId: string;
   returnUrl: string;
   courseId?: string;
+}
+
+export interface ValidateMonCashCreateOptions {
+  requireCourseId?: boolean;
 }
 
 export type MonCashValidationResult =
@@ -94,7 +98,8 @@ export function createMonCashOrderId(courseId?: string): string {
  */
 export function validateMonCashCreateInput(
   rawBody: unknown,
-  allowedOrigins: string[] = []
+  allowedOrigins: string[] = [],
+  options: ValidateMonCashCreateOptions = {}
 ): MonCashValidationResult {
   if (!rawBody || typeof rawBody !== "object" || Array.isArray(rawBody)) {
     return {
@@ -107,7 +112,7 @@ export function validateMonCashCreateInput(
 
   const body = rawBody as Record<string, unknown>;
 
-  // 1. Montant entier positif en HTG
+  // 1. Montant entier positif en HTG (plafonné à 100 000 HTG selon MonCashConnect)
   const amount = body.amount;
   if (
     typeof amount !== "number" ||
@@ -159,9 +164,19 @@ export function validateMonCashCreateInput(
     }
   }
 
-  // 4. courseId optionnel (vérifié côté serveur si fourni)
+  // 4. courseId (obligatoire en mode strict serveur)
   let courseId: string | undefined;
-  if (body.courseId !== undefined && body.courseId !== null && body.courseId !== "") {
+  const hasCourseId =
+    body.courseId !== undefined && body.courseId !== null && body.courseId !== "";
+  if (!hasCourseId && options.requireCourseId) {
+    return {
+      ok: false,
+      status: 400,
+      code: "COURSE_REQUIRED",
+      error: "Fòmasyon an obligatwa pou peman sa a.",
+    };
+  }
+  if (hasCourseId) {
     if (typeof body.courseId !== "string" || !COURSE_ID_REGEX.test(body.courseId.trim())) {
       return {
         ok: false,
@@ -185,33 +200,23 @@ export function validateMonCashCreateInput(
 }
 
 /**
- * Normalise une réponse d'erreur retournée par MonCashConnect.
+ * Normalise une réponse d'erreur retournée par MonCashConnect sans exposer
+ * de détails internes ou de messages bruts du fournisseur au client.
  */
 export function mapMonCashUpstreamError(
   status: number,
   upstreamBody: unknown
 ): { error: string; code: string } {
+  let code = `MONCASH_HTTP_${status}`;
   if (upstreamBody && typeof upstreamBody === "object" && !Array.isArray(upstreamBody)) {
     const obj = upstreamBody as Record<string, unknown>;
-    const rawCode =
-      typeof obj.code === "string" && obj.code.trim()
-        ? obj.code.trim()
-        : `MONCASH_HTTP_${status}`;
-    const rawMessage =
-      typeof obj.error === "string" && obj.error.trim()
-        ? obj.error.trim()
-        : typeof obj.message === "string" && obj.message.trim()
-        ? obj.message.trim()
-        : "Erè pandan kreyasyon peman MonCash la.";
-
-    return {
-      error: rawMessage.slice(0, 300),
-      code: rawCode.slice(0, 80),
-    };
+    if (typeof obj.code === "string" && obj.code.trim()) {
+      code = obj.code.trim().replace(/[^A-Za-z0-9_-]/g, "_").slice(0, 80);
+    }
   }
 
   return {
     error: "Erè pandan kreyasyon peman MonCash la.",
-    code: `MONCASH_HTTP_${status}`,
+    code,
   };
 }

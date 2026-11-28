@@ -3,6 +3,10 @@ import { FieldValue } from "firebase-admin/firestore";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { parseCoverDataUrl } from "@/lib/admin/cover";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import {
+  MAX_COVER_JSON_BODY_BYTES,
+  readJsonBodyWithLimit,
+} from "@/lib/server/requestGuards";
 
 // POST /api/admin/covers — téléverse une image de couverture (admin uniquement)
 export async function POST(req: NextRequest) {
@@ -16,15 +20,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
+  const bodyResult = await readJsonBodyWithLimit(req, MAX_COVER_JSON_BODY_BYTES);
+  if (!bodyResult.ok) {
     return NextResponse.json(
-      { error: "Corps JSON invalide." },
-      { status: 400 }
+      { error: bodyResult.error },
+      { status: bodyResult.status }
     );
   }
+  const body = bodyResult.data;
 
   const rawDataUrl =
     typeof body === "object" && body !== null
@@ -56,11 +59,7 @@ export async function POST(req: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (err) {
-    console.error(
-      "[admin/covers POST]",
-      err instanceof Error ? err.message : err
-    );
+  } catch {
     return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
   }
 }

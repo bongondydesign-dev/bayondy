@@ -85,19 +85,44 @@ test("createMonCashOrderId produces ORDER_ID_REGEX-compliant unique IDs", () => 
   assert.notEqual(id1, id2);
 });
 
-test("mapMonCashUpstreamError returns structured error and code", () => {
+test("mapMonCashUpstreamError returns structured error and safe code without raw upstream text", () => {
   const mapped = mapMonCashUpstreamError(400, {
     code: "INVALID_AMOUNT",
-    error: "Amount must be >= 5 HTG",
+    error: "Internal project_lookup_failed details",
   });
-  assert.deepEqual(mapped, {
-    code: "INVALID_AMOUNT",
-    error: "Amount must be >= 5 HTG",
-  });
+  assert.equal(mapped.code, "INVALID_AMOUNT");
+  assert.equal(mapped.error.includes("project_lookup_failed"), false);
 
   const fallback = mapMonCashUpstreamError(502, null);
   assert.equal(fallback.code, "MONCASH_HTTP_502");
   assert.ok(fallback.error.length > 0);
+});
+
+test("validateMonCashCreateInput enforces 100,000 HTG cap and requireCourseId option", () => {
+  const overCap = validateMonCashCreateInput({
+    amount: 100_001,
+    orderId: "order_cap_1",
+    returnUrl: "https://bayondy.com/merci",
+    courseId: "course_abc",
+  });
+  assert.equal(overCap.ok, false);
+  if (!overCap.ok) {
+    assert.equal(overCap.code, "INVALID_AMOUNT");
+  }
+
+  const missingCourse = validateMonCashCreateInput(
+    {
+      amount: 2500,
+      orderId: "order_no_course",
+      returnUrl: "https://bayondy.com/merci",
+    },
+    ["https://bayondy.com"],
+    { requireCourseId: true }
+  );
+  assert.equal(missingCourse.ok, false);
+  if (!missingCourse.ok) {
+    assert.equal(missingCourse.code, "COURSE_REQUIRED");
+  }
 });
 
 test("isMonCashSuccessStatus accepts both HTTP 200 and 201", () => {

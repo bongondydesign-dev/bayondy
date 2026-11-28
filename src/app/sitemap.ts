@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedCourses } from "@/lib/courses/queries";
+import { LEGAL_DRAFT } from "@/lib/legal/config";
 import { getSiteUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -26,16 +27,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    {
-      url: `${siteUrl}/conditions`,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${siteUrl}/confidentialite`,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
+    ...(LEGAL_DRAFT
+      ? []
+      : [
+          {
+            url: `${siteUrl}/conditions`,
+            changeFrequency: "yearly" as const,
+            priority: 0.3,
+          },
+          {
+            url: `${siteUrl}/confidentialite`,
+            changeFrequency: "yearly" as const,
+            priority: 0.3,
+          },
+        ]),
   ];
 
   const courses = await getPublishedCourses();

@@ -19,6 +19,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
 import { SITE_NAME } from "@/lib/site";
 
@@ -86,10 +87,7 @@ function humanizeSlug(slug: string): string {
 }
 
 function formatReceiptDate(iso: string | null): string {
-  if (!iso) return "—";
-  const parsed = new Date(iso);
-  if (Number.isNaN(parsed.getTime())) return "—";
-  return parsed.toLocaleDateString("fr-FR", {
+  return formatLocaleDate(iso, {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -100,23 +98,30 @@ function formatReceiptAmount(amount: number | null, currency: string): string | 
   if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
     return null;
   }
-  return `${amount.toLocaleString("fr-FR")} ${currency || "HTG"}`;
+  return `${formatLocaleNumber(amount)} ${currency || "HTG"}`;
 }
 
 async function requestPaymentVerification(
   idToken: string,
   orderId: string
 ): Promise<{ ok: boolean; data: VerifyApiResponse | null }> {
-  const res = await fetch("/api/moncash/verify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${idToken}`,
-    },
-    body: JSON.stringify(orderId ? { orderId } : {}),
-  });
-  const data = (await res.json().catch(() => null)) as VerifyApiResponse | null;
-  return { ok: res.ok, data };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15_000);
+  try {
+    const res = await fetch("/api/moncash/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify(orderId ? { orderId } : {}),
+      signal: controller.signal,
+    });
+    const data = (await res.json().catch(() => null)) as VerifyApiResponse | null;
+    return { ok: res.ok, data };
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 export function MerciStatus() {
@@ -226,9 +231,10 @@ export function MerciStatus() {
           attempts += 1;
           setVerificationError(null);
           setState("verifying");
+          const delayMs = AUTO_POLL_INTERVAL_MS + (attempts - 1) * 1000;
           pollTimerRef.current = setTimeout(() => {
             void runAttempt();
-          }, AUTO_POLL_INTERVAL_MS);
+          }, delayMs);
           return;
         }
 
@@ -768,7 +774,7 @@ export function MerciStatus() {
                   type="button"
                   onClick={handleCopyOrderId}
                   aria-label={t("merci.kopyeReferans")}
-                  className="min-h-[32px] px-2.5 py-1 rounded-lg bg-white dark:bg-[var(--surface-well)] hover:bg-slate-50 dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/75 hover:text-ice-white font-sans text-xs font-medium inline-flex items-center gap-1 shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="min-h-[44px] px-3 py-1.5 rounded-lg bg-white dark:bg-[var(--surface-well)] hover:bg-slate-50 dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-slate-800 dark:text-ice-white/75 hover:text-ice-white font-sans text-xs font-medium inline-flex items-center gap-1 shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   {copiedRef ? (
                     <>

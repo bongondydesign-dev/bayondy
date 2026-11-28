@@ -335,24 +335,30 @@ export function PlayerView({ slug }: PlayerViewProps) {
 
                   {/* Ressources de la leçon si existantes */}
                   {currentLesson.resources &&
-                    currentLesson.resources.length > 0 && (
+                    currentLesson.resources.some((res) =>
+                      /^https?:\/\//i.test((res.url || "").trim())
+                    ) && (
                       <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2">
                         <span className="font-mono text-xs font-medium text-slate-600 dark:text-ice-white/60 block">
                           {t("lecteur.ressources")} :
                         </span>
                         <div className="flex flex-wrap gap-2">
-                          {currentLesson.resources.map((res, idx) => (
-                            <a
-                              key={`res-${idx}`}
-                              href={res.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-xs font-medium text-brand-light hover:underline min-h-[44px]"
-                            >
-                              <span>{res.label}</span>
-                              <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                            </a>
-                          ))}
+                          {currentLesson.resources
+                            .filter((res) =>
+                              /^https?:\/\//i.test((res.url || "").trim())
+                            )
+                            .map((res, idx) => (
+                              <a
+                                key={`res-${idx}`}
+                                href={res.url.trim()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-xs font-medium text-brand-light hover:underline min-h-[44px]"
+                              >
+                                <span>{res.label}</span>
+                                <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                              </a>
+                            ))}
                         </div>
                       </div>
                     )}

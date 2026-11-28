@@ -61,7 +61,7 @@ export function DeletePaymentsDialog({
             onClick={onCancel}
             disabled={deleting}
             aria-label={t("nav.fermer")}
-            className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>

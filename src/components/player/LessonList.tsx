@@ -31,7 +31,7 @@ export function LessonList({
   const moduleMap = new Map<string, GroupedModule>();
 
   for (const lesson of lessons) {
-    const key = lesson.moduleTitle || lesson.moduleId || "Modil";
+    const key = lesson.moduleTitle || lesson.moduleId || t("catalogue.moduleLabel");
     let mod = moduleMap.get(key);
     if (!mod) {
       mod = { title: key, lessons: [] };
@@ -63,7 +63,7 @@ export function LessonList({
             {/* Titre du module */}
             <div className="flex items-center gap-2 px-1">
               <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-brand-light">
-                Modil {modIdx + 1}
+                {t("catalogue.moduleLabel")} {modIdx + 1}
               </span>
               <span className="text-slate-500 dark:text-ice-white/30">•</span>
               <h4 className="font-sans font-medium text-xs sm:text-sm text-slate-700 dark:text-ice-white/80 truncate">

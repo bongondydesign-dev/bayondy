@@ -26,7 +26,7 @@ export function NavLinks() {
       isActive: pathname === "/a-propos",
     },
     {
-      href: "/#faq",
+      href: "/faq",
       label: t("nav.faq"),
       isActive: pathname === "/faq",
     },

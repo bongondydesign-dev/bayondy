@@ -13,8 +13,12 @@ export async function GET(req: NextRequest) {
 
   try {
     const db = getAdminDb();
-    // Formations : published vs draft + table de titres pour l'historique récent
-    const coursesSnap = await db.collection("courses").get();
+    // Formations : projection légère + limite bornée
+    const coursesSnap = await db
+      .collection("courses")
+      .select("status", "title")
+      .limit(500)
+      .get();
     let publishedCourses = 0;
     let draftCourses = 0;
     const courseTitles = new Map<string, string>();
@@ -28,16 +32,33 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Inscriptions actives + élèves uniques inscrits
-    const enrollSnap = await db
+    // Inscriptions actives via count() agrégé + échantillon borné des uid pour déduplication
+    const activeEnrollmentsQuery = db
       .collection("enrollments")
-      .where("status", "==", "active")
-      .get();
-    const activeEnrollments = enrollSnap.size;
-    const uniqueStudents = new Set(enrollSnap.docs.map((d) => d.data().uid as string)).size;
+      .where("status", "==", "active");
+
+    const [enrollCountSnap, enrollUidSnap, paymentsSnap] = await Promise.all([
+      activeEnrollmentsQuery.count().get(),
+      activeEnrollmentsQuery.select("uid").limit(2000).get(),
+      db
+        .collection("payments")
+        .select(
+          "courseId",
+          "amount",
+          "currency",
+          "method",
+          "status",
+          "merchantReference",
+          "createdAt"
+        )
+        .limit(1000)
+        .get(),
+    ]);
+
+    const activeEnrollments = enrollCountSnap.data().count;
+    const uniqueStudents = new Set(enrollUidSnap.docs.map((d) => d.data().uid as string)).size;
 
     // Paiements : statuts, revenus, activité sur 6 mois et transactions récentes
-    const paymentsSnap = await db.collection("payments").get();
     const paymentRecords: RawAdminPaymentRecord[] = paymentsSnap.docs.map((doc) => {
       const d = doc.data();
       const courseId = typeof d.courseId === "string" ? d.courseId : "";

@@ -61,3 +61,23 @@ export function formatDuration(durationMinutes: number): string {
   }
   return `${minutes}m`;
 }
+
+export const PLATFORM_LOCALE = "fr-FR";
+
+export function formatLocaleNumber(value: number): string {
+  if (!Number.isFinite(value)) return "0";
+  return Math.round(value).toLocaleString(PLATFORM_LOCALE);
+}
+
+export function formatLocaleDate(
+  dateInput: Date | string | null | undefined,
+  options?: Intl.DateTimeFormatOptions
+): string {
+  if (!dateInput) return "—";
+  const parsed = dateInput instanceof Date ? dateInput : new Date(dateInput);
+  if (Number.isNaN(parsed.getTime())) return "—";
+  return options
+    ? parsed.toLocaleDateString(PLATFORM_LOCALE, options)
+    : parsed.toLocaleDateString(PLATFORM_LOCALE);
+}
+

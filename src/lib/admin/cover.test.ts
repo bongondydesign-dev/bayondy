@@ -15,6 +15,7 @@ test("isValidCoverUrl accepts https URLs and internal /api/covers paths, rejects
   assert.equal(isValidCoverUrl("http://localhost:3000/cover.png"), true);
   assert.equal(isValidCoverUrl("/api/covers/abc123_XYZ-9"), true);
 
+  assert.equal(isValidCoverUrl("http://example.com/cover.png"), false);
   assert.equal(isValidCoverUrl(""), false);
   assert.equal(isValidCoverUrl("javascript:alert(1)"), false);
   assert.equal(isValidCoverUrl("data:image/png;base64,AAAA"), false);

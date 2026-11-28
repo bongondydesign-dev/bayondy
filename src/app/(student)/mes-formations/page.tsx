@@ -38,7 +38,7 @@ import {
   type StudentCourseFilter,
   type StudentCourseItem,
 } from "@/lib/learning/stats";
-import { formatDuration } from "@/lib/courses/format";
+import { formatDuration, formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
 
 function PaymentStatusIndicator({ status }: { status: string }) {
@@ -115,6 +115,8 @@ export default function MesFormationsPage() {
               pendingOrders.map(async (p) => {
                 const orderId = p.orderId || p.merchantReference || p.id;
                 if (!orderId) return;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 12_000);
                 try {
                   const res = await fetch("/api/moncash/verify", {
                     method: "POST",
@@ -123,16 +125,23 @@ export default function MesFormationsPage() {
                       Authorization: `Bearer ${idToken}`,
                     },
                     body: JSON.stringify({ orderId }),
+                    signal: controller.signal,
                   });
                   if (!res.ok) return;
                   const data = (await res.json().catch(() => null)) as {
                     status?: string;
                   } | null;
-                  if (data?.status === "paid" || data?.status === "failed") {
+                  if (
+                    data?.status === "paid" ||
+                    data?.status === "failed" ||
+                    data?.status === "expired"
+                  ) {
                     shouldRefresh = true;
                   }
                 } catch {
                   // Ignorer les erreurs réseau individuelles sans bloquer le tableau de bord
+                } finally {
+                  clearTimeout(timeoutId);
                 }
               })
             );
@@ -457,7 +466,7 @@ export default function MesFormationsPage() {
                             type="button"
                             onClick={() => setCourseFilter(tab.key)}
                             aria-pressed={active}
-                            className={`min-h-[38px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                            className={`min-h-[44px] px-3.5 py-1.5 rounded-full font-sans text-xs sm:text-sm font-medium inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                               active
                                 ? "bg-[#111318] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                                 : "text-slate-600 dark:text-ice-white/70 hover:text-ice-white"
@@ -483,7 +492,7 @@ export default function MesFormationsPage() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder={t("mesFormations.rechercher")}
                         aria-label={t("mesFormations.rechercher")}
-                        className="w-full min-h-[42px] pl-10 pr-4 py-2 rounded-full bg-white dark:bg-deep-navy border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                        className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-full bg-white dark:bg-deep-navy border border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/45 font-sans text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                       />
                     </div>
                   </div>
@@ -520,7 +529,7 @@ export default function MesFormationsPage() {
                       setCourseFilter("all");
                       setSearchQuery("");
                     }}
-                    className="min-h-[40px] px-4 py-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-well)] hover:border-brand/50 text-ice-white font-sans text-xs font-medium inline-flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                    className="min-h-[44px] px-4 py-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-well)] hover:border-brand/50 text-ice-white font-sans text-xs font-medium inline-flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                   >
                     <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>{t("catalogue.reinitialiserFiltres")}</span>
@@ -808,9 +817,9 @@ export default function MesFormationsPage() {
                     </thead>
                     <tbody className="divide-y divide-[var(--border-subtle)]">
                       {payments.map((p) => {
-                        const formattedDate = p.createdAt?.toDate
-                          ? p.createdAt.toDate().toLocaleDateString("fr-FR")
-                          : "—";
+                        const formattedDate = formatLocaleDate(
+                          p.createdAt?.toDate ? p.createdAt.toDate() : null
+                        );
                         return (
                           <tr
                             key={p.id}
@@ -823,7 +832,7 @@ export default function MesFormationsPage() {
                               {courseTitleMap.get(p.courseId) || p.courseId}
                             </td>
                             <td className="px-5 py-3 font-mono font-semibold text-ice-white tabular-nums whitespace-nowrap">
-                              {p.amount} {p.currency}
+                              {formatLocaleNumber(p.amount)} {p.currency}
                             </td>
                             <td className="px-5 py-3 font-mono text-xs text-slate-700 dark:text-ice-white/70 uppercase">
                               {p.method}

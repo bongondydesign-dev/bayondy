@@ -32,6 +32,7 @@ export function extractSafeAuthErrorDetail(err: unknown): string | null {
   }
 
   if (
+    process.env.NODE_ENV === "development" &&
     code === "auth/missing-config" &&
     err &&
     typeof err === "object" &&

@@ -145,3 +145,29 @@ test("runFulfillPaidOrderTransaction rejects amount mismatch without performing 
   assert.equal(store.get(orderId)?.status, "awaiting_payment");
   assert.equal(store.get("user_3_course_3"), undefined);
 });
+
+test("runFulfillPaidOrderTransaction rejects null amount on unpaid order without writes", async () => {
+  const orderId = "byd_missing_amount";
+  const { db, store, operations } = createStrictMockDb({
+    [orderId]: {
+      uid: "user_4",
+      courseId: "course_4",
+      amount: 2000,
+      status: "awaiting_payment",
+    },
+  });
+
+  const result = await runFulfillPaidOrderTransaction({
+    db,
+    paymentRef: { id: orderId },
+    reference: orderId,
+    amount: null,
+    paidAtValue: null,
+    serverTimestamp: "SERVER_TS",
+  });
+
+  assert.equal(result.outcome, "amount_mismatch");
+  assert.deepEqual(operations, [`get:${orderId}`]);
+  assert.equal(store.get(orderId)?.status, "awaiting_payment");
+  assert.equal(store.get("user_4_course_4"), undefined);
+});

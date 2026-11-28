@@ -56,7 +56,13 @@ export async function runFulfillPaidOrderTransaction(params: {
       status?: string;
     };
 
-    if (!amountsMatch(data.amount, amount)) {
+    const alreadyPaid = data.status === "paid";
+
+    if (
+      !amountsMatch(data.amount, amount, {
+        requireActual: !alreadyPaid,
+      })
+    ) {
       return { outcome: "amount_mismatch" as const };
     }
 
@@ -67,8 +73,6 @@ export async function runFulfillPaidOrderTransaction(params: {
     const enrollmentSnap = enrollmentRef ? await tx.get(enrollmentRef) : null;
 
     // 2. Toutes les écritures Firestore APRÈS la fin de toutes les lectures
-    const alreadyPaid = data.status === "paid";
-
     if (!alreadyPaid) {
       tx.update(paymentRef, {
         status: "paid",

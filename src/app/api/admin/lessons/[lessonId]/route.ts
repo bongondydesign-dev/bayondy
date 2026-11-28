@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { slugifyCourseText } from "@/lib/admin/courseHelpers";
+import { isValidCourseDocId } from "@/lib/admin/courseDeletion";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
 import { resolveTikTokShortUrl } from "@/lib/video/resolveTikTok.server";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
+import { readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -18,14 +20,21 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
-  const { lessonId } = await ctx.params;
-
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 });
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
   }
+
+  const { lessonId: rawLessonId } = await ctx.params;
+  if (!isValidCourseDocId(rawLessonId)) {
+    return NextResponse.json({ error: "Identifiant de leçon invalide." }, { status: 400 });
+  }
+  const lessonId = rawLessonId.trim();
+
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
+  }
+  const body = bodyResult.data;
 
   const { data, errors } = validateLessonInput(body);
   if (errors.length > 0) {
@@ -109,7 +118,15 @@ export async function DELETE(req: NextRequest, ctx: RouteContext) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
-  const { lessonId } = await ctx.params;
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
+  const { lessonId: rawLessonId } = await ctx.params;
+  if (!isValidCourseDocId(rawLessonId)) {
+    return NextResponse.json({ error: "Identifiant de leçon invalide." }, { status: 400 });
+  }
+  const lessonId = rawLessonId.trim();
   const db = getAdminDb();
 
   try {

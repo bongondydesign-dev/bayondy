@@ -13,6 +13,7 @@ export interface ParsedMonCashWebhookPayload {
   event: string;
   reference: string;
   amount: number | null;
+  currency: string | null;
   status: string | null;
   completedAt: string | number | null;
 }
@@ -54,27 +55,12 @@ export function verifyMonCashWebhookTimestamp(
   return { ok: true, timestamp };
 }
 
-/**
- * Calcule la signature attendue au format "sha256=<hex>" sur le corps brut.
- */
-export function signMonCashWebhookPayload(rawBody: string, secret: string): string {
-  const hex = crypto
-    .createHmac("sha256", secret)
-    .update(rawBody, "utf8")
-    .digest("hex");
-  return `sha256=${hex}`;
-}
-
-/**
- * Vérifie la signature HMAC-SHA256 (`x-mcc-signature: sha256=<hex>`)
- * en temps constant (`crypto.timingSafeEqual`) sur le corps brut.
- */
-export function verifyMonCashWebhookSignature(
-  rawBody: string,
+function verifyHmacSha256Signature(
+  signedPayload: string,
   signatureHeader: string | null | undefined,
   secret: string
 ): boolean {
-  if (!secret || typeof rawBody !== "string") return false;
+  if (!secret || typeof signedPayload !== "string") return false;
 
   const trimmedSig = typeof signatureHeader === "string" ? signatureHeader.trim() : "";
   const match = SIGNATURE_HEADER_REGEX.exec(trimmedSig);
@@ -83,7 +69,7 @@ export function verifyMonCashWebhookSignature(
   const providedHex = match[1].toLowerCase();
   const expectedHex = crypto
     .createHmac("sha256", secret)
-    .update(rawBody, "utf8")
+    .update(signedPayload, "utf8")
     .digest("hex");
 
   const providedBuf = Buffer.from(providedHex, "hex");
@@ -94,6 +80,60 @@ export function verifyMonCashWebhookSignature(
   }
 
   return crypto.timingSafeEqual(providedBuf, expectedBuf);
+}
+
+/**
+ * Calcule la signature historique au format "sha256=<hex>" sur le corps brut.
+ */
+export function signMonCashWebhookPayload(rawBody: string, secret: string): string {
+  const hex = crypto
+    .createHmac("sha256", secret)
+    .update(rawBody, "utf8")
+    .digest("hex");
+  return `sha256=${hex}`;
+}
+
+/**
+ * Calcule la signature V2 recommandée par MonCashConnect :
+ * HMAC-SHA256 sur `${timestamp}.${rawBody}`.
+ */
+export function signMonCashWebhookPayloadV2(
+  rawBody: string,
+  timestampHeader: string | number,
+  secret: string
+): string {
+  const hex = crypto
+    .createHmac("sha256", secret)
+    .update(`${String(timestampHeader).trim()}.${rawBody}`, "utf8")
+    .digest("hex");
+  return `sha256=${hex}`;
+}
+
+/**
+ * Vérifie la signature HMAC-SHA256 V1 (`x-mcc-signature: sha256=<hex>`)
+ * en temps constant (`crypto.timingSafeEqual`) sur le corps brut.
+ */
+export function verifyMonCashWebhookSignature(
+  rawBody: string,
+  signatureHeader: string | null | undefined,
+  secret: string
+): boolean {
+  return verifyHmacSha256Signature(rawBody, signatureHeader, secret);
+}
+
+/**
+ * Vérifie la signature HMAC-SHA256 V2 (`x-mcc-signature-v2: sha256=<hex>`)
+ * sur `${rawTimestamp}.${rawBody}` en temps constant (empêche le rejeu par substitution de timestamp).
+ */
+export function verifyMonCashWebhookSignatureV2(
+  rawBody: string,
+  timestampHeader: string | null | undefined,
+  signatureV2Header: string | null | undefined,
+  secret: string
+): boolean {
+  const ts = typeof timestampHeader === "string" ? timestampHeader.trim() : "";
+  if (!ts || typeof rawBody !== "string") return false;
+  return verifyHmacSha256Signature(`${ts}.${rawBody}`, signatureV2Header, secret);
 }
 
 /**
@@ -160,6 +200,11 @@ export function parseMonCashWebhookEvent(
           Number.isFinite(Number(rawAmount.trim()))
         ? Number(rawAmount.trim())
         : null;
+  const rawCurrency = obj.currency ?? nestedData?.currency;
+  const currency =
+    typeof rawCurrency === "string" && rawCurrency.trim()
+      ? rawCurrency.trim().toUpperCase()
+      : null;
   const rawStatus = obj.status ?? nestedData?.status;
   const status = typeof rawStatus === "string" ? rawStatus.trim() : null;
   const rawCompletedAt = obj.completedAt ?? nestedData?.completedAt;
@@ -174,6 +219,7 @@ export function parseMonCashWebhookEvent(
       event,
       reference,
       amount,
+      currency,
       status,
       completedAt,
     },

@@ -3,18 +3,27 @@ import { getAdminAuth, getAdminDb, hasAdminCredentials } from "@/lib/firebase-ad
 import {
   findPaymentRefByReference,
   fulfillPaidOrderTransaction,
+  markExpiredOrderTransaction,
   markFailedOrderTransaction,
 } from "@/lib/moncash/fulfillment";
 import {
   buildMonCashPayStatusHeaders,
   buildMonCashPayStatusLookupUrls,
+  extractSafeHttpOrigin,
   extractSafeUpstreamError,
+  isAllowedMonCashCurrency,
+  isPaymentExpired24h,
   parseMonCashPayStatusResponse,
-  resolveMonCashCandidateOrigins,
   resolveMonCashSecretKey,
+  resolvePinnedSiteOrigins,
+  validateMonCashSecretKeyForEnv,
   type ParsedMonCashPayStatus,
 } from "@/lib/moncash/status";
 import { ORDER_ID_REGEX } from "@/lib/moncash/validation";
+import {
+  checkFirestoreUidRateLimit,
+  readJsonBodyWithLimit,
+} from "@/lib/server/requestGuards";
 
 const MONCASH_PAY_STATUS_URL = "https://api.moncashconnect.com/v1/pay-status";
 
@@ -56,6 +65,26 @@ function toIsoStringOrNull(ts: unknown): string | null {
   return null;
 }
 
+function toMillisOrNull(ts: unknown): number | null {
+  if (
+    ts &&
+    typeof ts === "object" &&
+    "toMillis" in ts &&
+    typeof (ts as { toMillis?: () => number }).toMillis === "function"
+  ) {
+    try {
+      return (ts as { toMillis: () => number }).toMillis();
+    } catch {
+      return null;
+    }
+  }
+  if (typeof ts === "string" && ts.trim()) {
+    const ms = Date.parse(ts.trim());
+    return Number.isNaN(ms) ? null : ms;
+  }
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   // 1. Authentification Firebase ID Token requise
   const authHeader = req.headers.get("authorization") ?? "";
@@ -86,41 +115,58 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 2. Lecture optionnelle de orderId dans le corps JSON
-  let requestedOrderId: string | null = null;
-  try {
-    const rawText = await req.text();
-    if (rawText.trim()) {
-      const parsedBody = JSON.parse(rawText) as Record<string, unknown>;
-      if (parsedBody && typeof parsedBody === "object" && !Array.isArray(parsedBody)) {
-        const candidate =
-          typeof parsedBody.orderId === "string"
-            ? parsedBody.orderId.trim()
-            : typeof parsedBody.referenceId === "string"
-              ? parsedBody.referenceId.trim()
-              : typeof parsedBody.reference === "string"
-                ? parsedBody.reference.trim()
-                : "";
-        if (candidate) {
-          if (!ORDER_ID_REGEX.test(candidate)) {
-            return NextResponse.json(
-              { error: "Referans kòmand la pa valid.", code: "INVALID_ORDER_ID" },
-              { status: 400 }
-            );
-          }
-          requestedOrderId = candidate;
-        }
-      }
-    }
-  } catch {
+  // 2. Lecture bornée (<= 16 Ko) de orderId dans le corps JSON
+  const bodyResult = await readJsonBodyWithLimit(req, 16 * 1024);
+  if (!bodyResult.ok) {
     return NextResponse.json(
-      { error: "Kò JSON an pa valid.", code: "INVALID_JSON" },
-      { status: 400 }
+      { error: "Kò JSON an pa valid.", code: bodyResult.code },
+      { status: bodyResult.status }
     );
+  }
+
+  let requestedOrderId: string | null = null;
+  if (
+    bodyResult.data &&
+    typeof bodyResult.data === "object" &&
+    !Array.isArray(bodyResult.data)
+  ) {
+    const parsedBody = bodyResult.data as Record<string, unknown>;
+    const candidate =
+      typeof parsedBody.orderId === "string"
+        ? parsedBody.orderId.trim()
+        : typeof parsedBody.referenceId === "string"
+          ? parsedBody.referenceId.trim()
+          : typeof parsedBody.reference === "string"
+            ? parsedBody.reference.trim()
+            : "";
+    if (candidate) {
+      if (!ORDER_ID_REGEX.test(candidate)) {
+        return NextResponse.json(
+          { error: "Referans kòmand la pa valid.", code: "INVALID_ORDER_ID" },
+          { status: 400 }
+        );
+      }
+      requestedOrderId = candidate;
+    }
   }
 
   try {
     const db = getAdminDb();
+
+    // Limitation de débit par utilisateur (max 30 vérifications / 5 min)
+    const withinLimit = await checkFirestoreUidRateLimit({
+      db,
+      scope: "moncash_verify",
+      uid,
+      maxRequests: 30,
+      windowSeconds: 300,
+    });
+    if (!withinLimit) {
+      return NextResponse.json(
+        { error: "Ou fè twòp verifikasyon. Tann kèk segond.", code: "RATE_LIMITED" },
+        { status: 429 }
+      );
+    }
 
     // 3. Résolution du document paiement (par orderId ou dernier paiement de l'élève)
     interface PaymentDocData {
@@ -201,6 +247,7 @@ export async function POST(req: NextRequest) {
         ? paymentData.method.trim()
         : "moncash";
     const createdAt = toIsoStringOrNull(paymentData.createdAt);
+    const createdAtMs = toMillisOrNull(paymentData.createdAt);
     const paidAt = toIsoStringOrNull(paymentData.paidAt);
 
     // 4. Si déjà payé (ex: via webhook), s'assurer que l'inscription est bien active
@@ -251,45 +298,40 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 5. Interroger MonCashConnect /v1/pay-status côté serveur avec en-tête Origin et fallbacks
-    const mccSecretKey = resolveMonCashSecretKey(process.env);
-
-    if (!mccSecretKey) {
+    // 5. Interroger MonCashConnect /v1/pay-status côté serveur avec origines épinglées
+    const rawMccSecret = resolveMonCashSecretKey(process.env);
+    const keyCheck = validateMonCashSecretKeyForEnv(rawMccSecret, process.env);
+    if (!keyCheck.ok) {
       return NextResponse.json(
-        { error: "Sèvis MonCash la poko konfigire sou sèvè a.", code: "MCC_SECRET_MISSING" },
+        { error: "Sèvis MonCash la poko konfigire sou sèvè a.", code: keyCheck.code },
         { status: 503 }
       );
     }
+    const mccSecretKey = keyCheck.key;
 
     const course = await resolveCourseDetails(db, courseId);
 
-    const candidateOrigins = resolveMonCashCandidateOrigins({
-      returnUrl: paymentData.returnUrl,
-      requestOriginHeader: req.headers.get("origin"),
-      forwardedHost: req.headers.get("x-forwarded-host") || req.headers.get("host"),
-      forwardedProto: req.headers.get("x-forwarded-proto"),
-      nextUrlOrigin: req.nextUrl?.origin,
-      configuredSiteUrl: process.env.NEXT_PUBLIC_SITE_URL,
-    });
+    const pinnedOrigins = resolvePinnedSiteOrigins(process.env, req.nextUrl?.origin);
+    const returnOrigin = extractSafeHttpOrigin(paymentData.returnUrl);
+    const primaryOrigin =
+      returnOrigin && pinnedOrigins.includes(returnOrigin)
+        ? returnOrigin
+        : pinnedOrigins[0] ?? null;
 
     const lookupUrls = buildMonCashPayStatusLookupUrls(MONCASH_PAY_STATUS_URL, [
       orderId,
       paymentData.providerReference,
     ]);
 
-    // Essayer d'abord l'origine principale ; si 403 Origin not allowed, tester les origines alternatives puis sans Origin
-    const originAttempts: Array<string | null> = [
-      ...candidateOrigins,
-      null,
-    ];
+    const originAttempts: Array<string | null> = primaryOrigin
+      ? [primaryOrigin, null]
+      : [null];
 
     let parsedStatus: ParsedMonCashPayStatus | null = null;
     let lastUpstreamStatus: number | null = null;
     let lastUpstreamCode: string | null = null;
-    let lastUpstreamMessage: string | null = null;
     let sawNetworkError = false;
     let sawOriginForbidden = false;
-    let originUsed: string | null = originAttempts[0] ?? null;
 
     for (const attemptOrigin of originAttempts) {
       const mccHeaders = buildMonCashPayStatusHeaders(mccSecretKey, attemptOrigin);
@@ -310,21 +352,16 @@ export async function POST(req: NextRequest) {
         }
 
         lastUpstreamStatus = mccRes.status;
-        originUsed = attemptOrigin;
         const rawPayload = await mccRes.json().catch(() => null);
         const upstreamErr = extractSafeUpstreamError(rawPayload);
         if (upstreamErr.code) lastUpstreamCode = upstreamErr.code;
-        if (upstreamErr.message) lastUpstreamMessage = upstreamErr.message;
 
         if (mccRes.status === 401) {
-          console.error("[moncash/verify] MonCashConnect rejected secret key (401)", {
-            orderId,
-          });
+          console.error("[moncash/verify] Upstream authentication error", { orderId });
           return NextResponse.json(
             {
-              error: "Kle sèvè MonCashConnect la pa valid oswa li ekspire.",
-              code: "MCC_AUTH_FAILED",
-              upstreamStatus: 401,
+              error: "Sèvis verifikasyon peman an pa disponib kounye a.",
+              code: "MCC_SERVICE_UNAVAILABLE",
             },
             { status: 502 }
           );
@@ -338,15 +375,11 @@ export async function POST(req: NextRequest) {
 
         if (!mccRes.ok) {
           if (mccRes.status >= 500 && upstreamErr.message === "project_lookup_failed") {
-            console.error("[moncash/verify] MonCashConnect project_lookup_failed (502)", {
-              orderId,
-            });
+            console.error("[moncash/verify] Upstream configuration error", { orderId });
             return NextResponse.json(
               {
-                error:
-                  "Kle MCC_SECRET_KEY a pa rekonèt bò kote MonCashConnect (project_lookup_failed). Verifye si w mete bon kle pwojè a (Sandbox/Live).",
-                code: "MCC_PROJECT_LOOKUP_FAILED",
-                upstreamStatus: mccRes.status,
+                error: "Sèvis verifikasyon peman an rankontre yon erè konfigirasyon.",
+                code: "MCC_SERVICE_UNAVAILABLE",
               },
               { status: 502 }
             );
@@ -368,36 +401,52 @@ export async function POST(req: NextRequest) {
 
     if (!parsedStatus) {
       if (sawOriginForbidden && lastUpstreamStatus === 403) {
-        console.error("[moncash/verify] MonCashConnect rejected Origin/domain (403)", {
-          orderId,
-          originUsed,
-        });
+        console.error("[moncash/verify] Upstream origin rejected (403)", { orderId });
         return NextResponse.json(
           {
-            error:
-              "Domèn sit la pa otorize nan paramèt MonCashConnect yo (403 Allowed domains / Origin).",
+            error: "Sèvis verifikasyon peman an refize domèn rekèt la.",
             code: "MCC_ORIGIN_NOT_ALLOWED",
-            upstreamStatus: 403,
           },
           { status: 502 }
         );
       }
 
       if (lastUpstreamStatus !== null && lastUpstreamStatus >= 500) {
-        console.error("[moncash/verify] MonCashConnect upstream server error", {
+        console.error("[moncash/verify] Upstream server error", {
           orderId,
           lastUpstreamStatus,
           lastUpstreamCode,
         });
         return NextResponse.json(
           {
-            error: `Sèvè MonCashConnect la retounen yon erè (${lastUpstreamStatus}${
-              lastUpstreamMessage ? `: ${lastUpstreamMessage}` : ""
-            }). Verifye kle MCC_SECRET_KEY ou a.`,
+            error: "Sèvis peman an gen yon pwoblèm tanporè. Eseye ankò nan kèk minit.",
             code: "MCC_UPSTREAM_ERROR",
-            upstreamStatus: lastUpstreamStatus,
           },
           { status: 502 }
+        );
+      }
+
+      if (isPaymentExpired24h(createdAtMs)) {
+        await markExpiredOrderTransaction({
+          db,
+          paymentRef,
+          failureReason: "PAYMENT_EXPIRED_24H",
+        });
+        return NextResponse.json(
+          {
+            ok: true,
+            status: "failed",
+            orderId,
+            courseId,
+            courseSlug: course.slug,
+            courseTitle: course.title,
+            amount,
+            currency,
+            method,
+            paidAt: createdAt,
+            failureReason: "PAYMENT_EXPIRED_24H",
+          },
+          { status: 200 }
         );
       }
 
@@ -407,18 +456,8 @@ export async function POST(req: NextRequest) {
           lastUpstreamStatus,
           lastUpstreamCode,
           sawNetworkError,
-          originUsed,
         });
       }
-
-      const diagnostic =
-        lastUpstreamStatus === 404
-          ? "MonCashConnect poko jwenn referans kòmand sa a (404). Verifye si kle MCC_SECRET_KEY la koresponn ak menm pwojè ak menm mòd (Sandbox oswa Live) kote peman an fèt la."
-          : lastUpstreamStatus !== null && lastUpstreamStatus >= 400
-            ? `MonCashConnect retounen estati ${lastUpstreamStatus}${
-                lastUpstreamMessage ? ` (${lastUpstreamMessage})` : ""
-              }.`
-            : null;
 
       return NextResponse.json(
         {
@@ -433,8 +472,6 @@ export async function POST(req: NextRequest) {
           method,
           paidAt: createdAt,
           ...(sawNetworkError ? { transient: true } : {}),
-          ...(lastUpstreamStatus !== null ? { upstreamStatus: lastUpstreamStatus } : {}),
-          ...(diagnostic ? { diagnostic } : {}),
         },
         { status: 200 }
       );
@@ -443,6 +480,13 @@ export async function POST(req: NextRequest) {
     const parsedStatusData = parsedStatus;
 
     if (parsedStatusData.status === "completed") {
+      if (!isAllowedMonCashCurrency(parsedStatusData.currency)) {
+        return NextResponse.json(
+          { error: "Deviz peman an pa koresponn.", code: "CURRENCY_MISMATCH" },
+          { status: 400 }
+        );
+      }
+
       const fulfilled = await fulfillPaidOrderTransaction({
         db,
         paymentRef,
@@ -452,6 +496,7 @@ export async function POST(req: NextRequest) {
       });
 
       if (fulfilled.outcome === "amount_mismatch") {
+        console.warn("[moncash/verify] Amount mismatch detected", { orderId });
         return NextResponse.json(
           { error: "Montan peman an pa koresponn.", code: "AMOUNT_MISMATCH" },
           { status: 400 }
@@ -496,6 +541,31 @@ export async function POST(req: NextRequest) {
           method,
           paidAt: createdAt,
           failureReason: parsedStatusData.failureReason,
+        },
+        { status: 200 }
+      );
+    }
+
+    if (isPaymentExpired24h(createdAtMs)) {
+      await markExpiredOrderTransaction({
+        db,
+        paymentRef,
+        failureReason: "PAYMENT_EXPIRED_24H",
+      });
+
+      return NextResponse.json(
+        {
+          ok: true,
+          status: "failed",
+          orderId,
+          courseId,
+          courseSlug: course.slug,
+          courseTitle: course.title,
+          amount,
+          currency,
+          method,
+          paidAt: createdAt,
+          failureReason: "PAYMENT_EXPIRED_24H",
         },
         { status: 200 }
       );

@@ -287,7 +287,7 @@ export default function ProfilPage() {
                         if (nameFeedback) setNameFeedback(null);
                       }}
                       placeholder={t("auth.nomPlaceholder")}
-                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+                      className="w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
                     />
                   </div>
 
@@ -305,7 +305,7 @@ export default function ProfilPage() {
                         type="email"
                         readOnly
                         value={user.email || t("profil.nonDefini")}
-                        className="flex-1 min-w-0 min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/70 text-sm cursor-default focus:outline-none"
+                        className="flex-1 min-w-0 min-h-[46px] px-4 py-2.5 rounded-xl bg-[var(--surface-well)] dark:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] text-slate-700 dark:text-ice-white/70 text-base sm:text-sm cursor-default focus:outline-none"
                       />
                       {user.email && (
                         <button

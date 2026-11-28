@@ -4,6 +4,7 @@ import { writeAdminLog } from "@/lib/admin/adminLog";
 import { slugifyCourseText } from "@/lib/admin/courseHelpers";
 import { validateCourseInput } from "@/lib/admin/validation";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 import { FieldValue } from "firebase-admin/firestore";
 
 // GET /api/admin/courses — liste toutes les formations (published + draft)
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const db = getAdminDb();
-    const snap = await db.collection("courses").orderBy("createdAt", "desc").get();
+    const snap = await db.collection("courses").orderBy("createdAt", "desc").limit(200).get();
     const courses = snap.docs.map((doc) => {
       const d = doc.data();
       return {
@@ -34,8 +35,7 @@ export async function GET(req: NextRequest) {
       };
     });
     return NextResponse.json({ courses });
-  } catch (err) {
-    console.error("[admin/courses GET]", err instanceof Error ? err.message : err);
+  } catch {
     return NextResponse.json({ error: "Erè sèvè." }, { status: 500 });
   }
 }
@@ -49,12 +49,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
   }
 
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 });
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
   }
+  const body = bodyResult.data;
 
   const { data, errors } = validateCourseInput(body, { isCreate: true });
   if (errors.length > 0) {

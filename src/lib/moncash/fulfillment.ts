@@ -122,3 +122,29 @@ export async function markFailedOrderTransaction(params: {
     return "failed" as const;
   });
 }
+
+export async function markExpiredOrderTransaction(params: {
+  db: Firestore;
+  paymentRef: DocumentReference;
+  failureReason?: string;
+}): Promise<"expired" | "already_paid" | "already_final" | "not_found"> {
+  const { db, paymentRef, failureReason = "PAYMENT_EXPIRED_24H" } = params;
+
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(paymentRef);
+    if (!snap.exists) return "not_found" as const;
+
+    const data = snap.data() as { status?: string };
+    if (data.status === "paid") return "already_paid" as const;
+    if (data.status === "failed" || data.status === "expired") {
+      return "already_final" as const;
+    }
+
+    tx.update(paymentRef, {
+      status: "expired",
+      failureReason: failureReason.slice(0, 120),
+    });
+
+    return "expired" as const;
+  });
+}

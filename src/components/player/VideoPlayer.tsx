@@ -118,7 +118,7 @@ export function VideoPlayer({
               href={playback.externalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-medium text-brand-light hover:underline shrink-0 min-h-[36px]"
+              className="inline-flex items-center gap-1.5 font-medium text-brand-light hover:underline shrink-0 min-h-[44px]"
             >
               <span>{t("lecteur.ouvrirTikTok")}</span>
               <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />

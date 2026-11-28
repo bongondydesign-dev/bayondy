@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { slugifyCourseText } from "@/lib/admin/courseHelpers";
+import { isValidCourseDocId } from "@/lib/admin/courseDeletion";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
 import { resolveTikTokShortUrl } from "@/lib/video/resolveTikTok.server";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
+import { readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -22,14 +24,17 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
     return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
   }
 
-  const { id: courseId } = await ctx.params;
-
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 });
+  const { id } = await ctx.params;
+  if (!isValidCourseDocId(id)) {
+    return NextResponse.json({ error: "Identifiant de formation invalide." }, { status: 400 });
   }
+  const courseId = id.trim();
+
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
+  }
+  const body = bodyResult.data;
 
   // Injecter courseId dans le body avant validation
   const bodyWithCourse =

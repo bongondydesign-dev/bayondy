@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
+import { isValidCourseDocId } from "@/lib/admin/courseDeletion";
 import { chunkArray, validateClearPaymentsBody } from "@/lib/admin/paymentDeletion";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { parsePositiveIntLimit, readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 
 // GET /api/admin/payments?limit=50&startAfter=<docId>
 export async function GET(req: NextRequest) {
@@ -15,14 +17,14 @@ export async function GET(req: NextRequest) {
 
   const db = getAdminDb();
   const url = new URL(req.url);
-  const pageSize = Math.min(parseInt(url.searchParams.get("limit") ?? "50", 10), 50);
-  const startAfter = url.searchParams.get("startAfter") ?? null;
+  const pageSize = parsePositiveIntLimit(url.searchParams.get("limit"), 50, 50);
+  const startAfter = url.searchParams.get("startAfter");
 
   try {
     let query = db.collection("payments").orderBy("createdAt", "desc").limit(pageSize);
 
-    if (startAfter) {
-      const cursorDoc = await db.collection("payments").doc(startAfter).get();
+    if (isValidCourseDocId(startAfter)) {
+      const cursorDoc = await db.collection("payments").doc(startAfter.trim()).get();
       if (cursorDoc.exists) {
         query = query.startAfter(cursorDoc);
       }
@@ -64,12 +66,11 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
   }
 
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Kò JSON an pa valid." }, { status: 400 });
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
   }
+  const body = bodyResult.data;
 
   const validation = validateClearPaymentsBody(body);
   if (!validation.ok) {

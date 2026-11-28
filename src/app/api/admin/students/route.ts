@@ -1,22 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
-import { getAdminDb } from "@/lib/firebase-admin";
+import { isValidCourseDocId } from "@/lib/admin/courseDeletion";
+import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { parsePositiveIntLimit } from "@/lib/server/requestGuards";
 
 // GET /api/admin/students?limit=50&startAfter=<docId>
 export async function GET(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
+  }
+
   const db = getAdminDb();
   const url = new URL(req.url);
-  const pageSize = Math.min(parseInt(url.searchParams.get("limit") ?? "50", 10), 50);
-  const startAfter = url.searchParams.get("startAfter") ?? null;
+  const pageSize = parsePositiveIntLimit(url.searchParams.get("limit"), 50, 50);
+  const startAfter = url.searchParams.get("startAfter");
 
   try {
     // Liste des utilisateurs
     let query = db.collection("users").orderBy("createdAt", "desc").limit(pageSize);
-    if (startAfter) {
-      const cursorDoc = await db.collection("users").doc(startAfter).get();
+    if (isValidCourseDocId(startAfter)) {
+      const cursorDoc = await db.collection("users").doc(startAfter.trim()).get();
       if (cursorDoc.exists) {
         query = query.startAfter(cursorDoc);
       }

@@ -5,6 +5,7 @@ export interface ParsedMonCashPayStatus {
   status: "completed" | "failed" | "pending";
   reference: string | null;
   amount: number | null;
+  currency: string | null;
   completedAt: string | number | null;
   failureReason: string | null;
 }
@@ -90,6 +91,90 @@ export function resolveMonCashSecretKey(env: Record<string, string | undefined>)
     .trim()
     .replace(/^(['"])([\s\S]*)\1$/, "$2")
     .trim();
+}
+
+export type MonCashKeyEnvValidation =
+  | { ok: true; key: string; mode: "live" | "sandbox" }
+  | { ok: false; code: "MCC_SECRET_MISSING" | "MCC_KEY_ENV_MISMATCH" };
+
+/**
+ * Empêche d'utiliser une clé de test (sk_test_proj_*) en production
+ * et une clé live (sk_proj_*) en environnement sandbox/preview/dev.
+ */
+export function validateMonCashSecretKeyForEnv(
+  secretKey: string,
+  env: Record<string, string | undefined>
+): MonCashKeyEnvValidation {
+  const trimmed = secretKey.trim();
+  if (!trimmed) {
+    return { ok: false, code: "MCC_SECRET_MISSING" };
+  }
+
+  const isProduction =
+    env.VERCEL_ENV === "production" ||
+    (!env.VERCEL_ENV && env.NODE_ENV === "production");
+
+  const isTestKey = trimmed.startsWith("sk_test_");
+  const isLiveKey = trimmed.startsWith("sk_proj_") || trimmed.startsWith("sk_live_");
+
+  if (isProduction && isTestKey) {
+    return { ok: false, code: "MCC_KEY_ENV_MISMATCH" };
+  }
+  if (!isProduction && isLiveKey) {
+    return { ok: false, code: "MCC_KEY_ENV_MISMATCH" };
+  }
+
+  return {
+    ok: true,
+    key: trimmed,
+    mode: isTestKey ? "sandbox" : "live",
+  };
+}
+
+/**
+ * Retourne uniquement les origines de site épinglées par configuration serveur
+ * (jamais d'en-têtes Host / X-Forwarded-Host / Origin arbitraires en production).
+ */
+export function resolvePinnedSiteOrigins(
+  env: Record<string, string | undefined>,
+  fallbackRequestOrigin?: string | null
+): string[] {
+  const unique: string[] = [];
+  const candidates: Array<string | undefined> = [
+    env.NEXT_PUBLIC_SITE_URL,
+    env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined,
+    env.VERCEL_URL ? `https://${env.VERCEL_URL}` : undefined,
+    env.APP_URL,
+  ];
+
+  for (const candidate of candidates) {
+    const safe = extractSafeHttpOrigin(candidate);
+    if (safe && !unique.includes(safe)) {
+      unique.push(safe);
+    }
+  }
+
+  const fallbackSafe = extractSafeHttpOrigin(fallbackRequestOrigin);
+  if (fallbackSafe) {
+    const parsed = new URL(fallbackSafe);
+    const isLocalhost =
+      parsed.hostname === "localhost" ||
+      parsed.hostname === "127.0.0.1" ||
+      parsed.hostname === "::1";
+    const isProduction =
+      env.VERCEL_ENV === "production" ||
+      (!env.VERCEL_ENV && env.NODE_ENV === "production");
+
+    if ((unique.length === 0 && !isProduction) || (isLocalhost && !isProduction)) {
+      if (!unique.includes(fallbackSafe)) {
+        unique.push(fallbackSafe);
+      }
+    }
+  }
+
+  return unique;
 }
 
 /**
@@ -258,14 +343,55 @@ export function normalizeMonCashWebhookEvent(
   return "ignored";
 }
 
+export const PAYMENT_EXPIRATION_MS = 24 * 60 * 60 * 1000;
+export const RECENT_CHECKOUT_REUSE_MS = 15 * 60 * 1000;
+
+export function isPaymentExpired24h(
+  createdAtMs: number | null | undefined,
+  nowMs: number = Date.now()
+): boolean {
+  if (typeof createdAtMs !== "number" || !Number.isFinite(createdAtMs) || createdAtMs <= 0) {
+    return false;
+  }
+  return nowMs - createdAtMs >= PAYMENT_EXPIRATION_MS;
+}
+
+export function isCheckoutSessionReusable(
+  createdAtMs: number | null | undefined,
+  nowMs: number = Date.now()
+): boolean {
+  if (typeof createdAtMs !== "number" || !Number.isFinite(createdAtMs) || createdAtMs <= 0) {
+    return false;
+  }
+  const age = nowMs - createdAtMs;
+  return age >= 0 && age < RECENT_CHECKOUT_REUSE_MS;
+}
+
+export function isAllowedMonCashCurrency(rawCurrency: unknown): boolean {
+  if (rawCurrency === null || rawCurrency === undefined || rawCurrency === "") {
+    return true;
+  }
+  return typeof rawCurrency === "string" && rawCurrency.trim().toUpperCase() === "HTG";
+}
+
 /**
  * Vérifie la cohérence des montants (en HTG arrondis).
- * Si le montant du fournisseur est absent (null/undefined), n'échoue pas faussement.
+ * Lorsque `requireActual` est true (nouveau paiement complété), un montant absent est refusé.
  */
-export function amountsMatch(expectedAmount: unknown, actualAmount: unknown): boolean {
-  if (actualAmount === null || actualAmount === undefined) return true;
-  if (typeof actualAmount !== "number" || !Number.isFinite(actualAmount)) return false;
-  if (typeof expectedAmount !== "number" || !Number.isFinite(expectedAmount)) return true;
+export function amountsMatch(
+  expectedAmount: unknown,
+  actualAmount: unknown,
+  options: { requireActual?: boolean } = {}
+): boolean {
+  if (actualAmount === null || actualAmount === undefined) {
+    return options.requireActual ? false : true;
+  }
+  if (typeof actualAmount !== "number" || !Number.isFinite(actualAmount) || actualAmount <= 0) {
+    return false;
+  }
+  if (typeof expectedAmount !== "number" || !Number.isFinite(expectedAmount) || expectedAmount <= 0) {
+    return false;
+  }
   return Math.round(expectedAmount) === Math.round(actualAmount);
 }
 
@@ -340,6 +466,14 @@ export function parseMonCashPayStatusResponse(
     }
   }
 
+  let currency: string | null = null;
+  for (const obj of candidates) {
+    if (typeof obj.currency === "string" && obj.currency.trim()) {
+      currency = obj.currency.trim().toUpperCase();
+      break;
+    }
+  }
+
   let completedAt: string | number | null = null;
   for (const obj of candidates) {
     const value = obj.completedAt ?? obj.paidAt ?? obj.updatedAt;
@@ -368,6 +502,7 @@ export function parseMonCashPayStatusResponse(
       status: normalized,
       reference,
       amount,
+      currency,
       completedAt,
       failureReason,
     },

@@ -12,14 +12,17 @@ import { EnrollButton } from "@/components/course/EnrollButton";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { getPublishedCourseBySlug } from "@/lib/courses/queries";
 import { formatDuration } from "@/lib/courses/format";
+import { isValidCoverUrl } from "@/lib/admin/cover";
 import { t } from "@/lib/i18n";
-import { formatPageTitle, SITE_NAME } from "@/lib/site";
+import { formatPageTitle, getSiteUrl, SITE_NAME } from "@/lib/site";
 
 export const instant = false;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
+
+const DEFAULT_OG_IMAGE = "/assets/aistudio/rs_w_1280_e5a11620.webp";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -33,16 +36,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const description =
     course.shortDescription || course.description || t("catalogue.sousTitre");
+  const ogImage = isValidCoverUrl(course.coverUrl) && course.coverUrl
+    ? course.coverUrl
+    : DEFAULT_OG_IMAGE;
 
   return {
     title: course.title,
     description,
+    alternates: {
+      canonical: `/formations/${course.slug}`,
+    },
     openGraph: {
       type: "website",
       siteName: SITE_NAME,
       title: formatPageTitle(course.title),
       description,
       url: `/formations/${course.slug}`,
+      images: [
+        {
+          url: ogImage,
+          alt: course.title,
+        },
+      ],
     },
   };
 }
@@ -58,9 +73,33 @@ export default async function CourseDetailPage({ params }: PageProps) {
   const durationText = formatDuration(course.durationMinutes);
   const levelKey = `catalogue.niveaux.${course.level}`;
   const languageKey = `catalogue.langues.${course.language}`;
+  const siteUrl = getSiteUrl();
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description:
+      course.shortDescription || course.description || t("catalogue.sousTitre"),
+    inLanguage: course.language || "ht",
+    url: `${siteUrl}/formations/${course.slug}`,
+    provider: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: siteUrl,
+    },
+    ...(isValidCoverUrl(course.coverUrl) && course.coverUrl
+      ? { image: course.coverUrl }
+      : {}),
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(courseJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -188,7 +227,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 <div className="space-y-3 pb-5 border-b border-[var(--border-subtle)]">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-mono text-[11px] font-medium text-slate-600 dark:text-zinc-400 uppercase tracking-[0.14em]">
-                      Pri
+                      {t("catalogue.prixLabel")}
                     </span>
                     <span className="font-sans text-xs font-medium text-emerald-700 dark:text-emerald-400">
                       {t("fonctionnalites.acces.titre")}

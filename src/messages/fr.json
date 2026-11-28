@@ -22,10 +22,7 @@
     "payerMonCash": "Payer avec MonCash",
     "redirection": "Redirection vers MonCash...",
     "erreurCreation": "Impossible d'initialiser le paiement MonCash. Veuillez réessayer.",
-    "continuer": "Continuer",
-    "enCours": "Paiement en cours de vérification",
-    "reussi": "Paiement réussi",
-    "echoue": "Paiement échoué"
+    "reussi": "Paiement réussi"
   },
   "lecon": {
     "terminee": "Leçon terminée"
@@ -38,11 +35,7 @@
   },
   "accueil": {
     "titre": "BAYONDY",
-    "slogan": "Apprendre. Créer. Avancer.",
-    "description": "Plateforme de formations vidéo en créole haïtien pour développer vos compétences.",
-    "detail": "Version 0.1.0 • Accès anticipé",
-    "boutonPrincipal": "S'inscrire",
-    "boutonSecondaire": "Mes formations"
+    "slogan": "Apprendre. Créer. Avancer."
   },
   "hero": {
     "badge": "Formations en créole",
@@ -56,7 +49,6 @@
     "apercu": {
       "badge": "Lecteur vidéo",
       "titre": "Leçon 01 : Introduction et bases",
-      "duree": "12:45",
       "listeTitre": "Programme des leçons",
       "lecon1": "01. Introduction et bases fondamentales",
       "lecon1Duree": "12:45",
@@ -64,8 +56,7 @@
       "lecon2Duree": "18:20",
       "lecon3": "03. Créer votre premier projet",
       "lecon3Duree": "24:10",
-      "progression": "Progression",
-      "progressionZero": "0%"
+      "progression": "Progression"
     }
   },
   "affirmation": {
@@ -105,8 +96,6 @@
     }
   },
   "fonctionnalites": {
-    "titreSection": "Pourquoi choisir Bayondy Akademi",
-    "sousTitreSection": "Une expérience d'apprentissage conçue spécifiquement pour vous.",
     "creole": {
       "titre": "Leçons en créole",
       "description": "Des explications claires dans votre langue maternelle pour comprendre chaque notion facilement."
@@ -184,7 +173,6 @@
   "auth": {
     "connexion": "Se connecter",
     "inscription": "S'inscrire",
-    "deconnexion": "Se déconnecter",
     "titreConnexion": "Connexion à votre compte",
     "sousTitreConnexion": "Reprenez vos cours là où vous vous étiez arrêté.",
     "titreInscription": "Créer votre compte",
@@ -225,7 +213,6 @@
       "configManquante": "Les variables d'environnement Firebase sont manquantes dans ce déploiement.",
       "cleApiInvalide": "La clé API Firebase est invalide ou manquante.",
       "appNonAutorisee": "Ce domaine ou cette application n'est pas autorisé à utiliser la clé Firebase.",
-      "configurationInvalide": "La configuration Firebase est incomplète ou invalide. Contactez l'administrateur.",
       "erreurReseau": "Problème de connexion réseau. Veuillez vérifier votre accès à Internet.",
       "generique": "Une erreur est survenue. Veuillez réessayer."
     },
@@ -236,14 +223,12 @@
   },
   "profil": {
     "titre": "Mon profil",
-    "sousTitre": "Informations de votre compte et sécurité.",
     "badge": "Mon compte",
     "nom": "Nom complet",
     "email": "E-mail",
     "nonDefini": "Non défini",
     "boutonDeconnexion": "Se déconnecter",
     "mesFormations": "Mes formations",
-    "chargement": "Chargement des informations...",
     "infoPersonnelles": "Informations personnelles",
     "enregistrer": "Enregistrer",
     "enregistrement": "Enregistrement...",
@@ -289,17 +274,13 @@
     "peyemanBientot": "Paiement bientôt disponible",
     "boutonInscrireConnexion": "Connectez-vous pour vous inscrire",
     "boutonInscrire": "S'inscrire",
-    "boutonAcheter": "Acheter la formation",
     "boutonAcceder": "Accéder à la formation",
     "accesAdminGratuit": "Accès admin — gratuit sans paiement",
-    "modalTitre": "Choisissez votre moyen de paiement",
-    "payerAvec": "Payer avec",
-    "traitementEnCours": "Préparation du paiement...",
-    "fermer": "Fermer",
     "gadeFormasyon": "Voir la formation",
     "lecons": "leçons",
     "leconSingulier": "leçon",
-    "duree": "Durée",
+    "prixLabel": "Prix",
+    "moduleLabel": "Module",
     "niveau": "Niveau",
     "langue": "Langue",
     "programme": "Programme de la formation",
@@ -330,6 +311,13 @@
     "retourAccueil": "Retour à l'accueil",
     "voirFormations": "Voir les formations"
   },
+  "erreurPage": {
+    "badge": "Erreur",
+    "titre": "Une erreur est survenue",
+    "description": "Impossible de charger cette page pour le moment. Veuillez réessayer.",
+    "reessayer": "Réessayer",
+    "retourAccueil": "Retour à l'accueil"
+  },
   "mesFormations": {
     "titre": "Tableau de bord",
     "sousTitre": "Reprenez votre apprentissage là où vous vous étiez arrêté.",
@@ -345,7 +333,6 @@
     "kpiLecons": "Leçons",
     "kpiProgression": "Progression",
     "continuerCardTitre": "Continuer à apprendre",
-    "aucuneLeconDemarree": "Aucune leçon démarrée.",
     "sectionParcours": "Mon parcours",
     "sectionParcoursTitre": "Mes formations",
     "filtreToutes": "Toutes",
@@ -371,12 +358,9 @@
     "vide": "Vous n'avez pas encore de formation.",
     "videDescription": "Explorez toutes les formations disponibles au catalogue pour commencer à apprendre dès aujourd'hui.",
     "boutonDecouvrir": "Découvrir les formations",
-    "chargement": "Chargement de vos formations...",
     "erreur": "Une erreur est survenue lors du chargement de vos formations.",
     "continuer": "Continuer",
     "progression": "Progression",
-    "leconCourante": "Dernière leçon visionnée",
-    "aucuneLecon": "Pas encore commencé",
     "terminee": "Terminé",
     "rechercher": "Rechercher une formation..."
   },
@@ -393,7 +377,6 @@
       "paiements": "Paiements"
     },
     "tableau": {
-      "titre": "Tableau de bord",
       "sousTitre": "Résumé de l'activité et des opérations Bayondy Akademi.",
       "formationsPubliees": "Formations publiées",
       "formationsDraft": "Brouillons",
@@ -473,7 +456,9 @@
     "lecons": {
       "titre": "Leçons",
       "ajouter": "Ajouter une leçon",
-      "vide": "Aucune leçon pour le moment."
+      "vide": "Aucune leçon pour le moment.",
+      "monter": "Monter la leçon",
+      "descendre": "Descendre la leçon"
     },
     "lecon": {
       "ajouter": "Ajouter une leçon",
@@ -485,7 +470,6 @@
       "champModuleTitrePlaceholder": "Module 1 : Introduction",
       "champTitre": "Titre de la leçon",
       "champTitrePlaceholder": "Leçon 1 : Présentation",
-      "champVideoId": "YouTube Video ID (11 caractères)",
       "champOrdre": "Ordre",
       "champDuree": "Durée (minutes)",
       "champApercu": "Aperçu gratuit (visible par tous)",
@@ -561,12 +545,9 @@
     "nonInscrit": "Vous n'êtes pas inscrit à cette formation",
     "nonInscritDescription": "Pour visionner toutes les leçons, vous devez d'abord vous inscrire à cette formation.",
     "boutonVoirFormation": "Voir les détails de la formation",
-    "chargement": "Chargement des leçons...",
     "erreur": "Un problème est survenue lors du chargement des leçons.",
     "videoIndisponible": "Cette vidéo n'est pas disponible actuellement.",
     "lancerVideo": "Cliquer pour regarder la vidéo",
-    "lesonTerminee": "Leçon terminée",
-    "dejaTerminee": "Terminée ✓",
     "enregistrement": "Enregistrement en cours...",
     "erreurEnregistrement": "Impossible d'enregistrer votre progression. Veuillez réessayer.",
     "listeLecons": "Liste des leçons",
@@ -649,7 +630,6 @@
     "s10_texte": "Pour toute question relative aux présentes conditions, contact officiel et date de dernière révision :"
   },
   "merci": {
-    "badge": "MonCash",
     "titre": "Merci pour votre commande",
     "sousTitre": "Votre retour depuis MonCash a bien été enregistré. Nous attendons la confirmation finale de l'opérateur.",
     "noteWebhook": "Dès réception de la confirmation finale, l'accès à votre formation sera activé automatiquement sur votre compte.",
@@ -677,7 +657,6 @@
     "etapeAcces": "Accès activé",
     "resiTitre": "Reçu de transaction",
     "formationDefaut": "Formation Bayondy Akademi",
-    "montanLabel": "Montant",
     "metodLabel": "Méthode",
     "estatiLabel": "Statut",
     "datLabel": "Date",
@@ -704,16 +683,13 @@
     "ctaFormations": "Voir les formations",
     "ctaPortfolio": "Voir le portfolio",
     "ctaLinkedin": "Profil LinkedIn",
-    "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Profil professionnel",
     "carteRoleLabel": "Rôle",
     "carteRoleValeur": "Développeur Web Freelance & Fondateur de Bayondy Akademi",
-    "carteBaseLabel": "Localisation",
     "carteBaseValeur": "Haïti",
     "carteFocusLabel": "Spécialité",
     "carteFocusValeur": "Sites web & Applications web modernes",
     "cartePresenceLabel": "Profils en ligne",
-    "cartePresenceValeur": "Portfolio · LinkedIn · Framer",
     "stackBadge": "Compétences & Technologies",
     "stackTitre": "Technologies principales",
     "stackSousTitre": "Une maîtrise complète des outils web modernes pour concevoir des produits rapides, fiables et évolutifs.",

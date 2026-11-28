@@ -62,6 +62,9 @@ export const metadata: Metadata = {
     template: SITE_TITLE_TEMPLATE,
   },
   description: defaultDescription,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -69,11 +72,20 @@ export const metadata: Metadata = {
     description: defaultDescription,
     locale: "ht_HT",
     url: "/",
+    images: [
+      {
+        url: "/assets/aistudio/rs_w_1280_e5a11620.webp",
+        width: 1280,
+        height: 720,
+        alt: SITE_NAME,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
+    images: ["/assets/aistudio/rs_w_1280_e5a11620.webp"],
   },
 };
 

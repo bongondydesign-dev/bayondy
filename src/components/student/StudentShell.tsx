@@ -213,7 +213,7 @@ export function StudentShell({
               disabled={signingOut}
               aria-label={t("profil.boutonDeconnexion")}
               title={t("profil.boutonDeconnexion")}
-              className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 text-slate-700 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 text-slate-700 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
               <LogOut className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -230,7 +230,7 @@ export function StudentShell({
 
   return (
     <div className="min-h-screen flex bg-transparent text-ice-white overflow-x-clip">
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-[var(--surface-sidebar)] backdrop-blur-xl border-r border-[var(--border-subtle)] sticky top-0 h-screen">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-[var(--surface-sidebar)] backdrop-blur-xl border-r border-[var(--border-subtle)] sticky top-0 h-dvh">
         {sidebarContent()}
       </aside>
 

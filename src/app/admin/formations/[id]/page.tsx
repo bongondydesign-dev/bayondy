@@ -87,7 +87,7 @@ function FieldGroup({
 function inputClass(error?: boolean) {
   return `w-full px-4 py-3 rounded-xl bg-white dark:bg-[var(--surface-well)] shadow-2xs dark:shadow-none border ${
     error ? "border-red-500 dark:border-red-400" : "border-[var(--border-strong)]"
-  } text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
+  } text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-brand-light focus:border-transparent transition-colors min-h-[48px]`;
 }
 
 function StatusLabel({ status }: { status: "draft" | "published" }) {
@@ -233,7 +233,7 @@ function LessonForm({
                   key={`${mod.moduleId}-${mod.moduleTitle}`}
                   type="button"
                   onClick={() => selectExistingModule(mod)}
-                  className={`min-h-[36px] px-3 py-1.5 rounded-lg border text-xs font-sans transition-colors cursor-pointer ${
+                  className={`min-h-[44px] px-3 py-1.5 rounded-lg border text-xs font-sans transition-colors cursor-pointer ${
                     selected
                       ? "bg-brand text-[var(--brand-fg)] border-brand font-semibold"
                       : "bg-white dark:bg-[var(--surface-elevated)] border-[var(--border-strong)] dark:border-[var(--border-subtle)] shadow-2xs dark:shadow-none text-slate-800 dark:text-ice-white/80 hover:border-brand/40"
@@ -249,7 +249,7 @@ function LessonForm({
                 setModuleIdTouched(false);
                 setForm((prev) => ({ ...prev, moduleId: "", moduleTitle: "" }));
               }}
-              className="min-h-[36px] px-3 py-1.5 rounded-lg border border-dashed border-[var(--border-strong)] bg-white/75 dark:bg-transparent text-xs font-sans font-medium text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40 cursor-pointer"
+              className="min-h-[44px] px-3 py-1.5 rounded-lg border border-dashed border-[var(--border-strong)] bg-white/75 dark:bg-transparent text-xs font-sans font-medium text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white hover:border-brand/40 cursor-pointer"
             >
               + {t("admin.lecon.nouveauModule")}
             </button>
@@ -814,24 +814,24 @@ export default function AdminFormationDetailPage() {
                       />
                     ) : (
                       <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--surface-well)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] transition-colors">
-                        <div className="flex flex-col gap-1 shrink-0">
+                        <div className="flex flex-col gap-1.5 shrink-0">
                           <button
                             type="button"
                             onClick={() => moveLesson(lesson.id, "up")}
                             disabled={idx === 0 || movingId === lesson.id}
                             aria-label={t("admin.lecons.monter")}
-                            className="w-7 h-7 rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
-                            <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
+                            <ChevronUp className="w-4 h-4" aria-hidden="true" />
                           </button>
                           <button
                             type="button"
                             onClick={() => moveLesson(lesson.id, "down")}
                             disabled={idx === lessons.length - 1 || movingId === lesson.id}
                             aria-label={t("admin.lecons.descendre")}
-                            className="w-7 h-7 rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-white dark:bg-[var(--surface-elevated)] shadow-2xs dark:shadow-none border border-[var(--border-strong)] dark:border-[var(--border-subtle)] flex items-center justify-center text-slate-700 dark:text-ice-white/60 hover:text-slate-950 dark:hover:text-ice-white hover:bg-[var(--surface-subtle)] disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                           >
-                            <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
+                            <ChevronDown className="w-4 h-4" aria-hidden="true" />
                           </button>
                         </div>
 

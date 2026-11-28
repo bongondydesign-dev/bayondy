@@ -12,7 +12,8 @@ export const MAX_COVER_UPLOAD_BYTES = 750 * 1024;
 /** Taille maximale du fichier brut accepté dans le sélecteur (10 Mo). */
 export const MAX_RAW_COVER_FILE_BYTES = 10 * 1024 * 1024;
 
-const EXTERNAL_URL_RE = /^https?:\/\/[^\s]{1,2000}$/;
+const EXTERNAL_URL_RE =
+  /^(?:https:\/\/|http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?)[^\s]{1,2000}$/;
 const INTERNAL_COVER_PATH_RE = /^\/api\/covers\/([A-Za-z0-9_-]{6,128})$/;
 const COVER_ID_RE = /^[A-Za-z0-9_-]{6,128}$/;
 const DATA_URL_RE = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/;
@@ -23,7 +24,7 @@ export function isValidCoverId(id: unknown): id is string {
 
 /**
  * Valide une URL de couverture :
- * - URL http(s) externe valide (<= 2000 chars)
+ * - URL https:// externe valide (ou http://localhost dev) (<= 2000 chars)
  * - OU chemin interne `/api/covers/<id>`
  */
 export function isValidCoverUrl(value: unknown): value is string {

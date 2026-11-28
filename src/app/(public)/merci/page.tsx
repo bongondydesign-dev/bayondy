@@ -9,6 +9,10 @@ import { formatPageTitle, SITE_NAME } from "@/lib/site";
 export const metadata: Metadata = {
   title: t("merci.titre"),
   description: t("merci.sousTitre"),
+  robots: {
+    index: false,
+    follow: false,
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

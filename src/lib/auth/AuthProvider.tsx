@@ -40,15 +40,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * - Mise à jour (document existant) : updateDoc avec UNIQUEMENT displayName, photoURL, lastLoginAt.
  * Jamais de champ "role", jamais de réécriture de createdAt ou email.
  */
-async function upsertUserDoc(user: User): Promise<void> {
+async function upsertUserDoc(user: User, explicitDisplayName?: string): Promise<void> {
   try {
     const db = getFirebaseDb();
     const ref = doc(db, "users", user.uid);
     const snap = await getDoc(ref);
+    const resolvedName =
+      explicitDisplayName?.trim() ||
+      user.displayName?.trim() ||
+      "";
 
     if (!snap.exists()) {
       await setDoc(ref, {
-        displayName: user.displayName ?? "",
+        displayName: resolvedName,
         email: user.email ?? "",
         photoURL: user.photoURL ?? null,
         createdAt: serverTimestamp(),
@@ -57,7 +61,9 @@ async function upsertUserDoc(user: User): Promise<void> {
     } else {
       const existingData = snap.data();
       await updateDoc(ref, {
-        displayName: user.displayName ?? (typeof existingData?.displayName === "string" ? existingData.displayName : ""),
+        displayName:
+          resolvedName ||
+          (typeof existingData?.displayName === "string" ? existingData.displayName : ""),
         photoURL: user.photoURL ?? (typeof existingData?.photoURL === "string" ? existingData.photoURL : null),
         lastLoginAt: serverTimestamp(),
       });
@@ -70,17 +76,20 @@ async function upsertUserDoc(user: User): Promise<void> {
   }
 }
 
-async function resolveIsAdmin(user: User): Promise<boolean> {
+async function resolveIsAdmin(user: User, forceRefresh = false): Promise<boolean> {
   try {
-    const tokenResult = await user.getIdTokenResult(true);
+    const tokenResult = await user.getIdTokenResult(forceRefresh);
     return tokenResult.claims.admin === true;
   } catch {
-    try {
-      const cachedResult = await user.getIdTokenResult(false);
-      return cachedResult.claims.admin === true;
-    } catch {
-      return false;
+    if (forceRefresh) {
+      try {
+        const cachedResult = await user.getIdTokenResult(false);
+        return cachedResult.claims.admin === true;
+      } catch {
+        return false;
+      }
     }
+    return false;
   }
 }
 
@@ -101,6 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(() => hasFirebaseConfig());
   const [isAdmin, setIsAdmin] = useState(false);
+  const [profileVersion, setProfileVersion] = useState(0);
 
   useEffect(() => {
     if (!hasFirebaseConfig()) {
@@ -113,7 +123,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
         try {
           if (currentUser) {
-            const adminClaim = await resolveIsAdmin(currentUser);
+            const adminClaim = await resolveIsAdmin(currentUser, false);
             setIsAdmin(adminClaim);
             await upsertUserDoc(currentUser);
           } else {
@@ -125,7 +135,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
     } catch (err) {
-      console.warn("[AuthProvider] Firebase Auth initialization skipped:", err);
+      if (process.env.NODE_ENV === "development") {
+        console.warn("[AuthProvider] Firebase Auth initialization skipped:", err);
+      }
       queueMicrotask(() => setLoading(false));
     }
 
@@ -141,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     provider.setCustomParameters({ prompt: "select_account" });
     const credential = await signInWithPopup(auth, provider);
     if (credential.user) {
-      const adminClaim = await resolveIsAdmin(credential.user);
+      const adminClaim = await resolveIsAdmin(credential.user, true);
       setIsAdmin(adminClaim);
       await upsertUserDoc(credential.user);
       setUser(credential.user);
@@ -153,12 +165,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     assertFirebaseConfigured();
     const auth = getFirebaseAuth();
     const userCredential = await createUserWithEmailAndPassword(auth, email, motDePasse);
-    if (nom.trim() && userCredential.user) {
+    const trimmedName = nom.trim();
+    if (trimmedName && userCredential.user) {
       await updateProfile(userCredential.user, {
-        displayName: nom.trim(),
+        displayName: trimmedName,
       });
-      // Mettre à jour l'état local pour refléter immédiatement le displayName
-      setUser({ ...userCredential.user, displayName: nom.trim() } as User);
+      await userCredential.user.reload().catch(() => undefined);
+      const updatedUser = auth.currentUser ?? userCredential.user;
+      await upsertUserDoc(updatedUser, trimmedName);
+      setUser(updatedUser);
+      setProfileVersion((prev) => prev + 1);
     }
   };
 
@@ -182,6 +198,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!currentUser || !trimmed) return;
 
     await updateProfile(currentUser, { displayName: trimmed });
+    await currentUser.reload().catch(() => undefined);
     try {
       const db = getFirebaseDb();
       const ref = doc(db, "users", currentUser.uid);
@@ -189,7 +206,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Ne pas bloquer la mise à jour du profil Auth si Firestore échoue
     }
-    setUser({ ...currentUser, displayName: trimmed } as User);
+    setUser(auth.currentUser ?? currentUser);
+    setProfileVersion((prev) => prev + 1);
   };
 
   const signOut = async () => {
@@ -198,20 +216,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await firebaseSignOut(auth);
   };
 
+  const contextValue = React.useMemo(
+    () => ({
+      user,
+      loading,
+      isAdmin,
+      signInWithGoogle,
+      signUpWithEmail,
+      signInWithEmail,
+      resetPassword,
+      updateDisplayName,
+      signOut,
+    }),
+    // profileVersion forces consumers to re-render when displayName mutates on the Firebase User instance
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user, loading, isAdmin, profileVersion]
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        isAdmin,
-        signInWithGoogle,
-        signUpWithEmail,
-        signInWithEmail,
-        resetPassword,
-        updateDisplayName,
-        signOut,
-      }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

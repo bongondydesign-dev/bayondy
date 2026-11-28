@@ -30,10 +30,10 @@ export function EnrollButton({
   className = "",
 }: EnrollButtonProps) {
   const { user, loading: authLoading, isAdmin } = useAuth();
-  const [enrolled, setEnrolled] = useState(false);
-  const [checkingEnrollment, setCheckingEnrollment] = useState(
-    Boolean(user?.uid && courseId && !isAdmin)
-  );
+  const [enrollmentState, setEnrollmentState] = useState<{
+    key: string;
+    enrolled: boolean;
+  } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -42,9 +42,18 @@ export function EnrollButton({
       ? Math.round(priceHTG)
       : 0;
 
+  const lookupKey =
+    user?.uid && courseId && !isAdmin ? `${user.uid}:${courseId}` : null;
+  const checkingEnrollment =
+    lookupKey !== null && enrollmentState?.key !== lookupKey;
+  const enrolled =
+    lookupKey !== null &&
+    enrollmentState?.key === lookupKey &&
+    enrollmentState.enrolled;
+
   // Vérifier si l'utilisateur connecté est déjà inscrit au cours (inutile pour admin)
   useEffect(() => {
-    if (!user?.uid || !courseId || isAdmin) {
+    if (!user?.uid || !courseId || isAdmin || !lookupKey) {
       return;
     }
 
@@ -52,21 +61,25 @@ export function EnrollButton({
     getEnrollmentForCourse(user.uid, courseId)
       .then((enr) => {
         if (!cancelled) {
-          setEnrolled(enr?.status === "active");
-          setCheckingEnrollment(false);
+          setEnrollmentState({
+            key: lookupKey,
+            enrolled: enr?.status === "active",
+          });
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setEnrolled(false);
-          setCheckingEnrollment(false);
+          setEnrollmentState({
+            key: lookupKey,
+            enrolled: false,
+          });
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [user?.uid, courseId, isAdmin]);
+  }, [user?.uid, courseId, isAdmin, lookupKey]);
 
   // 1. État de chargement initial
   if (authLoading || (user && !isAdmin && checkingEnrollment)) {
@@ -146,6 +159,9 @@ export function EnrollButton({
     setSubmitting(true);
     setErrorMessage(null);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20_000);
+
     try {
       const token = await user.getIdToken();
       const orderId = createMonCashOrderId(courseId);
@@ -180,6 +196,7 @@ export function EnrollButton({
           returnUrl,
           courseId,
         }),
+        signal: controller.signal,
       });
 
       const data = (await res.json().catch(() => null)) as {
@@ -198,6 +215,8 @@ export function EnrollButton({
     } catch {
       setErrorMessage(t("paiement.erreurCreation"));
       setSubmitting(false);
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 

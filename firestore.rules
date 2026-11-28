@@ -34,7 +34,7 @@ service cloud.firestore {
                   || isAdmin();
 
       // Création : seulement si l'ID == son propre uid,
-      // et uniquement les champs autorisés (aucun champ "role")
+      // et uniquement les champs autorisés (aucun champ "role") avec types/tailles bornés
       allow create: if isAuthenticated()
                     && request.auth.uid == uid
                     && request.resource.data.keys().hasOnly([
@@ -43,13 +43,27 @@ service cloud.firestore {
                        ])
                     && request.resource.data.keys().hasAll([
                          'displayName', 'email', 'createdAt', 'lastLoginAt'
-                       ]);
+                       ])
+                    && request.resource.data.displayName is string
+                    && request.resource.data.displayName.size() <= 120
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 320
+                    && (!('photoURL' in request.resource.data)
+                        || request.resource.data.photoURL == null
+                        || (request.resource.data.photoURL is string
+                            && request.resource.data.photoURL.size() <= 1000));
 
-      // Mise à jour : seulement les champs modifiables par le client
+      // Mise à jour : seulement les champs modifiables par le client avec bornes strictes
       allow update: if isAuthenticated()
                     && request.auth.uid == uid
                     && request.resource.data.diff(resource.data).affectedKeys()
-                         .hasOnly(['displayName', 'photoURL', 'lastLoginAt']);
+                         .hasOnly(['displayName', 'photoURL', 'lastLoginAt'])
+                    && request.resource.data.displayName is string
+                    && request.resource.data.displayName.size() <= 120
+                    && (!('photoURL' in request.resource.data)
+                        || request.resource.data.photoURL == null
+                        || (request.resource.data.photoURL is string
+                            && request.resource.data.photoURL.size() <= 1000));
 
       // Suppression : interdite côté client
       allow delete: if false;
@@ -79,13 +93,15 @@ service cloud.firestore {
     match /lessons/{lessonId} {
 
       allow read: if
-        // Aperçu gratuit : accessible à tous
-        resource.data.isFreePreview == true
-        // Élève avec inscription active sur ce cours
-        || (isAuthenticated()
-            && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId))
-            && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId)).data.status == 'active')
-        // Admin
+        (resource.data.archived != true && (
+          // Aperçu gratuit : accessible à tous (non archivé)
+          resource.data.isFreePreview == true
+          // Élève avec inscription active sur ce cours (non archivé)
+          || (isAuthenticated()
+              && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId))
+              && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + resource.data.courseId)).data.status == 'active')
+        ))
+        // Admin (peut lire y compris archivé)
         || isAdmin();
 
       // Écriture réservée aux admins

@@ -38,7 +38,7 @@ export function MobileMenu() {
       isActive: pathname === "/a-propos",
     },
     {
-      href: "/#faq",
+      href: "/faq",
       label: t("nav.faq"),
       isActive: pathname === "/faq",
     },

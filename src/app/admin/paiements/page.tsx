@@ -9,6 +9,7 @@ import {
   isPaymentsClearAllowed,
 } from "@/lib/admin/paymentDeletion";
 import { DeletePaymentsDialog } from "@/components/admin/DeletePaymentsDialog";
+import { formatLocaleDate, formatLocaleNumber } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
 
 interface PaymentRow {
@@ -195,7 +196,7 @@ export default function AdminPaiementsPage() {
               {t("admin.paiements.totalHTG")}
             </span>
             <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
-              {summary.totalHTG.toLocaleString("fr-FR")} HTG
+              {formatLocaleNumber(summary.totalHTG)} HTG
             </span>
           </div>
           <div className="p-4 sm:p-5 rounded-2xl surface-glass border border-[var(--border-subtle)]">
@@ -203,7 +204,7 @@ export default function AdminPaiementsPage() {
               {t("admin.paiements.totalUSD")}
             </span>
             <span className="font-display font-bold text-xl sm:text-2xl text-ice-white tabular-nums mt-1 block">
-              {summary.totalUSD.toLocaleString("fr-FR")} USD
+              {formatLocaleNumber(summary.totalUSD)} USD
             </span>
           </div>
           <div className="p-4 sm:p-5 rounded-2xl surface-glass border border-[var(--border-subtle)]">
@@ -239,7 +240,7 @@ export default function AdminPaiementsPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("admin.paiements.rechercher")}
               aria-label={t("admin.paiements.rechercher")}
-              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
+              className="w-full min-h-[44px] pl-10 pr-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-elevated)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none text-ice-white placeholder:text-slate-500 dark:placeholder:text-ice-white/40 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-light"
             />
           </div>
 
@@ -264,7 +265,7 @@ export default function AdminPaiementsPage() {
                   type="button"
                   onClick={() => setStatusFilter(tab.key)}
                   aria-pressed={active}
-                  className={`min-h-[38px] px-3 py-1.5 rounded-full font-sans text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                  className={`min-h-[44px] px-3 py-1.5 rounded-full font-sans text-xs font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
                     active
                       ? "bg-[#12141B] text-white dark:bg-brand dark:text-[var(--brand-fg)]"
                       : "text-slate-700 dark:text-ice-white/70 hover:text-slate-950 dark:hover:text-ice-white"
@@ -340,7 +341,7 @@ export default function AdminPaiementsPage() {
                           </span>
                         </td>
                         <td className="px-4 py-3.5 text-ice-white font-mono font-semibold tabular-nums whitespace-nowrap">
-                          {p.amount} {p.currency}
+                          {formatLocaleNumber(p.amount)} {p.currency}
                         </td>
                         <td className="px-4 py-3.5 text-slate-700 dark:text-ice-white/75 font-mono text-xs uppercase">
                           {p.method}
@@ -352,7 +353,7 @@ export default function AdminPaiementsPage() {
                           {p.merchantReference || "—"}
                         </td>
                         <td className="px-4 py-3.5 text-slate-600 dark:text-ice-white/60 font-mono text-xs whitespace-nowrap tabular-nums">
-                          {p.createdAt ? new Date(p.createdAt).toLocaleDateString("fr-FR") : "—"}
+                          {formatLocaleDate(p.createdAt)}
                         </td>
                       </tr>
                     ))}

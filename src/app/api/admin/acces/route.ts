@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
-import { getAdminDb, getAdminAuth } from "@/lib/firebase-admin";
+import { isValidCourseDocId } from "@/lib/admin/courseDeletion";
+import { getAdminDb, getAdminAuth, hasAdminCredentials } from "@/lib/firebase-admin";
+import { readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 import { FieldValue } from "firebase-admin/firestore";
 import { SITE_NAME } from "@/lib/site";
 
@@ -10,12 +12,15 @@ export async function POST(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth.ok) return auth.response;
 
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 });
+  if (!hasAdminCredentials()) {
+    return NextResponse.json({ error: "Konfigirasyon sèvè a enkonplè." }, { status: 503 });
   }
+
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
+  }
+  const body = bodyResult.data;
 
   if (typeof body !== "object" || body === null) {
     return NextResponse.json({ error: "Corps de requête invalide." }, { status: 400 });
@@ -28,11 +33,11 @@ export async function POST(req: NextRequest) {
   const courseId = typeof b.courseId === "string" ? b.courseId.trim() : null;
   const action = b.action;
 
-  if (!email || email.length === 0 || email.length > 320) {
+  if (!email || email.length === 0 || email.length > 320 || !email.includes("@")) {
     return NextResponse.json({ error: "email: adresse valide requise." }, { status: 400 });
   }
-  if (!courseId || courseId.length === 0 || courseId.length > 128) {
-    return NextResponse.json({ error: "courseId: identifiant requis." }, { status: 400 });
+  if (!isValidCourseDocId(courseId)) {
+    return NextResponse.json({ error: "courseId: identifiant invalide." }, { status: 400 });
   }
   if (action !== "grant" && action !== "revoke") {
     return NextResponse.json({ error: 'action: "grant" ou "revoke" requis.' }, { status: 400 });
@@ -48,7 +53,7 @@ export async function POST(req: NextRequest) {
     targetUid = userRecord.uid;
   } catch {
     return NextResponse.json(
-      { error: `Okenn kont jwenn pou imèl "${email}". Verifye ke yo gen yon kont ${SITE_NAME}.` },
+      { error: `Okenn kont jwenn pou imèl sa a. Verifye ke li gen yon kont ${SITE_NAME}.` },
       { status: 404 }
     );
   }

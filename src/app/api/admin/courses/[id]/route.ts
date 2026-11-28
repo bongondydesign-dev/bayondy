@@ -9,6 +9,7 @@ import {
 } from "@/lib/admin/courseDeletion";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
+import { readJsonBodyWithLimit } from "@/lib/server/requestGuards";
 import { FieldValue } from "firebase-admin/firestore";
 
 interface RouteContext {
@@ -25,10 +26,14 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   }
 
   const { id } = await ctx.params;
+  if (!isValidCourseDocId(id)) {
+    return NextResponse.json({ error: "Identifiant de formation invalide." }, { status: 400 });
+  }
+  const courseId = id.trim();
 
   try {
     const db = getAdminDb();
-    const courseDoc = await db.collection("courses").doc(id).get();
+    const courseDoc = await db.collection("courses").doc(courseId).get();
     if (!courseDoc.exists) {
       return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
     }
@@ -38,7 +43,7 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
     // Récupérer les leçons du cours — youtubeVideoId inclus (admin uniquement)
     const lessonsSnap = await db
       .collection("lessons")
-      .where("courseId", "==", id)
+      .where("courseId", "==", courseId)
       .orderBy("order", "asc")
       .get();
 
@@ -98,13 +103,16 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   }
 
   const { id } = await ctx.params;
-
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 });
+  if (!isValidCourseDocId(id)) {
+    return NextResponse.json({ error: "Identifiant de formation invalide." }, { status: 400 });
   }
+  const courseId = id.trim();
+
+  const bodyResult = await readJsonBodyWithLimit(req);
+  if (!bodyResult.ok) {
+    return NextResponse.json({ error: bodyResult.error }, { status: bodyResult.status });
+  }
+  const body = bodyResult.data;
 
   const { data, errors } = validateCourseInput(body);
   if (errors.length > 0) {
@@ -118,7 +126,7 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
 
   try {
     const db = getAdminDb();
-    const courseRef = db.collection("courses").doc(id);
+    const courseRef = db.collection("courses").doc(courseId);
     const courseDoc = await courseRef.get();
     if (!courseDoc.exists) {
       return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
@@ -180,7 +188,7 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
         ? "course.unpublish"
         : "course.update";
 
-    await writeAdminLog(auth.user.uid, action, { type: "course", id }, `Champs modifiés: ${changed}`);
+    await writeAdminLog(auth.user.uid, action, { type: "course", id: courseId }, `Champs modifiés: ${changed}`);
 
     revalidateCoursesCache([
       typeof existing.slug === "string" ? existing.slug : null,

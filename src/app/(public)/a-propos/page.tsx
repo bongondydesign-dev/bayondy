@@ -26,6 +26,9 @@ const pageTitle = `${t("apropos.titreNom")} — ${t("nav.apropos")}`;
 export const metadata: Metadata = {
   title: pageTitle,
   description: t("apropos.bio"),
+  alternates: {
+    canonical: "/a-propos",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -209,7 +212,7 @@ export default function AProposPage() {
                         href={PORTFOLIO_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[#FF885C] hover:text-white transition-colors shrink-0 min-h-[36px] px-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
+                        className="inline-flex items-center justify-center gap-1 text-[#FF885C] hover:text-white transition-colors shrink-0 min-h-[44px] min-w-[44px] px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
                         aria-label={t("apropos.ctaPortfolio")}
                         title={t("apropos.profilPortfolioUrl")}
                       >
@@ -272,7 +275,7 @@ export default function AProposPage() {
                             href={profile.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group/link inline-flex items-center gap-1 text-xs font-medium text-zinc-200 hover:text-[#FF885C] transition-colors whitespace-nowrap shrink-0 min-h-[36px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
+                            className="group/link inline-flex items-center gap-1 text-xs font-medium text-zinc-200 hover:text-[#FF885C] transition-colors whitespace-nowrap shrink-0 min-h-[44px] px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
                           >
                             <span>{profile.label}</span>
                             <ArrowUpRight

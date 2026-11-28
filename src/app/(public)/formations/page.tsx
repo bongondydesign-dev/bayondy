@@ -15,6 +15,9 @@ import { formatPageTitle, SITE_NAME } from "@/lib/site";
 export const metadata: Metadata = {
   title: t("catalogue.titre"),
   description: t("catalogue.sousTitre"),
+  alternates: {
+    canonical: "/formations",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

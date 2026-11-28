@@ -177,3 +177,74 @@ test("buildMonCashPayStatusLookupUrls builds deduplicated referenceId then refer
     "https://api.moncashconnect.com/v1/pay-status?reference=mcc_ref_456",
   ]);
 });
+
+import {
+  isAllowedMonCashCurrency,
+  isCheckoutSessionReusable,
+  isPaymentExpired24h,
+  PAYMENT_EXPIRATION_MS,
+  RECENT_CHECKOUT_REUSE_MS,
+  resolvePinnedSiteOrigins,
+  validateMonCashSecretKeyForEnv,
+} from "./status";
+
+test("validateMonCashSecretKeyForEnv separates test and live keys by environment", () => {
+  assert.deepEqual(
+    validateMonCashSecretKeyForEnv("sk_test_proj_123", {
+      VERCEL_ENV: "production",
+      NODE_ENV: "production",
+    }),
+    { ok: false, code: "MCC_KEY_ENV_MISMATCH" }
+  );
+
+  assert.deepEqual(
+    validateMonCashSecretKeyForEnv("sk_proj_123", {
+      VERCEL_ENV: "preview",
+      NODE_ENV: "production",
+    }),
+    { ok: false, code: "MCC_KEY_ENV_MISMATCH" }
+  );
+
+  assert.deepEqual(
+    validateMonCashSecretKeyForEnv("sk_proj_123", {
+      VERCEL_ENV: "production",
+      NODE_ENV: "production",
+    }),
+    { ok: true, key: "sk_proj_123", mode: "live" }
+  );
+
+  assert.deepEqual(
+    validateMonCashSecretKeyForEnv("sk_test_proj_123", {
+      NODE_ENV: "development",
+    }),
+    { ok: true, key: "sk_test_proj_123", mode: "sandbox" }
+  );
+});
+
+test("resolvePinnedSiteOrigins ignores arbitrary origins in production", () => {
+  assert.deepEqual(
+    resolvePinnedSiteOrigins(
+      {
+        VERCEL_ENV: "production",
+        NODE_ENV: "production",
+        NEXT_PUBLIC_SITE_URL: "https://bayondy.com/fr",
+      },
+      "https://evil.example"
+    ),
+    ["https://bayondy.com"]
+  );
+});
+
+test("amountsMatch strict mode, currency validation, and TTL helpers behave cleanly", () => {
+  assert.equal(amountsMatch(1500, null, { requireActual: true }), false);
+  assert.equal(amountsMatch(1500, 1500, { requireActual: true }), true);
+  assert.equal(isAllowedMonCashCurrency("HTG"), true);
+  assert.equal(isAllowedMonCashCurrency("htg"), true);
+  assert.equal(isAllowedMonCashCurrency("USD"), false);
+
+  const now = 1_700_000_000_000;
+  assert.equal(isPaymentExpired24h(now - PAYMENT_EXPIRATION_MS, now), true);
+  assert.equal(isPaymentExpired24h(now - PAYMENT_EXPIRATION_MS + 1000, now), false);
+  assert.equal(isCheckoutSessionReusable(now - RECENT_CHECKOUT_REUSE_MS + 1000, now), true);
+  assert.equal(isCheckoutSessionReusable(now - RECENT_CHECKOUT_REUSE_MS, now), false);
+});
