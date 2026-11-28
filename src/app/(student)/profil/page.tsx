@@ -453,7 +453,7 @@ export default function ProfilPage() {
                     <span className="font-sans text-sm font-medium text-slate-800 dark:text-ice-white/85">
                       {t("profil.themeActuel")}
                     </span>
-                    <ThemeToggle />
+                    <ThemeToggle variant="segmented" />
                   </div>
 
                   <Link

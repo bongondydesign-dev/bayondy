@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useSyncExternalStore } from "react";
-import { Moon, Sun } from "lucide-react";
+import { MonitorSmartphone, Moon, Sun } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { t } from "@/lib/i18n";
@@ -14,7 +14,7 @@ interface ThemeToggleProps {
 const emptySubscribe = () => () => {};
 
 export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggleProps) {
-  const { theme, toggleTheme, setTheme } = useTheme();
+  const { theme, preference, toggleTheme, setPreference } = useTheme();
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -22,23 +22,38 @@ export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggl
   );
 
   const isLight = mounted && theme === "light";
+  const activePreference = mounted ? preference : "system";
   const label = isLight ? t("theme.passerSombre") : t("theme.passerClair");
 
   if (variant === "segmented") {
     return (
       <div
         role="group"
-        aria-label={label}
+        aria-label={t("theme.label")}
         className={`inline-flex items-center p-1 rounded-full bg-[var(--surface-well)] border border-[var(--border-subtle)] shrink-0 ${className}`.trim()}
       >
         <button
           type="button"
-          onClick={() => setTheme("light")}
+          onClick={() => setPreference("system")}
+          aria-label={t("theme.passerSysteme")}
+          title={t("theme.passerSysteme")}
+          aria-pressed={activePreference === "system"}
+          className={`w-8 h-8 min-w-[32px] min-h-[32px] rounded-full inline-flex items-center justify-center transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+            activePreference === "system"
+              ? "bg-deep-navy text-ice-white shadow-xs border border-[var(--border-subtle)]"
+              : "text-slate-600 dark:text-ice-white/55 hover:text-ice-white"
+          }`}
+        >
+          <MonitorSmartphone className="w-3.5 h-3.5" strokeWidth={2.1} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setPreference("light")}
           aria-label={t("theme.passerClair")}
           title={t("theme.passerClair")}
-          aria-pressed={isLight}
+          aria-pressed={activePreference === "light"}
           className={`w-8 h-8 min-w-[32px] min-h-[32px] rounded-full inline-flex items-center justify-center transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
-            isLight
+            activePreference === "light"
               ? "bg-deep-navy text-ice-white shadow-xs border border-[var(--border-subtle)]"
               : "text-slate-600 dark:text-ice-white/55 hover:text-ice-white"
           }`}
@@ -47,12 +62,12 @@ export function ThemeToggle({ className = "", variant = "bordered" }: ThemeToggl
         </button>
         <button
           type="button"
-          onClick={() => setTheme("dark")}
+          onClick={() => setPreference("dark")}
           aria-label={t("theme.passerSombre")}
           title={t("theme.passerSombre")}
-          aria-pressed={!isLight}
+          aria-pressed={activePreference === "dark"}
           className={`w-8 h-8 min-w-[32px] min-h-[32px] rounded-full inline-flex items-center justify-center transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
-            !isLight
+            activePreference === "dark"
               ? "bg-[var(--surface-elevated)] text-ice-white shadow-xs border border-[var(--border-subtle)]"
               : "text-slate-600 dark:text-ice-white/55 hover:text-ice-white"
           }`}

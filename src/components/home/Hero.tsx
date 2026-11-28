@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronRight, Sparkles } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, MonitorPlay } from "lucide-react";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { HeroPreview } from "@/components/home/HeroPreview";
@@ -28,13 +28,14 @@ export function Hero() {
         {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-3 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
-          <Sparkles
-            className="w-3.5 h-3.5 text-[var(--home-orange-vivid)] shrink-0"
-            strokeWidth={2.2}
+          <span
+            className="w-6 h-6 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/35 text-[var(--home-orange-vivid)] inline-flex items-center justify-center shrink-0"
             aria-hidden="true"
-          />
+          >
+            <MonitorPlay className="w-3.5 h-3.5" strokeWidth={2.1} />
+          </span>
           <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
             {t("accueil.titre")}
           </span>
