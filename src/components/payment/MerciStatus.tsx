@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { t } from "@/lib/i18n";
+import { SITE_NAME } from "@/lib/site";
 
 type VerificationState = "verifying" | "paid" | "pending" | "failed";
 
@@ -712,7 +713,7 @@ export function MerciStatus() {
             </span>
           </div>
           <span className="font-mono text-xs font-medium text-slate-600 dark:text-ice-white/55 shrink-0">
-            BAYONDY
+            {SITE_NAME}
           </span>
         </div>
 

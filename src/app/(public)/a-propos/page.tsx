@@ -15,14 +15,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal, RevealItem, RevealStagger } from "@/components/ui/Reveal";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 const PORTFOLIO_URL = "https://bayondy.web.app/";
 const LINKEDIN_URL = "https://www.linkedin.com/in/bayondy-edouard?originalSubdomain=ht";
 const WHATSAPP_URL = "https://wa.me/50938133150";
 
+const pageTitle = `${t("apropos.titreNom")} — ${t("nav.apropos")}`;
+
 export const metadata: Metadata = {
-  title: `${t("apropos.titreNom")} — ${t("nav.apropos")} | BAYONDY`,
+  title: pageTitle,
   description: t("apropos.bio"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(pageTitle),
+    description: t("apropos.bio"),
+    url: "/a-propos",
+  },
 };
 
 export default function AProposPage() {
@@ -277,7 +287,7 @@ export default function AProposPage() {
 
                   <div className="relative z-10 pt-4 mt-4 border-t border-white/10 flex items-center justify-between gap-3">
                     <span className="font-display text-xs font-semibold tracking-wider text-zinc-400">
-                      BAYONDY
+                      {SITE_NAME}
                     </span>
                     <span className="font-serif italic text-sm text-[#FF885C]">
                       {t("accueil.slogan")}

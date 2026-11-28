@@ -7,6 +7,7 @@ import { AuthNav } from "@/components/auth/AuthNav";
 import { NavLinks } from "@/components/layout/NavLinks";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { SITE_NAME } from "@/lib/site";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,6 +33,7 @@ export function Navbar() {
         {/* Zone 1 : Marque */}
         <Link
           href="/"
+          aria-label={SITE_NAME}
           className="inline-flex items-center gap-2.5 font-display font-bold text-lg sm:text-xl tracking-tight text-ice-white hover:text-[var(--home-orange-light)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-lg py-1 select-none whitespace-nowrap shrink-0"
         >
           <span

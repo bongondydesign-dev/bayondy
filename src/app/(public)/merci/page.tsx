@@ -4,10 +4,18 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MerciStatus } from "@/components/payment/MerciStatus";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${t("merci.titre")} | BAYONDY`,
+  title: t("merci.titre"),
   description: t("merci.sousTitre"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(t("merci.titre")),
+    description: t("merci.sousTitre"),
+    url: "/merci",
+  },
 };
 
 function MerciSkeleton() {

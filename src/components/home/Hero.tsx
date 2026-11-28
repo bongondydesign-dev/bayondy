@@ -28,7 +28,7 @@ export function Hero() {
         {/* Bandeau d'annonce cliquable verre dépoli */}
         <Link
           href="/formations"
-          className="animate-hero-1 inline-flex items-center gap-2.5 pl-2 pr-3.5 py-1.5 min-h-[40px] rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
+          className="animate-hero-1 inline-flex items-center gap-1.5 sm:gap-2.5 pl-2 pr-3 sm:pr-3.5 py-1.5 min-h-[40px] max-w-full rounded-full surface-glass border border-[var(--border-strong)] shadow-[0_4px_16px_-4px_rgba(15,23,42,0.12)] hover:border-[var(--home-orange-vivid)]/70 transition-all duration-200 hover:-translate-y-0.5 mb-7 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)]"
         >
           <span
             className="w-6 h-6 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/35 text-[var(--home-orange-vivid)] inline-flex items-center justify-center shrink-0"
@@ -36,15 +36,15 @@ export function Hero() {
           >
             <MonitorPlay className="w-3.5 h-3.5" strokeWidth={2.1} />
           </span>
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--home-orange-light)]">
-            {t("accueil.titre")}
+          <span className="font-mono text-[11px] font-semibold tracking-wide text-[var(--home-orange-light)] whitespace-nowrap shrink-0">
+            {t("seo.nom")}
           </span>
-          <span className="h-3.5 w-px bg-[var(--border-strong)]/60" aria-hidden="true" />
-          <span className="font-sans text-xs sm:text-sm font-semibold text-slate-800 dark:text-ice-white/85 group-hover:text-ice-white transition-colors">
+          <span className="h-3.5 w-px bg-[var(--border-strong)]/60 shrink-0" aria-hidden="true" />
+          <span className="font-sans text-[11px] sm:text-sm font-semibold text-slate-800 dark:text-ice-white/85 group-hover:text-ice-white transition-colors whitespace-nowrap truncate">
             {t("hero.badge")}
           </span>
           <ChevronRight
-            className="w-3.5 h-3.5 text-slate-600 dark:text-ice-white/60 group-hover:translate-x-0.5 group-hover:text-[var(--home-orange-light)] transition-all"
+            className="w-3.5 h-3.5 text-slate-600 dark:text-ice-white/60 group-hover:translate-x-0.5 group-hover:text-[var(--home-orange-light)] transition-all shrink-0"
             strokeWidth={2.2}
             aria-hidden="true"
           />

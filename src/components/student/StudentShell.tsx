@@ -17,6 +17,7 @@ import {
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { t } from "@/lib/i18n";
+import { SITE_NAME } from "@/lib/site";
 
 interface StudentShellProps {
   children: React.ReactNode;
@@ -159,7 +160,7 @@ export function StudentShell({
     }
   };
 
-  const displayName = user?.displayName || user?.email || "BAYONDY";
+  const displayName = user?.displayName || user?.email || SITE_NAME;
   const initial = displayName.charAt(0).toUpperCase();
 
   const sidebarContent = (onNavigate?: () => void) => (

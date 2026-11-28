@@ -21,6 +21,7 @@ import { useRequireAuth } from "@/lib/auth/useRequireAuth";
 import { StudentShell } from "@/components/student/StudentShell";
 import { ProgressBar } from "@/components/player/ProgressBar";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { SITE_NAME } from "@/lib/site";
 import {
   getAllCoursesForAdmin,
   getMyEnrollments,
@@ -228,7 +229,7 @@ export default function MesFormationsPage() {
     return map;
   }, [items]);
 
-  const displayName = user?.displayName || user?.email?.split("@")[0] || "BAYONDY";
+  const displayName = user?.displayName || user?.email?.split("@")[0] || SITE_NAME;
   const ringCircumference = 163.36;
 
   return (

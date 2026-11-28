@@ -14,7 +14,8 @@
   "theme": {
     "label": "Thème",
     "passerClair": "Mode clair",
-    "passerSombre": "Mode sombre"
+    "passerSombre": "Mode sombre",
+    "passerSysteme": "Automatique (système)"
   },
   "paiement": {
     "payer": "Payer",
@@ -28,6 +29,12 @@
   },
   "lecon": {
     "terminee": "Leçon terminée"
+  },
+  "seo": {
+    "nom": "Bayondy Akademi",
+    "titreAccueil": "Bayondy Akademi, formations vidéo en créole haïtien",
+    "description": "Bayondy Akademi est une plateforme de formations vidéo en créole haïtien pour acquérir des compétences modernes sur mobile avec paiement local.",
+    "llmsResume": "Plateforme de formations vidéo en créole haïtien, optimisée pour le mobile et le paiement local MonCash."
   },
   "accueil": {
     "titre": "BAYONDY",
@@ -98,7 +105,7 @@
     }
   },
   "fonctionnalites": {
-    "titreSection": "Pourquoi choisir BAYONDY",
+    "titreSection": "Pourquoi choisir Bayondy Akademi",
     "sousTitreSection": "Une expérience d'apprentissage conçue spécifiquement pour vous.",
     "creole": {
       "titre": "Leçons en créole",
@@ -158,7 +165,7 @@
   "final": {
     "badge": "Commencez aujourd'hui",
     "titre": "Prêt à commencer votre apprentissage ?",
-    "sousTitre": "Rejoignez la communauté BAYONDY dès aujourd'hui et commencez à développer de nouvelles compétences.",
+    "sousTitre": "Rejoignez la communauté Bayondy Akademi dès aujourd'hui et commencez à développer de nouvelles compétences.",
     "cta": "Créer un compte"
   },
   "footer": {
@@ -181,7 +188,7 @@
     "titreConnexion": "Connexion à votre compte",
     "sousTitreConnexion": "Reprenez vos cours là où vous vous étiez arrêté.",
     "titreInscription": "Créer votre compte",
-    "sousTitreInscription": "Rejoignez la communauté BAYONDY pour commencer.",
+    "sousTitreInscription": "Rejoignez la communauté Bayondy Akademi pour commencer.",
     "titreMotDePasseOublie": "Mot de passe oublié ?",
     "sousTitreMotDePasseOublie": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
     "nom": "Nom complet",
@@ -387,7 +394,7 @@
     },
     "tableau": {
       "titre": "Tableau de bord",
-      "sousTitre": "Résumé de l'activité et des opérations BAYONDY.",
+      "sousTitre": "Résumé de l'activité et des opérations Bayondy Akademi.",
       "formationsPubliees": "Formations publiées",
       "formationsDraft": "Brouillons",
       "inscriptionsActives": "Inscriptions actives",
@@ -584,14 +591,14 @@
   },
   "faqPage": {
     "titre": "Foire aux questions (FAQ)",
-    "sousTitre": "Toutes les réponses sur le fonctionnement de BAYONDY, les formations et les paiements."
+    "sousTitre": "Toutes les réponses sur le fonctionnement de Bayondy Akademi, les formations et les paiements."
   },
   "confidentialite": {
     "badge": "Légal et sécurité",
     "titre": "Politique de Confidentialité",
-    "sousTitre": "Comment nous traitons, protégeons et utilisons vos données sur BAYONDY.",
+    "sousTitre": "Comment nous traitons, protégeons et utilisons vos données sur Bayondy Akademi.",
     "s1_titre": "1. Qui sommes-nous",
-    "s1_texte": "La plateforme BAYONDY propose des formations vidéo en créole haïtien. L'entité légale responsable et son adresse sont :",
+    "s1_texte": "La plateforme Bayondy Akademi propose des formations vidéo en créole haïtien. L'entité légale responsable et son adresse sont :",
     "s2_titre": "2. Données que nous collectons",
     "s2_compte": "Données de compte : Lors de votre inscription, nous utilisons votre nom, votre e-mail, votre photo de profil (si connexion Google) et les dates de connexion.",
     "s2_progression": "Données d'apprentissage : Nous enregistrons vos inscriptions actives, les leçons complétées et la dernière leçon consultée.",
@@ -604,7 +611,7 @@
     "s4_youtube": "YouTube (youtube-nocookie.com) : Pour la diffusion des vidéos de cours. L'iframe ne se charge qu'après votre clic explicite.",
     "s4_vercel": "Vercel : Pour l'hébergement de l'application web.",
     "s5_titre": "5. Sécurité des paiements",
-    "s5_texte": "BAYONDY ne reçoit ni ne stocke jamais vos codes secrets PIN ni vos numéros complets de carte bancaire. Les paiements sont traités directement par notre prestataire de paiement sécurisé. Détails et conditions de conservation du prestataire retenu :",
+    "s5_texte": "Bayondy Akademi ne reçoit ni ne stocke jamais vos codes secrets PIN ni vos numéros complets de carte bancaire. Les paiements sont traités directement par notre prestataire de paiement sécurisé. Détails et conditions de conservation du prestataire retenu :",
     "s6_titre": "6. Durée de conservation",
     "s6_texte": "Les données de votre compte et de vos cours sont conservées tant que votre compte reste actif. Durée légale exacte :",
     "s7_titre": "7. Vos droits",
@@ -619,9 +626,9 @@
   "conditions": {
     "badge": "Légal et service",
     "titre": "Conditions Générales d'Utilisation",
-    "sousTitre": "Règles et engagements régissant l'utilisation de la plateforme BAYONDY.",
+    "sousTitre": "Règles et engagements régissant l'utilisation de la plateforme Bayondy Akademi.",
     "s1_titre": "1. Objet du service",
-    "s1_texte": "BAYONDY propose des formations vidéo en ligne en créole haïtien. L'accès est réservé aux utilisateurs inscrits ayant validé leur paiement.",
+    "s1_texte": "Bayondy Akademi propose des formations vidéo en ligne en créole haïtien. L'accès est réservé aux utilisateurs inscrits ayant validé leur paiement.",
     "s2_titre": "2. Compte utilisateur",
     "s2_texte": "Chaque compte est strictement personnel. Vous vous engagez à fournir des informations exactes et à préserver la confidentialité de vos identifiants.",
     "s3_titre": "3. Achat, tarifs et accès",
@@ -631,7 +638,7 @@
     "s5_titre": "5. Utilisation acceptable et interdictions",
     "s5_texte": "Il est strictement interdit de copier, télécharger, revendre ou partager les liens vidéo avec des tiers. Le contenu est destiné à votre usage privé.",
     "s6_titre": "6. Propriété intellectuelle",
-    "s6_texte": "Tous les contenus, vidéos, textes, logos et supports pédagogiques demeurent la propriété exclusive de BAYONDY ou de leurs auteurs respectifs.",
+    "s6_texte": "Tous les contenus, vidéos, textes, logos et supports pédagogiques demeurent la propriété exclusive de Bayondy Akademi ou de leurs auteurs respectifs.",
     "s7_titre": "7. Suspension ou retrait d'accès",
     "s7_texte": "En cas de non-respect de ces règles (notamment partage abusif ou tentative de piratage), l'accès à la plateforme pourra être suspendu ou révoqué sans préavis.",
     "s8_titre": "8. Disponibilité et absence de garantie",
@@ -669,14 +676,14 @@
     "etapeVerification": "Vérification",
     "etapeAcces": "Accès activé",
     "resiTitre": "Reçu de transaction",
-    "formationDefaut": "Formation BAYONDY",
+    "formationDefaut": "Formation Bayondy Akademi",
     "montanLabel": "Montant",
     "metodLabel": "Méthode",
     "estatiLabel": "Statut",
     "datLabel": "Date",
     "kopyeReferans": "Copier",
     "referansKopye": "Copié",
-    "sekiriteNote": "Vérification sécurisée par le serveur BAYONDY",
+    "sekiriteNote": "Vérification sécurisée par le serveur Bayondy Akademi",
     "besoinAide": "Aide",
     "statutLabel": {
       "verifying": "Vérification en cours",
@@ -693,14 +700,14 @@
     "titreRoleAccent": "freelance.",
     "metaLieu": "Haïti · Freelance",
     "bio": "Bayondy Edouard est un développeur web freelance basé en Haïti, spécialisé dans la création de sites web et d'applications web modernes, rapides et soignés.",
-    "bioSecondaire": "Il a fondé BAYONDY afin de rendre les compétences numériques modernes accessibles à tous directement en créole haïtien.",
+    "bioSecondaire": "Il a fondé Bayondy Akademi afin de rendre les compétences numériques modernes accessibles à tous directement en créole haïtien.",
     "ctaFormations": "Voir les formations",
     "ctaPortfolio": "Voir le portfolio",
     "ctaLinkedin": "Profil LinkedIn",
     "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Profil professionnel",
     "carteRoleLabel": "Rôle",
-    "carteRoleValeur": "Développeur Web Freelance & Fondateur de BAYONDY",
+    "carteRoleValeur": "Développeur Web Freelance & Fondateur de Bayondy Akademi",
     "carteBaseLabel": "Localisation",
     "carteBaseValeur": "Haïti",
     "carteFocusLabel": "Spécialité",
@@ -719,9 +726,9 @@
     "pilier3Num": "03",
     "pilier3Titre": "Création & Outils",
     "pilier3Desc": "Sites vitrines modernes, gestion de code rigoureuse et déploiement continu.",
-    "visionBadge": "Mission BAYONDY",
+    "visionBadge": "Mission Bayondy Akademi",
     "visionTitre": "Transmettre les compétences web sans barrière linguistique",
-    "visionTexte": "Issu de la pratique terrain sur des projets web concrets, BAYONDY transforme cette expérience en formations vidéo claires en créole haïtien, accessibles sur mobile avec paiement local.",
+    "visionTexte": "Issu de la pratique terrain sur des projets web concrets, Bayondy Akademi transforme cette expérience en formations vidéo claires en créole haïtien, accessibles sur mobile avec paiement local.",
     "profilsBadge": "Profils en ligne",
     "profilsTitre": "Retrouver Bayondy Edouard",
     "profilPortfolioTitre": "Site Portfolio",

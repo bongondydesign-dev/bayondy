@@ -13,6 +13,7 @@ import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { getPublishedCourseBySlug } from "@/lib/courses/queries";
 import { formatDuration } from "@/lib/courses/format";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const instant = false;
 
@@ -26,13 +27,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!course) {
     return {
-      title: `${t("erreur404.titre")} | BAYONDY`,
+      title: t("erreur404.titre"),
     };
   }
 
+  const description =
+    course.shortDescription || course.description || t("catalogue.sousTitre");
+
   return {
-    title: `${course.title} | BAYONDY`,
-    description: course.shortDescription || course.description || t("catalogue.sousTitre"),
+    title: course.title,
+    description,
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      title: formatPageTitle(course.title),
+      description,
+      url: `/formations/${course.slug}`,
+    },
   };
 }
 
@@ -134,8 +145,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
                   />
                   <div className="absolute inset-0 bg-noise opacity-35 dark:opacity-50" aria-hidden="true" />
                   <PortalSymbol size={80} className="relative z-10 opacity-90" />
-                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider uppercase text-slate-600 dark:text-slate-300/60">
-                    BAYONDY
+                  <span className="relative z-10 mt-4 font-mono text-xs tracking-wider text-slate-600 dark:text-slate-300/60">
+                    {SITE_NAME}
                   </span>
                 </div>
               )}

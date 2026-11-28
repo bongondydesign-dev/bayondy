@@ -1,4 +1,4 @@
-# BAYONDY
+# Bayondy Akademi
 
 Plateforme de formations vidéo en créole haïtien, optimisée pour le mobile et les connexions à faible bande passante.
 

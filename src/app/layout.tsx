@@ -13,6 +13,13 @@ import { THEME_INIT_SCRIPT } from "@/lib/theme/theme";
 import { AmbientBackdrop } from "@/components/layout/AmbientBackdrop";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MotionProvider } from "@/components/ui/MotionProvider";
+import { t } from "@/lib/i18n";
+import {
+  getSiteUrl,
+  SITE_ALTERNATE_NAMES,
+  SITE_NAME,
+  SITE_TITLE_TEMPLATE,
+} from "@/lib/site";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -43,9 +50,39 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const siteUrl = getSiteUrl();
+const defaultTitle = t("seo.titreAccueil");
+const defaultDescription = t("seo.description");
+
 export const metadata: Metadata = {
-  title: "BAYONDY",
-  description: "Fòmasyon videyo an kreyòl ayisyen",
+  metadataBase: new URL(siteUrl),
+  applicationName: SITE_NAME,
+  title: {
+    default: defaultTitle,
+    template: SITE_TITLE_TEMPLATE,
+  },
+  description: defaultDescription,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: defaultTitle,
+    description: defaultDescription,
+    locale: "ht_HT",
+    url: "/",
+  },
+  twitter: {
+    card: "summary",
+    title: defaultTitle,
+    description: defaultDescription,
+  },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  alternateName: SITE_ALTERNATE_NAMES,
+  url: siteUrl,
 };
 
 export default function RootLayout({
@@ -63,6 +100,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-screen bg-obsidian text-ice-white font-sans antialiased flex flex-col relative">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <MotionProvider>
           <ThemeProvider>
             <AuthProvider>

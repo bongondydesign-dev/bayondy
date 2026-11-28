@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
 import { getAdminDb, getAdminAuth } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
+import { SITE_NAME } from "@/lib/site";
 
 // POST /api/admin/acces — donne ou retire l'accès à une formation
 export async function POST(req: NextRequest) {
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
     targetUid = userRecord.uid;
   } catch {
     return NextResponse.json(
-      { error: `Okenn kont jwenn pou imèl "${email}". Verifye ke yo gen yon kont BAYONDY.` },
+      { error: `Okenn kont jwenn pou imèl "${email}". Verifye ke yo gen yon kont ${SITE_NAME}.` },
       { status: 404 }
     );
   }

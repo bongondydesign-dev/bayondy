@@ -9,10 +9,18 @@ import { Footer } from "@/components/layout/Footer";
 import { LegalDraftNotice } from "@/components/legal/LegalDraftNotice";
 import { TodoMark } from "@/components/legal/TodoMark";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${t("confidentialite.titre")} | BAYONDY`,
+  title: t("confidentialite.titre"),
   description: t("confidentialite.sousTitre"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(t("confidentialite.titre")),
+    description: t("confidentialite.sousTitre"),
+    url: "/confidentialite",
+  },
 };
 
 export default function ConfidentialitePage() {

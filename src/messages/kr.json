@@ -30,6 +30,12 @@
   "lecon": {
     "terminee": "Leson fini"
   },
+  "seo": {
+    "nom": "Bayondy Akademi",
+    "titreAccueil": "Bayondy Akademi, fòmasyon videyo an kreyòl ayisyen",
+    "description": "Bayondy Akademi se yon platfòm fòmasyon videyo an kreyòl ayisyen pou aprann konpetans dijital modèn sou telefòn ou, ak peman lokal fasil.",
+    "llmsResume": "Platfòm fòmasyon videyo an kreyòl ayisyen, optimize pou telefòn mobil ak peman lokal MonCash."
+  },
   "accueil": {
     "titre": "BAYONDY",
     "slogan": "Aprann. Kreye. Avanse.",
@@ -99,7 +105,7 @@
     }
   },
   "fonctionnalites": {
-    "titreSection": "Poukisa chwazi BAYONDY",
+    "titreSection": "Poukisa chwazi Bayondy Akademi",
     "sousTitreSection": "Yon eksperyans aprantisaj ki fèt espesyalman pou ou.",
     "creole": {
       "titre": "Leson an kreyòl",
@@ -159,7 +165,7 @@
   "final": {
     "badge": "Kòmanse jodi a",
     "titre": "Pare pou w kòmanse aprann ?",
-    "sousTitre": "Antre nan kominote BAYONDY jodi a epi kòmanse devlope nouvo konpetans.",
+    "sousTitre": "Antre nan kominote Bayondy Akademi jodi a epi kòmanse devlope nouvo konpetans.",
     "cta": "Kreye kont"
   },
   "footer": {
@@ -182,7 +188,7 @@
     "titreConnexion": "Konekte sou kont ou",
     "sousTitreConnexion": "Kontinye aprann kote w te rete a.",
     "titreInscription": "Kreye kont pa w",
-    "sousTitreInscription": "Antre nan kominote BAYONDY pou w kòmanse.",
+    "sousTitreInscription": "Antre nan kominote Bayondy Akademi pou w kòmanse.",
     "titreMotDePasseOublie": "Bliye motpas ou ?",
     "sousTitreMotDePasseOublie": "Mete imèl ou pou n voye yon lyen pou w chanje motpas ou.",
     "nom": "Non konplè",
@@ -388,7 +394,7 @@
     },
     "tableau": {
       "titre": "Tableau de bò",
-      "sousTitre": "Rezime aktivite ak operasyon BAYONDY.",
+      "sousTitre": "Rezime aktivite ak operasyon Bayondy Akademi.",
       "formationsPubliees": "Fòmasyon pibliye",
       "formationsDraft": "Brouyon",
       "inscriptionsActives": "Enskripsyon aktif",
@@ -585,14 +591,14 @@
   },
   "faqPage": {
     "titre": "Kesyon yo poze souvan (FAQ)",
-    "sousTitre": "Tout repons sou fason BAYONDY fonksyone, fòmasyon yo ak peman yo."
+    "sousTitre": "Tout repons sou fason Bayondy Akademi fonksyone, fòmasyon yo ak peman yo."
   },
   "confidentialite": {
     "badge": "Lwa ak sekirite",
     "titre": "Politik Konfidansyalite",
-    "sousTitre": "Fason nou trete, pwoteje epi itilize done ou yo sou platfòm BAYONDY.",
+    "sousTitre": "Fason nou trete, pwoteje epi itilize done ou yo sou platfòm Bayondy Akademi.",
     "s1_titre": "1. Kiyès nou ye",
-    "s1_texte": "Platfòm BAYONDY fèt pou pèmèt ou aprann konpetans modèn nan lang kreyòl. Entite legal responsab la ak adrès li se :",
+    "s1_texte": "Platfòm Bayondy Akademi fèt pou pèmèt ou aprann konpetans modèn nan lang kreyòl. Entite legal responsab la ak adrès li se :",
     "s2_titre": "2. Done nou kolekte",
     "s2_compte": "Done kont ou : Lè w kreye yon kont, nou itilize non w, adrès imèl ou, foto pwofil ou (si w konekte ak Google) ak dat ou kreye kont la.",
     "s2_progression": "Done fòmasyon ak pwogrè : Nou anrejistre fòmasyon ou achte yo, leson ou fini gade yo ak dènye leson ou te kite a pou w ka reprann fasil.",
@@ -605,7 +611,7 @@
     "s4_youtube": "YouTube (youtube-nocookie.com) : Pou difize videyo leson yo. Videyo a pa chaje toutotan ou pa klike sou bouton gade a.",
     "s4_vercel": "Vercel : Pou ebèjman platfòm entènèt la.",
     "s5_titre": "5. Sekirite peman ak kat labank",
-    "s5_texte": "BAYONDY pa janm wè ni konsève kòd sekrè PIN ou yo ni nimewo kat labank ou. Tout tranzaksyon fèt dirèkteman sou paj sekirize operatè peman nou an. Detay sou operatè peman an ak règleman konsèvasyon li yo :",
+    "s5_texte": "Bayondy Akademi pa janm wè ni konsève kòd sekrè PIN ou yo ni nimewo kat labank ou. Tout tranzaksyon fèt dirèkteman sou paj sekirize operatè peman nou an. Detay sou operatè peman an ak règleman konsèvasyon li yo :",
     "s6_titre": "6. Konbyen tan nou kenbe done yo",
     "s6_texte": "Done kont ou ak fòmasyon ou yo konsève toutotan kont ou aktif. Règleman espesifik sou dire egzak konsèvasyon :",
     "s7_titre": "7. Dwa ou genyen sou done ou",
@@ -620,9 +626,9 @@
   "conditions": {
     "badge": "Lwa ak sèvis",
     "titre": "Kondisyon Itilizasyon",
-    "sousTitre": "Règ ak angajman pou itilize platfòm aprantisaj BAYONDY.",
+    "sousTitre": "Règ ak angajman pou itilize platfòm aprantisaj Bayondy Akademi.",
     "s1_titre": "1. Objè sèvis la",
-    "s1_texte": "BAYONDY bay fòmasyon videyo an kreyòl ayisyen sou entènèt. Aksè nan kou yo louvri pou moun ki kreye yon kont epi ki konplete peman yo.",
+    "s1_texte": "Bayondy Akademi bay fòmasyon videyo an kreyòl ayisyen sou entènèt. Aksè nan kou yo louvri pou moun ki kreye yon kont epi ki konplete peman yo.",
     "s2_titre": "2. Kont itilizatè",
     "s2_texte": "Chak kont se yon kont pèsonèl. Ou responsab pou bay enfòmasyon ki egzak epi pou w pa pataje kòd aksè w ak lòt moun.",
     "s3_titre": "3. Acha, pri ak aksè",
@@ -632,7 +638,7 @@
     "s5_titre": "5. Règ itilizasyon ak entèdiksyon",
     "s5_texte": "Li entèdi nèt pou w kopye, anrejistre, revann oswa pataje lyen videyo yo ak lòt moun. Fòmasyon yo fèt pou pwòp aprantisaj pa w.",
     "s6_titre": "6. Pwopriyete entèlektyèl",
-    "s6_texte": "Tout kontni, videyo, tèks, logo ak materyèl ki sou BAYONDY rete pwopriyete eksklizif BAYONDY oswa otè ki kreye yo.",
+    "s6_texte": "Tout kontni, videyo, tèks, logo ak materyèl ki sou Bayondy Akademi rete pwopriyete eksklizif Bayondy Akademi oswa otè ki kreye yo.",
     "s7_titre": "7. Sispansyon oswa retire aksè",
     "s7_texte": "Si yon itilizatè pa respekte règ sa yo (pa egzanp pataje videyo oswa tante pirate sistèm nan), administrasyon an gen dwa sispann oswa retire aksè li san avètisman.",
     "s8_titre": "8. Disponibilite ak garanti",
@@ -670,14 +676,14 @@
     "etapeVerification": "Verifikasyon",
     "etapeAcces": "Aksè fòmasyon an",
     "resiTitre": "Resi tranzaksyon",
-    "formationDefaut": "Fòmasyon BAYONDY",
+    "formationDefaut": "Fòmasyon Bayondy Akademi",
     "montanLabel": "Montan",
     "metodLabel": "Metòd",
     "estatiLabel": "Estati",
     "datLabel": "Dat",
     "kopyeReferans": "Kopye",
     "referansKopye": "Kopye !",
-    "sekiriteNote": "Verifikasyon sekirize sou sèvè BAYONDY",
+    "sekiriteNote": "Verifikasyon sekirize sou sèvè Bayondy Akademi",
     "besoinAide": "Kesyon ?",
     "statutLabel": {
       "verifying": "Verifikasyon an kou",
@@ -694,14 +700,14 @@
     "titreRoleAccent": "endepandan.",
     "metaLieu": "Ayiti · Freelance",
     "bio": "Bayondy Edouard se yon devlopè web endepandan ki baze an Ayiti, espesyalize nan kreyasyon sit entènèt ak aplikasyon web modèn, rapid epi adapte ak reyalite itilizatè yo.",
-    "bioSecondaire": "Li kreye platfòm BAYONDY pou pèmèt plis moun aprann konpetans dijital ak teknik modèn dirèkteman nan lang kreyòl ayisyen.",
+    "bioSecondaire": "Li kreye platfòm Bayondy Akademi pou pèmèt plis moun aprann konpetans dijital ak teknik modèn dirèkteman nan lang kreyòl ayisyen.",
     "ctaFormations": "Gade fòmasyon yo",
     "ctaPortfolio": "Wè pòtfolyo a",
     "ctaLinkedin": "Pwofil LinkedIn",
     "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Pwofil pwofesyonèl",
     "carteRoleLabel": "Wòl",
-    "carteRoleValeur": "Devlopè Web Freelance & Fondatè BAYONDY",
+    "carteRoleValeur": "Devlopè Web Freelance & Fondatè Bayondy Akademi",
     "carteBaseLabel": "Baz",
     "carteBaseValeur": "Ayiti",
     "carteFocusLabel": "Espesyalite",
@@ -720,9 +726,9 @@
     "pilier3Num": "03",
     "pilier3Titre": "Kreyasyon & Zouti",
     "pilier3Desc": "Sit vitrin modèn, vèsyon kòd pwòp ak deplwaman kontini.",
-    "visionBadge": "Misyon BAYONDY",
+    "visionBadge": "Misyon Bayondy Akademi",
     "visionTitre": "Aprann teknoloji modèn nan lang manman w",
-    "visionTexte": "Eksperyans pratik sou pwojè web reyèl montre ki jan li enpòtan pou gen resous klè nan pwòp lang pa w. BAYONDY rasanble metodoloji sa a nan leson videyo senp, aksè otomatik ak peman lokal.",
+    "visionTexte": "Eksperyans pratik sou pwojè web reyèl montre ki jan li enpòtan pou gen resous klè nan pwòp lang pa w. Bayondy Akademi rasanble metodoloji sa a nan leson videyo senp, aksè otomatik ak peman lokal.",
     "profilsBadge": "Pwofil an liy",
     "profilsTitre": "Konekte ak Bayondy Edouard",
     "profilPortfolioTitre": "Sit Portfolio",

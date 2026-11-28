@@ -9,10 +9,18 @@ import { Footer } from "@/components/layout/Footer";
 import { LegalDraftNotice } from "@/components/legal/LegalDraftNotice";
 import { TodoMark } from "@/components/legal/TodoMark";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${t("conditions.titre")} | BAYONDY`,
+  title: t("conditions.titre"),
   description: t("conditions.sousTitre"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(t("conditions.titre")),
+    description: t("conditions.sousTitre"),
+    url: "/conditions",
+  },
 };
 
 export default function ConditionsPage() {

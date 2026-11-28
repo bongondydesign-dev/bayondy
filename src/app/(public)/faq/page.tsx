@@ -9,10 +9,18 @@ import { Footer } from "@/components/layout/Footer";
 import { FaqList } from "@/components/faq/FaqList";
 import { TodoMark } from "@/components/legal/TodoMark";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${t("faqPage.titre")} | BAYONDY`,
+  title: t("faqPage.titre"),
   description: t("faqPage.sousTitre"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(t("faqPage.titre")),
+    description: t("faqPage.sousTitre"),
+    url: "/faq",
+  },
 };
 
 export default function FaqPage() {

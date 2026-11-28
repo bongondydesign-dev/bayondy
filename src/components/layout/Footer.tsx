@@ -99,7 +99,7 @@ export function Footer() {
 
         {/* Ligne de copyright */}
         <div className="pt-6 pb-4 text-center text-xs text-slate-600 dark:text-ice-white/60 font-mono">
-          © {currentYear} {t("accueil.titre")}. {t("footer.droits")}
+          © {currentYear} {t("seo.nom")}. {t("footer.droits")}
         </div>
       </div>
 

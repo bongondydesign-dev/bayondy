@@ -10,10 +10,18 @@ import { Button } from "@/components/ui/Button";
 import { getPublishedCourses } from "@/lib/courses/queries";
 import { computeCatalogStats } from "@/lib/courses/catalog";
 import { t } from "@/lib/i18n";
+import { formatPageTitle, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${t("catalogue.titre")} | BAYONDY`,
+  title: t("catalogue.titre"),
   description: t("catalogue.sousTitre"),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: formatPageTitle(t("catalogue.titre")),
+    description: t("catalogue.sousTitre"),
+    url: "/formations",
+  },
 };
 
 function CatalogSkeleton() {
