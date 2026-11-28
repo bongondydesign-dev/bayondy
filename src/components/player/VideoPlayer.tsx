@@ -1,8 +1,15 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Image from "next/image";
 import {
+  Check,
   CheckCircle2,
   ChevronRight,
   Clock,
@@ -14,6 +21,7 @@ import {
   Play,
   RotateCcw,
   RotateCw,
+  SlidersHorizontal,
   Video,
   Volume2,
   VolumeX,
@@ -21,6 +29,7 @@ import {
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
 import { formatDuration } from "@/lib/courses/format";
 import {
+  DEFAULT_VIDEO_QUALITY_OPTIONS,
   PLAYBACK_SPEEDS,
   buildTikTokEmbedUrl,
   buildYouTubeEmbedUrl,
@@ -28,8 +37,14 @@ import {
   computeSeekTarget,
   formatPlaybackTime,
   getLessonPlaybackInfo,
+  getVideoQualityLabel,
+  isHdVideoQuality,
+  normalizeYouTubeQualityLevels,
+  parseStoredVideoQuality,
   resolveYouTubePlayerState,
+  toYouTubeSuggestedQuality,
   type VideoPlayerPhase,
+  type VideoQualityLevel,
 } from "@/lib/video/lessonVideo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -46,9 +61,56 @@ interface YTPlayerInstance {
   getDuration(): number;
   getVideoLoadedFraction(): number;
   setPlaybackRate(rate: number): void;
+  getAvailableQualityLevels?: () => string[];
+  getPlaybackQuality?: () => string;
+  setPlaybackQuality?: (suggestedQuality: string) => void;
+  setPlaybackQualityRange?: (minQuality: string, maxQuality?: string) => void;
   getPlayerState(): number;
   getIframe?: () => HTMLIFrameElement;
   destroy(): void;
+}
+
+const VIDEO_QUALITY_STORAGE_KEY = "bayondy-video-quality";
+const VIDEO_QUALITY_EVENT = "bayondy:video-quality-change";
+
+function subscribeVideoQualityPreference(onStoreChange: () => void): () => void {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+  const handleStorage = (e: StorageEvent) => {
+    if (e.key === null || e.key === VIDEO_QUALITY_STORAGE_KEY) {
+      onStoreChange();
+    }
+  };
+  window.addEventListener("storage", handleStorage);
+  window.addEventListener(VIDEO_QUALITY_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener("storage", handleStorage);
+    window.removeEventListener(VIDEO_QUALITY_EVENT, onStoreChange);
+  };
+}
+
+function getVideoQualitySnapshot(): VideoQualityLevel {
+  try {
+    return parseStoredVideoQuality(
+      window.localStorage.getItem(VIDEO_QUALITY_STORAGE_KEY)
+    );
+  } catch {
+    return "auto";
+  }
+}
+
+function getServerVideoQualitySnapshot(): VideoQualityLevel {
+  return "auto";
+}
+
+function persistVideoQualityPreference(nextQuality: VideoQualityLevel): void {
+  try {
+    window.localStorage.setItem(VIDEO_QUALITY_STORAGE_KEY, nextQuality);
+    window.dispatchEvent(new Event(VIDEO_QUALITY_EVENT));
+  } catch {
+    // Ignore storage write errors
+  }
 }
 
 interface YTNamespace {
@@ -64,6 +126,10 @@ interface YTNamespace {
       events?: {
         onReady?: (event: { target: YTPlayerInstance }) => void;
         onStateChange?: (event: { data: number; target: YTPlayerInstance }) => void;
+        onPlaybackQualityChange?: (event: {
+          data: string;
+          target: YTPlayerInstance;
+        }) => void;
         onError?: () => void;
       };
     }
@@ -297,6 +363,16 @@ export function VideoPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(100);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+  const selectedQuality = useSyncExternalStore(
+    subscribeVideoQualityPreference,
+    getVideoQualitySnapshot,
+    getServerVideoQualitySnapshot
+  );
+  const [activeQuality, setActiveQuality] = useState<string | null>(null);
+  const [availableQualities, setAvailableQualities] = useState<VideoQualityLevel[]>([
+    ...DEFAULT_VIDEO_QUALITY_OPTIONS,
+  ]);
+  const [qualityMenuOpen, setQualityMenuOpen] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDraggingScrubber, setIsDraggingScrubber] = useState(false);
@@ -304,11 +380,16 @@ export function VideoPlayer({
     null
   );
 
+  const canShowControls =
+    phase === "playing" || phase === "paused" || phase === "ended";
+  const isQualityMenuOpen = qualityMenuOpen && canShowControls;
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ytHostRef = useRef<HTMLDivElement | null>(null);
   const ytPlayerRef = useRef<YTPlayerInstance | null>(null);
   const playerReadyRef = useRef(false);
   const scrubberRef = useRef<HTMLDivElement | null>(null);
+  const qualityMenuContainerRef = useRef<HTMLDivElement | null>(null);
   const hideControlsTimerRef = useRef<number | null>(null);
   const settleTimerRef = useRef<number | null>(null);
   const mountedRef = useRef(true);
@@ -317,6 +398,8 @@ export function VideoPlayer({
   const endedNotifiedRef = useRef(false);
   const onEndedRef = useRef(onEnded);
   const initialAudioRef = useRef({ volume: 100, isMuted: false });
+  const selectedQualityRef = useRef<VideoQualityLevel>(selectedQuality);
+  const qualityMenuOpenRef = useRef(isQualityMenuOpen);
 
   useEffect(() => {
     onEndedRef.current = onEnded;
@@ -330,15 +413,86 @@ export function VideoPlayer({
     initialAudioRef.current = { volume, isMuted };
   }, [volume, isMuted]);
 
+  useEffect(() => {
+    selectedQualityRef.current = selectedQuality;
+  }, [selectedQuality]);
+
+  useEffect(() => {
+    qualityMenuOpenRef.current = isQualityMenuOpen;
+  }, [isQualityMenuOpen]);
+
   const scheduleHideControls = useCallback(() => {
     if (hideControlsTimerRef.current !== null) {
       window.clearTimeout(hideControlsTimerRef.current);
+      hideControlsTimerRef.current = null;
     }
     setControlsVisible(true);
+    if (qualityMenuOpenRef.current) {
+      return;
+    }
     hideControlsTimerRef.current = window.setTimeout(() => {
-      setControlsVisible(false);
+      if (!qualityMenuOpenRef.current) {
+        setControlsVisible(false);
+      }
     }, 2800);
   }, []);
+
+  useEffect(() => {
+    if (!qualityMenuOpen) return;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      const menuRoot = qualityMenuContainerRef.current;
+      if (menuRoot && !menuRoot.contains(e.target as Node)) {
+        setQualityMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setQualityMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [qualityMenuOpen]);
+
+  const syncQualityFromPlayer = useCallback((player: YTPlayerInstance) => {
+    try {
+      const rawLevels = player.getAvailableQualityLevels?.();
+      if (Array.isArray(rawLevels) && rawLevels.length > 0) {
+        setAvailableQualities(normalizeYouTubeQualityLevels(rawLevels));
+      }
+      const currentQ = player.getPlaybackQuality?.();
+      if (typeof currentQ === "string" && currentQ && currentQ !== "unknown") {
+        setActiveQuality(currentQ);
+      }
+    } catch {
+      // ignore transient iframe error
+    }
+  }, []);
+
+  const applyQualityToPlayer = useCallback(
+    (player: YTPlayerInstance, quality: VideoQualityLevel) => {
+      try {
+        const target = toYouTubeSuggestedQuality(quality);
+        if (quality === "auto") {
+          player.setPlaybackQualityRange?.("tiny", "highres");
+          player.setPlaybackQuality?.(target);
+        } else {
+          player.setPlaybackQualityRange?.(target, target);
+          player.setPlaybackQuality?.(target);
+        }
+      } catch {
+        // ignore if unsupported by embed build
+      }
+    },
+    []
+  );
 
   const clearSettlingCurtainSoon = useCallback((delayMs = 260) => {
     if (settleTimerRef.current !== null) {
@@ -365,6 +519,12 @@ export function VideoPlayer({
           }
         } catch {
           // ignore transient iframe error
+        }
+        if (ytState === 1 || ytState === 3 || ytState === 5) {
+          syncQualityFromPlayer(target);
+        }
+        if ((ytState === 1 || ytState === 5) && selectedQualityRef.current !== "auto") {
+          applyQualityToPlayer(target, selectedQualityRef.current);
         }
       }
 
@@ -415,7 +575,12 @@ export function VideoPlayer({
         setControlsVisible(true);
       }
     },
-    [clearSettlingCurtainSoon, scheduleHideControls]
+    [
+      applyQualityToPlayer,
+      clearSettlingCurtainSoon,
+      scheduleHideControls,
+      syncQualityFromPlayer,
+    ]
   );
 
   useEffect(() => {
@@ -514,6 +679,10 @@ export function VideoPlayer({
                 if (initialAudioRef.current.isMuted) {
                   event.target.mute();
                 }
+                if (selectedQualityRef.current !== "auto") {
+                  applyQualityToPlayer(event.target, selectedQualityRef.current);
+                }
+                syncQualityFromPlayer(event.target);
                 event.target.playVideo();
               } catch {
                 // ignore
@@ -522,6 +691,13 @@ export function VideoPlayer({
             onStateChange: (event) => {
               if (cancelled || !mountedRef.current) return;
               syncFromYouTubeState(event.data, event.target);
+            },
+            onPlaybackQualityChange: (event) => {
+              if (cancelled || !mountedRef.current) return;
+              if (typeof event.data === "string" && event.data && event.data !== "unknown") {
+                setActiveQuality(event.data);
+              }
+              syncQualityFromPlayer(event.target);
             },
             onError: () => {
               if (!cancelled && mountedRef.current) {
@@ -561,7 +737,13 @@ export function VideoPlayer({
       }
       host.replaceChildren();
     };
-  }, [shouldMountYouTubePlayer, playback.videoId, syncFromYouTubeState]);
+  }, [
+    shouldMountYouTubePlayer,
+    playback.videoId,
+    syncFromYouTubeState,
+    applyQualityToPlayer,
+    syncQualityFromPlayer,
+  ]);
 
   // Garde-fou chargement : synchronise l'état réel si un événement onStateChange a été manqué et bascule en fallback si bloqué
   useEffect(() => {
@@ -795,6 +977,26 @@ export function VideoPlayer({
     }
   }, [playbackSpeed, scheduleHideControls]);
 
+  const handleSelectQuality = useCallback(
+    (nextQuality: VideoQualityLevel) => {
+      selectedQualityRef.current = nextQuality;
+      persistVideoQualityPreference(nextQuality);
+      setQualityMenuOpen(false);
+      qualityMenuOpenRef.current = false;
+
+      const player = ytPlayerRef.current;
+      if (player && playerReadyRef.current) {
+        applyQualityToPlayer(player, nextQuality);
+        syncQualityFromPlayer(player);
+      }
+
+      if (phaseRef.current === "playing") {
+        scheduleHideControls();
+      }
+    },
+    [applyQualityToPlayer, scheduleHideControls, syncQualityFromPlayer]
+  );
+
   const toggleFullscreen = useCallback(async () => {
     scheduleHideControls();
     const container = containerRef.current;
@@ -838,9 +1040,19 @@ export function VideoPlayer({
 
   const progressPct = clampPlaybackProgress(currentTimeSec, durationSec);
   const showControlsBar =
-    phase === "playing" || phase === "paused" || phase === "ended"
-      ? controlsVisible || phase !== "playing" || isDraggingScrubber
+    canShowControls
+      ? controlsVisible || phase !== "playing" || isDraggingScrubber || isQualityMenuOpen
       : false;
+  const qualityBadgeLabel = getVideoQualityLabel(
+    selectedQuality,
+    t("lecteur.qualiteAuto")
+  );
+  const effectiveQualityForHd =
+    selectedQuality === "auto" ? activeQuality : selectedQuality;
+  const activeQualityLabel =
+    activeQuality && activeQuality !== "auto" && activeQuality !== "default"
+      ? getVideoQualityLabel(activeQuality, t("lecteur.qualiteAuto"))
+      : null;
 
   const renderPosterBackdrop = () => (
     <>
@@ -895,7 +1107,7 @@ export function VideoPlayer({
         onKeyDown={handleKeyDown}
         onMouseMove={phase === "playing" ? scheduleHideControls : undefined}
         onMouseLeave={() => {
-          if (phase === "playing" && !isDraggingScrubber) {
+          if (phase === "playing" && !isDraggingScrubber && !isQualityMenuOpen) {
             setControlsVisible(false);
           }
         }}
@@ -1231,7 +1443,7 @@ export function VideoPlayer({
                   </div>
 
                   {/* Boutons de transport responsifs */}
-                  <div className="flex items-center justify-between gap-1.5 sm:gap-2 text-zinc-100">
+                  <div className="flex items-center justify-between gap-1 sm:gap-2 text-zinc-100">
                     <div className="flex items-center gap-0.5 sm:gap-1.5 min-w-0">
                       <button
                         type="button"
@@ -1239,7 +1451,7 @@ export function VideoPlayer({
                         aria-label={
                           phase === "playing" ? t("lecteur.pause") : t("lecteur.lecture")
                         }
-                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-white hover:bg-white/12 hover:text-[#FF885C] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                        className="w-8 h-9 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-white hover:bg-white/12 hover:text-[#FF885C] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
                       >
                         {phase === "playing" ? (
                           <Pause className="w-4 h-4 fill-current" aria-hidden="true" />
@@ -1270,7 +1482,7 @@ export function VideoPlayer({
                         type="button"
                         onClick={toggleMute}
                         aria-label={t("lecteur.volume")}
-                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                        className="w-8 h-9 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
                       >
                         {isMuted || volume === 0 ? (
                           <VolumeX className="w-4 h-4 text-[#FF885C]" aria-hidden="true" />
@@ -1289,7 +1501,7 @@ export function VideoPlayer({
                         className="hidden md:block w-16 accent-[#FF5B22] cursor-pointer h-1 mr-1"
                       />
 
-                      <span className="font-mono text-[11px] sm:text-xs text-zinc-200 tabular-nums ml-0.5 truncate">
+                      <span className="font-mono text-[10px] sm:text-xs text-zinc-200 tabular-nums ml-0.5 truncate">
                         {formatPlaybackTime(currentTimeSec)}{" "}
                         <span className="text-zinc-400">
                           / {formatPlaybackTime(durationSec)}
@@ -1298,11 +1510,117 @@ export function VideoPlayer({
                     </div>
 
                     <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                      <div ref={qualityMenuContainerRef} className="relative shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const nextOpen = !isQualityMenuOpen;
+                            qualityMenuOpenRef.current = nextOpen;
+                            setQualityMenuOpen(nextOpen);
+                            if (nextOpen && ytPlayerRef.current && playerReadyRef.current) {
+                              syncQualityFromPlayer(ytPlayerRef.current);
+                            }
+                            if (nextOpen) {
+                              setControlsVisible(true);
+                              if (hideControlsTimerRef.current !== null) {
+                                window.clearTimeout(hideControlsTimerRef.current);
+                                hideControlsTimerRef.current = null;
+                              }
+                            } else if (phaseRef.current === "playing") {
+                              scheduleHideControls();
+                            }
+                          }}
+                          aria-label={`${t("lecteur.qualiteVideo")} : ${qualityBadgeLabel}`}
+                          aria-haspopup="menu"
+                          aria-expanded={isQualityMenuOpen}
+                          className={`min-h-[34px] sm:min-h-[36px] px-1.5 sm:px-2.5 py-1 rounded-lg border font-mono text-[10px] sm:text-[11px] font-medium transition-colors cursor-pointer inline-flex items-center gap-1 sm:gap-1.5 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] ${
+                            isQualityMenuOpen
+                              ? "bg-white/20 border-[#FF885C]/60 text-white"
+                              : "bg-white/10 hover:bg-white/18 border-white/15 text-zinc-100"
+                          }`}
+                        >
+                          <SlidersHorizontal
+                            className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FF885C] shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span className="tabular-nums">{qualityBadgeLabel}</span>
+                          {isHdVideoQuality(effectiveQualityForHd) && (
+                            <span
+                              className="hidden sm:inline-block text-[9px] font-bold tracking-wider px-1 py-px rounded bg-[#FF5B22]/25 text-[#FF885C] leading-none"
+                              aria-hidden="true"
+                            >
+                              HD
+                            </span>
+                          )}
+                        </button>
+
+                        {isQualityMenuOpen && (
+                          <div
+                            role="menu"
+                            aria-label={t("lecteur.qualiteVideo")}
+                            className="absolute bottom-full right-0 mb-1.5 sm:mb-2 w-44 sm:w-48 max-h-[112px] sm:max-h-52 overflow-y-auto rounded-xl bg-[#0B0E17]/95 backdrop-blur-md border border-white/15 shadow-2xl p-1.5 z-40"
+                          >
+                            <div className="flex items-center justify-between px-2.5 py-1 mb-1 border-b border-white/10">
+                              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-400">
+                                {t("lecteur.qualiteBadge")}
+                              </span>
+                              {activeQualityLabel && (
+                                <span className="font-mono text-[10px] text-[#FF885C] tabular-nums">
+                                  {activeQualityLabel}
+                                </span>
+                              )}
+                            </div>
+
+                            {availableQualities.map((level) => {
+                              const isSelected = selectedQuality === level;
+                              const label = getVideoQualityLabel(
+                                level,
+                                t("lecteur.qualiteAuto")
+                              );
+                              return (
+                                <button
+                                  key={level}
+                                  type="button"
+                                  role="menuitemradio"
+                                  aria-checked={isSelected}
+                                  onClick={() => handleSelectQuality(level)}
+                                  className={`w-full min-h-[32px] sm:min-h-[34px] px-2.5 py-1 sm:py-1.5 rounded-lg flex items-center justify-between gap-2 text-left font-sans text-xs transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] ${
+                                    isSelected
+                                      ? "bg-[#FF5B22]/18 text-white font-semibold"
+                                      : "text-zinc-200 hover:bg-white/10 hover:text-white"
+                                  }`}
+                                >
+                                  <span className="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span className="tabular-nums">{label}</span>
+                                    {level === "auto" && activeQualityLabel && (
+                                      <span className="font-mono text-[10px] text-zinc-400 tabular-nums">
+                                        ({activeQualityLabel})
+                                      </span>
+                                    )}
+                                    {level !== "auto" && isHdVideoQuality(level) && (
+                                      <span className="font-mono text-[9px] font-semibold text-[#FF885C] tracking-wider">
+                                        HD
+                                      </span>
+                                    )}
+                                  </span>
+                                  {isSelected && (
+                                    <Check
+                                      className="w-3.5 h-3.5 text-[#FF885C] shrink-0"
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+
                       <button
                         type="button"
                         onClick={cyclePlaybackSpeed}
                         aria-label={`${t("lecteur.vitesseLecture")} ${playbackSpeed}x`}
-                        className="min-h-[36px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/18 border border-white/15 font-mono text-[11px] font-medium text-zinc-100 transition-colors cursor-pointer tabular-nums whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                        className="min-h-[34px] sm:min-h-[36px] px-2 sm:px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/18 border border-white/15 font-mono text-[10px] sm:text-[11px] font-medium text-zinc-100 transition-colors cursor-pointer tabular-nums whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
                       >
                         {playbackSpeed}x
                       </button>
@@ -1315,7 +1633,7 @@ export function VideoPlayer({
                             ? t("lecteur.quitterPleinEcran")
                             : t("lecteur.pleinEcran")
                         }
-                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                        className="w-8 h-9 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
                       >
                         {isFullscreen ? (
                           <Minimize className="w-4 h-4" aria-hidden="true" />

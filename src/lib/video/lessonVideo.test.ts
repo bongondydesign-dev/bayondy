@@ -188,3 +188,41 @@ test("resolveYouTubePlayerState transitions loading -> playing/paused/ended clea
     clearSettling: false,
   });
 });
+
+test("video quality helpers normalize levels, labels, HD detection, and YouTube mapping", async () => {
+  const {
+    DEFAULT_VIDEO_QUALITY_OPTIONS,
+    getVideoQualityLabel,
+    isHdVideoQuality,
+    normalizeYouTubeQualityLevels,
+    parseStoredVideoQuality,
+    toYouTubeSuggestedQuality,
+  } = await import("./lessonVideo");
+
+  assert.deepEqual(normalizeYouTubeQualityLevels([]), [...DEFAULT_VIDEO_QUALITY_OPTIONS]);
+  assert.deepEqual(normalizeYouTubeQualityLevels(null), [...DEFAULT_VIDEO_QUALITY_OPTIONS]);
+  assert.deepEqual(
+    normalizeYouTubeQualityLevels(["tiny", "hd1080", "auto", "unknown", "hd720", "hd1080"]),
+    ["auto", "hd1080", "hd720", "tiny"]
+  );
+
+  assert.equal(getVideoQualityLabel("auto", "Otomatik"), "Otomatik");
+  assert.equal(getVideoQualityLabel("default", "Auto"), "Auto");
+  assert.equal(getVideoQualityLabel("hd1080"), "1080p");
+  assert.equal(getVideoQualityLabel("hd720"), "720p");
+  assert.equal(getVideoQualityLabel("large"), "480p");
+  assert.equal(getVideoQualityLabel("medium"), "360p");
+  assert.equal(getVideoQualityLabel("small"), "240p");
+  assert.equal(getVideoQualityLabel("tiny"), "144p");
+
+  assert.equal(isHdVideoQuality("hd1080"), true);
+  assert.equal(isHdVideoQuality("hd720"), true);
+  assert.equal(isHdVideoQuality("large"), false);
+  assert.equal(isHdVideoQuality("auto"), false);
+
+  assert.equal(parseStoredVideoQuality("hd720"), "hd720");
+  assert.equal(parseStoredVideoQuality("invalid"), "auto");
+
+  assert.equal(toYouTubeSuggestedQuality("auto"), "default");
+  assert.equal(toYouTubeSuggestedQuality("small"), "small");
+});

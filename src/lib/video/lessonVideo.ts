@@ -43,6 +43,97 @@ export interface LessonPlaybackInput {
 
 export const PLAYBACK_SPEEDS = [0.75, 1, 1.25, 1.5, 2] as const;
 
+export const VIDEO_QUALITY_LEVELS = [
+  "highres",
+  "hd2160",
+  "hd1440",
+  "hd1080",
+  "hd720",
+  "large",
+  "medium",
+  "small",
+  "tiny",
+] as const;
+
+export type KnownVideoQuality = (typeof VIDEO_QUALITY_LEVELS)[number];
+export type VideoQualityLevel = "auto" | KnownVideoQuality;
+
+export const DEFAULT_VIDEO_QUALITY_OPTIONS: readonly VideoQualityLevel[] = [
+  "auto",
+  "hd1080",
+  "hd720",
+  "large",
+  "medium",
+  "small",
+  "tiny",
+];
+
+const VIDEO_QUALITY_RANK = new Map<string, number>(
+  VIDEO_QUALITY_LEVELS.map((q, index) => [q, index])
+);
+
+const VIDEO_QUALITY_LABELS: Record<KnownVideoQuality, string> = {
+  highres: "4K+",
+  hd2160: "2160p",
+  hd1440: "1440p",
+  hd1080: "1080p",
+  hd720: "720p",
+  large: "480p",
+  medium: "360p",
+  small: "240p",
+  tiny: "144p",
+};
+
+export function parseStoredVideoQuality(raw: unknown): VideoQualityLevel {
+  if (typeof raw === "string" && VIDEO_QUALITY_RANK.has(raw)) {
+    return raw as KnownVideoQuality;
+  }
+  return "auto";
+}
+
+export function normalizeYouTubeQualityLevels(rawLevels: unknown): VideoQualityLevel[] {
+  if (!Array.isArray(rawLevels) || rawLevels.length === 0) {
+    return [...DEFAULT_VIDEO_QUALITY_OPTIONS];
+  }
+  const seen = new Set<KnownVideoQuality>();
+  for (const item of rawLevels) {
+    if (typeof item === "string" && VIDEO_QUALITY_RANK.has(item)) {
+      seen.add(item as KnownVideoQuality);
+    }
+  }
+  if (seen.size === 0) {
+    return [...DEFAULT_VIDEO_QUALITY_OPTIONS];
+  }
+  const sorted = Array.from(seen).sort(
+    (a, b) => (VIDEO_QUALITY_RANK.get(a) ?? 99) - (VIDEO_QUALITY_RANK.get(b) ?? 99)
+  );
+  return ["auto", ...sorted];
+}
+
+export function getVideoQualityLabel(
+  level: string | null | undefined,
+  autoLabel = "Auto"
+): string {
+  if (!level || level === "auto" || level === "default" || level === "unknown") {
+    return autoLabel;
+  }
+  return VIDEO_QUALITY_LABELS[level as KnownVideoQuality] ?? autoLabel;
+}
+
+export function isHdVideoQuality(level: string | null | undefined): boolean {
+  return (
+    level === "highres" ||
+    level === "hd2160" ||
+    level === "hd1440" ||
+    level === "hd1080" ||
+    level === "hd720"
+  );
+}
+
+export function toYouTubeSuggestedQuality(level: VideoQualityLevel): string {
+  return level === "auto" ? "default" : level;
+}
+
 export interface LessonPlaybackInfo {
   provider: VideoProvider | null;
   playableInIframe: boolean;
