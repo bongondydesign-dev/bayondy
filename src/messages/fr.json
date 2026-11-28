@@ -365,7 +365,8 @@
     "progression": "Progression",
     "leconCourante": "Dernière leçon visionnée",
     "aucuneLecon": "Pas encore commencé",
-    "terminee": "Terminé"
+    "terminee": "Terminé",
+    "rechercher": "Rechercher une formation..."
   },
   "admin": {
     "akseRefize": "Accès refusé",
@@ -620,6 +621,7 @@
     "ctaFormations": "Voir les formations",
     "ctaPortfolio": "Voir le portfolio",
     "ctaLinkedin": "Profil LinkedIn",
+    "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Profil professionnel",
     "carteRoleLabel": "Rôle",
     "carteRoleValeur": "Développeur Web Freelance & Fondateur de BAYONDY",
@@ -656,6 +658,10 @@
     "profilLinkedinAction": "Ouvrir LinkedIn",
     "profilFramerTitre": "Framer",
     "profilFramerHandle": "Sites Web & Design Interactif",
-    "profilFramerDesc": "Conception de sites vitrines modernes, animations fluides et interfaces sur mesure."
+    "profilFramerDesc": "Conception de sites vitrines modernes, animations fluides et interfaces sur mesure.",
+    "profilWhatsappTitre": "WhatsApp",
+    "profilWhatsappNum": "+509 3813 3150",
+    "profilWhatsappDesc": "Écrire directement à Bayondy Edouard pour un projet web ou une question.",
+    "profilWhatsappAction": "Écrire sur WhatsApp"
   }
 }

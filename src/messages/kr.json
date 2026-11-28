@@ -365,7 +365,8 @@
     "progression": "Pwogrè",
     "leconCourante": "Dènye leson gade",
     "aucuneLecon": "Poko kòmanse",
-    "terminee": "Fini"
+    "terminee": "Fini",
+    "rechercher": "Chèche yon fòmasyon..."
   },
   "admin": {
     "akseRefize": "Aksè refize",
@@ -620,6 +621,7 @@
     "ctaFormations": "Gade fòmasyon yo",
     "ctaPortfolio": "Wè pòtfolyo a",
     "ctaLinkedin": "Pwofil LinkedIn",
+    "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Pwofil pwofesyonèl",
     "carteRoleLabel": "Wòl",
     "carteRoleValeur": "Devlopè Web Freelance & Fondatè BAYONDY",
@@ -656,6 +658,10 @@
     "profilLinkedinAction": "Louvri LinkedIn",
     "profilFramerTitre": "Framer",
     "profilFramerHandle": "Sit Web & Entèfas Modèn",
-    "profilFramerDesc": "Konsepsyon sit entènèt modèn, animasyon ak eksperyans vizyèl sou mezi."
+    "profilFramerDesc": "Konsepsyon sit entènèt modèn, animasyon ak eksperyans vizyèl sou mezi.",
+    "profilWhatsappTitre": "WhatsApp",
+    "profilWhatsappNum": "+509 3813 3150",
+    "profilWhatsappDesc": "Ekri Bayondy Edouard dirèkteman pou yon pwojè web oswa kesyon.",
+    "profilWhatsappAction": "Ekri sou WhatsApp"
   }
 }

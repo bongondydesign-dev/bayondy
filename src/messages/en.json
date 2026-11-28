@@ -365,7 +365,8 @@
     "progression": "Progress",
     "leconCourante": "Last lesson viewed",
     "aucuneLecon": "Not started yet",
-    "terminee": "Completed"
+    "terminee": "Completed",
+    "rechercher": "Search courses..."
   },
   "admin": {
     "akseRefize": "Access denied",
@@ -620,6 +621,7 @@
     "ctaFormations": "Browse courses",
     "ctaPortfolio": "View portfolio",
     "ctaLinkedin": "LinkedIn profile",
+    "ctaWhatsapp": "WhatsApp",
     "carteLabel": "Professional profile",
     "carteRoleLabel": "Role",
     "carteRoleValeur": "Freelance Web Developer & Founder of BAYONDY",
@@ -656,6 +658,10 @@
     "profilLinkedinAction": "Open LinkedIn",
     "profilFramerTitre": "Framer",
     "profilFramerHandle": "Websites & Interactive Design",
-    "profilFramerDesc": "Modern custom websites, smooth motion, and refined user interfaces."
+    "profilFramerDesc": "Modern custom websites, smooth motion, and refined user interfaces.",
+    "profilWhatsappTitre": "WhatsApp",
+    "profilWhatsappNum": "+509 3813 3150",
+    "profilWhatsappDesc": "Message Bayondy Edouard directly for a web project or inquiry.",
+    "profilWhatsappAction": "Message on WhatsApp"
   }
 }

@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { Sora, Inter, IBM_Plex_Mono, Playfair_Display } from "next/font/google";
 import "@/styles/theme.css";
@@ -5,6 +6,7 @@ import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme";
 import { AmbientBackdrop } from "@/components/layout/AmbientBackdrop";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -61,6 +63,9 @@ export default function RootLayout({
             <div className="relative z-10 min-h-screen flex flex-col">
               {children}
             </div>
+            <Suspense fallback={null}>
+              <WhatsAppButton />
+            </Suspense>
           </AuthProvider>
         </ThemeProvider>
       </body>

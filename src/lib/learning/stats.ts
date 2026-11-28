@@ -73,9 +73,18 @@ export function computeStudentStats(items: StudentCourseItem[]): StudentStats {
 
 export function filterStudentCourses(
   items: StudentCourseItem[],
-  filter: StudentCourseFilter
+  filter: StudentCourseFilter,
+  query = ""
 ): StudentCourseItem[] {
-  if (filter === "all") return items;
-  if (filter === "completed") return items.filter(isCourseCompleted);
-  return items.filter((item) => !isCourseCompleted(item));
+  const normalized = query.trim().toLowerCase();
+  return items.filter((item) => {
+    if (filter === "completed" && !isCourseCompleted(item)) return false;
+    if (filter === "active" && isCourseCompleted(item)) return false;
+    if (normalized) {
+      const titleMatch = item.course.title.toLowerCase().includes(normalized);
+      const descMatch = (item.course.shortDescription || "").toLowerCase().includes(normalized);
+      return titleMatch || descMatch;
+    }
+    return true;
+  });
 }

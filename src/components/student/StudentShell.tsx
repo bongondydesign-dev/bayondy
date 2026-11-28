@@ -3,6 +3,16 @@
 import React, { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  BookOpen,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  ShieldCheck,
+  User,
+  X,
+} from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { t } from "@/lib/i18n";
@@ -27,21 +37,13 @@ function StudentSidebarLinks({
       href: "/mes-formations",
       label: t("mesFormations.navTableau"),
       active: pathname === "/mes-formations" || pathname.startsWith("/mes-formations/"),
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-        </svg>
-      ),
+      Icon: LayoutDashboard,
     },
     {
       href: "/formations",
       label: t("mesFormations.navCatalogue"),
       active: pathname === "/formations" || pathname.startsWith("/formations/"),
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      ),
+      Icon: BookOpen,
     },
   ];
 
@@ -50,11 +52,7 @@ function StudentSidebarLinks({
       href: "/profil",
       label: t("mesFormations.navProfil"),
       active: pathname === "/profil",
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      ),
+      Icon: User,
     },
     ...(isAdmin
       ? [
@@ -62,11 +60,7 @@ function StudentSidebarLinks({
             href: "/admin",
             label: t("mesFormations.navAdmin"),
             active: pathname.startsWith("/admin"),
-            icon: (
-              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            ),
+            Icon: ShieldCheck,
           },
         ]
       : []),
@@ -74,11 +68,7 @@ function StudentSidebarLinks({
       href: "/",
       label: t("mesFormations.retourSite"),
       active: false,
-      icon: (
-        <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      ),
+      Icon: ArrowLeft,
     },
   ];
 
@@ -92,30 +82,25 @@ function StudentSidebarLinks({
           {t("mesFormations.navApprendre")}
         </p>
         <div className="space-y-1">
-          {learnLinks.map((item) => (
+          {learnLinks.map(({ href, label, active, Icon }) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={href}
+              href={href}
               onClick={onNavigate}
-              aria-current={item.active ? "page" : undefined}
-              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
-                item.active
+              aria-current={active ? "page" : undefined}
+              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                active
                   ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
-              <span className="flex items-center gap-3 min-w-0 truncate">
-                <span className={item.active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"}>
-                  {item.icon}
-                </span>
-                <span className="truncate">{item.label}</span>
-              </span>
-              {item.active && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-[#FF5B22] dark:bg-[#07080A] shrink-0"
-                  aria-hidden="true"
-                />
-              )}
+              <Icon
+                className={`w-4 h-4 shrink-0 ${
+                  active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"
+                }`}
+                aria-hidden="true"
+              />
+              <span className="truncate">{label}</span>
             </Link>
           ))}
         </div>
@@ -126,30 +111,25 @@ function StudentSidebarLinks({
           {t("mesFormations.navCompte")}
         </p>
         <div className="space-y-1">
-          {accountLinks.map((item) => (
+          {accountLinks.map(({ href, label, active, Icon }) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={href}
+              href={href}
               onClick={onNavigate}
-              aria-current={item.active ? "page" : undefined}
-              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
-                item.active
+              aria-current={active ? "page" : undefined}
+              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl flex items-center gap-3 font-sans text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ${
+                active
                   ? "bg-[#0F172A] text-white dark:bg-brand dark:text-[var(--brand-fg)] shadow-sm"
                   : "text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-[var(--surface-subtle)]"
               }`}
             >
-              <span className="flex items-center gap-3 min-w-0 truncate">
-                <span className={item.active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"}>
-                  {item.icon}
-                </span>
-                <span className="truncate">{item.label}</span>
-              </span>
-              {item.active && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-[#FF5B22] dark:bg-[#07080A] shrink-0"
-                  aria-hidden="true"
-                />
-              )}
+              <Icon
+                className={`w-4 h-4 shrink-0 ${
+                  active ? "text-[#FF5B22] dark:text-[#07080A]" : "text-ice-white/55"
+                }`}
+                aria-hidden="true"
+              />
+              <span className="truncate">{label}</span>
             </Link>
           ))}
         </div>
@@ -206,34 +186,41 @@ export function StudentShell({
       <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0">
         {user ? (
           <div className="p-2.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-brand/15 border border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
-              {initial}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-sans font-semibold text-xs text-ice-white truncate">
-                {displayName}
-              </p>
-              {user.email && (
-                <p className="font-mono text-[11px] text-ice-white/55 truncate">
-                  {user.email}
+            <Link
+              href="/profil"
+              onClick={onNavigate}
+              className="flex-1 min-w-0 flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            >
+              <div className="w-9 h-9 rounded-full bg-brand/15 border border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
+                {initial}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-sans font-semibold text-xs text-ice-white truncate">
+                  {displayName}
                 </p>
-              )}
-            </div>
+                {user.email && (
+                  <p className="font-mono text-[11px] text-ice-white/55 truncate">
+                    {user.email}
+                  </p>
+                )}
+              </div>
+            </Link>
             <button
               type="button"
               onClick={handleSignOut}
               disabled={signingOut}
               aria-label={t("profil.boutonDeconnexion")}
               title={t("profil.boutonDeconnexion")}
-              className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-subtle)] bg-deep-navy hover:border-red-400/50 text-ice-white/70 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-[var(--border-subtle)] bg-deep-navy hover:border-red-400/50 text-ice-white/70 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
+              <LogOut className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         ) : (
-          <div className="h-14 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] animate-pulse" aria-hidden="true" />
+          <div
+            className="h-14 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] animate-pulse"
+            aria-hidden="true"
+          />
         )}
       </div>
     </div>
@@ -265,9 +252,7 @@ export function StudentShell({
                 aria-label={t("nav.fermer")}
                 className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
             {sidebarContent(() => setMobileOpen(false))}
@@ -284,9 +269,7 @@ export function StudentShell({
               aria-label={t("nav.menu")}
               className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] bg-[var(--surface-subtle)] text-ice-white flex items-center justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              <Menu className="w-5 h-5" aria-hidden="true" />
             </button>
             <div className="min-w-0">
               {pageSubtitle && (
@@ -304,11 +287,9 @@ export function StudentShell({
             <ThemeToggle />
             <Link
               href="/formations"
-              className="min-h-[44px] px-4 py-2 rounded-full bg-deep-navy border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap"
+              className="min-h-[44px] px-4 py-2 rounded-full bg-deep-navy border border-[var(--border-strong)] hover:border-brand/50 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light whitespace-nowrap shrink-0"
             >
-              <svg className="w-4 h-4 text-brand shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+              <BookOpen className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
               <span className="hidden sm:inline">{t("mesFormations.boutonDecouvrir")}</span>
               <span className="sm:hidden">{t("nav.formations")}</span>
             </Link>

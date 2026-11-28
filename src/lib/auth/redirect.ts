@@ -1,4 +1,4 @@
-const DEFAULT_REDIRECT = "/profil";
+const DEFAULT_REDIRECT = "/mes-formations";
 
 /**
  * Valide le paramètre `redirect` pour empêcher toute redirection ouverte.

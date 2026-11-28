@@ -49,19 +49,20 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
             </Link>
           )}
           <Link
-            href="/mes-formations"
+            href="/profil"
             onClick={onNavigate}
             className="min-h-[44px] flex items-center justify-between px-3 rounded-xl text-ice-white hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-medium text-sm"
           >
-            <span>{t("nav.mesFormations")}</span>
+            <span>{t("nav.profil")}</span>
             <ArrowRight className="w-4 h-4 text-slate-400 dark:text-ice-white/45" aria-hidden="true" />
           </Link>
           <Link
-            href="/profil"
+            href="/mes-formations"
             onClick={onNavigate}
-            className="min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white hover:border-[var(--home-orange)]/50 transition-colors font-medium text-sm"
+            className="min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] transition-colors font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)]"
           >
-            {t("nav.profil")}
+            <span>{t("mesFormations.navTableau")}</span>
+            <ArrowRight className="w-4 h-4" strokeWidth={2.2} aria-hidden="true" />
           </Link>
         </div>
       );
@@ -83,16 +84,21 @@ export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
           </>
         )}
         <Link
-          href="/mes-formations"
+          href="/profil"
           className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
         >
-          {t("nav.mesFormations")}
+          {t("nav.profil")}
         </Link>
         <Link
-          href="/profil"
-          className="inline-flex items-center justify-center h-10 px-4 rounded-full border border-[var(--border-strong)] bg-[var(--surface-elevated)] hover:border-[var(--home-orange)]/55 hover:bg-[var(--surface-subtle)] text-ice-white font-medium text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0"
+          href="/mes-formations"
+          className="group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0"
         >
-          {t("nav.profil")}
+          <span>{t("mesFormations.navTableau")}</span>
+          <ArrowRight
+            className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"
+            strokeWidth={2.3}
+            aria-hidden="true"
+          />
         </Link>
       </div>
     );

@@ -23,7 +23,7 @@ export function AuthForm({ mode, redirectTo }: AuthFormProps) {
   const { signInWithEmail, signUpWithEmail } = useAuth();
   const safeRedirect = getSafeRedirectPath(redirectTo);
   const redirectQuery =
-    safeRedirect !== "/profil"
+    safeRedirect !== "/mes-formations"
       ? `?redirect=${encodeURIComponent(safeRedirect)}`
       : "";
 

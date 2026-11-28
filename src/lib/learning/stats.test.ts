@@ -68,10 +68,12 @@ test("computeStudentStats aggregates real lessons, percent, and resume priority"
   assert.equal(stats.resumeItem?.course.id, "2");
 });
 
-test("filterStudentCourses filters active vs completed courses", () => {
+test("filterStudentCourses filters active vs completed courses and search query", () => {
   const done = makeItem("1", 2, ["a", "b"]);
   const active = makeItem("2", 5, ["c"]);
   assert.equal(filterStudentCourses([done, active], "all").length, 2);
   assert.equal(filterStudentCourses([done, active], "completed").length, 1);
   assert.equal(filterStudentCourses([done, active], "active")[0].course.id, "2");
+  assert.equal(filterStudentCourses([done, active], "all", "course 2").length, 1);
+  assert.equal(filterStudentCourses([done, active], "completed", "course 2").length, 0);
 });

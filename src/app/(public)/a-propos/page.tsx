@@ -9,6 +9,7 @@ import {
   Globe,
   Layers,
   MapPin,
+  MessageCircle,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -17,6 +18,7 @@ import { t } from "@/lib/i18n";
 
 const PORTFOLIO_URL = "https://bayondy.web.app/";
 const LINKEDIN_URL = "https://www.linkedin.com/in/bayondy-edouard?originalSubdomain=ht";
+const WHATSAPP_URL = "https://wa.me/50938133150";
 
 export const metadata: Metadata = {
   title: `${t("apropos.titreNom")} — ${t("nav.apropos")} | BAYONDY`,
@@ -64,6 +66,7 @@ export default function AProposPage() {
     { label: "Portfolio", href: PORTFOLIO_URL },
     { label: "LinkedIn", href: LINKEDIN_URL },
     { label: "Framer", href: PORTFOLIO_URL },
+    { label: "WhatsApp", href: WHATSAPP_URL },
   ];
 
   return (
@@ -256,7 +259,7 @@ export default function AProposPage() {
                       <span className="font-sans text-[11px] font-medium text-slate-500 dark:text-ice-white/50">
                         {t("apropos.cartePresenceLabel")}
                       </span>
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
                         {cardProfiles.map((profile) => (
                           <a
                             key={profile.label}
@@ -393,7 +396,7 @@ export default function AProposPage() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {/* Portfolio */}
                 <a
                   href={PORTFOLIO_URL}
@@ -484,6 +487,38 @@ export default function AProposPage() {
 
                   <span className="font-mono text-xs font-medium text-[var(--home-orange-light)] inline-flex items-center gap-1.5">
                     <span>{t("apropos.profilPortfolioAction")}</span>
+                    <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  </span>
+                </a>
+
+                {/* WhatsApp */}
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-2xl bg-deep-navy border border-[var(--border-subtle)] hover:border-emerald-500/55 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5 transition-all duration-200 p-6 sm:p-7 flex flex-col justify-between gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[var(--border-faint)]">
+                      <span className="inline-flex items-center gap-2 font-mono text-xs text-emerald-600 dark:text-emerald-400 tabular-nums">
+                        <MessageCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+                        <span>{t("apropos.profilWhatsappNum")}</span>
+                      </span>
+                      <ArrowUpRight
+                        className="w-4 h-4 text-slate-400 dark:text-ice-white/50 group-hover:text-emerald-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h3 className="font-display font-semibold text-lg text-ice-white mb-1.5">
+                      {t("apropos.profilWhatsappTitre")}
+                    </h3>
+                    <p className="text-sm text-slate-600 dark:text-ice-white/70 font-sans leading-relaxed">
+                      {t("apropos.profilWhatsappDesc")}
+                    </p>
+                  </div>
+
+                  <span className="font-mono text-xs font-medium text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1.5">
+                    <span>{t("apropos.profilWhatsappAction")}</span>
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </a>
