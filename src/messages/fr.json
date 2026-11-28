@@ -449,7 +449,9 @@
       "suppression": "Suppression...",
       "confirmSupprimerTitre": "Supprimer cette formation ?",
       "confirmSupprimerDesc": "Cette action supprimera définitivement la formation et toutes ses leçons. Elle est irréversible.",
-      "erreurSuppression": "Impossible de supprimer la formation. Veuillez réessayer."
+      "erreurSuppression": "Impossible de supprimer la formation. Veuillez réessayer.",
+      "creeeBanniere": "Formation créée ! Vous pouvez maintenant ajouter vos leçons vidéo TikTok ou YouTube ci-dessous.",
+      "champSlugHint": "Généré automatiquement depuis le titre."
     },
     "lecons": {
       "titre": "Leçons",
@@ -470,7 +472,15 @@
       "champOrdre": "Ordre",
       "champDuree": "Durée (minutes)",
       "champApercu": "Aperçu gratuit (visible par tous)",
-      "champModuleIdPlaceholder": "module-01"
+      "champModuleIdPlaceholder": "module-01",
+      "champVideoSource": "Lien vidéo TikTok (non répertorié) ou YouTube",
+      "champVideoSourcePlaceholder": "https://www.tiktok.com/@compte/video/123456... ou lien YouTube",
+      "champVideoSourceHint": "Collez le lien complet d'une vidéo TikTok (non répertoriée ou publique), un lien court vm.tiktok.com, ou un lien/ID YouTube.",
+      "sourceDetecteeTikTok": "Vidéo TikTok détectée",
+      "sourceDetecteeYoutube": "Vidéo YouTube détectée",
+      "sourceLienCourt": "Lien court TikTok détecté (sera résolu à l'enregistrement)",
+      "modulesExistants": "Modules existants",
+      "nouveauModule": "Nouveau module"
     },
     "eleves": {
       "titre": "Élèves",
@@ -540,7 +550,10 @@
     "progressionGlobale": "Progression globale",
     "retourMesFormations": "Mes formations",
     "ressources": "Documents et liens utiles",
-    "limiteLeconsDepassee": "Le nombre de leçons complétées ne peut pas dépasser 500."
+    "limiteLeconsDepassee": "Le nombre de leçons complétées ne peut pas dépasser 500.",
+    "ouvrirTikTok": "Ouvrir sur TikTok",
+    "regarderTikTok": "Regarder la vidéo sur TikTok",
+    "tikTokInfo": "Cette vidéo TikTok est en non répertorié. Si le lecteur intégré ne charge pas, ouvrez-la directement sur TikTok."
   },
   "legal": {
     "banniereProvisoire": "Ce texte est provisoire. Il sera relu et validé avant le lancement officiel.",

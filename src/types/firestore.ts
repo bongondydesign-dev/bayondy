@@ -86,6 +86,8 @@ export interface LessonResource {
   url: string;
 }
 
+export type VideoProvider = "tiktok" | "youtube";
+
 export interface LessonDoc {
   courseId: string;
   moduleId: string;
@@ -93,6 +95,9 @@ export interface LessonDoc {
   title: string;
   order: number;
   youtubeVideoId: string;
+  videoProvider?: VideoProvider;
+  videoId?: string;
+  videoUrl?: string;
   durationMinutes: number;
   isFreePreview: boolean;
   archived?: boolean;
@@ -165,6 +170,7 @@ export type AdminLogAction =
   | "course.update"
   | "course.publish"
   | "course.unpublish"
+  | "course.delete"
   | "lesson.create"
   | "lesson.update"
   | "lesson.archive"

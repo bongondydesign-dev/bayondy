@@ -300,6 +300,9 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   key={currentLesson.id}
                   lessonTitle={currentLesson.title}
                   youtubeVideoId={currentLesson.youtubeVideoId}
+                  videoProvider={currentLesson.videoProvider}
+                  videoId={currentLesson.videoId}
+                  videoUrl={currentLesson.videoUrl}
                 />
 
                 {/* En-tête de la leçon et action "Leson fini" */}

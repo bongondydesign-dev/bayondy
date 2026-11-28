@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
+import { slugifyCourseText } from "@/lib/admin/courseHelpers";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
+import { resolveTikTokShortUrl } from "@/lib/video/resolveTikTok.server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
@@ -47,11 +49,31 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
 
     // Liste blanche stricte
     const update: Record<string, unknown> = { updatedAt: FieldValue.serverTimestamp() };
-    if (data.moduleId !== undefined) update.moduleId = data.moduleId;
+    if (data.moduleId !== undefined) {
+      update.moduleId = data.moduleId;
+    } else if (data.moduleTitle !== undefined && !lessonDoc.data()!.moduleId) {
+      update.moduleId = slugifyCourseText(data.moduleTitle, 80) || "modil-01";
+    }
     if (data.moduleTitle !== undefined) update.moduleTitle = data.moduleTitle;
     if (data.title !== undefined) update.title = data.title;
     if (data.order !== undefined) update.order = data.order;
-    if (data.youtubeVideoId !== undefined) update.youtubeVideoId = data.youtubeVideoId;
+
+    if (data.videoProvider !== undefined) {
+      let finalVideoId = data.videoId ?? "";
+      let finalVideoUrl = data.videoUrl ?? "";
+      if (data.videoProvider === "tiktok" && data.needsShortResolve && finalVideoUrl) {
+        const resolved = await resolveTikTokShortUrl(finalVideoUrl);
+        if (resolved.videoId) finalVideoId = resolved.videoId;
+        if (resolved.videoUrl) finalVideoUrl = resolved.videoUrl;
+      }
+      update.videoProvider = data.videoProvider;
+      update.videoId = finalVideoId;
+      update.videoUrl = finalVideoUrl;
+      update.youtubeVideoId = data.youtubeVideoId ?? "";
+    } else if (data.youtubeVideoId !== undefined) {
+      update.youtubeVideoId = data.youtubeVideoId;
+    }
+
     if (data.durationMinutes !== undefined) update.durationMinutes = data.durationMinutes;
     if (data.isFreePreview !== undefined) update.isFreePreview = data.isFreePreview;
     if (data.resources !== undefined) update.resources = data.resources;
@@ -62,14 +84,14 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
     await recalcCourseSyllabus(courseId);
 
     const changed = Object.keys(update)
-      .filter((k) => k !== "updatedAt")
+      .filter((k) => k !== "updatedAt" && k !== "videoId" && k !== "videoUrl" && k !== "youtubeVideoId")
       .join(", ");
 
     await writeAdminLog(
       auth.user.uid,
       "lesson.update",
       { type: "lesson", id: lessonId },
-      `Champs modifiés: ${changed}`
+      `Champs modifiés: ${changed || "video"}`
     );
 
     const courseDoc = await db.collection("courses").doc(courseId).get();

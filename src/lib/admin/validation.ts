@@ -4,13 +4,15 @@ import "server-only";
 // Regex : slug valide (minuscules, chiffres, tirets, 2-80 chars)
 const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,78}[a-z0-9]$|^[a-z0-9]{1,2}$/;
 
-// Regex : youtubeVideoId — exactement 11 caractères parmi A-Za-z0-9_-
-const YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
-
 // Regex : URL http(s)
 const URL_RE = /^https?:\/\/.{1,2000}$/;
 
 import { isValidCoverUrl } from "./cover";
+import {
+  parseLessonVideoInput,
+  YOUTUBE_ID_RE,
+  type VideoProvider,
+} from "@/lib/video/lessonVideo";
 
 export type CourseLevel = "debutant" | "intermediaire" | "avance";
 export type CourseLanguage = "ht" | "fr" | "en";
@@ -41,6 +43,10 @@ export interface ValidatedLessonFields {
   title?: string;
   order?: number;
   youtubeVideoId?: string;
+  videoProvider?: VideoProvider;
+  videoId?: string;
+  videoUrl?: string;
+  needsShortResolve?: boolean;
   durationMinutes?: number;
   isFreePreview?: boolean;
   archived?: boolean;
@@ -58,13 +64,24 @@ function str(v: unknown, max: number): string | null {
   return s;
 }
 
+function optionalDraftStr(v: unknown, max: number): { valid: boolean; value: string } {
+  if (typeof v !== "string") return { valid: false, value: "" };
+  const s = v.trim();
+  if (s.length > max) return { valid: false, value: "" };
+  return { valid: true, value: s };
+}
+
 /** Valide les champs d'une formation (liste blanche stricte). */
-export function validateCourseInput(body: unknown): {
+export function validateCourseInput(
+  body: unknown,
+  options?: { isCreate?: boolean }
+): {
   data: ValidatedCourseFields;
   errors: string[];
 } {
   const errors: string[] = [];
   const data: ValidatedCourseFields = {};
+  const isCreate = options?.isCreate === true;
 
   if (typeof body !== "object" || body === null) {
     return { data, errors: ["Corps de requête invalide."] };
@@ -77,14 +94,26 @@ export function validateCourseInput(body: unknown): {
     else data.title = v;
   }
   if ("shortDescription" in b) {
-    const v = str(b.shortDescription, 500);
-    if (v === null) errors.push("shortDescription: chaîne requise, max 500 chars.");
-    else data.shortDescription = v;
+    if (isCreate) {
+      const res = optionalDraftStr(b.shortDescription, 500);
+      if (!res.valid) errors.push("shortDescription: max 500 chars.");
+      else if (res.value) data.shortDescription = res.value;
+    } else {
+      const res = optionalDraftStr(b.shortDescription, 500);
+      if (!res.valid) errors.push("shortDescription: max 500 chars.");
+      else data.shortDescription = res.value;
+    }
   }
   if ("description" in b) {
-    const v = str(b.description, 5000);
-    if (v === null) errors.push("description: chaîne requise, max 5000 chars.");
-    else data.description = v;
+    if (isCreate) {
+      const res = optionalDraftStr(b.description, 5000);
+      if (!res.valid) errors.push("description: max 5000 chars.");
+      else if (res.value) data.description = res.value;
+    } else {
+      const res = optionalDraftStr(b.description, 5000);
+      if (!res.valid) errors.push("description: max 5000 chars.");
+      else data.description = res.value;
+    }
   }
   if ("level" in b) {
     if (!VALID_LEVELS.includes(b.level as CourseLevel))
@@ -102,10 +131,14 @@ export function validateCourseInput(body: unknown): {
     else data.status = b.status as CourseStatus;
   }
   if ("slug" in b) {
-    const v = str(b.slug, 80);
-    if (v === null || !SLUG_RE.test(v))
-      errors.push("slug: minuscules, chiffres, tirets, 2-80 chars.");
-    else data.slug = v;
+    if (isCreate && typeof b.slug === "string" && b.slug.trim() === "") {
+      // Slug vide autorisé à la création : généré côté serveur depuis le titre
+    } else {
+      const v = str(b.slug, 80);
+      if (v === null || !SLUG_RE.test(v))
+        errors.push("slug: minuscules, chiffres, tirets, 2-80 chars.");
+      else data.slug = v;
+    }
   }
   if ("durationMinutes" in b) {
     if (!isPositiveInt(b.durationMinutes) || (b.durationMinutes as number) > 10000)
@@ -164,7 +197,7 @@ export function validateLessonInput(body: unknown): {
     if (v === null) errors.push("courseId: chaîne requise, max 128 chars.");
     else data.courseId = v;
   }
-  if ("moduleId" in b) {
+  if ("moduleId" in b && typeof b.moduleId === "string" && b.moduleId.trim() !== "") {
     const v = str(b.moduleId, 128);
     if (v === null) errors.push("moduleId: chaîne requise, max 128 chars.");
     else data.moduleId = v;
@@ -184,12 +217,31 @@ export function validateLessonInput(body: unknown): {
       errors.push("order: entier >= 0 et <= 9999.");
     else data.order = b.order as number;
   }
-  if ("youtubeVideoId" in b) {
-    const v = str(b.youtubeVideoId, 11);
-    if (v === null || !YT_ID_RE.test(v))
-      errors.push("youtubeVideoId: exactement 11 caractères parmi A-Za-z0-9_-.");
-    else data.youtubeVideoId = v;
+
+  const hasVideoField =
+    "videoSource" in b || "videoUrl" in b || "youtubeVideoId" in b;
+  if (hasVideoField) {
+    const rawCandidate =
+      typeof b.videoSource === "string" && b.videoSource.trim()
+        ? b.videoSource
+        : typeof b.videoUrl === "string" && b.videoUrl.trim()
+        ? b.videoUrl
+        : typeof b.youtubeVideoId === "string" && b.youtubeVideoId.trim()
+        ? b.youtubeVideoId
+        : "";
+
+    const parsed = parseLessonVideoInput(rawCandidate);
+    if (!parsed.ok) {
+      errors.push(parsed.error);
+    } else {
+      data.videoProvider = parsed.provider;
+      data.videoId = parsed.videoId;
+      data.videoUrl = parsed.videoUrl;
+      data.youtubeVideoId = parsed.youtubeVideoId;
+      data.needsShortResolve = parsed.needsShortResolve;
+    }
   }
+
   if ("durationMinutes" in b) {
     if (!isPositiveInt(b.durationMinutes) || (b.durationMinutes as number) > 10000)
       errors.push("durationMinutes: entier >= 0 et <= 10000.");
@@ -232,5 +284,5 @@ export function validateLessonInput(body: unknown): {
 
 /** Valide youtubeVideoId seul (utile en dehors du contexte leçon). */
 export function isValidYoutubeId(id: unknown): id is string {
-  return typeof id === "string" && YT_ID_RE.test(id);
+  return typeof id === "string" && YOUTUBE_ID_RE.test(id);
 }

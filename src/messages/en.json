@@ -449,7 +449,9 @@
       "suppression": "Deleting...",
       "confirmSupprimerTitre": "Delete this course?",
       "confirmSupprimerDesc": "This action will permanently delete the course and all its lessons. This cannot be undone.",
-      "erreurSuppression": "Unable to delete the course. Please try again."
+      "erreurSuppression": "Unable to delete the course. Please try again.",
+      "creeeBanniere": "Course created! You can now add your TikTok or YouTube video lessons below.",
+      "champSlugHint": "Automatically generated from the title."
     },
     "lecons": {
       "titre": "Lessons",
@@ -470,7 +472,15 @@
       "champOrdre": "Order",
       "champDuree": "Duration (minutes)",
       "champApercu": "Free preview (visible to everyone)",
-      "champModuleIdPlaceholder": "module-01"
+      "champModuleIdPlaceholder": "module-01",
+      "champVideoSource": "TikTok (unlisted) or YouTube video link",
+      "champVideoSourcePlaceholder": "https://www.tiktok.com/@account/video/123456... or YouTube link",
+      "champVideoSourceHint": "Paste a full TikTok link (unlisted or public), a vm.tiktok.com short link, or a YouTube link/ID.",
+      "sourceDetecteeTikTok": "TikTok video detected",
+      "sourceDetecteeYoutube": "YouTube video detected",
+      "sourceLienCourt": "TikTok short link detected (will resolve on save)",
+      "modulesExistants": "Existing modules",
+      "nouveauModule": "New module"
     },
     "eleves": {
       "titre": "Students",
@@ -540,7 +550,10 @@
     "progressionGlobale": "Overall progress",
     "retourMesFormations": "My courses",
     "ressources": "Documents and useful links",
-    "limiteLeconsDepassee": "The number of completed lessons cannot exceed 500."
+    "limiteLeconsDepassee": "The number of completed lessons cannot exceed 500.",
+    "ouvrirTikTok": "Open on TikTok",
+    "regarderTikTok": "Watch video on TikTok",
+    "tikTokInfo": "This TikTok video is unlisted. If the embedded player does not load, open it directly on TikTok."
   },
   "legal": {
     "banniereProvisoire": "This text is a draft. It will be reviewed and finalized before launch.",

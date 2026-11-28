@@ -449,7 +449,9 @@
       "suppression": "N ap efase...",
       "confirmSupprimerTitre": "Efase fòmasyon sa a ?",
       "confirmSupprimerDesc": "Aksyon sa a ap efase fòmasyon an ak tout leson li yo nèt ale. Li pa ka anile.",
-      "erreurSuppression": "Nou pa t kapab efase fòmasyon an. Tanpri reye."
+      "erreurSuppression": "Nou pa t kapab efase fòmasyon an. Tanpri reye.",
+      "creeeBanniere": "Fòmasyon an kreye! Kounye a ou ka ajoute leson videyo TikTok oswa YouTube yo.",
+      "champSlugHint": "Jenere otomatikman depi tit la."
     },
     "lecons": {
       "titre": "Leson yo",
@@ -470,7 +472,15 @@
       "champOrdre": "Lòd",
       "champDuree": "Dire (minit)",
       "champApercu": "Apèsi gratis (tout moun ka wè)",
-      "champModuleIdPlaceholder": "modil-01"
+      "champModuleIdPlaceholder": "modil-01",
+      "champVideoSource": "Lyen videyo TikTok (non répertorié) oswa YouTube",
+      "champVideoSourcePlaceholder": "https://www.tiktok.com/@kont/video/123456... oswa lyen YouTube",
+      "champVideoSourceHint": "Kole lyen TikTok konplè (ki pa sou lis oswa piblik), lyen kout vm.tiktok.com, oswa lyen/ID YouTube.",
+      "sourceDetecteeTikTok": "Videyo TikTok detekte",
+      "sourceDetecteeYoutube": "Videyo YouTube detekte",
+      "sourceLienCourt": "Lyen kout TikTok detekte (l ap rezoud lè w anrejistre)",
+      "modulesExistants": "Chwazi yon modil ki egziste",
+      "nouveauModule": "Nouvo modil"
     },
     "eleves": {
       "titre": "Elèv yo",
@@ -540,7 +550,10 @@
     "progressionGlobale": "Pwogrè jeneral",
     "retourMesFormations": "Fòmasyon mwen yo",
     "ressources": "Dokiman ak lyen util",
-    "limiteLeconsDepassee": "Kantite leson konplete pa ka depase 500."
+    "limiteLeconsDepassee": "Kantite leson konplete pa ka depase 500.",
+    "ouvrirTikTok": "Louvri sou TikTok",
+    "regarderTikTok": "Gade videyo a sou TikTok",
+    "tikTokInfo": "Videyo TikTok sa a an mòd non répertorié. Si lektè a pa chaje, ouvri l dirèkteman sou TikTok."
   },
   "legal": {
     "banniereProvisoire": "Tèks sa a pwovizwa. L ap relete anvan lansman.",

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/requireAdmin";
 import { writeAdminLog } from "@/lib/admin/adminLog";
+import { slugifyCourseText } from "@/lib/admin/courseHelpers";
 import { validateLessonInput } from "@/lib/admin/validation";
 import { recalcCourseSyllabus } from "@/lib/admin/syllabusUpdater";
+import { resolveTikTokShortUrl } from "@/lib/video/resolveTikTok.server";
 import { getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { revalidateCoursesCache } from "@/lib/courses/revalidate";
 import { FieldValue } from "firebase-admin/firestore";
@@ -40,10 +42,17 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
     return NextResponse.json({ errors }, { status: 400 });
   }
 
+  const resolvedModuleTitle = data.moduleTitle ?? "";
+  const resolvedModuleId =
+    data.moduleId ||
+    (resolvedModuleTitle ? slugifyCourseText(resolvedModuleTitle, 80) || "modil-01" : "");
+
+  const hasVideo = Boolean(data.videoProvider && (data.videoId || data.videoUrl));
+
   // Champs obligatoires
-  if (!data.title || !data.youtubeVideoId || !data.moduleId || !data.moduleTitle) {
+  if (!data.title || !hasVideo || !resolvedModuleId || !resolvedModuleTitle) {
     return NextResponse.json(
-      { error: "Champs obligatoires: title, youtubeVideoId, moduleId, moduleTitle." },
+      { error: "Champs obligatoires: title, lien vidéo TikTok ou YouTube, moduleTitle." },
       { status: 400 }
     );
   }
@@ -57,16 +66,44 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
       return NextResponse.json({ error: "Formation introuvable." }, { status: 404 });
     }
 
+    let finalVideoId = data.videoId ?? "";
+    let finalVideoUrl = data.videoUrl ?? "";
+    if (data.videoProvider === "tiktok" && data.needsShortResolve && finalVideoUrl) {
+      const resolved = await resolveTikTokShortUrl(finalVideoUrl);
+      if (resolved.videoId) finalVideoId = resolved.videoId;
+      if (resolved.videoUrl) finalVideoUrl = resolved.videoUrl;
+    }
+
+    // Déterminer l'ordre automatiquement si absent
+    let resolvedOrder = data.order;
+    if (resolvedOrder === undefined) {
+      const existingLessons = await db
+        .collection("lessons")
+        .where("courseId", "==", courseId)
+        .get();
+      let maxOrder = 0;
+      for (const doc of existingLessons.docs) {
+        const ld = doc.data();
+        if (ld.archived !== true && typeof ld.order === "number" && ld.order > maxOrder) {
+          maxOrder = ld.order;
+        }
+      }
+      resolvedOrder = Math.max(existingLessons.size + 1, maxOrder + 1);
+    }
+
     const lessonRef = db.collection("lessons").doc();
 
-    // Écriture avec liste blanche stricte — pas de youtubeVideoId dans syllabus ici
+    // Écriture avec liste blanche stricte — aucun lien vidéo dans syllabus ou logs
     await lessonRef.set({
       courseId: data.courseId,
-      moduleId: data.moduleId,
-      moduleTitle: data.moduleTitle,
+      moduleId: resolvedModuleId,
+      moduleTitle: resolvedModuleTitle,
       title: data.title,
-      order: data.order ?? 0,
-      youtubeVideoId: data.youtubeVideoId,
+      order: resolvedOrder,
+      youtubeVideoId: data.youtubeVideoId ?? "",
+      videoProvider: data.videoProvider,
+      videoId: finalVideoId,
+      videoUrl: finalVideoUrl,
       durationMinutes: data.durationMinutes ?? 0,
       isFreePreview: data.isFreePreview ?? false,
       archived: false,
@@ -81,7 +118,7 @@ export async function POST(req: NextRequest, ctx: RouteContext) {
       auth.user.uid,
       "lesson.create",
       { type: "lesson", id: lessonRef.id },
-      `Cours: ${courseId}, Module: "${data.moduleTitle}", Titre: "${data.title}"`
+      `Cours: ${courseId}, Module: "${resolvedModuleTitle}", Titre: "${data.title}", Source: ${data.videoProvider}`
     );
 
     const courseSlug = courseDoc.data()?.slug;
