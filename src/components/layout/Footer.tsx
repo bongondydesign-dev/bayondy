@@ -54,6 +54,14 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/a-propos"
+                  className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
+                >
+                  {t("footer.liens.apropos")}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/faq"
                   className="hover:text-[var(--home-orange-light)] transition-colors min-h-[44px] inline-flex items-center"
                 >

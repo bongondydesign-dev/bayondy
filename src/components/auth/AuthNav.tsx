@@ -2,21 +2,22 @@
 
 import React from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { Button } from "@/components/ui/Button";
 import { t } from "@/lib/i18n";
 
 interface AuthNavProps {
   mobile?: boolean;
+  onNavigate?: () => void;
 }
 
-export function AuthNav({ mobile = false }: AuthNavProps) {
+export function AuthNav({ mobile = false, onNavigate }: AuthNavProps) {
   const { user, loading, isAdmin } = useAuth();
 
   if (loading) {
     if (mobile) {
       return (
-        <div className="flex flex-col gap-2 animate-pulse" aria-hidden="true">
+        <div className="flex flex-col gap-2.5 animate-pulse" aria-hidden="true">
           <div className="h-11 rounded-full bg-slate-200 dark:bg-white/5 w-full" />
           <div className="h-11 rounded-full bg-slate-200/80 dark:bg-white/10 w-full" />
         </div>
@@ -27,7 +28,7 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
         className="hidden md:flex items-center gap-3 animate-pulse shrink-0"
         aria-hidden="true"
       >
-        <div className="h-10 w-20 rounded-full bg-slate-200 dark:bg-white/5" />
+        <div className="h-9 w-16 rounded-lg bg-slate-200 dark:bg-white/5" />
         <div className="h-10 w-32 rounded-full bg-slate-200/80 dark:bg-white/10" />
       </div>
     );
@@ -36,20 +37,28 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
   if (user) {
     if (mobile) {
       return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pt-1">
           {isAdmin && (
-            <div className="px-3 py-1 rounded-md bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/35 text-[var(--home-orange-light)] font-mono text-[11px] font-semibold uppercase tracking-wider text-center">
-              Wòl : Admin
-            </div>
+            <Link
+              href="/admin"
+              onClick={onNavigate}
+              className="min-h-[44px] flex items-center justify-between px-3 rounded-xl text-[var(--home-orange-light)] hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-mono text-xs uppercase tracking-wider font-semibold"
+            >
+              <span>Admin</span>
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} aria-hidden="true" />
+            </Link>
           )}
           <Link
             href="/mes-formations"
-            className="min-h-[44px] flex items-center px-3 rounded-lg text-ice-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors font-medium text-sm"
+            onClick={onNavigate}
+            className="min-h-[44px] flex items-center justify-between px-3 rounded-xl text-ice-white hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-medium text-sm"
           >
-            {t("nav.mesFormations")}
+            <span>{t("nav.mesFormations")}</span>
+            <ArrowRight className="w-4 h-4 text-slate-400 dark:text-ice-white/45" aria-hidden="true" />
           </Link>
           <Link
             href="/profil"
+            onClick={onNavigate}
             className="min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-strong)] text-ice-white hover:border-[var(--home-orange)]/50 transition-colors font-medium text-sm"
           >
             {t("nav.profil")}
@@ -59,78 +68,81 @@ export function AuthNav({ mobile = false }: AuthNavProps) {
     }
 
     return (
-      <div className="hidden md:flex items-center gap-3 shrink-0">
+      <div className="hidden md:flex items-center gap-4 shrink-0">
         {isAdmin && (
-          <span className="px-2.5 py-1 rounded-full bg-[var(--home-orange)]/15 border border-[var(--home-orange)]/35 text-[var(--home-orange-light)] font-mono text-xs font-semibold uppercase tracking-wider">
-            Admin
-          </span>
+          <>
+            <Link
+              href="/admin"
+              className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--home-orange-light)] hover:underline whitespace-nowrap shrink-0"
+            >
+              Admin
+            </Link>
+            <span className="text-[var(--border-strong)]" aria-hidden="true">
+              ·
+            </span>
+          </>
         )}
         <Link
           href="/mes-formations"
-          className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-slate-900/[0.045] dark:hover:bg-white/[0.05] px-3.5 py-2 min-h-[40px] inline-flex items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
+          className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
         >
           {t("nav.mesFormations")}
         </Link>
-        <Button href="/profil" variant="secondaire" accent="orange">
+        <Link
+          href="/profil"
+          className="inline-flex items-center justify-center h-10 px-4 rounded-full border border-[var(--border-strong)] bg-[var(--surface-elevated)] hover:border-[var(--home-orange)]/55 hover:bg-[var(--surface-subtle)] text-ice-white font-medium text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] whitespace-nowrap shrink-0"
+        >
           {t("nav.profil")}
-        </Button>
+        </Link>
       </div>
     );
   }
 
   if (mobile) {
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2.5 pt-2">
         <Link
           href="/connexion"
-          className="min-h-[44px] flex items-center justify-center px-3 rounded-full border border-[var(--border-strong)] text-ice-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors font-medium text-sm"
+          onClick={onNavigate}
+          className="min-h-[44px] flex items-center justify-center px-4 rounded-full border border-[var(--border-strong)] text-ice-white hover:bg-slate-900/[0.04] dark:hover:bg-white/[0.04] transition-colors font-medium text-sm"
         >
           {t("nav.connexion")}
         </Link>
-        <Button
+        <Link
           href="/inscription"
-          variant="principal"
-          accent="orange"
-          className="w-full justify-between"
+          onClick={onNavigate}
+          className="group min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] transition-all duration-200"
         >
           <span>{t("nav.inscription")}</span>
-          <span
-            className="w-6 h-6 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
+          <ArrowRight
+            className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
+            strokeWidth={2.2}
             aria-hidden="true"
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 12h14m-6-6l6 6-6 6" />
-            </svg>
-          </span>
-        </Button>
+          />
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="hidden md:flex items-center gap-3 shrink-0">
+    <div className="hidden md:flex items-center gap-4 shrink-0">
       <Link
         href="/connexion"
-        className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white hover:bg-slate-900/[0.045] dark:hover:bg-white/[0.05] px-3.5 py-2 min-h-[40px] inline-flex items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] transition-colors whitespace-nowrap shrink-0"
+        className="text-sm font-medium text-slate-600 dark:text-ice-white/75 hover:text-ice-white py-2 px-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] rounded-md whitespace-nowrap shrink-0"
       >
         {t("nav.connexion")}
       </Link>
-      <Button
+      <Link
         href="/inscription"
-        variant="principal"
-        accent="orange"
-        className="pl-4 pr-2 py-1.5"
+        className="group inline-flex items-center justify-center gap-2 h-10 px-4.5 rounded-full bg-[var(--home-orange)] hover:bg-[var(--home-orange-dark)] dark:hover:bg-[var(--home-orange-light)] text-[var(--home-orange-fg)] font-semibold text-sm shadow-[0_6px_18px_-6px_var(--home-orange-glow)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--home-orange-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian whitespace-nowrap shrink-0"
       >
         <span>{t("nav.inscription")}</span>
-        <span
-          className="w-6 h-6 rounded-full bg-[var(--home-orange-fg)] text-[var(--home-orange)] inline-flex items-center justify-center shrink-0"
+        <ArrowRight
+          className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200"
+          strokeWidth={2.3}
           aria-hidden="true"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M5 12h14m-6-6l6 6-6 6" />
-          </svg>
-        </span>
-      </Button>
+        />
+      </Link>
     </div>
   );
 }

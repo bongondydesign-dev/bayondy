@@ -8,7 +8,8 @@
     "kijan": "Comment ça marche",
     "menu": "Menu",
     "fermer": "Fermer",
-    "profil": "Profil"
+    "profil": "Profil",
+    "apropos": "À propos"
   },
   "theme": {
     "label": "Thème",
@@ -169,7 +170,8 @@
       "faq": "FAQ",
       "conditions": "Conditions d'utilisation",
       "confidentialite": "Politique de confidentialité",
-      "formations": "Formations"
+      "formations": "Formations",
+      "apropos": "À propos"
     }
   },
   "auth": {
@@ -606,5 +608,54 @@
     "noteWebhook": "Dès réception de la confirmation finale, l'accès à votre formation sera activé automatiquement sur votre compte.",
     "boutonMesFormations": "Aller à mes formations",
     "boutonCatalogue": "Voir les formations"
+  },
+  "apropos": {
+    "badge": "À propos · Fondateur & Développeur",
+    "titreNom": "Bayondy Edouard",
+    "titreRolePrefix": "Développeur web ",
+    "titreRoleAccent": "freelance.",
+    "metaLieu": "Haïti · Freelance",
+    "bio": "Bayondy Edouard est un développeur web freelance basé en Haïti, spécialisé dans la création de sites web et d'applications web modernes, rapides et soignés.",
+    "bioSecondaire": "Il a fondé BAYONDY afin de rendre les compétences numériques modernes accessibles à tous directement en créole haïtien.",
+    "ctaFormations": "Voir les formations",
+    "ctaPortfolio": "Voir le portfolio",
+    "ctaLinkedin": "Profil LinkedIn",
+    "carteLabel": "Profil professionnel",
+    "carteRoleLabel": "Rôle",
+    "carteRoleValeur": "Développeur Web Freelance & Fondateur de BAYONDY",
+    "carteBaseLabel": "Localisation",
+    "carteBaseValeur": "Haïti",
+    "carteFocusLabel": "Spécialité",
+    "carteFocusValeur": "Sites web & Applications web modernes",
+    "cartePresenceLabel": "Profils en ligne",
+    "cartePresenceValeur": "Portfolio · LinkedIn · Framer",
+    "stackBadge": "Compétences & Technologies",
+    "stackTitre": "Technologies principales",
+    "stackSousTitre": "Une maîtrise complète des outils web modernes pour concevoir des produits rapides, fiables et évolutifs.",
+    "pilier1Num": "01",
+    "pilier1Titre": "Interface & Frontend",
+    "pilier1Desc": "Création d'interfaces réactives, soignées et optimisées pour le mobile comme pour le bureau.",
+    "pilier2Num": "02",
+    "pilier2Titre": "Serveur & Bases de données",
+    "pilier2Desc": "Architecture backend sécurisée, API et gestion de données en temps réel.",
+    "pilier3Num": "03",
+    "pilier3Titre": "Création & Outils",
+    "pilier3Desc": "Sites vitrines modernes, gestion de code rigoureuse et déploiement continu.",
+    "visionBadge": "Mission BAYONDY",
+    "visionTitre": "Transmettre les compétences web sans barrière linguistique",
+    "visionTexte": "Issu de la pratique terrain sur des projets web concrets, BAYONDY transforme cette expérience en formations vidéo claires en créole haïtien, accessibles sur mobile avec paiement local.",
+    "profilsBadge": "Profils en ligne",
+    "profilsTitre": "Retrouver Bayondy Edouard",
+    "profilPortfolioTitre": "Site Portfolio",
+    "profilPortfolioUrl": "bayondy.web.app",
+    "profilPortfolioDesc": "Projets web, réalisations et créations numériques modernes.",
+    "profilPortfolioAction": "Visiter le portfolio",
+    "profilLinkedinTitre": "LinkedIn",
+    "profilLinkedinHandle": "Bayondy Edouard · Haïti",
+    "profilLinkedinDesc": "Parcours professionnel, collaborations et expériences en développement web.",
+    "profilLinkedinAction": "Ouvrir LinkedIn",
+    "profilFramerTitre": "Framer",
+    "profilFramerHandle": "Sites Web & Design Interactif",
+    "profilFramerDesc": "Conception de sites vitrines modernes, animations fluides et interfaces sur mesure."
   }
 }

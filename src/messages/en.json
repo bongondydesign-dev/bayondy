@@ -8,7 +8,8 @@
     "kijan": "How it works",
     "menu": "Menu",
     "fermer": "Close",
-    "profil": "Profile"
+    "profil": "Profile",
+    "apropos": "About"
   },
   "theme": {
     "label": "Theme",
@@ -169,7 +170,8 @@
       "faq": "FAQ",
       "conditions": "Terms of service",
       "confidentialite": "Privacy policy",
-      "formations": "Courses"
+      "formations": "Courses",
+      "apropos": "About"
     }
   },
   "auth": {
@@ -606,5 +608,54 @@
     "noteWebhook": "As soon as final confirmation is received, access to your course will be activated automatically on your account.",
     "boutonMesFormations": "Go to my courses",
     "boutonCatalogue": "Browse courses"
+  },
+  "apropos": {
+    "badge": "About · Founder & Developer",
+    "titreNom": "Bayondy Edouard",
+    "titreRolePrefix": "Freelance web ",
+    "titreRoleAccent": "developer.",
+    "metaLieu": "Haiti · Freelance",
+    "bio": "Bayondy Edouard is a freelance web developer based in Haiti specializing in building modern websites and web applications.",
+    "bioSecondaire": "He created BAYONDY to make modern digital and engineering skills accessible directly in Haitian Creole.",
+    "ctaFormations": "Browse courses",
+    "ctaPortfolio": "View portfolio",
+    "ctaLinkedin": "LinkedIn profile",
+    "carteLabel": "Professional profile",
+    "carteRoleLabel": "Role",
+    "carteRoleValeur": "Freelance Web Developer & Founder of BAYONDY",
+    "carteBaseLabel": "Location",
+    "carteBaseValeur": "Haiti",
+    "carteFocusLabel": "Specialty",
+    "carteFocusValeur": "Modern websites & web applications",
+    "cartePresenceLabel": "Online profiles",
+    "cartePresenceValeur": "Portfolio · LinkedIn · Framer",
+    "stackBadge": "Skills & Stack",
+    "stackTitre": "Core technologies",
+    "stackSousTitre": "A solid engineering foundation for crafting fast, reliable, and modern web products.",
+    "pilier1Num": "01",
+    "pilier1Titre": "Interface & Frontend",
+    "pilier1Desc": "Responsive, accessible interfaces built for both mobile and desktop.",
+    "pilier2Num": "02",
+    "pilier2Titre": "Server & Databases",
+    "pilier2Desc": "Secure backend architecture, APIs, and real-time data persistence.",
+    "pilier3Num": "03",
+    "pilier3Titre": "Craft & Tooling",
+    "pilier3Desc": "Modern showcase websites, clean version control, and continuous delivery.",
+    "visionBadge": "BAYONDY Mission",
+    "visionTitre": "Sharing modern web skills without language barriers",
+    "visionTexte": "Rooted in real-world freelance web projects, BAYONDY turns hands-on practice into clear video lessons in Haitian Creole, built for mobile with local payments.",
+    "profilsBadge": "Online profiles",
+    "profilsTitre": "Connect with Bayondy Edouard",
+    "profilPortfolioTitre": "Portfolio Website",
+    "profilPortfolioUrl": "bayondy.web.app",
+    "profilPortfolioDesc": "Explore web development projects and modern digital builds.",
+    "profilPortfolioAction": "Visit portfolio",
+    "profilLinkedinTitre": "LinkedIn",
+    "profilLinkedinHandle": "Bayondy Edouard · Haiti",
+    "profilLinkedinDesc": "Professional background, collaborations, and web development experience.",
+    "profilLinkedinAction": "Open LinkedIn",
+    "profilFramerTitre": "Framer",
+    "profilFramerHandle": "Websites & Interactive Design",
+    "profilFramerDesc": "Modern custom websites, smooth motion, and refined user interfaces."
   }
 }

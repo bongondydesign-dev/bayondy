@@ -8,7 +8,8 @@
     "kijan": "Kijan l mache",
     "menu": "Meni",
     "fermer": "Fèmen",
-    "profil": "Pwofil"
+    "profil": "Pwofil",
+    "apropos": "Konsènan"
   },
   "theme": {
     "label": "Tèm",
@@ -169,7 +170,8 @@
       "faq": "FAQ",
       "conditions": "Kondisyon itilizasyon",
       "confidentialite": "Politik konfidansyalite",
-      "formations": "Fòmasyon yo"
+      "formations": "Fòmasyon yo",
+      "apropos": "Konsènan"
     }
   },
   "auth": {
@@ -606,5 +608,54 @@
     "noteWebhook": "Kou sistèm nan resevwa konfimasyon final la, aksè w nan fòmasyon an ap aktive otomatikman sou kont ou.",
     "boutonMesFormations": "Ale nan fòmasyon mwen yo",
     "boutonCatalogue": "Gade tout fòmasyon yo"
+  },
+  "apropos": {
+    "badge": "Konsènan · Fondatè & Devlopè",
+    "titreNom": "Bayondy Edouard",
+    "titreRolePrefix": "Devlopè web ",
+    "titreRoleAccent": "endepandan.",
+    "metaLieu": "Ayiti · Freelance",
+    "bio": "Bayondy Edouard se yon devlopè web endepandan ki baze an Ayiti, espesyalize nan kreyasyon sit entènèt ak aplikasyon web modèn, rapid epi adapte ak reyalite itilizatè yo.",
+    "bioSecondaire": "Li kreye platfòm BAYONDY pou pèmèt plis moun aprann konpetans dijital ak teknik modèn dirèkteman nan lang kreyòl ayisyen.",
+    "ctaFormations": "Gade fòmasyon yo",
+    "ctaPortfolio": "Wè pòtfolyo a",
+    "ctaLinkedin": "Pwofil LinkedIn",
+    "carteLabel": "Pwofil pwofesyonèl",
+    "carteRoleLabel": "Wòl",
+    "carteRoleValeur": "Devlopè Web Freelance & Fondatè BAYONDY",
+    "carteBaseLabel": "Baz",
+    "carteBaseValeur": "Ayiti",
+    "carteFocusLabel": "Espesyalite",
+    "carteFocusValeur": "Sit entènèt & Aplikasyon web modèn",
+    "cartePresenceLabel": "Prezans an liy",
+    "cartePresenceValeur": "Portfolio · LinkedIn · Framer",
+    "stackBadge": "Konpetans & Teknoloji",
+    "stackTitre": "Teknoloji prensipal yo",
+    "stackSousTitre": "Yon baz teknik solid pou konstwi pwodui web modèn, fyab epi fasil pou itilize.",
+    "pilier1Num": "01",
+    "pilier1Titre": "Entèfas & Frontend",
+    "pilier1Desc": "Konsepsyon entèfas reyaktif, rapid epi aksesib sou mobil kou òdinatè.",
+    "pilier2Num": "02",
+    "pilier2Titre": "Sèvè & Baz done",
+    "pilier2Desc": "Achitekti backend sekirize, API ak jesyon done an tan reyèl.",
+    "pilier3Num": "03",
+    "pilier3Titre": "Kreyasyon & Zouti",
+    "pilier3Desc": "Sit vitrin modèn, vèsyon kòd pwòp ak deplwaman kontini.",
+    "visionBadge": "Misyon BAYONDY",
+    "visionTitre": "Aprann teknoloji modèn nan lang manman w",
+    "visionTexte": "Eksperyans pratik sou pwojè web reyèl montre ki jan li enpòtan pou gen resous klè nan pwòp lang pa w. BAYONDY rasanble metodoloji sa a nan leson videyo senp, aksè otomatik ak peman lokal.",
+    "profilsBadge": "Pwofil an liy",
+    "profilsTitre": "Konekte ak Bayondy Edouard",
+    "profilPortfolioTitre": "Sit Portfolio",
+    "profilPortfolioUrl": "bayondy.web.app",
+    "profilPortfolioDesc": "Dekouvri pwojè web, reyalizasyon ak travay konsepsyon modèn.",
+    "profilPortfolioAction": "Vizite pòtfolyo a",
+    "profilLinkedinTitre": "LinkedIn",
+    "profilLinkedinHandle": "Bayondy Edouard · Ayiti",
+    "profilLinkedinDesc": "Pakou pwofesyonèl, kolaborasyon ak eksperyans devlopman web.",
+    "profilLinkedinAction": "Louvri LinkedIn",
+    "profilFramerTitre": "Framer",
+    "profilFramerHandle": "Sit Web & Entèfas Modèn",
+    "profilFramerDesc": "Konsepsyon sit entènèt modèn, animasyon ak eksperyans vizyèl sou mezi."
   }
 }
