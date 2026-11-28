@@ -373,11 +373,11 @@ export function PlayerView({ slug }: PlayerViewProps) {
         ) : (
           <div className="space-y-6">
             {/* Fil d'Ariane + Mode Cinéma */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70 min-w-0">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70 min-w-0 flex-1">
                 <Link
                   href={localize("/mes-formations")}
-                  className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                  className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 -ml-2 rounded-lg whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
                 >
                   <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>{t("lecteur.retourMesFormations")}</span>
@@ -385,7 +385,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 <span className="text-slate-500 dark:text-ice-white/30 shrink-0" aria-hidden="true">
                   /
                 </span>
-                <span className="text-ice-white font-medium truncate max-w-[180px] sm:max-w-md">
+                <span className="text-ice-white font-medium truncate">
                   {course.title}
                 </span>
               </div>
@@ -394,7 +394,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 type="button"
                 onClick={() => setTheaterMode((prev) => !prev)}
                 aria-pressed={theaterMode}
-                className="hidden lg:inline-flex items-center gap-2 min-h-[40px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs font-sans font-medium text-slate-700 dark:text-ice-white/80 whitespace-nowrap shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                className="hidden md:inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs font-sans font-medium text-slate-700 dark:text-ice-white/85 whitespace-nowrap shrink-0 transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
                 {theaterMode ? (
                   <>
@@ -410,9 +410,11 @@ export function PlayerView({ slug }: PlayerViewProps) {
               </button>
             </div>
 
-            {/* Layout responsive : Vidéo + Commentaires à gauche, Liste à droite (ou pleine largeur en mode cinéma) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* Colonne Principale */}
+            {/* Layout responsive :
+                - Mobile (<lg) : 1. Vidéo + actions -> 2. Programme -> 3. Commentaires
+                - Desktop (>=lg) : Colonne gauche (Vidéo + Commentaires), Colonne droite sticky (Programme) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+              {/* 1. Lecteur Vidéo + Carte de leçon */}
               <div
                 className={`space-y-6 ${
                   theaterMode ? "lg:col-span-12" : "lg:col-span-8"
@@ -432,9 +434,9 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   }
                 />
 
-                {/* Carte d'information et actions de la leçon */}
-                <div className="p-6 sm:p-7 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-5">
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                {/* Carte d'information et barre d'actions de la leçon */}
+                <div className="p-5 sm:p-7 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-5">
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                     <div className="space-y-1.5 min-w-0">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs uppercase tracking-wider text-brand-light">
                         {currentLesson.moduleTitle && (
@@ -465,10 +467,10 @@ export function PlayerView({ slug }: PlayerViewProps) {
                       </h1>
                     </div>
 
-                    {/* Bouton "Terminé" */}
-                    <div className="flex-shrink-0">
+                    {/* Action principale : Terminer / Leçon suivante */}
+                    <div className="flex flex-wrap items-center gap-2.5 shrink-0">
                       {isCurrentCompleted ? (
-                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 text-brand-light font-sans font-semibold text-sm select-none whitespace-nowrap">
+                        <div className="min-h-[46px] inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 text-brand-light font-sans font-semibold text-sm select-none whitespace-nowrap">
                           <Check className="w-4 h-4 shrink-0" strokeWidth={2.5} aria-hidden="true" />
                           <span>{t("lecon.terminee")}</span>
                         </div>
@@ -478,7 +480,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                           onClick={handleMarkCompleted}
                           disabled={savingProgress}
                           aria-disabled={savingProgress}
-                          className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light select-none cursor-pointer disabled:cursor-not-allowed whitespace-nowrap"
+                          className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-full bg-gradient-to-b from-[#FF7847] to-[#FF5B22] hover:from-[#FF8559] hover:to-[#E54813] disabled:opacity-50 text-white font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_10px_24px_var(--brand-glow-soft)] transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light select-none cursor-pointer disabled:cursor-not-allowed whitespace-nowrap"
                         >
                           {savingProgress ? (
                             <>
@@ -487,7 +489,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                             </>
                           ) : (
                             <>
-                              <Check className="w-4 h-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                              <Check className="w-4 h-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
                               <span>{t("lecon.terminee")}</span>
                             </>
                           )}
@@ -496,30 +498,39 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     </div>
                   </div>
 
-                  {/* Navigation leçon précédente / suivante */}
+                  {/* Navigation leçon précédente / suivante responsive */}
                   {(previousLesson || nextLesson) && (
-                    <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-3">
+                    <div className="pt-4 border-t border-[var(--border-subtle)] grid grid-cols-2 gap-2.5 sm:flex sm:items-center sm:justify-between">
                       {previousLesson ? (
                         <button
                           type="button"
                           onClick={() => handleSelectLesson(previousLesson.id)}
-                          className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/85 inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                          className="min-h-[46px] px-3.5 sm:px-4 py-2.5 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/90 inline-flex items-center justify-center sm:justify-start gap-2 transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light min-w-0"
                         >
                           <ChevronLeft className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
-                          <span>{t("lecteur.precedent")}</span>
+                          <span className="truncate">{t("lecteur.precedent")}</span>
                         </button>
                       ) : (
-                        <div />
+                        <div className="hidden sm:block" />
                       )}
 
                       {nextLesson && (
                         <button
                           type="button"
                           onClick={() => handleSelectLesson(nextLesson.id)}
-                          className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/85 inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ml-auto"
+                          className={`min-h-[46px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-sans font-semibold inline-flex items-center justify-center sm:justify-end gap-2 transition-all active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light min-w-0 ${
+                            isCurrentCompleted
+                              ? "bg-brand hover:bg-brand-dark border-transparent text-[var(--brand-fg)] shadow-md shadow-[var(--brand-glow-soft)]"
+                              : "bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-slate-800 dark:text-ice-white/90"
+                          } ${!previousLesson ? "col-span-2 sm:col-span-1 sm:ml-auto" : "sm:ml-auto"}`}
                         >
-                          <span>{t("lecteur.suivant")}</span>
-                          <ChevronRight className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
+                          <span className="truncate">{t("lecteur.suivant")}</span>
+                          <ChevronRight
+                            className={`w-4 h-4 shrink-0 ${
+                              isCurrentCompleted ? "text-current" : "text-brand-light"
+                            }`}
+                            aria-hidden="true"
+                          />
                         </button>
                       )}
                     </div>
@@ -550,7 +561,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                                 href={res.url.trim()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-xs font-medium text-brand-light hover:underline min-h-[44px]"
+                                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] dark:border-[var(--border-subtle)] text-xs font-medium text-brand-light hover:underline min-h-[44px]"
                               >
                                 <span>{res.label}</span>
                                 <ExternalLink className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -560,23 +571,14 @@ export function PlayerView({ slug }: PlayerViewProps) {
                       </div>
                     )}
                 </div>
-
-                {/* Espace commentaires par leçon (création élève/admin, suppression admin uniquement) */}
-                <LessonComments
-                  key={currentLesson.id}
-                  courseId={course.id}
-                  lessonId={currentLesson.id}
-                  user={user}
-                  isAdmin={isAdmin}
-                />
               </div>
 
-              {/* Colonne Latérale (Progression + Liste des leçons) */}
+              {/* 2. Colonne Latérale (Progression + Liste des leçons) */}
               <aside
                 className={
                   theaterMode
                     ? "lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
-                    : "lg:col-span-4 space-y-6 lg:sticky lg:top-24"
+                    : "lg:col-span-4 lg:row-span-2 space-y-6 lg:sticky lg:top-24"
                 }
               >
                 <div
@@ -596,7 +598,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                 </div>
 
                 <div
-                  className={`p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] max-h-[600px] overflow-y-auto ${
+                  className={`p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] max-h-[380px] lg:max-h-[600px] overflow-y-auto ${
                     theaterMode ? "lg:col-span-8" : ""
                   }`}
                 >
@@ -608,6 +610,17 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   />
                 </div>
               </aside>
+
+              {/* 3. Espace commentaires par leçon (création élève/admin, suppression admin uniquement) */}
+              <div className={theaterMode ? "lg:col-span-12" : "lg:col-span-8"}>
+                <LessonComments
+                  key={currentLesson.id}
+                  courseId={course.id}
+                  lessonId={currentLesson.id}
+                  user={user}
+                  isAdmin={isAdmin}
+                />
+              </div>
             </div>
           </div>
         )}

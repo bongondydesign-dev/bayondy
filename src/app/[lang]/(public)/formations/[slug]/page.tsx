@@ -211,7 +211,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
             )}
 
             {/* Programme / Syllabus */}
-            <div className="pt-4 border-t border-[var(--border-subtle)]">
+            <div
+              id="programme"
+              className="pt-4 border-t border-[var(--border-subtle)] scroll-mt-24"
+            >
               <Syllabus
                 syllabus={course.syllabus}
                 lang={lang}

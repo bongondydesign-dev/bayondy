@@ -134,8 +134,6 @@ function loadYouTubeIframeApi(): Promise<YTNamespace> {
 
 const TRUSTED_POSTER_HOSTS = new Set([
   "lh3.googleusercontent.com",
-  "i.ytimg.com",
-  "img.youtube.com",
   "firebasestorage.googleapis.com",
   "storage.googleapis.com",
   "res.cloudinary.com",
@@ -155,6 +153,40 @@ function isSafePosterImageUrl(url: string | null | undefined): url is string {
   } catch {
     return false;
   }
+}
+
+interface StudioPlayButtonProps {
+  onClick: () => void;
+  ariaLabel: string;
+}
+
+function StudioPlayButton({ onClick, ariaLabel }: StudioPlayButtonProps) {
+  return (
+    <div className="relative z-10 flex items-center justify-center my-1">
+      <span
+        className="absolute w-[76px] h-[76px] sm:w-[92px] sm:h-[92px] rounded-full border border-[#FF5B22]/35 pointer-events-none transition-transform duration-300 group-hover/video:scale-105"
+        aria-hidden="true"
+      />
+      <span
+        className="absolute w-[62px] h-[62px] sm:w-[76px] sm:h-[76px] rounded-full bg-white/[0.08] backdrop-blur-md border border-white/25 pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.48)]"
+        aria-hidden="true"
+      />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick();
+        }}
+        aria-label={ariaLabel}
+        className="relative group flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 min-h-[48px] min-w-[48px] rounded-full bg-gradient-to-b from-[#FF7847] to-[#FF5B22] hover:from-[#FF8559] hover:to-[#E54813] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.42),0_12px_30px_rgba(255,91,34,0.52)] transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF885C]/60 cursor-pointer"
+      >
+        <Play
+          className="w-5 h-5 sm:w-6 sm:h-6 translate-x-0.5 fill-current transition-transform group-hover:scale-110"
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+  );
 }
 
 interface VideoPlayerProps {
@@ -200,13 +232,11 @@ export function VideoPlayer({
       ? formatDuration(durationMinutes)
       : "";
 
-  const resolvedPoster = isSafePosterImageUrl(posterImageUrl)
-    ? posterImageUrl
-    : isSafePosterImageUrl(playback.thumbnailUrl)
-    ? playback.thumbnailUrl
-    : null;
+  // Jamais de miniature YouTube brute : uniquement la couverture du cours si fournie, sinon la scène studio Bayondy.
+  const resolvedPoster = isSafePosterImageUrl(posterImageUrl) ? posterImageUrl : null;
 
   const [phase, setPhase] = useState<PlayerPhase>("poster");
+  const [isSettling, setIsSettling] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
   const [tikTokPlaying, setTikTokPlaying] = useState(false);
 
@@ -223,12 +253,17 @@ export function VideoPlayer({
   const [controlsVisible, setControlsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDraggingScrubber, setIsDraggingScrubber] = useState(false);
+  const [hoverScrub, setHoverScrub] = useState<{ pct: number; timeSec: number } | null>(
+    null
+  );
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ytMountRef = useRef<HTMLDivElement | null>(null);
   const ytPlayerRef = useRef<YTPlayerInstance | null>(null);
   const scrubberRef = useRef<HTMLDivElement | null>(null);
   const hideControlsTimerRef = useRef<number | null>(null);
+  const settleTimerRef = useRef<number | null>(null);
+  const hasPlayedOnceRef = useRef(false);
   const endedNotifiedRef = useRef(false);
   const onEndedRef = useRef(onEnded);
 
@@ -256,6 +291,9 @@ export function VideoPlayer({
       document.removeEventListener("fullscreenchange", handleFsChange);
       if (hideControlsTimerRef.current !== null) {
         window.clearTimeout(hideControlsTimerRef.current);
+      }
+      if (settleTimerRef.current !== null) {
+        window.clearTimeout(settleTimerRef.current);
       }
     };
   }, []);
@@ -323,14 +361,26 @@ export function VideoPlayer({
 
               if (event.data === PLAYING) {
                 endedNotifiedRef.current = false;
+                if (!hasPlayedOnceRef.current) {
+                  hasPlayedOnceRef.current = true;
+                  setIsSettling(true);
+                  if (settleTimerRef.current !== null) {
+                    window.clearTimeout(settleTimerRef.current);
+                  }
+                  settleTimerRef.current = window.setTimeout(() => {
+                    if (!cancelled) setIsSettling(false);
+                  }, 420);
+                }
                 setPhase("playing");
                 scheduleHideControls();
               } else if (event.data === PAUSED) {
+                setIsSettling(false);
                 setPhase("paused");
                 setControlsVisible(true);
               } else if (event.data === BUFFERING) {
                 setControlsVisible(true);
               } else if (event.data === ENDED) {
+                setIsSettling(false);
                 setPhase("ended");
                 setControlsVisible(true);
                 if (!endedNotifiedRef.current) {
@@ -341,6 +391,7 @@ export function VideoPlayer({
             },
             onError: () => {
               if (!cancelled) {
+                setIsSettling(false);
                 setPhase("fallback");
               }
             },
@@ -351,6 +402,7 @@ export function VideoPlayer({
       })
       .catch(() => {
         if (!cancelled) {
+          setIsSettling(false);
           setPhase("fallback");
         }
       });
@@ -362,7 +414,6 @@ export function VideoPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, playback.provider, playback.videoId]);
 
-  // Nettoyage à la destruction du composant
   useEffect(() => {
     return () => {
       if (ytPlayerRef.current) {
@@ -376,7 +427,6 @@ export function VideoPlayer({
     };
   }, []);
 
-  // Synchronisation du temps de lecture toutes les 250ms pendant la lecture active
   useEffect(() => {
     if (phase !== "playing" && phase !== "paused") return;
     const id = window.setInterval(() => {
@@ -465,6 +515,21 @@ export function VideoPlayer({
       }
     },
     [durationSec, phase]
+  );
+
+  const updateHoverScrub = useCallback(
+    (clientX: number) => {
+      const bar = scrubberRef.current;
+      if (!bar || durationSec <= 0) return;
+      const rect = bar.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      setHoverScrub({
+        pct: ratio * 100,
+        timeSec: ratio * durationSec,
+      });
+    },
+    [durationSec]
   );
 
   const toggleMute = useCallback(() => {
@@ -567,6 +632,51 @@ export function VideoPlayer({
       ? controlsVisible || phase !== "playing" || isDraggingScrubber
       : false;
 
+  const renderPosterBackdrop = () => (
+    <>
+      {resolvedPoster && !posterFailed && (
+        <Image
+          src={resolvedPoster}
+          alt={lessonTitle}
+          fill
+          sizes="(max-width: 1024px) 100vw, 900px"
+          referrerPolicy="no-referrer"
+          onError={() => setPosterFailed(true)}
+          className="object-cover opacity-25 blur-[1px] scale-[1.03]"
+        />
+      )}
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-[#161B28]/95 via-[#0B0E17]/92 to-[#07090D]/95 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-80"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 48%, rgba(255, 91, 34, 0.22) 0%, rgba(255, 91, 34, 0.06) 38%, transparent 68%)",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[400px] h-[320px] sm:h-[400px] rounded-full border border-white/[0.045] pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] sm:w-[250px] h-[200px] sm:h-[250px] rounded-full border border-[#FF5B22]/12 pointer-events-none"
+        aria-hidden="true"
+      />
+    </>
+  );
+
   return (
     <div className="space-y-3">
       <div
@@ -579,351 +689,378 @@ export function VideoPlayer({
             setControlsVisible(false);
           }
         }}
-        className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0B0E17] border border-[var(--border-subtle)] ring-1 ring-white/5 shadow-[var(--card-shadow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group/video"
+        className={`relative overflow-hidden bg-[#05070B] border border-[var(--border-subtle)] ring-1 ring-white/5 shadow-[var(--card-shadow)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light group/video ${
+          isFullscreen
+            ? "w-full h-full flex items-center justify-center rounded-none border-0"
+            : "aspect-video w-full rounded-2xl"
+        }`}
       >
-        {!playback.provider ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#121622] via-[#0B0E17] to-[#121622]">
-            <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FF885C] mb-3">
-              <PortalSymbol size={32} className="opacity-60" />
-            </div>
-            <p className="font-sans text-sm sm:text-base text-slate-200/80">
-              {t("lecteur.videoIndisponible")}
-            </p>
-          </div>
-        ) : playback.provider === "tiktok" ? (
-          !playback.playableInIframe && playback.externalUrl ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#FF5B22]/16 via-[#0B0E17] to-[#C93E0E]/12">
-              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-[#FF885C] mb-4">
-                <Video className="w-7 h-7" aria-hidden="true" />
+        <div
+          className={
+            isFullscreen
+              ? "relative w-full aspect-video max-h-full overflow-hidden"
+              : "relative w-full h-full overflow-hidden"
+          }
+        >
+          {!playback.provider ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#121622] via-[#0B0E17] to-[#121622]">
+              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FF885C] mb-3">
+                <PortalSymbol size={32} className="opacity-60" />
               </div>
-              <h2 className="font-display font-semibold text-lg sm:text-2xl text-slate-100 max-w-lg line-clamp-2 mb-2">
-                {lessonTitle}
-              </h2>
-              <p className="font-sans text-xs sm:text-sm text-slate-300/80 max-w-md mb-6">
-                {t("lecteur.tikTokInfo")}
+              <p className="font-sans text-sm sm:text-base text-slate-200/80">
+                {t("lecteur.videoIndisponible")}
               </p>
-              <a
-                href={playback.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-              >
-                <span>{t("lecteur.regarderTikTok")}</span>
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              </a>
             </div>
-          ) : tikTokPlaying && playback.embedUrl ? (
+          ) : playback.provider === "tiktok" ? (
+            !playback.playableInIframe && playback.externalUrl ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-[#0B0E17]">
+                {renderPosterBackdrop()}
+                <div className="relative z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-[#FF885C] mb-3">
+                  <Video className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                </div>
+                <h2 className="relative z-10 font-display font-semibold text-base sm:text-2xl text-slate-100 max-w-lg line-clamp-2 mb-2">
+                  {lessonTitle}
+                </h2>
+                <p className="relative z-10 font-sans text-xs sm:text-sm text-slate-300/80 max-w-md mb-5">
+                  {t("lecteur.tikTokInfo")}
+                </p>
+                <a
+                  href={playback.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 min-h-[46px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark text-[var(--brand-fg)] font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                >
+                  <span>{t("lecteur.regarderTikTok")}</span>
+                  <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
+            ) : tikTokPlaying && playback.embedUrl ? (
+              <iframe
+                src={playback.embedUrl}
+                title={lessonTitle || t("hero.apercu.badge")}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            ) : (
+              <div className="absolute inset-0 flex flex-col items-center justify-between p-4 sm:p-6 text-center bg-[#0B0E17]">
+                {renderPosterBackdrop()}
+                <div className="relative z-10 w-full flex items-center justify-between gap-3 text-left">
+                  <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[#FF885C] min-w-0">
+                    <PortalSymbol size={16} className="shrink-0 opacity-90" />
+                    <span className="truncate">{badgeLabel || "TikTok"}</span>
+                  </div>
+                  {formattedDuration && (
+                    <span className="inline-flex items-center gap-1 font-mono text-xs text-slate-200/85 tabular-nums shrink-0">
+                      <Clock className="w-3.5 h-3.5 text-[#FF885C]" aria-hidden="true" />
+                      {formattedDuration}
+                    </span>
+                  )}
+                </div>
+
+                <div className="relative z-10 flex flex-col items-center gap-4 my-auto px-2">
+                  <h2 className="font-display font-semibold text-base sm:text-2xl text-slate-100 drop-shadow-md max-w-xl line-clamp-2">
+                    {lessonTitle}
+                  </h2>
+                  <StudioPlayButton
+                    onClick={() => setTikTokPlaying(true)}
+                    ariaLabel={`${t("lecteur.lancerVideo")}: ${lessonTitle}`}
+                  />
+                </div>
+
+                <p className="relative z-10 font-sans text-xs sm:text-sm text-slate-300/80">
+                  {t("lecteur.lancerVideo")}
+                </p>
+              </div>
+            )
+          ) : phase === "poster" ? (
+            /* Scène studio d'accueil Bayondy : zéro miniature YouTube, zéro logo YouTube */
+            <div
+              onClick={togglePlay}
+              className="absolute inset-0 flex flex-col items-center justify-between p-4 sm:p-6 text-center bg-[#0B0E17] cursor-pointer"
+            >
+              {renderPosterBackdrop()}
+
+              {/* Barre supérieure discrète Bayondy Studio */}
+              <div className="relative z-10 w-full flex items-center justify-between gap-3 text-left">
+                <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-xs uppercase tracking-[0.14em] text-[#FF885C] min-w-0">
+                  <PortalSymbol size={16} className="shrink-0 opacity-90" />
+                  <span className="truncate">{badgeLabel || t("hero.apercu.badge")}</span>
+                </div>
+                {formattedDuration && (
+                  <span className="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-slate-200/85 tabular-nums shrink-0">
+                    <Clock className="w-3.5 h-3.5 text-[#FF885C]" aria-hidden="true" />
+                    {formattedDuration}
+                  </span>
+                )}
+              </div>
+
+              {/* Titre & bouton studio centré */}
+              <div className="relative z-10 flex flex-col items-center gap-4 my-auto px-2">
+                <h2 className="font-display font-semibold text-base sm:text-2xl text-slate-100 drop-shadow-md max-w-xl line-clamp-2 text-balance">
+                  {lessonTitle}
+                </h2>
+
+                <StudioPlayButton
+                  onClick={togglePlay}
+                  ariaLabel={`${t("lecteur.lancerVideo")}: ${lessonTitle}`}
+                />
+              </div>
+
+              <p className="relative z-10 font-sans text-[11px] sm:text-sm text-slate-300/80">
+                {t("lecteur.lancerVideo")}
+              </p>
+            </div>
+          ) : phase === "fallback" ? (
+            /* Repli iframe propre si le script YouTube IFrame API est bloqué */
             <iframe
-              src={playback.embedUrl}
+              src={buildYouTubeEmbedUrl(playback.videoId, {
+                autoplay: true,
+                controls: true,
+                enableJsApi: false,
+              })}
               title={lessonTitle || t("hero.apercu.badge")}
-              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
               allowFullScreen
               className="w-full h-full border-0"
             />
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#FF5B22]/18 via-[#0B0E17] to-[#C93E0E]/12">
-              <div className="relative z-10 max-w-xl mb-6 space-y-2">
-                <div className="inline-flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider text-[#FF885C]">
-                  <span>{badgeLabel || "TikTok"}</span>
-                  {formattedDuration && (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span className="inline-flex items-center gap-1 text-slate-200/80 normal-case tabular-nums">
-                        <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                        {formattedDuration}
-                      </span>
-                    </>
-                  )}
-                </div>
-                <h2 className="font-display font-semibold text-lg sm:text-2xl text-slate-100 drop-shadow-md line-clamp-2">
-                  {lessonTitle}
-                </h2>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setTikTokPlaying(true)}
-                aria-label={`${t("lecteur.lancerVideo")}: ${lessonTitle}`}
-                className="relative z-10 group flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 min-h-[44px] min-w-[44px] rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] shadow-2xl shadow-[var(--brand-glow)] transition-all duration-300 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-light/50 cursor-pointer"
-              >
-                <Play
-                  className="w-7 h-7 sm:w-8 sm:h-8 translate-x-0.5 fill-current transition-transform group-hover:scale-110"
-                  aria-hidden="true"
-                />
-              </button>
-
-              <p className="relative z-10 mt-4 font-sans text-xs sm:text-sm text-slate-300/80">
-                {t("lecteur.lancerVideo")}
-              </p>
-            </div>
-          )
-        ) : phase === "poster" ? (
-          /* Poster d'accueil épuré Bayondy (zéro interface YouTube avant le clic) */
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-[#0B0E17]">
-            {resolvedPoster && !posterFailed && (
-              <Image
-                src={resolvedPoster}
-                alt={lessonTitle}
-                fill
-                sizes="(max-width: 1024px) 100vw, 900px"
-                referrerPolicy="no-referrer"
-                onError={() => setPosterFailed(true)}
-                className="object-cover opacity-35 scale-[1.02] transition-transform duration-700 group-hover/video:scale-[1.04]"
-              />
-            )}
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-[#0B0E17]/88 via-[#0B0E17]/72 to-[#FF5B22]/18 pointer-events-none"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute inset-0 bg-noise opacity-35 pointer-events-none"
-              aria-hidden="true"
-            />
-
-            <div className="relative z-10 max-w-xl mb-6 space-y-2">
-              <div className="inline-flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider text-[#FF885C]">
-                <span>{badgeLabel || t("hero.apercu.badge")}</span>
-                {formattedDuration && (
-                  <>
-                    <span aria-hidden="true">·</span>
-                    <span className="inline-flex items-center gap-1 text-slate-200/85 normal-case tabular-nums">
-                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                      {formattedDuration}
-                    </span>
-                  </>
-                )}
-              </div>
-              <h2 className="font-display font-semibold text-lg sm:text-2xl text-slate-100 drop-shadow-md line-clamp-2">
-                {lessonTitle}
-              </h2>
-            </div>
-
-            <button
-              type="button"
-              onClick={togglePlay}
-              aria-label={`${t("lecteur.lancerVideo")}: ${lessonTitle}`}
-              className="relative z-10 group flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 min-h-[44px] min-w-[44px] rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light text-[var(--brand-fg)] shadow-2xl shadow-[var(--brand-glow)] transition-all duration-300 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-light/50 cursor-pointer"
-            >
-              <Play
-                className="w-7 h-7 sm:w-8 sm:h-8 translate-x-0.5 fill-current transition-transform group-hover:scale-110"
+            /* Lecteur Bayondy sans aucun élément YouTube visible (bandeaux -16%/+132% recadrant le chrome) */
+            <div className="relative w-full h-full bg-[#05070B]">
+              {/* Conteneur sur-dimensionné verticalement (-16% haut / +132% hauteur) :
+                  les barres noires YouTube absorbent 100% du titre/Partager/Regarder plus tard en haut
+                  et du logo YouTube en bas hors de la zone visible, sans rogner l'image 16:9. */}
+              <div
+                className="absolute inset-x-0 -top-[16%] h-[132%] pointer-events-none select-none overflow-hidden"
                 aria-hidden="true"
-              />
-            </button>
-
-            <p className="relative z-10 mt-4 font-sans text-xs sm:text-sm text-slate-200/85">
-              {t("lecteur.lancerVideo")}
-            </p>
-          </div>
-        ) : phase === "fallback" ? (
-          /* Repli iframe propre si le script YouTube IFrame API est bloqué */
-          <iframe
-            src={buildYouTubeEmbedUrl(playback.videoId, {
-              autoplay: true,
-              controls: true,
-              enableJsApi: false,
-            })}
-            title={lessonTitle || t("hero.apercu.badge")}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-            allowFullScreen
-            className="w-full h-full border-0"
-          />
-        ) : (
-          /* Lecteur YouTube sans chrome natif + contrôles Bayondy sur mesure */
-          <div className="relative w-full h-full bg-[#0B0E17]">
-            {/* Iframe YouTube non interactive (supprime les menus Partager / Regarder plus tard / titre au survol) */}
-            <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-              <div ref={ytMountRef} className="w-full h-full" />
-            </div>
-
-            {/* Zone cliquable pour Play/Pause & double-clic plein écran */}
-            <div
-              onClick={togglePlay}
-              onDoubleClick={toggleFullscreen}
-              className="absolute inset-0 z-10 cursor-pointer"
-              aria-hidden="true"
-            />
-
-            {/* Chargement initial avant première image */}
-            {phase === "loading" && (
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#0B0E17]/95 text-slate-200 pointer-events-none">
-                <Loader2 className="w-8 h-8 animate-spin text-[#FF885C]" aria-hidden="true" />
-                <span className="font-mono text-xs tracking-wider text-slate-300/80">
-                  {t("lecteur.chargementVideo")}
-                </span>
+              >
+                <div
+                  ref={ytMountRef}
+                  className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full"
+                />
               </div>
-            )}
 
-            {/* Écran de pause Bayondy : masque totalement les suggestions YouTube en pause */}
-            {phase === "paused" && (
+              {/* Zone d'interaction directe Bayondy (Play/Pause au clic, Plein écran au double-clic) */}
               <div
                 onClick={togglePlay}
-                className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center bg-[#0B0E17]/75 backdrop-blur-[3px] cursor-pointer"
+                onDoubleClick={toggleFullscreen}
+                className="absolute inset-0 z-10 cursor-pointer"
+                aria-hidden="true"
+              />
+
+              {/* Voile supérieur studio lorsque les contrôles sont affichés */}
+              <div
+                className={`absolute inset-x-0 top-0 z-20 px-4 py-3 bg-gradient-to-b from-black/80 via-black/35 to-transparent pointer-events-none transition-opacity duration-200 ${
+                  showControlsBar && phase === "playing" ? "opacity-100" : "opacity-0"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    togglePlay();
-                  }}
-                  aria-label={t("lecteur.lecture")}
-                  className="flex items-center justify-center w-16 h-16 rounded-full bg-brand hover:bg-brand-dark text-[var(--brand-fg)] shadow-2xl shadow-[var(--brand-glow)] transition-transform hover:scale-105 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-light/50"
-                >
-                  <Play className="w-7 h-7 translate-x-0.5 fill-current" aria-hidden="true" />
-                </button>
-                <p className="mt-4 font-display font-semibold text-base sm:text-lg text-slate-100 max-w-md line-clamp-1">
-                  {lessonTitle}
-                </p>
-                <span className="mt-1 font-mono text-xs text-slate-300/75 tabular-nums">
-                  {formatPlaybackTime(currentTimeSec)} / {formatPlaybackTime(durationSec)}
-                </span>
-              </div>
-            )}
-
-            {/* Écran de fin Bayondy : masque totalement l'écran de recommandations YouTube */}
-            {phase === "ended" && (
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center bg-[#0B0E17]/92 backdrop-blur-sm">
-                <div className="w-12 h-12 rounded-2xl bg-[var(--surface-active)] border border-[#FF5B22]/45 flex items-center justify-center text-[#FF885C] mb-3">
-                  <CheckCircle2 className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <span className="font-mono text-xs uppercase tracking-wider text-[#FF885C] mb-1">
-                  {t("lecteur.leconTermineeOverlay")}
-                </span>
-                <h3 className="font-display font-semibold text-lg sm:text-xl text-slate-100 max-w-md line-clamp-2 mb-5">
-                  {lessonTitle}
-                </h3>
-
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <button
-                    type="button"
-                    onClick={togglePlay}
-                    className="min-h-[44px] px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/16 border border-white/15 text-slate-100 font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-                  >
-                    <RotateCcw className="w-4 h-4 shrink-0" aria-hidden="true" />
-                    <span>{t("lecteur.revoirLecon")}</span>
-                  </button>
-
-                  {onNextLesson && (
-                    <button
-                      type="button"
-                      onClick={onNextLesson}
-                      className="min-h-[44px] px-5 py-2.5 rounded-full bg-brand hover:bg-brand-dark text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-                    >
-                      <span>{nextLessonTitle || t("lecteur.suivant")}</span>
-                      <ChevronRight className="w-4 h-4 shrink-0" aria-hidden="true" />
-                    </button>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <PortalSymbol size={14} className="shrink-0 opacity-90" />
+                    <span className="font-sans font-medium text-xs sm:text-sm text-slate-100 truncate">
+                      {lessonTitle}
+                    </span>
+                  </div>
+                  {badgeLabel && (
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#FF885C] shrink-0">
+                      {badgeLabel}
+                    </span>
                   )}
                 </div>
               </div>
-            )}
 
-            {/* Barre de contrôle Bayondy sur mesure */}
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className={`absolute inset-x-0 bottom-0 z-30 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/65 to-transparent transition-opacity duration-200 ${
-                showControlsBar ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-            >
-              <div className="rounded-xl bg-black/55 backdrop-blur-md border border-white/12 px-3 py-2 space-y-2">
-                {/* Barre de progression interactive */}
-                <div
-                  ref={scrubberRef}
-                  role="slider"
-                  tabIndex={0}
-                  aria-label={t("lecteur.barreProgressionVideo")}
-                  aria-valuemin={0}
-                  aria-valuemax={Math.round(durationSec)}
-                  aria-valuenow={Math.round(currentTimeSec)}
-                  onPointerDown={(e) => {
-                    setIsDraggingScrubber(true);
-                    seekToClientX(e.clientX);
-                    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-                  }}
-                  onPointerMove={(e) => {
-                    if (isDraggingScrubber) {
-                      seekToClientX(e.clientX);
-                    }
-                  }}
-                  onPointerUp={(e) => {
-                    if (isDraggingScrubber) {
-                      setIsDraggingScrubber(false);
-                      try {
-                        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-                      } catch {
-                        // ignore
-                      }
-                    }
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowLeft") {
-                      e.preventDefault();
-                      seekBy(-5);
-                    } else if (e.key === "ArrowRight") {
-                      e.preventDefault();
-                      seekBy(5);
-                    }
-                  }}
-                  className="group/scrub relative py-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
-                >
-                  <div className="relative h-1.5 bg-white/15 rounded-full overflow-visible">
-                    <div
-                      className="absolute inset-y-0 left-0 bg-white/25 rounded-full pointer-events-none"
-                      style={{ width: `${bufferedPct}%` }}
-                    />
-                    <div
-                      className="relative h-full bg-gradient-to-r from-[#E54813] via-[#FF5B22] to-[#FF9269] rounded-full transition-[width] duration-75"
-                      style={{ width: `${progressPct}%` }}
-                    >
-                      <span
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 rounded-full bg-white ring-2 ring-[#FF5B22] shadow-[0_0_8px_rgba(255,91,34,0.9)] opacity-90 group-hover/scrub:scale-125 transition-transform"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </div>
+              {/* Rideau initial pendant le chargement & la disparition des bannières initiales */}
+              {(phase === "loading" || isSettling) && (
+                <div className="absolute inset-0 z-[25] flex flex-col items-center justify-center gap-3 bg-[#05070B] text-slate-200 pointer-events-none">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#FF885C]" aria-hidden="true" />
+                  <span className="font-mono text-xs tracking-wider text-slate-300/80">
+                    {t("lecteur.chargementVideo")}
+                  </span>
                 </div>
+              )}
 
-                {/* Boutons de transport */}
-                <div className="flex items-center justify-between gap-2 text-zinc-100">
-                  <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+              {/* Écran de pause Bayondy : masque totalement les suggestions YouTube en pause */}
+              {phase === "paused" && (
+                <div
+                  onClick={togglePlay}
+                  className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 sm:p-6 text-center bg-[#07090F]/82 backdrop-blur-xs cursor-pointer"
+                >
+                  <StudioPlayButton
+                    onClick={togglePlay}
+                    ariaLabel={t("lecteur.lecture")}
+                  />
+                  <p className="mt-4 font-display font-semibold text-sm sm:text-lg text-slate-100 max-w-md line-clamp-1">
+                    {lessonTitle}
+                  </p>
+                  <span className="mt-1 font-mono text-xs text-slate-300/75 tabular-nums">
+                    {formatPlaybackTime(currentTimeSec)} / {formatPlaybackTime(durationSec)}
+                  </span>
+                </div>
+              )}
+
+              {/* Écran de fin Bayondy : masque totalement les recommandations YouTube de fin */}
+              {phase === "ended" && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 sm:p-6 text-center bg-[#07090F]/94 backdrop-blur-sm">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[var(--surface-active)] border border-[#FF5B22]/45 flex items-center justify-center text-[#FF885C] mb-2.5">
+                    <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+                  </div>
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#FF885C] mb-1">
+                    {t("lecteur.leconTermineeOverlay")}
+                  </span>
+                  <h3 className="font-display font-semibold text-base sm:text-xl text-slate-100 max-w-md line-clamp-2 mb-4 sm:mb-5">
+                    {lessonTitle}
+                  </h3>
+
+                  <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
                     <button
                       type="button"
                       onClick={togglePlay}
-                      aria-label={
-                        phase === "playing" ? t("lecteur.pause") : t("lecteur.lecture")
+                      className="min-h-[44px] px-4 py-2 rounded-full bg-white/10 hover:bg-white/18 border border-white/15 text-slate-100 font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                    >
+                      <RotateCcw className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      <span>{t("lecteur.revoirLecon")}</span>
+                    </button>
+
+                    {onNextLesson && (
+                      <button
+                        type="button"
+                        onClick={onNextLesson}
+                        className="min-h-[44px] px-5 py-2 rounded-full bg-brand hover:bg-brand-dark text-[var(--brand-fg)] font-sans font-semibold text-xs sm:text-sm inline-flex items-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light max-w-[240px] sm:max-w-xs"
+                      >
+                        <span className="truncate">
+                          {nextLessonTitle || t("lecteur.suivant")}
+                        </span>
+                        <ChevronRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Barre de contrôle Bayondy sur mesure */}
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className={`absolute inset-x-0 bottom-0 z-30 p-2.5 sm:p-4 bg-gradient-to-t from-black/92 via-black/65 to-transparent transition-opacity duration-200 ${
+                  showControlsBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+              >
+                <div className="rounded-xl bg-black/65 backdrop-blur-md border border-white/12 px-2.5 sm:px-3.5 py-2 space-y-1.5 sm:space-y-2">
+                  {/* Curseur interactif avec aperçu horaire au survol */}
+                  <div
+                    ref={scrubberRef}
+                    role="slider"
+                    tabIndex={0}
+                    aria-label={t("lecteur.barreProgressionVideo")}
+                    aria-valuemin={0}
+                    aria-valuemax={Math.round(durationSec)}
+                    aria-valuenow={Math.round(currentTimeSec)}
+                    onPointerDown={(e) => {
+                      setIsDraggingScrubber(true);
+                      seekToClientX(e.clientX);
+                      updateHoverScrub(e.clientX);
+                      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+                    }}
+                    onPointerMove={(e) => {
+                      updateHoverScrub(e.clientX);
+                      if (isDraggingScrubber) {
+                        seekToClientX(e.clientX);
                       }
-                      className="w-8 h-8 rounded-lg inline-flex items-center justify-center text-white hover:bg-white/12 hover:text-[#FF885C] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
-                    >
-                      {phase === "playing" ? (
-                        <Pause className="w-4 h-4 fill-current" aria-hidden="true" />
-                      ) : (
-                        <Play className="w-4 h-4 translate-x-[0.5px] fill-current" aria-hidden="true" />
-                      )}
-                    </button>
+                    }}
+                    onPointerLeave={() => {
+                      if (!isDraggingScrubber) setHoverScrub(null);
+                    }}
+                    onPointerUp={(e) => {
+                      if (isDraggingScrubber) {
+                        setIsDraggingScrubber(false);
+                        setHoverScrub(null);
+                        try {
+                          (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+                        } catch {
+                          // ignore
+                        }
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "ArrowLeft") {
+                        e.preventDefault();
+                        seekBy(-5);
+                      } else if (e.key === "ArrowRight") {
+                        e.preventDefault();
+                        seekBy(5);
+                      }
+                    }}
+                    className="group/scrub relative py-2 touch-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] rounded"
+                  >
+                    {hoverScrub && durationSec > 0 && (
+                      <span
+                        className="hidden sm:block absolute -top-7 -translate-x-1/2 px-2 py-0.5 rounded bg-black/90 border border-white/15 font-mono text-[10px] text-white tabular-nums pointer-events-none shadow-md"
+                        style={{
+                          left: `${Math.max(4, Math.min(96, hoverScrub.pct))}%`,
+                        }}
+                      >
+                        {formatPlaybackTime(hoverScrub.timeSec)}
+                      </span>
+                    )}
 
-                    <button
-                      type="button"
-                      onClick={() => seekBy(-10)}
-                      aria-label={t("lecteur.reculer10s")}
-                      className="w-8 h-8 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                    </button>
+                    <div className="relative h-1.5 sm:h-2 bg-white/15 rounded-full overflow-visible">
+                      <div
+                        className="absolute inset-y-0 left-0 bg-white/25 rounded-full pointer-events-none"
+                        style={{ width: `${bufferedPct}%` }}
+                      />
+                      <div
+                        className="relative h-full bg-gradient-to-r from-[#E54813] via-[#FF5B22] to-[#FF9269] rounded-full transition-[width] duration-75"
+                        style={{ width: `${progressPct}%` }}
+                      >
+                        <span
+                          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-white ring-2 ring-[#FF5B22] shadow-[0_0_8px_rgba(255,91,34,0.9)] opacity-95 group-hover/scrub:scale-125 transition-transform"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-                    <button
-                      type="button"
-                      onClick={() => seekBy(10)}
-                      aria-label={t("lecteur.avancer10s")}
-                      className="w-8 h-8 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
-                    >
-                      <RotateCw className="w-3.5 h-3.5" aria-hidden="true" />
-                    </button>
+                  {/* Boutons de transport responsifs */}
+                  <div className="flex items-center justify-between gap-1.5 sm:gap-2 text-zinc-100">
+                    <div className="flex items-center gap-0.5 sm:gap-1.5 min-w-0">
+                      <button
+                        type="button"
+                        onClick={togglePlay}
+                        aria-label={
+                          phase === "playing" ? t("lecteur.pause") : t("lecteur.lecture")
+                        }
+                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-white hover:bg-white/12 hover:text-[#FF885C] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                      >
+                        {phase === "playing" ? (
+                          <Pause className="w-4 h-4 fill-current" aria-hidden="true" />
+                        ) : (
+                          <Play className="w-4 h-4 translate-x-[0.5px] fill-current" aria-hidden="true" />
+                        )}
+                      </button>
 
-                    <div className="hidden sm:flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => seekBy(-10)}
+                        aria-label={t("lecteur.reculer10s")}
+                        className="hidden sm:inline-flex w-9 h-9 rounded-lg items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => seekBy(10)}
+                        aria-label={t("lecteur.avancer10s")}
+                        className="hidden sm:inline-flex w-9 h-9 rounded-lg items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                      >
+                        <RotateCw className="w-3.5 h-3.5" aria-hidden="true" />
+                      </button>
+
                       <button
                         type="button"
                         onClick={toggleMute}
                         aria-label={t("lecteur.volume")}
-                        className="w-8 h-8 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
                       >
                         {isMuted || volume === 0 ? (
                           <VolumeX className="w-4 h-4 text-[#FF885C]" aria-hidden="true" />
@@ -931,6 +1068,7 @@ export function VideoPlayer({
                           <Volume2 className="w-4 h-4" aria-hidden="true" />
                         )}
                       </button>
+
                       <input
                         type="range"
                         min={0}
@@ -938,50 +1076,50 @@ export function VideoPlayer({
                         value={isMuted ? 0 : volume}
                         onChange={(e) => handleVolumeChange(Number(e.target.value))}
                         aria-label={t("lecteur.volume")}
-                        className="w-16 accent-[#FF5B22] cursor-pointer h-1"
+                        className="hidden md:block w-16 accent-[#FF5B22] cursor-pointer h-1 mr-1"
                       />
+
+                      <span className="font-mono text-[11px] sm:text-xs text-zinc-200 tabular-nums ml-0.5 truncate">
+                        {formatPlaybackTime(currentTimeSec)}{" "}
+                        <span className="text-zinc-400">
+                          / {formatPlaybackTime(durationSec)}
+                        </span>
+                      </span>
                     </div>
 
-                    <span className="font-mono text-[11px] sm:text-xs text-zinc-200 tabular-nums ml-1 truncate">
-                      {formatPlaybackTime(currentTimeSec)}{" "}
-                      <span className="text-zinc-400">
-                        / {formatPlaybackTime(durationSec)}
-                      </span>
-                    </span>
-                  </div>
+                    <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={cyclePlaybackSpeed}
+                        aria-label={`${t("lecteur.vitesseLecture")} ${playbackSpeed}x`}
+                        className="min-h-[36px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/18 border border-white/15 font-mono text-[11px] font-medium text-zinc-100 transition-colors cursor-pointer tabular-nums whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
+                      >
+                        {playbackSpeed}x
+                      </button>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <button
-                      type="button"
-                      onClick={cyclePlaybackSpeed}
-                      aria-label={`${t("lecteur.vitesseLecture")} ${playbackSpeed}x`}
-                      className="px-2 py-1 rounded-md bg-white/10 hover:bg-white/18 border border-white/15 font-mono text-[11px] font-medium text-zinc-100 transition-colors cursor-pointer tabular-nums whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
-                    >
-                      {playbackSpeed}x
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={toggleFullscreen}
-                      aria-label={
-                        isFullscreen
-                          ? t("lecteur.quitterPleinEcran")
-                          : t("lecteur.pleinEcran")
-                      }
-                      className="w-8 h-8 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C]"
-                    >
-                      {isFullscreen ? (
-                        <Minimize className="w-4 h-4" aria-hidden="true" />
-                      ) : (
-                        <Maximize className="w-4 h-4" aria-hidden="true" />
-                      )}
-                    </button>
+                      <button
+                        type="button"
+                        onClick={toggleFullscreen}
+                        aria-label={
+                          isFullscreen
+                            ? t("lecteur.quitterPleinEcran")
+                            : t("lecteur.pleinEcran")
+                        }
+                        className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg inline-flex items-center justify-center text-zinc-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF885C] shrink-0"
+                      >
+                        {isFullscreen ? (
+                          <Minimize className="w-4 h-4" aria-hidden="true" />
+                        ) : (
+                          <Maximize className="w-4 h-4" aria-hidden="true" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {playback.provider === "tiktok" &&
