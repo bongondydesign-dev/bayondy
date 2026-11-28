@@ -250,7 +250,12 @@
     "preferences": "Preferences & shortcuts",
     "themeActuel": "Appearance",
     "compteCree": "Account created",
-    "dernierAcces": "Last sign-in"
+    "dernierAcces": "Last sign-in",
+    "methodeConnexion": "Sign-in method",
+    "emailVerifie": "Verified",
+    "emailNonVerifie": "Unverified",
+    "copierEmail": "Copy email",
+    "emailCopie": "Copied"
   },
   "catalogue": {
     "badge": "Catalog",

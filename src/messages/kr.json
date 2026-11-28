@@ -250,7 +250,12 @@
     "preferences": "Preferans ak aksè rapid",
     "themeActuel": "Tèm vizyèl",
     "compteCree": "Kont kreye",
-    "dernierAcces": "Dènye koneksyon"
+    "dernierAcces": "Dènye koneksyon",
+    "methodeConnexion": "Metòd koneksyon",
+    "emailVerifie": "Verifye",
+    "emailNonVerifie": "Poko verifye",
+    "copierEmail": "Kopye imèl la",
+    "emailCopie": "Kopye"
   },
   "catalogue": {
     "badge": "Katalòg",

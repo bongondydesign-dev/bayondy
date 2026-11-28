@@ -250,7 +250,12 @@
     "preferences": "Préférences et raccourcis",
     "themeActuel": "Apparence",
     "compteCree": "Compte créé le",
-    "dernierAcces": "Dernière connexion"
+    "dernierAcces": "Dernière connexion",
+    "methodeConnexion": "Méthode de connexion",
+    "emailVerifie": "Vérifié",
+    "emailNonVerifie": "Non vérifié",
+    "copierEmail": "Copier l'e-mail",
+    "emailCopie": "Copié"
   },
   "catalogue": {
     "badge": "Catalogue",
