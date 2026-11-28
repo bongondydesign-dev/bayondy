@@ -29,6 +29,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   serverTimestamp,
 } from "firebase/firestore";
 import { MAX_COMPLETED_LESSONS } from "../src/types/firestore";
@@ -679,6 +680,105 @@ describe("13. users/{uid} — confidentialité et bornes de champs", () => {
         photoURL: `https://example.com/${"x".repeat(1000)}`,
       })
     );
+  });
+});
+
+// ─── 14. lessonComments — création élève/admin, suppression admin uniquement ─
+describe("14. lessonComments — lecture, création, anti-usurpation et suppression admin", () => {
+  const COMMENT_ID = "comment-001";
+
+  beforeEach(async () => {
+    await seedAll();
+    await seedData("enrollments", `${USER_A}_${PUBLISHED_COURSE_ID}`, {
+      uid: USER_A,
+      courseId: PUBLISHED_COURSE_ID,
+      status: "active",
+      source: "payment",
+      paymentId: PAYMENT_ID,
+      grantedAt: serverTimestamp(),
+      progress: { completedLessonIds: [], lastLessonId: "" },
+    });
+    await seedData("lessonComments", COMMENT_ID, {
+      courseId: PUBLISHED_COURSE_ID,
+      lessonId: LESSON_PAID_ID,
+      uid: USER_A,
+      authorName: "Alice",
+      authorPhotoURL: null,
+      authorIsAdmin: false,
+      content: "Très bon cours !",
+      createdAt: serverTimestamp(),
+    });
+  });
+
+  it("élève non inscrit ne peut pas lire ni créer un commentaire", async () => {
+    const db = userCtx(USER_B).firestore();
+    await assertFails(getDoc(doc(db, "lessonComments", COMMENT_ID)));
+    await assertFails(
+      setDoc(doc(db, "lessonComments", "comment-b"), {
+        courseId: PUBLISHED_COURSE_ID,
+        lessonId: LESSON_PAID_ID,
+        uid: USER_B,
+        authorName: "Bob",
+        authorPhotoURL: null,
+        authorIsAdmin: false,
+        content: "Je commente sans accès",
+        createdAt: serverTimestamp(),
+      })
+    );
+  });
+
+  it("élève inscrit peut lire et créer un commentaire mais ne peut pas usurper authorIsAdmin", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertSucceeds(getDoc(doc(db, "lessonComments", COMMENT_ID)));
+    await assertSucceeds(
+      setDoc(doc(db, "lessonComments", "comment-a-ok"), {
+        courseId: PUBLISHED_COURSE_ID,
+        lessonId: LESSON_PAID_ID,
+        uid: USER_A,
+        authorName: "Alice",
+        authorPhotoURL: null,
+        authorIsAdmin: false,
+        content: "Question sur l'exercice 2",
+        createdAt: serverTimestamp(),
+      })
+    );
+    await assertFails(
+      setDoc(doc(db, "lessonComments", "comment-a-spoof"), {
+        courseId: PUBLISHED_COURSE_ID,
+        lessonId: LESSON_PAID_ID,
+        uid: USER_A,
+        authorName: "Alice",
+        authorPhotoURL: null,
+        authorIsAdmin: true,
+        content: "Je prétends être formateur",
+        createdAt: serverTimestamp(),
+      })
+    );
+  });
+
+  it("élève inscrit ne peut pas modifier ni supprimer un commentaire", async () => {
+    const db = userCtx(USER_A).firestore();
+    await assertFails(
+      updateDoc(doc(db, "lessonComments", COMMENT_ID), { content: "Modifié" })
+    );
+    await assertFails(deleteDoc(doc(db, "lessonComments", COMMENT_ID)));
+  });
+
+  it("admin peut créer un commentaire avec authorIsAdmin: true et supprimer n'importe quel commentaire", async () => {
+    const db = adminCtx("admin-001").firestore();
+    await assertSucceeds(
+      setDoc(doc(db, "lessonComments", "comment-admin-ok"), {
+        courseId: PUBLISHED_COURSE_ID,
+        lessonId: LESSON_PAID_ID,
+        uid: "admin-001",
+        authorName: "Bayondy",
+        authorPhotoURL: null,
+        authorIsAdmin: true,
+        content: "Voici la réponse !",
+        createdAt: serverTimestamp(),
+      })
+    );
+    await assertSucceeds(deleteDoc(doc(db, "lessonComments", COMMENT_ID)));
   });
 });
 

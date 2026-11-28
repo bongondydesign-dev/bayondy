@@ -131,6 +131,23 @@ export interface EnrollmentDoc {
 }
 
 // ------------------------------------------------------------------
+// lessonComments/{commentId}
+// Lecture & création par élève inscrit (ou admin) ; suppression par admin uniquement.
+// ------------------------------------------------------------------
+export const MAX_COMMENT_LENGTH = 2000;
+
+export interface LessonCommentDoc {
+  courseId: string;
+  lessonId: string;
+  uid: string;
+  authorName: string;
+  authorPhotoURL: string | null;
+  authorIsAdmin?: boolean;
+  content: string;
+  createdAt: Timestamp;
+}
+
+// ------------------------------------------------------------------
 // payments/{paymentId}
 // Lecture élève (propres paiements) — aucune écriture côté client.
 // ------------------------------------------------------------------

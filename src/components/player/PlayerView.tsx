@@ -2,14 +2,25 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, ChevronLeft, ExternalLink, Loader2 } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Loader2,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
 import { useRequireAuth } from "@/lib/auth/useRequireAuth";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { VideoPlayer } from "@/components/player/VideoPlayer";
 import { LessonList } from "@/components/player/LessonList";
+import { LessonComments } from "@/components/player/LessonComments";
 import { ProgressBar } from "@/components/player/ProgressBar";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { formatDuration } from "@/lib/courses/format";
 import { hasCourseAccess } from "@/lib/learning/access";
 import {
   getCourseBySlugForStudent,
@@ -46,6 +57,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
   const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
   const [hasActiveEnrollment, setHasActiveEnrollment] = useState(false);
   const [enrollmentId, setEnrollmentId] = useState<string | null>(null);
+  const [theaterMode, setTheaterMode] = useState(false);
 
   const [dataLoading, setDataLoading] = useState(true);
   const [notEnrolled, setNotEnrolled] = useState(false);
@@ -101,13 +113,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
           return;
         }
 
-        // Si le serveur n'a pas Firebase Admin configuré (503) ou est hors ligne pour un admin,
-        // sauvegarder localement afin que la progression survive au rafraîchissement.
-        if (
-          isAdmin ||
-          apiRes.status === 503 ||
-          apiRes.status === 0
-        ) {
+        if (isAdmin || apiRes.status === 503 || apiRes.status === 0) {
           writeLocalProgressFallback(storage, uid, targetCourseId, normalized);
           return;
         }
@@ -131,7 +137,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
 
     async function loadData() {
       try {
-        // 1. Récupération du cours (y compris brouillon si admin)
         const courseDoc = await getCourseBySlugForStudent(slug, isAdmin);
         if (cancelled) return;
         if (!courseDoc) {
@@ -141,10 +146,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
         }
         setCourse(courseDoc);
 
-        // 2. Vérification de l'inscription de l'élève (ou accès gratuit admin)
-        const enrollDoc = await getEnrollment(uid!, courseDoc.id).catch(
-          () => null
-        );
+        const enrollDoc = await getEnrollment(uid!, courseDoc.id).catch(() => null);
         if (cancelled) return;
 
         const enrolledActive = enrollDoc?.status === "active";
@@ -152,22 +154,14 @@ export function PlayerView({ slug }: PlayerViewProps) {
         setEnrollmentId(enrollDoc?.id ?? null);
 
         if (!hasCourseAccess({ isAdmin, enrollmentStatus: enrollDoc?.status })) {
-          // ⚠️ Stop immédiat : l'élève n'est pas actif sur ce cours, AUCUNE lecture de leçons
           setNotEnrolled(true);
           setDataLoading(false);
           return;
         }
 
         const storage = getBrowserLocalStorage();
-        const localFallback = readLocalProgressFallback(
-          storage,
-          uid!,
-          courseDoc.id
-        );
-        const mergedProgress = mergeProgressWithFallback(
-          enrollDoc?.progress,
-          localFallback
-        );
+        const localFallback = readLocalProgressFallback(storage, uid!, courseDoc.id);
+        const mergedProgress = mergeProgressWithFallback(enrollDoc?.progress, localFallback);
         setCompletedLessonIds(mergedProgress.completedLessonIds);
 
         if (
@@ -175,7 +169,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
           hasUnsyncedFallbackLessons(enrollDoc?.progress, localFallback) &&
           user
         ) {
-          // Synchronisation silencieuse d'une progression locale en attente vers Firestore
           user
             .getIdToken()
             .then((idToken) =>
@@ -197,7 +190,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
           clearLocalProgressFallback(storage, uid!, courseDoc.id);
         }
 
-        // 3. Lecture des leçons du cours (autorisée pour inscription active ou admin)
         try {
           const lessonList = await getCourseLessons(courseDoc.id);
           if (cancelled) return;
@@ -206,12 +198,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
           if (lessonList.length > 0) {
             const savedLastId = mergedProgress.lastLessonId;
             const validSavedLesson = lessonList.find((l) => l.id === savedLastId);
-
-            if (validSavedLesson) {
-              setCurrentLessonId(validSavedLesson.id);
-            } else {
-              setCurrentLessonId(lessonList[0].id);
-            }
+            setCurrentLessonId(validSavedLesson ? validSavedLesson.id : lessonList[0].id);
           }
         } catch (lessonErr: unknown) {
           if (cancelled) return;
@@ -252,12 +239,24 @@ export function PlayerView({ slug }: PlayerViewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, uid, authLoading, isAdmin]);
 
-  // Leçon active courante
-  const currentLesson = useMemo(() => {
-    return lessons.find((l) => l.id === currentLessonId) || lessons[0];
+  const currentLessonIndex = useMemo(() => {
+    if (lessons.length === 0) return -1;
+    const idx = lessons.findIndex((l) => l.id === currentLessonId);
+    return idx >= 0 ? idx : 0;
   }, [lessons, currentLessonId]);
 
-  // Nombre de leçons terminées valides (correspondant aux leçons réelles du cours)
+  const currentLesson = useMemo(() => {
+    if (currentLessonIndex < 0) return undefined;
+    return lessons[currentLessonIndex];
+  }, [lessons, currentLessonIndex]);
+
+  const previousLesson =
+    currentLessonIndex > 0 ? lessons[currentLessonIndex - 1] : null;
+  const nextLesson =
+    currentLessonIndex >= 0 && currentLessonIndex < lessons.length - 1
+      ? lessons[currentLessonIndex + 1]
+      : null;
+
   const validCompletedCount = useMemo(() => {
     const lessonIdSet = new Set(lessons.map((l) => l.id));
     return Array.from(new Set(completedLessonIds)).filter((id) =>
@@ -269,7 +268,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
     return currentLesson ? completedLessonIds.includes(currentLesson.id) : false;
   }, [currentLesson, completedLessonIds]);
 
-  // Changement de leçon active avec sauvegarde de lastLessonId
   const handleSelectLesson = async (lessonId: string) => {
     if (lessonId === currentLessonId) return;
     setCurrentLessonId(lessonId);
@@ -292,7 +290,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
     }
   };
 
-  // Marquer la leçon comme terminée
   const handleMarkCompleted = async () => {
     if (!currentLesson || !uid || !course?.id || savingProgress) return;
     if (completedLessonIds.includes(currentLesson.id)) return;
@@ -306,7 +303,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
       return;
     }
 
-    // Mise à jour optimiste
     setCompletedLessonIds(newCompleted);
     setSaveError(null);
 
@@ -322,7 +318,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
         enrollmentId
       );
     } catch (err: unknown) {
-      // Rollback optimiste en cas d'erreur Firestore ou validation
       setCompletedLessonIds(previousCompleted);
       const msg = err instanceof Error ? err.message : t("lecteur.erreurEnregistrement");
       setSaveError(msg);
@@ -331,12 +326,15 @@ export function PlayerView({ slug }: PlayerViewProps) {
     }
   };
 
+  const currentLessonDuration = currentLesson
+    ? formatDuration(currentLesson.durationMinutes)
+    : "";
+
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-ice-white selection:bg-brand/30 selection:text-brand-light overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
-        {/* Chargement initial */}
         {authLoading || dataLoading ? (
           <div className="space-y-6 animate-pulse">
             <div className="h-4 bg-[var(--surface-subtle)] rounded w-48" />
@@ -350,7 +348,6 @@ export function PlayerView({ slug }: PlayerViewProps) {
             </div>
           </div>
         ) : notEnrolled ? (
-          // État non inscrit ou accès révoqué
           <div className="flex flex-col items-center justify-center text-center p-8 sm:p-14 rounded-2xl surface-glass my-10 max-w-xl mx-auto">
             <div className="w-16 h-16 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center justify-center mb-6 text-brand-light shadow-lg shadow-[var(--brand-glow-soft)]">
               <PortalSymbol size={36} className="opacity-85" />
@@ -369,34 +366,58 @@ export function PlayerView({ slug }: PlayerViewProps) {
               <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
             </Link>
           </div>
-        ) : !currentLesson ? (
-          // Aucune leçon disponible
+        ) : !currentLesson || !course ? (
           <div className="p-8 text-center text-slate-600 dark:text-ice-white/60">
             <p>{t("catalogue.vide")}</p>
           </div>
         ) : (
-          // Lecteur complet (Vidéo + Contrôles + Liste des leçons)
           <div className="space-y-6">
-            {/* Fil d'Ariane & Retour */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70">
-              <Link
-                href={localize("/mes-formations")}
-                className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            {/* Fil d'Ariane + Mode Cinéma */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-700 dark:text-ice-white/70 min-w-0">
+                <Link
+                  href={localize("/mes-formations")}
+                  className="hover:text-brand-light transition-colors inline-flex items-center gap-1.5 min-h-[44px] py-1 px-2 rounded-lg whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                >
+                  <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  <span>{t("lecteur.retourMesFormations")}</span>
+                </Link>
+                <span className="text-slate-500 dark:text-ice-white/30 shrink-0" aria-hidden="true">
+                  /
+                </span>
+                <span className="text-ice-white font-medium truncate max-w-[180px] sm:max-w-md">
+                  {course.title}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setTheaterMode((prev) => !prev)}
+                aria-pressed={theaterMode}
+                className="hidden lg:inline-flex items-center gap-2 min-h-[40px] px-3.5 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs font-sans font-medium text-slate-700 dark:text-ice-white/80 whitespace-nowrap shrink-0 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               >
-                <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
-                <span>{t("lecteur.retourMesFormations")}</span>
-              </Link>
-              <span className="text-slate-500 dark:text-ice-white/30">/</span>
-              <span className="text-ice-white font-medium truncate max-w-xs sm:max-w-md">
-                {course?.title}
-              </span>
+                {theaterMode ? (
+                  <>
+                    <Minimize2 className="w-3.5 h-3.5 text-brand-light shrink-0" aria-hidden="true" />
+                    <span>{t("lecteur.quitterModeCinema")}</span>
+                  </>
+                ) : (
+                  <>
+                    <Maximize2 className="w-3.5 h-3.5 text-brand-light shrink-0" aria-hidden="true" />
+                    <span>{t("lecteur.modeCinema")}</span>
+                  </>
+                )}
+              </button>
             </div>
 
-            {/* Layout responsive : Vidéo à gauche, Liste à droite sur grand écran */}
+            {/* Layout responsive : Vidéo + Commentaires à gauche, Liste à droite (ou pleine largeur en mode cinéma) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* Colonne Principale (Lecteur Vidéo + Titre + Bouton de progression) */}
-              <div className="lg:col-span-8 space-y-6">
-                {/* Lektè videyo (Iframe uniquement au clic, remonte proprement à chaque leçon) */}
+              {/* Colonne Principale */}
+              <div
+                className={`space-y-6 ${
+                  theaterMode ? "lg:col-span-12" : "lg:col-span-8"
+                }`}
+              >
                 <VideoPlayer
                   key={currentLesson.id}
                   lessonTitle={currentLesson.title}
@@ -404,27 +425,46 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   videoProvider={currentLesson.videoProvider}
                   videoId={currentLesson.videoId}
                   videoUrl={currentLesson.videoUrl}
+                  durationMinutes={currentLesson.durationMinutes}
                 />
 
-                {/* En-tête de la leçon et action "Leson fini" */}
+                {/* Carte d'information et actions de la leçon */}
                 <div className="p-6 sm:p-7 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      {currentLesson.moduleTitle && (
-                        <span className="font-mono text-xs uppercase tracking-wider text-brand-light block mb-1.5">
-                          {currentLesson.moduleTitle}
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div className="space-y-1.5 min-w-0">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs uppercase tracking-wider text-brand-light">
+                        {currentLesson.moduleTitle && (
+                          <span>{currentLesson.moduleTitle}</span>
+                        )}
+                        {currentLesson.moduleTitle && (
+                          <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">
+                            ·
+                          </span>
+                        )}
+                        <span className="tabular-nums text-slate-600 dark:text-ice-white/65">
+                          {currentLessonIndex + 1} / {lessons.length}
                         </span>
-                      )}
-                      {/* Titre unique H1 de la leçon active */}
+                        {currentLessonDuration && (
+                          <>
+                            <span className="text-slate-500 dark:text-ice-white/30" aria-hidden="true">
+                              ·
+                            </span>
+                            <span className="normal-case tabular-nums text-slate-600 dark:text-ice-white/65">
+                              {currentLessonDuration}
+                            </span>
+                          </>
+                        )}
+                      </div>
+
                       <h1 className="font-display font-bold text-xl sm:text-2xl lg:text-3xl text-ice-white leading-tight">
                         {currentLesson.title}
                       </h1>
                     </div>
 
-                    {/* Bouton "Leson fini" */}
+                    {/* Bouton "Terminé" */}
                     <div className="flex-shrink-0">
                       {isCurrentCompleted ? (
-                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 text-brand-light font-sans font-semibold text-sm select-none">
+                        <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--surface-active)] border border-[var(--home-orange-vivid)]/45 text-brand-light font-sans font-semibold text-sm select-none whitespace-nowrap">
                           <Check className="w-4 h-4 shrink-0" strokeWidth={2.5} aria-hidden="true" />
                           <span>{t("lecon.terminee")}</span>
                         </div>
@@ -434,7 +474,7 @@ export function PlayerView({ slug }: PlayerViewProps) {
                           onClick={handleMarkCompleted}
                           disabled={savingProgress}
                           aria-disabled={savingProgress}
-                          className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light select-none cursor-pointer disabled:cursor-not-allowed"
+                          className="min-h-[48px] px-6 py-3 rounded-full bg-brand hover:bg-brand-dark dark:hover:bg-brand-light disabled:opacity-50 text-[var(--brand-fg)] font-sans font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[var(--brand-glow)] transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light select-none cursor-pointer disabled:cursor-not-allowed whitespace-nowrap"
                         >
                           {savingProgress ? (
                             <>
@@ -452,14 +492,41 @@ export function PlayerView({ slug }: PlayerViewProps) {
                     </div>
                   </div>
 
-                  {/* Message d'erreur d'enregistrement si échec */}
+                  {/* Navigation leçon précédente / suivante */}
+                  {(previousLesson || nextLesson) && (
+                    <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-3">
+                      {previousLesson ? (
+                        <button
+                          type="button"
+                          onClick={() => handleSelectLesson(previousLesson.id)}
+                          className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/85 inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                        >
+                          <ChevronLeft className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
+                          <span>{t("lecteur.precedent")}</span>
+                        </button>
+                      ) : (
+                        <div />
+                      )}
+
+                      {nextLesson && (
+                        <button
+                          type="button"
+                          onClick={() => handleSelectLesson(nextLesson.id)}
+                          className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-[var(--surface-well)] hover:bg-[var(--surface-well)] dark:hover:bg-[var(--surface-subtle)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] text-xs sm:text-sm font-sans font-medium text-slate-800 dark:text-ice-white/85 inline-flex items-center gap-2 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light ml-auto"
+                        >
+                          <span>{t("lecteur.suivant")}</span>
+                          <ChevronRight className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
+                        </button>
+                      )}
+                    </div>
+                  )}
+
                   {saveError && (
                     <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-300 text-xs sm:text-sm">
                       {saveError}
                     </div>
                   )}
 
-                  {/* Ressources de la leçon si existantes */}
                   {currentLesson.resources &&
                     currentLesson.resources.some((res) =>
                       /^https?:\/\//i.test((res.url || "").trim())
@@ -489,12 +556,30 @@ export function PlayerView({ slug }: PlayerViewProps) {
                       </div>
                     )}
                 </div>
+
+                {/* Espace commentaires par leçon (création élève/admin, suppression admin uniquement) */}
+                <LessonComments
+                  key={currentLesson.id}
+                  courseId={course.id}
+                  lessonId={currentLesson.id}
+                  user={user}
+                  isAdmin={isAdmin}
+                />
               </div>
 
               {/* Colonne Latérale (Progression + Liste des leçons) */}
-              <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-                {/* Carte de progression globale */}
-                <div className="p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-3">
+              <aside
+                className={
+                  theaterMode
+                    ? "lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+                    : "lg:col-span-4 space-y-6 lg:sticky lg:top-24"
+                }
+              >
+                <div
+                  className={`p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] space-y-3 ${
+                    theaterMode ? "lg:col-span-4" : ""
+                  }`}
+                >
                   <span className="font-mono text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-ice-white/60 block">
                     {t("lecteur.progressionGlobale")}
                   </span>
@@ -506,8 +591,11 @@ export function PlayerView({ slug }: PlayerViewProps) {
                   />
                 </div>
 
-                {/* Liste des leçons */}
-                <div className="p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] max-h-[600px] overflow-y-auto">
+                <div
+                  className={`p-5 sm:p-6 rounded-2xl surface-glass border border-[var(--border-subtle)] max-h-[600px] overflow-y-auto ${
+                    theaterMode ? "lg:col-span-8" : ""
+                  }`}
+                >
                   <LessonList
                     lessons={lessons}
                     currentLessonId={currentLesson.id}

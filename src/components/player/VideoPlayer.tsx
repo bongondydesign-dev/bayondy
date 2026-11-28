@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExternalLink, Play, Video } from "lucide-react";
+import { Clock, ExternalLink, Play, Video } from "lucide-react";
 import { PortalSymbol } from "@/components/ui/PortalSymbol";
+import { formatDuration } from "@/lib/courses/format";
 import { getLessonPlaybackInfo } from "@/lib/video/lessonVideo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -12,6 +13,7 @@ interface VideoPlayerProps {
   videoProvider?: string | null;
   videoId?: string | null;
   videoUrl?: string | null;
+  durationMinutes?: number;
 }
 
 export function VideoPlayer({
@@ -20,6 +22,7 @@ export function VideoPlayer({
   videoProvider,
   videoId,
   videoUrl,
+  durationMinutes,
 }: VideoPlayerProps) {
   const { t } = useI18n();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,9 +34,14 @@ export function VideoPlayer({
     youtubeVideoId,
   });
 
+  const formattedDuration =
+    typeof durationMinutes === "number" && durationMinutes > 0
+      ? formatDuration(durationMinutes)
+      : "";
+
   return (
     <div className="space-y-3">
-      <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0B0E17] border border-[var(--border-subtle)] shadow-[var(--card-shadow)]">
+      <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#0B0E17] border border-[var(--border-subtle)] ring-1 ring-white/5 shadow-[var(--card-shadow)]">
         {!playback.provider ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-[#121622] via-[#0B0E17] to-[#121622]">
             <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FF885C] mb-3">
@@ -81,11 +89,26 @@ export function VideoPlayer({
               className="absolute inset-0 bg-noise opacity-40 pointer-events-none"
               aria-hidden="true"
             />
+            <div
+              className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"
+              aria-hidden="true"
+            />
 
-            <div className="relative z-10 max-w-lg mb-6">
-              <span className="inline-block font-mono text-xs uppercase tracking-wider text-[#FF885C] mb-2">
-                {playback.provider === "tiktok" ? "TikTok" : t("hero.apercu.badge")}
-              </span>
+            <div className="relative z-10 max-w-xl mb-6 space-y-2">
+              <div className="inline-flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider text-[#FF885C]">
+                <span>
+                  {playback.provider === "tiktok" ? "TikTok" : t("hero.apercu.badge")}
+                </span>
+                {formattedDuration && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1 text-slate-200/80 normal-case tabular-nums">
+                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+                      {formattedDuration}
+                    </span>
+                  </>
+                )}
+              </div>
               <h2 className="font-display font-semibold text-lg sm:text-2xl text-slate-100 drop-shadow-md line-clamp-2">
                 {lessonTitle}
               </h2>
@@ -103,7 +126,7 @@ export function VideoPlayer({
               />
             </button>
 
-            <p className="relative z-10 mt-4 font-sans text-xs sm:text-sm text-slate-300/75">
+            <p className="relative z-10 mt-4 font-sans text-xs sm:text-sm text-slate-300/80">
               {t("lecteur.lancerVideo")}
             </p>
           </div>

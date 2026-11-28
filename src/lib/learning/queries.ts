@@ -1,5 +1,7 @@
 import {
+  addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -7,14 +9,23 @@ import {
   where,
   orderBy,
   limit,
+  serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { getFirebaseDb } from "@/lib/firebase/client";
 import { t } from "@/lib/i18n";
 import { type AppLang, DEFAULT_APP_LANG } from "@/lib/i18n/config";
 import {
+  normalizeCommentItem,
+  sanitizeAuthorName,
+  sanitizeAuthorPhotoURL,
+  sortLessonComments,
+  type LessonCommentItem,
+} from "@/lib/learning/comments";
+import {
   MAX_COMPLETED_LESSONS,
   type CourseDoc,
+  type LessonCommentDoc,
   type LessonDoc,
   type EnrollmentDoc,
   type EnrollmentProgress,
@@ -322,3 +333,234 @@ export async function getMyPayments(uid: string): Promise<PaymentWithId[]> {
   return rows;
 }
 
+export async function getLessonCommentsClient(
+  courseId: string,
+  lessonId: string
+): Promise<LessonCommentItem[]> {
+  if (!courseId || !lessonId) return [];
+  const db = getFirebaseDb();
+  const q = query(
+    collection(db, "lessonComments"),
+    where("lessonId", "==", lessonId),
+    limit(200)
+  );
+  const snapshot = await getDocs(q);
+  const rows = snapshot.docs
+    .map((d) => {
+      const data = d.data() as Partial<LessonCommentDoc>;
+      return normalizeCommentItem({
+        id: d.id,
+        courseId: data.courseId ?? "",
+        lessonId: data.lessonId ?? "",
+        uid: data.uid ?? "",
+        authorName: data.authorName,
+        authorPhotoURL: data.authorPhotoURL ?? null,
+        authorIsAdmin: data.authorIsAdmin === true,
+        content: data.content ?? "",
+        createdAtMs: data.createdAt?.toMillis?.() ?? 0,
+      });
+    })
+    .filter((item) => item.courseId === courseId && item.content.length > 0);
+
+  return sortLessonComments(rows);
+}
+
+export async function createLessonCommentClient(params: {
+  courseId: string;
+  lessonId: string;
+  uid: string;
+  authorName: string;
+  authorPhotoURL: string | null;
+  authorIsAdmin: boolean;
+  content: string;
+}): Promise<LessonCommentItem> {
+  const db = getFirebaseDb();
+  const safeName = sanitizeAuthorName(params.authorName);
+  const safePhoto = sanitizeAuthorPhotoURL(params.authorPhotoURL);
+  const cleanContent = params.content.trim();
+  const nowMs = Date.now();
+
+  const ref = await addDoc(collection(db, "lessonComments"), {
+    courseId: params.courseId,
+    lessonId: params.lessonId,
+    uid: params.uid,
+    authorName: safeName,
+    authorPhotoURL: safePhoto,
+    authorIsAdmin: params.authorIsAdmin,
+    content: cleanContent,
+    createdAt: serverTimestamp(),
+  });
+
+  return {
+    id: ref.id,
+    courseId: params.courseId,
+    lessonId: params.lessonId,
+    uid: params.uid,
+    authorName: safeName,
+    authorPhotoURL: safePhoto,
+    authorIsAdmin: params.authorIsAdmin,
+    content: cleanContent,
+    createdAtMs: nowMs,
+  };
+}
+
+export async function deleteLessonCommentClient(commentId: string): Promise<void> {
+  if (!commentId) return;
+  const db = getFirebaseDb();
+  await deleteDoc(doc(db, "lessonComments", commentId));
+}
+
+export interface FetchCommentsApiResult {
+  ok: boolean;
+  status: number;
+  code?: string;
+  comments?: LessonCommentItem[];
+  error?: string;
+}
+
+export async function fetchLessonCommentsViaApi(params: {
+  idToken: string;
+  courseId: string;
+  lessonId: string;
+}): Promise<FetchCommentsApiResult> {
+  const { idToken, courseId, lessonId } = params;
+  try {
+    const search = new URLSearchParams({ courseId, lessonId });
+    const res = await fetch(`/api/learning/comments?${search.toString()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+      cache: "no-store",
+    });
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      code?: string;
+      comments?: LessonCommentItem[];
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok) {
+      return {
+        ok: false,
+        status: res.status,
+        code: data?.code,
+        error: data?.error,
+      };
+    }
+
+    return {
+      ok: true,
+      status: res.status,
+      comments: Array.isArray(data.comments) ? sortLessonComments(data.comments) : [],
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      code: "NETWORK_ERROR",
+    };
+  }
+}
+
+export interface PostCommentApiResult {
+  ok: boolean;
+  status: number;
+  code?: string;
+  comment?: LessonCommentItem;
+  error?: string;
+}
+
+export async function postLessonCommentViaApi(params: {
+  idToken: string;
+  courseId: string;
+  lessonId: string;
+  content: string;
+}): Promise<PostCommentApiResult> {
+  const { idToken, courseId, lessonId, content } = params;
+  try {
+    const res = await fetch("/api/learning/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({ courseId, lessonId, content }),
+    });
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      code?: string;
+      comment?: LessonCommentItem;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok || !data.comment) {
+      return {
+        ok: false,
+        status: res.status,
+        code: data?.code,
+        error: data?.error,
+      };
+    }
+
+    return {
+      ok: true,
+      status: res.status,
+      comment: data.comment,
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      code: "NETWORK_ERROR",
+    };
+  }
+}
+
+export interface DeleteCommentApiResult {
+  ok: boolean;
+  status: number;
+  code?: string;
+  error?: string;
+}
+
+export async function deleteLessonCommentViaApi(params: {
+  idToken: string;
+  commentId: string;
+}): Promise<DeleteCommentApiResult> {
+  const { idToken, commentId } = params;
+  try {
+    const search = new URLSearchParams({ commentId });
+    const res = await fetch(`/api/learning/comments?${search.toString()}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      code?: string;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok) {
+      return {
+        ok: false,
+        status: res.status,
+        code: data?.code,
+        error: data?.error,
+      };
+    }
+
+    return {
+      ok: true,
+      status: res.status,
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      code: "NETWORK_ERROR",
+    };
+  }
+}

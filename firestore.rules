@@ -178,5 +178,56 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // ================================================================
+    // lessonComments/{commentId}
+    // Commentaires des leçons : lecture et création pour élèves inscrits
+    // (ou admin), suppression exclusivement réservée aux admins.
+    // ================================================================
+    match /lessonComments/{commentId} {
+      function hasActiveCourseEnrollment(courseId) {
+        return isAuthenticated()
+          && exists(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + courseId))
+          && get(/databases/$(database)/documents/enrollments/$(request.auth.uid + '_' + courseId)).data.status == 'active';
+      }
+
+      allow read: if isAdmin()
+                  || (resource.data.courseId is string
+                      && hasActiveCourseEnrollment(resource.data.courseId));
+
+      allow create: if isAuthenticated()
+                    && request.resource.data.keys().hasOnly([
+                         'courseId', 'lessonId', 'uid', 'authorName',
+                         'authorPhotoURL', 'authorIsAdmin', 'content', 'createdAt'
+                       ])
+                    && request.resource.data.keys().hasAll([
+                         'courseId', 'lessonId', 'uid', 'authorName',
+                         'authorIsAdmin', 'content', 'createdAt'
+                       ])
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.courseId is string
+                    && request.resource.data.courseId.size() >= 1
+                    && request.resource.data.courseId.size() <= 128
+                    && request.resource.data.lessonId is string
+                    && request.resource.data.lessonId.size() >= 1
+                    && request.resource.data.lessonId.size() <= 128
+                    && request.resource.data.authorName is string
+                    && request.resource.data.authorName.size() >= 1
+                    && request.resource.data.authorName.size() <= 120
+                    && (!('authorPhotoURL' in request.resource.data)
+                        || request.resource.data.authorPhotoURL == null
+                        || (request.resource.data.authorPhotoURL is string
+                            && request.resource.data.authorPhotoURL.size() <= 1000))
+                    && request.resource.data.authorIsAdmin is bool
+                    && request.resource.data.authorIsAdmin == isAdmin()
+                    && request.resource.data.content is string
+                    && request.resource.data.content.size() >= 1
+                    && request.resource.data.content.size() <= 2000
+                    && (isAdmin() || hasActiveCourseEnrollment(request.resource.data.courseId));
+
+      allow update: if false;
+
+      allow delete: if isAdmin();
+    }
+
   }
 }
