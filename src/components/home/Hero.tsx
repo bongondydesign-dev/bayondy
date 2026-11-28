@@ -16,10 +16,10 @@ export function Hero() {
     <section className="relative w-full pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-transparent transition-colors duration-200">
       {/* Lueur d'ambiance orange douce par dégradé radial */}
       <div
-        className="absolute inset-x-0 top-0 h-[520px] pointer-events-none opacity-75 dark:opacity-100"
+        className="absolute inset-x-0 top-0 h-[560px] pointer-events-none opacity-90 dark:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 62% 52% at 50% 6%, var(--home-orange-glow) 0%, var(--home-orange-glow-soft) 45%, transparent 75%)",
+            "radial-gradient(ellipse 68% 54% at 50% 4%, var(--home-orange-glow) 0%, var(--home-orange-glow-soft) 46%, transparent 76%)",
         }}
         aria-hidden="true"
       />
