@@ -36,6 +36,8 @@ interface VerifyApiResponse {
   paidAt?: string | null;
   error?: string;
   code?: string;
+  diagnostic?: string;
+  upstreamStatus?: number;
 }
 
 interface StoredLastOrder {
@@ -229,7 +231,13 @@ export function MerciStatus() {
           return;
         }
 
-        setVerificationError(!ok && data?.error ? data.error : null);
+        setVerificationError(
+          !ok && data?.error
+            ? data.error
+            : data?.diagnostic
+              ? data.diagnostic
+              : null
+        );
         setState("pending");
       } catch {
         if (!cancelled) {
@@ -301,7 +309,13 @@ export function MerciStatus() {
         setVerificationError(null);
         setState("failed");
       } else {
-        setVerificationError(!ok && data?.error ? data.error : null);
+        setVerificationError(
+          !ok && data?.error
+            ? data.error
+            : data?.diagnostic
+              ? data.diagnostic
+              : null
+        );
         setState("pending");
       }
     } catch {

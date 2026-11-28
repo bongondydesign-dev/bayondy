@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAdminAuth, getAdminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { resolveMonCashSecretKey } from "@/lib/moncash/status";
 import {
   buildMonCashCreateHeaders,
   isMonCashSuccessStatus,
@@ -86,10 +87,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Lecture exclusive de la clé secrète côté serveur
-  const mccSecretKey = process.env.MCC_SECRET_KEY
-    ?.trim()
-    .replace(/^(['"])([\s\S]*)\1$/, "$2")
-    .trim();
+  const mccSecretKey = resolveMonCashSecretKey(process.env);
   if (!mccSecretKey) {
     return NextResponse.json(
       { error: "Sèvis MonCash la poko konfigire sou sèvè a.", code: "MCC_SECRET_MISSING" },

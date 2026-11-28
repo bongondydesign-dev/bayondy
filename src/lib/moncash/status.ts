@@ -82,7 +82,54 @@ export function extractSafeHttpOrigin(rawUrlOrOrigin: unknown): string | null {
 }
 
 /**
- * Résout l'en-tête Origin à envoyer aux appels serveur vers MonCashConnect
+ * Lit la clé secrète MonCashConnect côté serveur (MCC_SECRET_KEY ou alias MCC_SECRET).
+ */
+export function resolveMonCashSecretKey(env: Record<string, string | undefined>): string {
+  const raw = env.MCC_SECRET_KEY || env.MCC_SECRET || "";
+  return raw
+    .trim()
+    .replace(/^(['"])([\s\S]*)\1$/, "$2")
+    .trim();
+}
+
+/**
+ * Retourne la liste ordonnée et dédupliquée des origines HTTP(S) candidates
+ * pour les appels serveur vers MonCashConnect.
+ */
+export function resolveMonCashCandidateOrigins(params: {
+  returnUrl?: string | null;
+  requestOriginHeader?: string | null;
+  forwardedHost?: string | null;
+  forwardedProto?: string | null;
+  nextUrlOrigin?: string | null;
+  configuredSiteUrl?: string | null;
+}): string[] {
+  const rawCandidates: Array<string | null | undefined> = [
+    params.returnUrl,
+    params.requestOriginHeader,
+  ];
+
+  const host = params.forwardedHost?.split(",")[0]?.trim();
+  const rawProto = params.forwardedProto?.split(",")[0]?.trim().toLowerCase();
+  const proto = rawProto === "http" ? "http" : "https";
+  if (host && !/[\s/?#@]/.test(host)) {
+    rawCandidates.push(`${proto}://${host}`);
+  }
+
+  rawCandidates.push(params.nextUrlOrigin, params.configuredSiteUrl);
+
+  const unique: string[] = [];
+  for (const candidate of rawCandidates) {
+    const safeOrigin = extractSafeHttpOrigin(candidate);
+    if (safeOrigin && !unique.includes(safeOrigin)) {
+      unique.push(safeOrigin);
+    }
+  }
+  return unique;
+}
+
+/**
+ * Résout l'en-tête Origin principal à envoyer aux appels serveur vers MonCashConnect
  * (ex: GET /v1/pay-status), en priorité depuis returnUrl puis les en-têtes HTTP.
  */
 export function resolveMonCashRequestOrigin(params: {
@@ -93,26 +140,32 @@ export function resolveMonCashRequestOrigin(params: {
   nextUrlOrigin?: string | null;
   configuredSiteUrl?: string | null;
 }): string | null {
-  const candidates: Array<string | null | undefined> = [
-    params.returnUrl,
-    params.requestOriginHeader,
-  ];
+  return resolveMonCashCandidateOrigins(params)[0] ?? null;
+}
 
-  const host = params.forwardedHost?.split(",")[0]?.trim();
-  const rawProto = params.forwardedProto?.split(",")[0]?.trim().toLowerCase();
-  const proto = rawProto === "http" ? "http" : "https";
-  if (host && !/[\s/?#@]/.test(host)) {
-    candidates.push(`${proto}://${host}`);
-  }
+/**
+ * Extrait un code et un message diagnostique sûrs depuis une réponse d'erreur JSON MCC.
+ */
+export function extractSafeUpstreamError(payload: unknown): {
+  code: string | null;
+  message: string | null;
+} {
+  const obj = asRecord(payload);
+  if (!obj) return { code: null, message: null };
+  const nested = asRecord(obj.data);
+  const rawCode = obj.code ?? nested?.code;
+  const rawMessage = obj.error ?? obj.message ?? nested?.error ?? nested?.message;
 
-  candidates.push(params.nextUrlOrigin, params.configuredSiteUrl);
+  const code =
+    typeof rawCode === "string" && rawCode.trim()
+      ? rawCode.trim().slice(0, 80)
+      : null;
+  const message =
+    typeof rawMessage === "string" && rawMessage.trim()
+      ? rawMessage.trim().slice(0, 220)
+      : null;
 
-  for (const candidate of candidates) {
-    const safeOrigin = extractSafeHttpOrigin(candidate);
-    if (safeOrigin) return safeOrigin;
-  }
-
-  return null;
+  return { code, message };
 }
 
 /**
@@ -233,6 +286,8 @@ export function parseMonCashPayStatusResponse(
     nestedData,
     asRecord(root.transaction),
     asRecord(root.payment),
+    asRecord(root.result),
+    asRecord(root.payload),
     asRecord(nestedData?.transaction),
     asRecord(nestedData?.payment),
   ].filter((obj): obj is Record<string, unknown> => obj !== null);
@@ -240,14 +295,26 @@ export function parseMonCashPayStatusResponse(
   let rawStatus: unknown;
   for (const obj of candidates) {
     const candidateStatus =
-      obj.status ?? obj.paymentStatus ?? obj.transactionStatus ?? obj.state;
+      obj.status ??
+      obj.paymentStatus ??
+      obj.transactionStatus ??
+      obj.txStatus ??
+      obj.state;
     if (candidateStatus !== undefined && candidateStatus !== null && candidateStatus !== "") {
       rawStatus = candidateStatus;
       break;
     }
   }
 
-  const normalized = normalizeMonCashStatus(rawStatus);
+  let normalized = normalizeMonCashStatus(rawStatus);
+  if (normalized === "unknown") {
+    for (const obj of candidates) {
+      if (obj.paid === true || obj.isPaid === true || obj.completed === true) {
+        normalized = "completed";
+        break;
+      }
+    }
+  }
   if (normalized === "unknown") {
     return { ok: false, error: "Unknown pay-status value" };
   }

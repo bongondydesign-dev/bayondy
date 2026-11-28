@@ -5,10 +5,13 @@ import {
   buildMonCashPayStatusHeaders,
   buildMonCashPayStatusLookupUrls,
   extractSafeHttpOrigin,
+  extractSafeUpstreamError,
   normalizeMonCashStatus,
   normalizeMonCashWebhookEvent,
   parseMonCashPayStatusResponse,
+  resolveMonCashCandidateOrigins,
   resolveMonCashRequestOrigin,
+  resolveMonCashSecretKey,
 } from "./status";
 
 test("normalizeMonCashStatus normalizes completed, failed, and pending statuses", () => {
@@ -43,7 +46,7 @@ test("amountsMatch validates integer HTG amounts cleanly", () => {
   assert.equal(amountsMatch(1500, "1500"), false);
 });
 
-test("parseMonCashPayStatusResponse parses standard, string-amount, and nested transaction payloads", () => {
+test("parseMonCashPayStatusResponse parses standard, string-amount, boolean-paid, and nested payloads", () => {
   const completed = parseMonCashPayStatusResponse({
     reference: "byd_c1_abc",
     status: "completed",
@@ -80,11 +83,24 @@ test("parseMonCashPayStatusResponse parses standard, string-amount, and nested t
     assert.equal(nestedTransaction.data.completedAt, "2026-11-27T21:18:00Z");
   }
 
+  const booleanPaid = parseMonCashPayStatusResponse({
+    result: {
+      reference: "byd_bool_1",
+      paid: true,
+      amount: 1000,
+    },
+  });
+  assert.equal(booleanPaid.ok, true);
+  if (booleanPaid.ok) {
+    assert.equal(booleanPaid.data.status, "completed");
+    assert.equal(booleanPaid.data.amount, 1000);
+  }
+
   const bad = parseMonCashPayStatusResponse({ foo: "bar" });
   assert.equal(bad.ok, false);
 });
 
-test("extractSafeHttpOrigin and resolveMonCashRequestOrigin prioritize returnUrl safely", () => {
+test("extractSafeHttpOrigin, resolveMonCashRequestOrigin, and resolveMonCashCandidateOrigins handle priorities safely", () => {
   assert.equal(extractSafeHttpOrigin("https://bayondy.com/merci?orderId=1"), "https://bayondy.com");
   assert.equal(extractSafeHttpOrigin("javascript:alert(1)"), null);
 
@@ -99,15 +115,15 @@ test("extractSafeHttpOrigin and resolveMonCashRequestOrigin prioritize returnUrl
     "https://bayondy.vercel.app"
   );
 
-  assert.equal(
-    resolveMonCashRequestOrigin({
-      returnUrl: null,
-      requestOriginHeader: null,
-      forwardedHost: "bayondy.com, internal.proxy",
-      forwardedProto: "https, http",
-      configuredSiteUrl: "https://fallback.com",
+  assert.deepEqual(
+    resolveMonCashCandidateOrigins({
+      returnUrl: "https://bayondy.vercel.app/merci",
+      requestOriginHeader: "https://bayondy.vercel.app",
+      forwardedHost: "bayondy.com",
+      forwardedProto: "https",
+      configuredSiteUrl: "https://bayondy.com",
     }),
-    "https://bayondy.com"
+    ["https://bayondy.vercel.app", "https://bayondy.com"]
   );
 
   assert.equal(
@@ -117,6 +133,23 @@ test("extractSafeHttpOrigin and resolveMonCashRequestOrigin prioritize returnUrl
       configuredSiteUrl: "https://bayondy.com/app",
     }),
     "https://bayondy.com"
+  );
+});
+
+test("resolveMonCashSecretKey and extractSafeUpstreamError sanitize inputs cleanly", () => {
+  assert.equal(
+    resolveMonCashSecretKey({ MCC_SECRET_KEY: ' "sk_test_proj_abc" ' }),
+    "sk_test_proj_abc"
+  );
+  assert.equal(
+    resolveMonCashSecretKey({ MCC_SECRET: "sk_test_proj_fallback" }),
+    "sk_test_proj_fallback"
+  );
+  assert.equal(resolveMonCashSecretKey({}), "");
+
+  assert.deepEqual(
+    extractSafeUpstreamError({ error: "project_lookup_failed", code: "ERR_LOOKUP" }),
+    { code: "ERR_LOOKUP", message: "project_lookup_failed" }
   );
 });
 

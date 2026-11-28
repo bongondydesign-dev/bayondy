@@ -8,8 +8,10 @@ import {
 import {
   buildMonCashPayStatusHeaders,
   buildMonCashPayStatusLookupUrls,
+  extractSafeUpstreamError,
   parseMonCashPayStatusResponse,
-  resolveMonCashRequestOrigin,
+  resolveMonCashCandidateOrigins,
+  resolveMonCashSecretKey,
   type ParsedMonCashPayStatus,
 } from "@/lib/moncash/status";
 import { ORDER_ID_REGEX } from "@/lib/moncash/validation";
@@ -248,11 +250,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 5. Interroger MonCashConnect /v1/pay-status côté serveur avec en-tête Origin et fallback (?referenceId= / ?reference=)
-  const mccSecretKey = process.env.MCC_SECRET_KEY
-    ?.trim()
-    .replace(/^(['"])([\s\S]*)\1$/, "$2")
-    .trim();
+  // 5. Interroger MonCashConnect /v1/pay-status côté serveur avec en-tête Origin et fallbacks
+  const mccSecretKey = resolveMonCashSecretKey(process.env);
 
   if (!mccSecretKey) {
     return NextResponse.json(
@@ -263,7 +262,7 @@ export async function POST(req: NextRequest) {
 
   const course = await resolveCourseDetails(db, courseId);
 
-  const originHeader = resolveMonCashRequestOrigin({
+  const candidateOrigins = resolveMonCashCandidateOrigins({
     returnUrl: paymentData.returnUrl,
     requestOriginHeader: req.headers.get("origin"),
     forwardedHost: req.headers.get("x-forwarded-host") || req.headers.get("host"),
@@ -272,55 +271,110 @@ export async function POST(req: NextRequest) {
     configuredSiteUrl: process.env.NEXT_PUBLIC_SITE_URL,
   });
 
-  const mccHeaders = buildMonCashPayStatusHeaders(mccSecretKey, originHeader);
   const lookupUrls = buildMonCashPayStatusLookupUrls(MONCASH_PAY_STATUS_URL, [
     orderId,
     paymentData.providerReference,
   ]);
 
+  // Essayer d'abord l'origine principale ; si 403 Origin not allowed, tester les origines alternatives puis sans Origin
+  const originAttempts: Array<string | null> = [
+    ...candidateOrigins,
+    null,
+  ];
+
   let parsedStatus: ParsedMonCashPayStatus | null = null;
   let lastUpstreamStatus: number | null = null;
+  let lastUpstreamCode: string | null = null;
+  let lastUpstreamMessage: string | null = null;
   let sawNetworkError = false;
+  let sawOriginForbidden = false;
+  let originUsed: string | null = originAttempts[0] ?? null;
 
-  for (const lookupUrl of lookupUrls) {
-    let mccRes: Response;
-    try {
-      mccRes = await fetch(lookupUrl, {
-        method: "GET",
-        headers: mccHeaders,
-        cache: "no-store",
-        signal: AbortSignal.timeout(10000),
-      });
-    } catch {
-      sawNetworkError = true;
+  for (const attemptOrigin of originAttempts) {
+    const mccHeaders = buildMonCashPayStatusHeaders(mccSecretKey, attemptOrigin);
+    let originRejectedThisPass = false;
+
+    for (const lookupUrl of lookupUrls) {
+      let mccRes: Response;
+      try {
+        mccRes = await fetch(lookupUrl, {
+          method: "GET",
+          headers: mccHeaders,
+          cache: "no-store",
+          signal: AbortSignal.timeout(10000),
+        });
+      } catch {
+        sawNetworkError = true;
+        break;
+      }
+
+      lastUpstreamStatus = mccRes.status;
+      originUsed = attemptOrigin;
+      const rawPayload = await mccRes.json().catch(() => null);
+      const upstreamErr = extractSafeUpstreamError(rawPayload);
+      if (upstreamErr.code) lastUpstreamCode = upstreamErr.code;
+      if (upstreamErr.message) lastUpstreamMessage = upstreamErr.message;
+
+      if (mccRes.status === 401) {
+        console.error("[moncash/verify] MonCashConnect rejected secret key (401)", {
+          orderId,
+        });
+        return NextResponse.json(
+          {
+            error: "Kle sèvè MonCashConnect la pa valid oswa li ekspire.",
+            code: "MCC_AUTH_FAILED",
+            upstreamStatus: 401,
+          },
+          { status: 502 }
+        );
+      }
+
+      if (mccRes.status === 403) {
+        sawOriginForbidden = true;
+        originRejectedThisPass = true;
+        break;
+      }
+
+      if (!mccRes.ok) {
+        if (mccRes.status >= 500 && upstreamErr.message === "project_lookup_failed") {
+          console.error("[moncash/verify] MonCashConnect project_lookup_failed (502)", {
+            orderId,
+          });
+          return NextResponse.json(
+            {
+              error:
+                "Kle MCC_SECRET_KEY a pa rekonèt bò kote MonCashConnect (project_lookup_failed). Verifye si w mete bon kle pwojè a (Sandbox/Live).",
+              code: "MCC_PROJECT_LOOKUP_FAILED",
+              upstreamStatus: mccRes.status,
+            },
+            { status: 502 }
+          );
+        }
+        continue;
+      }
+
+      const candidateParsed = parseMonCashPayStatusResponse(rawPayload);
+      if (candidateParsed.ok) {
+        parsedStatus = candidateParsed.data;
+        break;
+      }
+    }
+
+    if (parsedStatus || sawNetworkError || !originRejectedThisPass) {
       break;
     }
+  }
 
-    lastUpstreamStatus = mccRes.status;
-
-    if (mccRes.status === 401) {
-      console.error("[moncash/verify] MonCashConnect rejected secret key (401)", {
-        orderId,
-      });
-      return NextResponse.json(
-        {
-          error: "Kle sèvè MonCashConnect la pa valid oswa li ekspire.",
-          code: "MCC_AUTH_FAILED",
-          upstreamStatus: 401,
-        },
-        { status: 502 }
-      );
-    }
-
-    if (mccRes.status === 403) {
+  if (!parsedStatus) {
+    if (sawOriginForbidden && lastUpstreamStatus === 403) {
       console.error("[moncash/verify] MonCashConnect rejected Origin/domain (403)", {
         orderId,
-        originSent: originHeader,
+        originUsed,
       });
       return NextResponse.json(
         {
           error:
-            "Domèn sit la pa otorize nan paramèt MonCashConnect yo (Allowed domains / Origin).",
+            "Domèn sit la pa otorize nan paramèt MonCashConnect yo (403 Allowed domains / Origin).",
           code: "MCC_ORIGIN_NOT_ALLOWED",
           upstreamStatus: 403,
         },
@@ -328,27 +382,42 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!mccRes.ok) {
-      continue;
+    if (lastUpstreamStatus !== null && lastUpstreamStatus >= 500) {
+      console.error("[moncash/verify] MonCashConnect upstream server error", {
+        orderId,
+        lastUpstreamStatus,
+        lastUpstreamCode,
+      });
+      return NextResponse.json(
+        {
+          error: `Sèvè MonCashConnect la retounen yon erè (${lastUpstreamStatus}${
+            lastUpstreamMessage ? `: ${lastUpstreamMessage}` : ""
+          }). Verifye kle MCC_SECRET_KEY ou a.`,
+          code: "MCC_UPSTREAM_ERROR",
+          upstreamStatus: lastUpstreamStatus,
+        },
+        { status: 502 }
+      );
     }
 
-    const rawPayload = await mccRes.json().catch(() => null);
-    const candidateParsed = parseMonCashPayStatusResponse(rawPayload);
-    if (candidateParsed.ok) {
-      parsedStatus = candidateParsed.data;
-      break;
-    }
-  }
-
-  if (!parsedStatus) {
     if (lastUpstreamStatus !== null || sawNetworkError) {
       console.warn("[moncash/verify] Pay-status unresolved", {
         orderId,
         lastUpstreamStatus,
+        lastUpstreamCode,
         sawNetworkError,
-        originSent: originHeader,
+        originUsed,
       });
     }
+
+    const diagnostic =
+      lastUpstreamStatus === 404
+        ? "MonCashConnect poko jwenn referans kòmand sa a (404). Verifye si kle MCC_SECRET_KEY la koresponn ak menm pwojè ak menm mòd (Sandbox oswa Live) kote peman an fèt la."
+        : lastUpstreamStatus !== null && lastUpstreamStatus >= 400
+          ? `MonCashConnect retounen estati ${lastUpstreamStatus}${
+              lastUpstreamMessage ? ` (${lastUpstreamMessage})` : ""
+            }.`
+          : null;
 
     return NextResponse.json(
       {
@@ -364,6 +433,7 @@ export async function POST(req: NextRequest) {
         paidAt: createdAt,
         ...(sawNetworkError ? { transient: true } : {}),
         ...(lastUpstreamStatus !== null ? { upstreamStatus: lastUpstreamStatus } : {}),
+        ...(diagnostic ? { diagnostic } : {}),
       },
       { status: 200 }
     );
