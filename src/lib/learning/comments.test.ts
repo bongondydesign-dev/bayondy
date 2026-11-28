@@ -126,6 +126,10 @@ test("sanitizeAuthorName and sanitizeAuthorPhotoURL enforce safe bounds", () => 
     sanitizeAuthorPhotoURL("https://lh3.googleusercontent.com/a/avatar.png"),
     "https://lh3.googleusercontent.com/a/avatar.png"
   );
+  assert.equal(
+    sanitizeAuthorPhotoURL("/api/avatars/userAvatar01"),
+    "/api/avatars/userAvatar01"
+  );
 });
 
 test("local comments fallback CRUD stays scoped per course and lesson", () => {

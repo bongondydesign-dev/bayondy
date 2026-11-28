@@ -1,4 +1,5 @@
 import { MAX_COMMENT_LENGTH } from "@/types/firestore";
+import { isSafeAvatarUrl } from "@/lib/auth/avatar";
 import { type StorageLike } from "@/lib/learning/progress";
 
 const SAFE_DOC_ID_RE = /^[A-Za-z0-9_-]{1,128}$/;
@@ -30,11 +31,8 @@ export function sanitizeAuthorName(name: unknown, fallback = "Élève"): string 
 }
 
 export function sanitizeAuthorPhotoURL(photoURL: unknown): string | null {
-  if (typeof photoURL !== "string") return null;
-  const trimmed = photoURL.trim();
-  if (!trimmed || trimmed.length > 1000) return null;
-  if (!/^https?:\/\//i.test(trimmed)) return null;
-  return trimmed;
+  if (!isSafeAvatarUrl(photoURL)) return null;
+  return photoURL.trim();
 }
 
 export type CommentValidationResult<T> =

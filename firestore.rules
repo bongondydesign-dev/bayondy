@@ -176,6 +176,14 @@ service cloud.firestore {
     }
 
     // ================================================================
+    // userAvatars/{avatarId}
+    // Photos de profil — écriture/lecture via Admin SDK (/api/profile/avatar & /api/avatars/[id]).
+    // ================================================================
+    match /userAvatars/{avatarId} {
+      allow read, write: if false;
+    }
+
+    // ================================================================
     // lessonComments/{commentId}
     // Commentaires des leçons : lecture et création pour élèves inscrits
     // (ou admin), suppression exclusivement réservée aux admins.

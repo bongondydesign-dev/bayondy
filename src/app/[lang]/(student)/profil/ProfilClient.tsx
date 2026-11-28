@@ -1,47 +1,66 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   AlertCircle,
   ArrowRight,
   Calendar,
+  Camera,
   Check,
   CheckCircle2,
   Clock,
   Copy,
   KeyRound,
   LayoutDashboard,
+  Loader2,
   Lock,
   LogOut,
   Mail,
   ShieldCheck,
+  Trash2,
+  Upload,
   User as UserIcon,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { useRequireAuth } from "@/lib/auth/useRequireAuth";
+import { prepareAvatarDataUrl } from "@/lib/auth/avatarClient";
 import {
   formatProfileDate,
   getPrimaryAuthProviderLabel,
-  getUserInitials,
   isDisplayNameDirty,
 } from "@/lib/auth/profile";
 import { StudentShell } from "@/components/student/StudentShell";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function ProfilClient() {
   const { lang, t, localize } = useI18n();
   const { user, loading } = useRequireAuth();
-  const { signOut, isAdmin, updateDisplayName, resetPassword } = useAuth();
+  const {
+    signOut,
+    isAdmin,
+    profilePhotoUrl,
+    updateDisplayName,
+    uploadProfilePhoto,
+    removeProfilePhoto,
+    resetPassword,
+  } = useAuth();
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [displayNameDraft, setDisplayNameDraft] = useState<string | null>(null);
   const [nameSaving, setNameSaving] = useState(false);
   const [nameFeedback, setNameFeedback] = useState<{
+    ok: boolean;
+    text: string;
+  } | null>(null);
+
+  const [avatarSaving, setAvatarSaving] = useState(false);
+  const [avatarFeedback, setAvatarFeedback] = useState<{
     ok: boolean;
     text: string;
   } | null>(null);
@@ -53,9 +72,9 @@ export function ProfilClient() {
   } | null>(null);
 
   const [emailCopied, setEmailCopied] = useState(false);
-  const [avatarError, setAvatarError] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
 
+  const currentAvatarUrl = profilePhotoUrl ?? user?.photoURL ?? null;
   const displayNameInput = displayNameDraft ?? user?.displayName ?? "";
   const isDirty = isDisplayNameDirty(displayNameDraft, user?.displayName);
 
@@ -102,6 +121,58 @@ export function ProfilClient() {
     }
   };
 
+  const handleAvatarSelected = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || avatarSaving) return;
+
+    setAvatarSaving(true);
+    setAvatarFeedback(null);
+
+    try {
+      const prepared = await prepareAvatarDataUrl(file);
+      if (!prepared.ok) {
+        const message =
+          prepared.code === "invalid_type"
+            ? t("profil.erreurPhotoType")
+            : prepared.code === "too_large"
+            ? t("profil.erreurPhotoTaille")
+            : t("profil.erreurPhotoUpload");
+        setAvatarFeedback({ ok: false, text: message });
+        return;
+      }
+
+      await uploadProfilePhoto(prepared.dataUrl);
+      setAvatarFeedback({ ok: true, text: t("profil.succesPhoto") });
+    } catch (err) {
+      setAvatarFeedback({
+        ok: false,
+        text: err instanceof Error && err.message ? err.message : t("profil.erreurPhotoUpload"),
+      });
+    } finally {
+      setAvatarSaving(false);
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    if (avatarSaving || !currentAvatarUrl) return;
+    setAvatarSaving(true);
+    setAvatarFeedback(null);
+    try {
+      await removeProfilePhoto();
+      setAvatarFeedback({ ok: true, text: t("profil.succesSuppressionPhoto") });
+    } catch (err) {
+      setAvatarFeedback({
+        ok: false,
+        text: err instanceof Error && err.message ? err.message : t("profil.erreurPhotoUpload"),
+      });
+    } finally {
+      setAvatarSaving(false);
+    }
+  };
+
   const handleSignOut = async () => {
     setSigningOut(true);
     try {
@@ -112,7 +183,6 @@ export function ProfilClient() {
     }
   };
 
-  const initials = getUserInitials(user?.displayName, user?.email);
   const resolvedName =
     user?.displayName?.trim() ||
     user?.email?.split("@")[0] ||
@@ -143,23 +213,52 @@ export function ProfilClient() {
           <section className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] overflow-hidden">
             <div className="p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
               <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-                <div className="relative w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl bg-[var(--surface-well)] border border-[var(--border-strong)] overflow-hidden flex items-center justify-center shrink-0">
-                  {user.photoURL && !avatarError ? (
-                    <Image
-                      src={user.photoURL}
-                      alt={resolvedName}
-                      fill
-                      referrerPolicy="no-referrer"
-                      sizes="72px"
-                      onError={() => setAvatarError(true)}
-                      className="object-cover"
-                    />
-                  ) : (
-                    <span className="font-display font-bold text-2xl text-brand-light">
-                      {initials}
-                    </span>
-                  )}
-                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleAvatarSelected}
+                  className="hidden"
+                  aria-label={t("profil.changerPhoto")}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={avatarSaving}
+                  aria-label={
+                    currentAvatarUrl ? t("profil.changerPhoto") : t("profil.ajouterPhoto")
+                  }
+                  title={
+                    currentAvatarUrl ? t("profil.changerPhoto") : t("profil.ajouterPhoto")
+                  }
+                  className="group relative rounded-2xl shrink-0 cursor-pointer disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                >
+                  <UserAvatar
+                    src={currentAvatarUrl}
+                    name={user.displayName}
+                    email={user.email}
+                    size="lg"
+                    shape="rounded"
+                    highlight={isAdmin}
+                  />
+                  <span className="absolute inset-0 rounded-2xl bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                    {avatarSaving ? (
+                      <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                    ) : (
+                      <Camera className="w-5 h-5" aria-hidden="true" />
+                    )}
+                  </span>
+                  <span
+                    className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-full bg-brand text-[var(--brand-fg)] border-2 border-deep-navy shadow-sm flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    {avatarSaving ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Camera className="w-3.5 h-3.5" />
+                    )}
+                  </span>
+                </button>
 
                 <div className="min-w-0 space-y-1.5">
                   <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-brand-light">
@@ -301,7 +400,86 @@ export function ProfilClient() {
                 </h2>
               </div>
 
-              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-6 space-y-5">
+              <div className="rounded-2xl bg-deep-navy border border-[var(--border-subtle)] shadow-[var(--card-shadow)] p-6 space-y-6">
+                <div className="pb-5 border-b border-[var(--border-faint)] space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <UserAvatar
+                        src={currentAvatarUrl}
+                        name={user.displayName}
+                        email={user.email}
+                        size="lg"
+                        shape="rounded"
+                        highlight={isAdmin}
+                      />
+                      <div className="min-w-0 space-y-1">
+                        <p className="font-mono text-xs font-medium uppercase tracking-wider text-slate-700 dark:text-ice-white/60">
+                          {t("profil.photoProfil")}
+                        </p>
+                        <p className="font-sans text-xs text-slate-600 dark:text-ice-white/60">
+                          {t("profil.photoFormatInfo")}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={avatarSaving}
+                        className="min-h-[42px] px-4 py-2 rounded-full bg-white dark:bg-[var(--surface-well)] border border-[var(--border-strong)] shadow-2xs dark:shadow-none hover:border-brand/55 text-ice-white font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                      >
+                        {avatarSaving ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-brand-light shrink-0" aria-hidden="true" />
+                            <span>{t("profil.photoEnvoi")}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4 text-brand-light shrink-0" aria-hidden="true" />
+                            <span>
+                              {currentAvatarUrl
+                                ? t("profil.changerPhoto")
+                                : t("profil.ajouterPhoto")}
+                            </span>
+                          </>
+                        )}
+                      </button>
+
+                      {currentAvatarUrl && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveAvatar}
+                          disabled={avatarSaving}
+                          aria-label={t("profil.supprimerPhoto")}
+                          className="min-h-[42px] px-3.5 py-2 rounded-full border border-red-300/80 dark:border-red-500/35 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-500/10 font-sans font-medium text-xs sm:text-sm inline-flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          <span>{t("profil.supprimerPhoto")}</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {avatarFeedback && (
+                    <div
+                      role="status"
+                      className={`p-3 rounded-xl border text-xs sm:text-sm flex items-center gap-2 ${
+                        avatarFeedback.ok
+                          ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-700 dark:text-emerald-300"
+                          : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/25 text-red-700 dark:text-red-300"
+                      }`}
+                    >
+                      {avatarFeedback.ok ? (
+                        <CheckCircle2 className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      ) : (
+                        <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      )}
+                      <span>{avatarFeedback.text}</span>
+                    </div>
+                  )}
+                </div>
+
                 <form onSubmit={handleSaveName} className="space-y-5">
                   <div className="space-y-2">
                     <label

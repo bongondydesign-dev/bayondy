@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { Loader2, MessageSquare, Send, Trash2 } from "lucide-react";
 import type { User } from "firebase/auth";
 import { MAX_COMMENT_LENGTH } from "@/types/firestore";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 import { formatLocaleDate } from "@/lib/courses/format";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getBrowserLocalStorage } from "@/lib/learning/progress";
@@ -34,33 +35,6 @@ interface LessonCommentsProps {
   isAdmin: boolean;
 }
 
-function getAuthorInitials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "E";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
-}
-
-const TRUSTED_AVATAR_HOSTS = new Set([
-  "lh3.googleusercontent.com",
-  "firebasestorage.googleapis.com",
-  "storage.googleapis.com",
-  "res.cloudinary.com",
-  "images.unsplash.com",
-  "images.pexels.com",
-  "picsum.photos",
-]);
-
-function isTrustedAvatarUrl(url: string | null): url is string {
-  if (!url) return false;
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === "https:" && TRUSTED_AVATAR_HOSTS.has(parsed.hostname);
-  } catch {
-    return false;
-  }
-}
-
 function CommentAvatar({
   name,
   photoURL,
@@ -70,35 +44,14 @@ function CommentAvatar({
   photoURL: string | null;
   isAdminAuthor: boolean;
 }) {
-  const [imgFailed, setImgFailed] = useState(false);
-
-  if (isTrustedAvatarUrl(photoURL) && !imgFailed) {
-    return (
-      <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[var(--border-subtle)] shrink-0 bg-[var(--surface-well)]">
-        <Image
-          src={photoURL}
-          alt={name}
-          fill
-          sizes="36px"
-          referrerPolicy="no-referrer"
-          onError={() => setImgFailed(true)}
-          className="object-cover"
-        />
-      </div>
-    );
-  }
-
   return (
-    <div
-      className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-mono font-semibold shrink-0 border ${
-        isAdminAuthor
-          ? "bg-[var(--surface-active)] text-brand-light border-[var(--home-orange-vivid)]/45"
-          : "bg-[var(--surface-well)] text-slate-700 dark:text-ice-white/80 border-[var(--border-subtle)]"
-      }`}
-      aria-hidden="true"
-    >
-      {getAuthorInitials(name)}
-    </div>
+    <UserAvatar
+      src={photoURL}
+      name={name}
+      size="sm"
+      shape="circle"
+      highlight={isAdminAuthor}
+    />
   );
 }
 
@@ -109,6 +62,7 @@ export function LessonComments({
   isAdmin,
 }: LessonCommentsProps) {
   const { lang, t } = useI18n();
+  const { profilePhotoUrl } = useAuth();
 
   const [comments, setComments] = useState<LessonCommentItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -236,7 +190,9 @@ export function LessonComments({
           user.displayName || user.email?.split("@")[0],
           t("lecteur.commentaireAuteurAnonyme")
         );
-        const fallbackPhoto = sanitizeAuthorPhotoURL(user.photoURL);
+        const fallbackPhoto = sanitizeAuthorPhotoURL(
+          profilePhotoUrl ?? user.photoURL
+        );
 
         try {
           const created = await createLessonCommentClient({

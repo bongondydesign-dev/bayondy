@@ -24,11 +24,14 @@ export interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAdmin: boolean;
+  profilePhotoUrl: string | null;
   signInWithGoogle: () => Promise<void>;
   signUpWithEmail: (nom: string, email: string, motDePasse: string) => Promise<void>;
   signInWithEmail: (email: string, motDePasse: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateDisplayName: (nom: string) => Promise<void>;
+  uploadProfilePhoto: (dataUrl: string) => Promise<string>;
+  removeProfilePhoto: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -38,9 +41,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * Crée ou met à jour le document users/{uid} dans Firestore.
  * - Création (document inexistant) : setDoc avec UNIQUEMENT displayName, email, photoURL, createdAt, lastLoginAt.
  * - Mise à jour (document existant) : updateDoc avec UNIQUEMENT displayName, photoURL, lastLoginAt.
- * Jamais de champ "role", jamais de réécriture de createdAt ou email.
+ * Préserve une photo de profil personnalisée (`/api/avatars/...`) ou une suppression volontaire.
  */
-async function upsertUserDoc(user: User, explicitDisplayName?: string): Promise<void> {
+async function upsertUserDoc(
+  user: User,
+  explicitDisplayName?: string
+): Promise<string | null> {
   try {
     const db = getFirebaseDb();
     const ref = doc(db, "users", user.uid);
@@ -51,28 +57,41 @@ async function upsertUserDoc(user: User, explicitDisplayName?: string): Promise<
       "";
 
     if (!snap.exists()) {
+      const initialPhoto = user.photoURL ?? null;
       await setDoc(ref, {
         displayName: resolvedName,
         email: user.email ?? "",
-        photoURL: user.photoURL ?? null,
+        photoURL: initialPhoto,
         createdAt: serverTimestamp(),
         lastLoginAt: serverTimestamp(),
       });
+      return initialPhoto;
     } else {
       const existingData = snap.data();
+      const hasPhotoField =
+        existingData !== undefined &&
+        Object.prototype.hasOwnProperty.call(existingData, "photoURL");
+      const resolvedPhoto = hasPhotoField
+        ? typeof existingData.photoURL === "string" && existingData.photoURL.trim()
+          ? existingData.photoURL.trim()
+          : null
+        : user.photoURL ?? null;
+
       await updateDoc(ref, {
         displayName:
           resolvedName ||
           (typeof existingData?.displayName === "string" ? existingData.displayName : ""),
-        photoURL: user.photoURL ?? (typeof existingData?.photoURL === "string" ? existingData.photoURL : null),
+        photoURL: resolvedPhoto,
         lastLoginAt: serverTimestamp(),
       });
+      return resolvedPhoto;
     }
   } catch (err) {
     // On ne bloque pas l'authentification si Firestore échoue
     if (process.env.NODE_ENV === "development") {
       console.warn("[AuthProvider] Echec de la mise à jour de users/{uid}:", err);
     }
+    return user.photoURL ?? null;
   }
 }
 
@@ -110,6 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(() => hasFirebaseConfig());
   const [isAdmin, setIsAdmin] = useState(false);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState<string | null>(null);
   const [profileVersion, setProfileVersion] = useState(0);
 
   useEffect(() => {
@@ -125,9 +145,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (currentUser) {
             const adminClaim = await resolveIsAdmin(currentUser, false);
             setIsAdmin(adminClaim);
-            await upsertUserDoc(currentUser);
+            const resolvedPhoto = await upsertUserDoc(currentUser);
+            setProfilePhotoUrl(resolvedPhoto);
           } else {
             setIsAdmin(false);
+            setProfilePhotoUrl(null);
           }
         } finally {
           setUser(currentUser);
@@ -155,7 +177,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (credential.user) {
       const adminClaim = await resolveIsAdmin(credential.user, true);
       setIsAdmin(adminClaim);
-      await upsertUserDoc(credential.user);
+      const resolvedPhoto = await upsertUserDoc(credential.user);
+      setProfilePhotoUrl(resolvedPhoto);
       setUser(credential.user);
       setLoading(false);
     }
@@ -172,7 +195,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       await userCredential.user.reload().catch(() => undefined);
       const updatedUser = auth.currentUser ?? userCredential.user;
-      await upsertUserDoc(updatedUser, trimmedName);
+      const resolvedPhoto = await upsertUserDoc(updatedUser, trimmedName);
+      setProfilePhotoUrl(resolvedPhoto);
       setUser(updatedUser);
       setProfileVersion((prev) => prev + 1);
     }
@@ -210,6 +234,68 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setProfileVersion((prev) => prev + 1);
   };
 
+  const uploadProfilePhoto = async (dataUrl: string): Promise<string> => {
+    assertFirebaseConfigured();
+    const auth = getFirebaseAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("Authentification requise.");
+    }
+
+    const token = await currentUser.getIdToken();
+    const res = await fetch("/api/profile/avatar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ dataUrl }),
+    });
+
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      photoURL?: string;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok || typeof data.photoURL !== "string") {
+      throw new Error(data?.error || "Impossible d'enregistrer la photo.");
+    }
+
+    setProfilePhotoUrl(data.photoURL);
+    setProfileVersion((prev) => prev + 1);
+    return data.photoURL;
+  };
+
+  const removeProfilePhoto = async (): Promise<void> => {
+    assertFirebaseConfigured();
+    const auth = getFirebaseAuth();
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("Authentification requise.");
+    }
+
+    const token = await currentUser.getIdToken();
+    const res = await fetch("/api/profile/avatar", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = (await res.json().catch(() => null)) as {
+      ok?: boolean;
+      error?: string;
+    } | null;
+
+    if (!res.ok || !data?.ok) {
+      throw new Error(data?.error || "Impossible de supprimer la photo.");
+    }
+
+    setProfilePhotoUrl(null);
+    setProfileVersion((prev) => prev + 1);
+  };
+
   const signOut = async () => {
     assertFirebaseConfigured();
     const auth = getFirebaseAuth();
@@ -221,16 +307,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       loading,
       isAdmin,
+      profilePhotoUrl,
       signInWithGoogle,
       signUpWithEmail,
       signInWithEmail,
       resetPassword,
       updateDisplayName,
+      uploadProfilePhoto,
+      removeProfilePhoto,
       signOut,
     }),
-    // profileVersion forces consumers to re-render when displayName mutates on the Firebase User instance
+    // profileVersion forces consumers to re-render when profile fields mutate
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, loading, isAdmin, profileVersion]
+    [user, loading, isAdmin, profilePhotoUrl, profileVersion]
   );
 
   return (

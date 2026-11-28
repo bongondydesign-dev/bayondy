@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowLeft,
   BookOpen,
+  Camera,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { stripLocalePrefix } from "@/lib/i18n/routing";
@@ -155,7 +157,7 @@ export function StudentShell({
   const inStudentCatalog =
     cleanPathname === "/catalogue" || cleanPathname.startsWith("/catalogue/");
   const { t, localize } = useI18n();
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin, profilePhotoUrl, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
 
@@ -170,7 +172,6 @@ export function StudentShell({
   };
 
   const displayName = user?.displayName || user?.email || SITE_NAME;
-  const initial = displayName.charAt(0).toUpperCase();
 
   const sidebarContent = (onNavigate?: () => void) => (
     <div className="flex flex-col h-full">
@@ -202,23 +203,38 @@ export function StudentShell({
         />
       </div>
 
-      <div className="p-3.5 border-t border-[var(--border-subtle)] shrink-0">
+      <div className="p-3 border-t border-[var(--border-subtle)] shrink-0">
         {user ? (
-          <div className="p-2.5 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] flex items-center gap-2.5">
+          <div className="p-2 rounded-2xl bg-[var(--surface-well)] border border-[var(--border-subtle)] shadow-2xs flex items-center gap-2 transition-colors hover:border-[var(--border-strong)]">
             <Link
               href={localize("/profil")}
               onClick={onNavigate}
-              className="flex-1 min-w-0 flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              title={t("profil.modifierProfilTooltip")}
+              className="group/profile flex-1 min-w-0 flex items-center gap-2.5 p-1 rounded-xl hover:bg-white/80 dark:hover:bg-white/[0.04] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
             >
-              <div className="w-9 h-9 rounded-full bg-brand/15 border border-brand/35 text-brand-light font-display font-bold text-sm flex items-center justify-center shrink-0">
-                {initial}
+              <div className="relative shrink-0">
+                <UserAvatar
+                  src={profilePhotoUrl ?? user.photoURL}
+                  name={user.displayName}
+                  email={user.email}
+                  size="md"
+                  shape="circle"
+                  highlight={isAdmin}
+                  className="transition-transform duration-200 group-hover/profile:scale-[1.03]"
+                />
+                <span
+                  className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-white dark:bg-deep-navy border border-[var(--border-strong)] text-slate-600 dark:text-ice-white/75 group-hover/profile:text-brand-light group-hover/profile:border-brand/50 flex items-center justify-center shadow-2xs transition-colors"
+                  aria-hidden="true"
+                >
+                  <Camera className="w-2.5 h-2.5" />
+                </span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-sans font-semibold text-xs text-ice-white truncate">
+                <p className="font-sans font-semibold text-[13px] text-ice-white truncate leading-tight">
                   {displayName}
                 </p>
                 {user.email && (
-                  <p className="font-mono text-[11px] text-slate-600 dark:text-ice-white/55 truncate">
+                  <p className="font-mono text-[11px] text-slate-600 dark:text-ice-white/55 truncate mt-0.5">
                     {user.email}
                   </p>
                 )}
@@ -230,7 +246,7 @@ export function StudentShell({
               disabled={signingOut}
               aria-label={t("profil.boutonDeconnexion")}
               title={t("profil.boutonDeconnexion")}
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 text-slate-700 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
+              className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl border border-[var(--border-strong)] dark:border-[var(--border-subtle)] bg-white dark:bg-deep-navy shadow-2xs dark:shadow-none hover:border-red-400/60 hover:bg-red-50 dark:hover:bg-red-500/10 text-slate-600 dark:text-ice-white/70 hover:text-red-600 dark:hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light shrink-0"
             >
               <LogOut className="w-4 h-4" aria-hidden="true" />
             </button>

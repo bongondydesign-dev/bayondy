@@ -261,7 +261,19 @@
     "emailVerifie": "Vérifié",
     "emailNonVerifie": "Non vérifié",
     "copierEmail": "Copier l'e-mail",
-    "emailCopie": "Copié"
+    "emailCopie": "Copié",
+    "photoProfil": "Photo de profil",
+    "ajouterPhoto": "Ajouter une photo",
+    "changerPhoto": "Changer la photo",
+    "supprimerPhoto": "Supprimer",
+    "photoFormatInfo": "JPG, PNG ou WebP · Recadrage carré automatique",
+    "photoEnvoi": "Enregistrement...",
+    "succesPhoto": "Votre photo de profil a été mise à jour.",
+    "succesSuppressionPhoto": "Votre photo de profil a été supprimée.",
+    "erreurPhotoType": "Format non supporté. Choisissez une image JPG, PNG ou WebP.",
+    "erreurPhotoTaille": "L'image est trop volumineuse (max 10 Mo).",
+    "erreurPhotoUpload": "Impossible de mettre à jour la photo de profil.",
+    "modifierProfilTooltip": "Modifier le profil et la photo"
   },
   "catalogue": {
     "badge": "Catalogue",

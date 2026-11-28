@@ -261,7 +261,19 @@
     "emailVerifie": "Verifye",
     "emailNonVerifie": "Poko verifye",
     "copierEmail": "Kopye imèl la",
-    "emailCopie": "Kopye"
+    "emailCopie": "Kopye",
+    "photoProfil": "Foto pwofil",
+    "ajouterPhoto": "Mete yon foto",
+    "changerPhoto": "Chanje foto a",
+    "supprimerPhoto": "Efase",
+    "photoFormatInfo": "JPG, PNG oswa WebP · Koupe kare otomatik",
+    "photoEnvoi": "Anrejistreman...",
+    "succesPhoto": "Foto pwofil ou a mete ajou.",
+    "succesSuppressionPhoto": "Foto pwofil ou a efase.",
+    "erreurPhotoType": "Fòma sa a pa sipòte. Chwazi yon imaj JPG, PNG oswa WebP.",
+    "erreurPhotoTaille": "Imaj la twò gwo (maksimòm 10 Mo).",
+    "erreurPhotoUpload": "Nou pa t kapab mete foto pwofil la ajou.",
+    "modifierProfilTooltip": "Modifye pwofil ak foto a"
   },
   "catalogue": {
     "badge": "Katalòg",
