@@ -13,9 +13,12 @@ export const metadata: Metadata = {
 function MerciSkeleton() {
   return (
     <div
-      className="w-full max-w-xl h-80 rounded-3xl bg-deep-navy border border-[var(--border-subtle)] p-7 sm:p-10 shadow-[var(--card-shadow)] animate-pulse"
+      className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 animate-pulse"
       aria-hidden="true"
-    />
+    >
+      <div className="lg:col-span-7 h-96 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
+      <div className="lg:col-span-5 h-96 rounded-2xl bg-deep-navy border border-[var(--border-subtle)]" />
+    </div>
   );
 }
 

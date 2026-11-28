@@ -626,7 +626,7 @@
     "s10_texte": "Pour toute question relative aux présentes conditions, contact officiel et date de dernière révision :"
   },
   "merci": {
-    "badge": "Paiement MonCash",
+    "badge": "MonCash",
     "titre": "Merci pour votre commande",
     "sousTitre": "Votre retour depuis MonCash a bien été enregistré. Nous attendons la confirmation finale de l'opérateur.",
     "noteWebhook": "Dès réception de la confirmation finale, l'accès à votre formation sera activé automatiquement sur votre compte.",
@@ -648,7 +648,27 @@
     "boutonReessayer": "Retourner à la formation",
     "boutonMesFormations": "Aller à mes formations",
     "boutonCatalogue": "Voir les formations",
-    "referenceLabel": "Référence commande"
+    "referenceLabel": "Référence",
+    "etapeCommande": "Commande créée",
+    "etapeVerification": "Vérification",
+    "etapeAcces": "Accès activé",
+    "resiTitre": "Reçu de transaction",
+    "formationDefaut": "Formation BAYONDY",
+    "montanLabel": "Montant",
+    "metodLabel": "Méthode",
+    "estatiLabel": "Statut",
+    "datLabel": "Date",
+    "kopyeReferans": "Copier",
+    "referansKopye": "Copié",
+    "sekiriteNote": "Vérification sécurisée par le serveur BAYONDY",
+    "besoinAide": "Aide",
+    "statutLabel": {
+      "verifying": "Vérification en cours",
+      "paid": "Confirmé",
+      "pending": "En attente de confirmation",
+      "failed": "Non validé",
+      "authRequired": "Connexion requise"
+    }
   },
   "apropos": {
     "badge": "À propos · Fondateur & Développeur",

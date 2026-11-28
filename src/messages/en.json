@@ -626,7 +626,7 @@
     "s10_texte": "For any questions regarding these terms, official contact and last revision date:"
   },
   "merci": {
-    "badge": "MonCash Payment",
+    "badge": "MonCash",
     "titre": "Thank you for your order",
     "sousTitre": "Your return from MonCash has been recorded. We are awaiting final confirmation from the payment provider.",
     "noteWebhook": "As soon as final confirmation is received, access to your course will be activated automatically on your account.",
@@ -648,7 +648,27 @@
     "boutonReessayer": "Back to course",
     "boutonMesFormations": "Go to my courses",
     "boutonCatalogue": "Browse courses",
-    "referenceLabel": "Order reference"
+    "referenceLabel": "Reference",
+    "etapeCommande": "Order created",
+    "etapeVerification": "Verification",
+    "etapeAcces": "Course unlocked",
+    "resiTitre": "Transaction receipt",
+    "formationDefaut": "BAYONDY Course",
+    "montanLabel": "Amount",
+    "metodLabel": "Method",
+    "estatiLabel": "Status",
+    "datLabel": "Date",
+    "kopyeReferans": "Copy",
+    "referansKopye": "Copied",
+    "sekiriteNote": "Server-verified by BAYONDY",
+    "besoinAide": "Help",
+    "statutLabel": {
+      "verifying": "Verifying",
+      "paid": "Confirmed",
+      "pending": "Pending confirmation",
+      "failed": "Not completed",
+      "authRequired": "Sign in required"
+    }
   },
   "apropos": {
     "badge": "About · Founder & Developer",

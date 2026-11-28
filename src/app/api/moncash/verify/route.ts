@@ -5,23 +5,53 @@ import {
   fulfillPaidOrderTransaction,
   markFailedOrderTransaction,
 } from "@/lib/moncash/fulfillment";
-import { parseMonCashPayStatusResponse } from "@/lib/moncash/status";
+import {
+  buildMonCashPayStatusHeaders,
+  buildMonCashPayStatusLookupUrls,
+  parseMonCashPayStatusResponse,
+  resolveMonCashRequestOrigin,
+  type ParsedMonCashPayStatus,
+} from "@/lib/moncash/status";
 import { ORDER_ID_REGEX } from "@/lib/moncash/validation";
 
 const MONCASH_PAY_STATUS_URL = "https://api.moncashconnect.com/v1/pay-status";
 
-async function resolveCourseSlug(
+async function resolveCourseDetails(
   db: FirebaseFirestore.Firestore,
   courseId: string | undefined
-): Promise<string | null> {
-  if (!courseId) return null;
+): Promise<{ slug: string | null; title: string | null }> {
+  if (!courseId) return { slug: null, title: null };
   try {
     const snap = await db.collection("courses").doc(courseId).get();
-    const slug = snap.exists ? snap.data()?.slug : null;
-    return typeof slug === "string" && slug.trim() ? slug.trim() : null;
+    if (!snap.exists) return { slug: null, title: null };
+    const data = snap.data();
+    const slug =
+      typeof data?.slug === "string" && data.slug.trim() ? data.slug.trim() : null;
+    const title =
+      typeof data?.title === "string" && data.title.trim() ? data.title.trim() : null;
+    return { slug, title };
   } catch {
-    return null;
+    return { slug: null, title: null };
   }
+}
+
+function toIsoStringOrNull(ts: unknown): string | null {
+  if (
+    ts &&
+    typeof ts === "object" &&
+    "toDate" in ts &&
+    typeof (ts as { toDate?: () => Date }).toDate === "function"
+  ) {
+    try {
+      return (ts as { toDate: () => Date }).toDate().toISOString();
+    } catch {
+      return null;
+    }
+  }
+  if (typeof ts === "string" && ts.trim()) {
+    return ts.trim();
+  }
+  return null;
 }
 
 export async function POST(req: NextRequest) {
@@ -95,9 +125,15 @@ export async function POST(req: NextRequest) {
     courseId?: string;
     orderId?: string;
     merchantReference?: string;
+    providerReference?: string;
+    returnUrl?: string;
     amount?: number;
+    currency?: string;
+    method?: string;
     status?: string;
     failureReason?: string | null;
+    createdAt?: unknown;
+    paidAt?: unknown;
   }
 
   let paymentRef: FirebaseFirestore.DocumentReference | null = null;
@@ -152,6 +188,17 @@ export async function POST(req: NextRequest) {
   const orderId =
     paymentData.orderId || paymentData.merchantReference || paymentRef.id;
   const courseId = paymentData.courseId || "";
+  const amount = typeof paymentData.amount === "number" ? paymentData.amount : null;
+  const currency =
+    typeof paymentData.currency === "string" && paymentData.currency.trim()
+      ? paymentData.currency.trim()
+      : "HTG";
+  const method =
+    typeof paymentData.method === "string" && paymentData.method.trim()
+      ? paymentData.method.trim()
+      : "moncash";
+  const createdAt = toIsoStringOrNull(paymentData.createdAt);
+  const paidAt = toIsoStringOrNull(paymentData.paidAt);
 
   // 4. Si déjà payé (ex: via webhook), s'assurer que l'inscription est bien active
   if (paymentData.status === "paid") {
@@ -159,17 +206,22 @@ export async function POST(req: NextRequest) {
       db,
       paymentRef,
       reference: orderId,
-      amount: typeof paymentData.amount === "number" ? paymentData.amount : null,
+      amount,
       completedAt: null,
     });
-    const courseSlug = await resolveCourseSlug(db, courseId);
+    const course = await resolveCourseDetails(db, courseId);
     return NextResponse.json(
       {
         ok: true,
         status: "paid",
         orderId,
         courseId,
-        courseSlug,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+        amount,
+        currency,
+        method,
+        paidAt: paidAt || createdAt,
         source: "database",
       },
       { status: 200 }
@@ -177,21 +229,26 @@ export async function POST(req: NextRequest) {
   }
 
   if (paymentData.status === "failed" || paymentData.status === "expired") {
-    const courseSlug = await resolveCourseSlug(db, courseId);
+    const course = await resolveCourseDetails(db, courseId);
     return NextResponse.json(
       {
         ok: true,
         status: "failed",
         orderId,
         courseId,
-        courseSlug,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+        amount,
+        currency,
+        method,
+        paidAt: createdAt,
         failureReason: paymentData.failureReason ?? null,
       },
       { status: 200 }
     );
   }
 
-  // 5. Interroger MonCashConnect /v1/pay-status?referenceId=... côté serveur
+  // 5. Interroger MonCashConnect /v1/pay-status côté serveur avec en-tête Origin et fallback (?referenceId= / ?reference=)
   const mccSecretKey = process.env.MCC_SECRET_KEY
     ?.trim()
     .replace(/^(['"])([\s\S]*)\1$/, "$2")
@@ -204,74 +261,123 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let mccRes: Response;
-  try {
-    mccRes = await fetch(
-      `${MONCASH_PAY_STATUS_URL}?referenceId=${encodeURIComponent(orderId)}`,
-      {
+  const course = await resolveCourseDetails(db, courseId);
+
+  const originHeader = resolveMonCashRequestOrigin({
+    returnUrl: paymentData.returnUrl,
+    requestOriginHeader: req.headers.get("origin"),
+    forwardedHost: req.headers.get("x-forwarded-host") || req.headers.get("host"),
+    forwardedProto: req.headers.get("x-forwarded-proto"),
+    nextUrlOrigin: req.nextUrl?.origin,
+    configuredSiteUrl: process.env.NEXT_PUBLIC_SITE_URL,
+  });
+
+  const mccHeaders = buildMonCashPayStatusHeaders(mccSecretKey, originHeader);
+  const lookupUrls = buildMonCashPayStatusLookupUrls(MONCASH_PAY_STATUS_URL, [
+    orderId,
+    paymentData.providerReference,
+  ]);
+
+  let parsedStatus: ParsedMonCashPayStatus | null = null;
+  let lastUpstreamStatus: number | null = null;
+  let sawNetworkError = false;
+
+  for (const lookupUrl of lookupUrls) {
+    let mccRes: Response;
+    try {
+      mccRes = await fetch(lookupUrl, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${mccSecretKey}`,
+        headers: mccHeaders,
+        cache: "no-store",
+        signal: AbortSignal.timeout(10000),
+      });
+    } catch {
+      sawNetworkError = true;
+      break;
+    }
+
+    lastUpstreamStatus = mccRes.status;
+
+    if (mccRes.status === 401) {
+      console.error("[moncash/verify] MonCashConnect rejected secret key (401)", {
+        orderId,
+      });
+      return NextResponse.json(
+        {
+          error: "Kle sèvè MonCashConnect la pa valid oswa li ekspire.",
+          code: "MCC_AUTH_FAILED",
+          upstreamStatus: 401,
         },
-        signal: AbortSignal.timeout(12000),
-      }
-    );
-  } catch {
-    const courseSlug = await resolveCourseSlug(db, courseId);
+        { status: 502 }
+      );
+    }
+
+    if (mccRes.status === 403) {
+      console.error("[moncash/verify] MonCashConnect rejected Origin/domain (403)", {
+        orderId,
+        originSent: originHeader,
+      });
+      return NextResponse.json(
+        {
+          error:
+            "Domèn sit la pa otorize nan paramèt MonCashConnect yo (Allowed domains / Origin).",
+          code: "MCC_ORIGIN_NOT_ALLOWED",
+          upstreamStatus: 403,
+        },
+        { status: 502 }
+      );
+    }
+
+    if (!mccRes.ok) {
+      continue;
+    }
+
+    const rawPayload = await mccRes.json().catch(() => null);
+    const candidateParsed = parseMonCashPayStatusResponse(rawPayload);
+    if (candidateParsed.ok) {
+      parsedStatus = candidateParsed.data;
+      break;
+    }
+  }
+
+  if (!parsedStatus) {
+    if (lastUpstreamStatus !== null || sawNetworkError) {
+      console.warn("[moncash/verify] Pay-status unresolved", {
+        orderId,
+        lastUpstreamStatus,
+        sawNetworkError,
+        originSent: originHeader,
+      });
+    }
+
     return NextResponse.json(
       {
         ok: true,
         status: "pending",
         orderId,
         courseId,
-        courseSlug,
-        transient: true,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+        amount,
+        currency,
+        method,
+        paidAt: createdAt,
+        ...(sawNetworkError ? { transient: true } : {}),
+        ...(lastUpstreamStatus !== null ? { upstreamStatus: lastUpstreamStatus } : {}),
       },
       { status: 200 }
     );
   }
 
-  if (!mccRes.ok) {
-    const courseSlug = await resolveCourseSlug(db, courseId);
-    return NextResponse.json(
-      {
-        ok: true,
-        status: "pending",
-        orderId,
-        courseId,
-        courseSlug,
-        upstreamStatus: mccRes.status,
-      },
-      { status: 200 }
-    );
-  }
+  const parsedStatusData = parsedStatus;
 
-  const rawPayload = await mccRes.json().catch(() => null);
-  const parsedStatus = parseMonCashPayStatusResponse(rawPayload);
-
-  if (!parsedStatus.ok) {
-    const courseSlug = await resolveCourseSlug(db, courseId);
-    return NextResponse.json(
-      {
-        ok: true,
-        status: "pending",
-        orderId,
-        courseId,
-        courseSlug,
-      },
-      { status: 200 }
-    );
-  }
-
-  const courseSlug = await resolveCourseSlug(db, courseId);
-
-  if (parsedStatus.data.status === "completed") {
+  if (parsedStatusData.status === "completed") {
     const fulfilled = await fulfillPaidOrderTransaction({
       db,
       paymentRef,
-      reference: parsedStatus.data.reference || orderId,
-      amount: parsedStatus.data.amount,
-      completedAt: parsedStatus.data.completedAt,
+      reference: parsedStatusData.reference || orderId,
+      amount: parsedStatusData.amount,
+      completedAt: parsedStatusData.completedAt,
     });
 
     if (fulfilled.outcome === "amount_mismatch") {
@@ -287,18 +393,23 @@ export async function POST(req: NextRequest) {
         status: "paid",
         orderId,
         courseId,
-        courseSlug,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+        amount: amount ?? parsedStatusData.amount,
+        currency,
+        method,
+        paidAt: parsedStatusData.completedAt || new Date().toISOString(),
         source: "pay-status",
       },
       { status: 200 }
     );
   }
 
-  if (parsedStatus.data.status === "failed") {
+  if (parsedStatusData.status === "failed") {
     await markFailedOrderTransaction({
       db,
       paymentRef,
-      failureReason: parsedStatus.data.failureReason || "payment_failed",
+      failureReason: parsedStatusData.failureReason || "payment_failed",
     });
 
     return NextResponse.json(
@@ -307,8 +418,13 @@ export async function POST(req: NextRequest) {
         status: "failed",
         orderId,
         courseId,
-        courseSlug,
-        failureReason: parsedStatus.data.failureReason,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+        amount,
+        currency,
+        method,
+        paidAt: createdAt,
+        failureReason: parsedStatusData.failureReason,
       },
       { status: 200 }
     );
@@ -320,7 +436,12 @@ export async function POST(req: NextRequest) {
       status: "pending",
       orderId,
       courseId,
-      courseSlug,
+      courseSlug: course.slug,
+      courseTitle: course.title,
+      amount,
+      currency,
+      method,
+      paidAt: createdAt,
     },
     { status: 200 }
   );

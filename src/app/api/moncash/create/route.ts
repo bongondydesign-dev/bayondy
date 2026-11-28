@@ -244,10 +244,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const payloadObj =
+      mccPayload && typeof mccPayload === "object"
+        ? (mccPayload as Record<string, unknown>)
+        : null;
+    const rawProviderRef = payloadObj?.reference ?? payloadObj?.referenceId;
+    const providerReference =
+      typeof rawProviderRef === "string" &&
+      rawProviderRef.trim() &&
+      rawProviderRef.trim().length <= 128
+        ? rawProviderRef.trim()
+        : null;
+
     await paymentRef
       .update({
         paymentUrl,
         status: "awaiting_payment",
+        ...(providerReference ? { providerReference } : {}),
       })
       .catch(() => {});
 

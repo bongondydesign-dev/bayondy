@@ -54,6 +54,16 @@ export async function findPaymentRefByReference(
     return byOrderId.docs[0].ref;
   }
 
+  const byProviderRef = await db
+    .collection("payments")
+    .where("providerReference", "==", safeRef)
+    .limit(1)
+    .get();
+
+  if (!byProviderRef.empty) {
+    return byProviderRef.docs[0].ref;
+  }
+
   return null;
 }
 

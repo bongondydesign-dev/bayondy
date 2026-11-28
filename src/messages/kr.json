@@ -626,7 +626,7 @@
     "s10_texte": "Pou nenpòt kesyon sou kondisyon sa yo, kontak ofisyèl ak dat dènye mizajou :"
   },
   "merci": {
-    "badge": "Peman MonCash",
+    "badge": "MonCash",
     "titre": "Mèsi pou kòmand ou a",
     "sousTitre": "Ou tounen soti sou paj peman MonCash la. N ap tann konfimasyon final operatè a sou sèvè nou an.",
     "noteWebhook": "Kou sistèm nan resevwa konfimasyon final la, aksè w nan fòmasyon an ap aktive otomatikman sou kont ou.",
@@ -648,7 +648,27 @@
     "boutonReessayer": "Retounen nan fòmasyon an",
     "boutonMesFormations": "Ale nan fòmasyon mwen yo",
     "boutonCatalogue": "Gade tout fòmasyon yo",
-    "referenceLabel": "Referans kòmand"
+    "referenceLabel": "Referans",
+    "etapeCommande": "Kòmand kreye",
+    "etapeVerification": "Verifikasyon",
+    "etapeAcces": "Aksè fòmasyon an",
+    "resiTitre": "Resi tranzaksyon",
+    "formationDefaut": "Fòmasyon BAYONDY",
+    "montanLabel": "Montan",
+    "metodLabel": "Metòd",
+    "estatiLabel": "Estati",
+    "datLabel": "Dat",
+    "kopyeReferans": "Kopye",
+    "referansKopye": "Kopye !",
+    "sekiriteNote": "Verifikasyon sekirize sou sèvè BAYONDY",
+    "besoinAide": "Kesyon ?",
+    "statutLabel": {
+      "verifying": "Verifikasyon an kou",
+      "paid": "Konfime",
+      "pending": "An atant konfimasyon",
+      "failed": "Pa valide",
+      "authRequired": "Koneksyon nesesè"
+    }
   },
   "apropos": {
     "badge": "Konsènan · Fondatè & Devlopè",

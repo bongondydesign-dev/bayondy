@@ -180,6 +180,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 <EnrollButton
                   courseId={course.id}
                   courseSlug={course.slug}
+                  courseTitle={course.title}
                   priceUSD={course.priceUSD}
                   priceHTG={course.priceHTG}
                 />

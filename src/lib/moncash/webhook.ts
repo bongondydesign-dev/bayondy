@@ -155,7 +155,11 @@ export function parseMonCashWebhookEvent(
   const amount =
     typeof rawAmount === "number" && Number.isFinite(rawAmount)
       ? rawAmount
-      : null;
+      : typeof rawAmount === "string" &&
+          rawAmount.trim() &&
+          Number.isFinite(Number(rawAmount.trim()))
+        ? Number(rawAmount.trim())
+        : null;
   const rawStatus = obj.status ?? nestedData?.status;
   const status = typeof rawStatus === "string" ? rawStatus.trim() : null;
   const rawCompletedAt = obj.completedAt ?? nestedData?.completedAt;

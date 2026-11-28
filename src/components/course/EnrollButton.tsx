@@ -14,6 +14,7 @@ import {
 interface EnrollButtonProps {
   courseId: string;
   courseSlug: string;
+  courseTitle?: string;
   priceUSD?: number | null;
   priceHTG?: number | null;
   className?: string;
@@ -22,6 +23,7 @@ interface EnrollButtonProps {
 export function EnrollButton({
   courseId,
   courseSlug,
+  courseTitle,
   priceHTG,
   className = "",
 }: EnrollButtonProps) {
@@ -168,7 +170,13 @@ export function EnrollButton({
       try {
         window.sessionStorage.setItem(
           "bayondy_last_order",
-          JSON.stringify({ orderId, courseId, courseSlug })
+          JSON.stringify({
+            orderId,
+            courseId,
+            courseSlug,
+            courseTitle: courseTitle || null,
+            amount: amountHTG,
+          })
         );
       } catch {
         // Ignorer si sessionStorage est bloqué en navigation privée
